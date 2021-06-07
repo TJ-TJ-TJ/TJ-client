@@ -25,3 +25,9 @@ See [Configuration Reference](https://cli.vuejs.org/config/).
 ## src
 ###  network 网络请求相关的封装，比如 axios封装
 ###  components/Public 当前项目的公共组件
+
+# CSS规范
+1、编码每个组件时，切记要为 每一个组件根元素添加唯一 class， 不使用 style scoped
+.father > 这样编写。
+
+2、采用 vw 单位。
