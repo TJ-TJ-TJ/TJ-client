@@ -1,14 +1,18 @@
 import Vue from 'vue'
+import VueRouter from 'vue-router'
+import details from '@/components/details/details'
 
 Vue.use(VueRouter)
 
 const routes = [
   {
+    path: '/details',
+    name: 'Detail',
+    component: details
+    
     
   },
-  {
-    
-  }
+
 ]
 // path: '/about',
 // name: 'About',

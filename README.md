@@ -25,3 +25,8 @@ See [Configuration Reference](https://cli.vuejs.org/config/).
 ## src
 ###  network 网络请求相关的封装，比如 axios封装
 ###  components/Public 当前项目的公共组件
+
+### 全局引入了vant
+
+
+### Vuex各个功能分开
