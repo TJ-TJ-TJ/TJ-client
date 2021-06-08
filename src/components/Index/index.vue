@@ -228,7 +228,7 @@ export default {
       this.maxPrice = value[1];
       if (value[1] > 1000) {
         this.maxPrice = "不限";
-      }
+      };
     },
     // 价格区间选择
     priceFirst(item) {
