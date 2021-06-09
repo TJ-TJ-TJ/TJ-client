@@ -194,6 +194,9 @@ export default {
         border: 1px solid #ff9645;
         color: #ff9645;
       }
+      button:active{
+        background-color: #F3F3F3;
+      }
     }
   }
   .order_status {
