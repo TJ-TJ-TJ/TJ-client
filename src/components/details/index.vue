@@ -1,8 +1,12 @@
 <template>
  <div class="details">
-  <nav-bar></nav-bar>
+
+    <nav-bar></nav-bar>
   <sw-ipe></sw-ipe>
   <intro-duce></intro-duce>
+
+
+ 
  </div>
   
  
@@ -29,3 +33,6 @@ export default {
   
 }
 </script>
+<style lang="scss">
+
+</style>

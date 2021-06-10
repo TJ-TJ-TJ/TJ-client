@@ -1,12 +1,12 @@
 <template>
   <div class="navbar">
     <van-nav-bar title="房屋详情" left-text="途家" left-arrow fixed placeholder>
-    <!-- <span  slot="left">
+    <span  class="back" slot="left">
       <img  src="/icon/mob-TjHeader-header-left.png" alt="">
-      <img slot="left" src="/icon/mob-TjHeader-header-logo.png" alt="">
+      <img slot="left" class="last" src="/icon/mob-TjHeader-header-logo.png" alt="">
 
      <div class="back"></div>
-    </span> -->
+    </span>
 
 
     </van-nav-bar>
@@ -23,6 +23,20 @@ export default {
 <style lang="scss">
 .navbar {
 
+  .back {
+   img {
+     height: 18px;
+     height: 15px;
+     margin-left: 8px;
+     
+
+   }
+  //  .last {
+  //    margin-left: 0;
+  //  }
+   
+
+  }
   // .back{
   //   display: inline-block;
   //   // width: 8px;
