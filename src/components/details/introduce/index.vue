@@ -45,7 +45,7 @@
       </div>
     </van-cell-group>
     <div class="xbx"></div>
-    <div v-for="k in 50" :key="k">dsadsas</div>
+    <div v-for="k in 50" :key="k">dsadaddadsas</div>
   </div>
 </template>
 
