@@ -8,8 +8,9 @@ import 'vant/lib/index.css';
 // 引入axios
 import axios from 'axios'
 import { Lazyload } from 'vant';
+import { List } from 'vant';
 
-
+Vue.use(List);
 Vue.use(Lazyload);
 Vue.use(Vant);
 Vue.config.productionTip = false

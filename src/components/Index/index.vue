@@ -47,14 +47,32 @@
             <span class="star-date">{{ starDate }}</span>
           </div>
           <div>
-            <span class="allTime">共几晚</span>
+            <span class="allTime">共{{ putDate }}晚</span>
           </div>
           <div>
             <span>离店</span>
             <span class="end-date">{{ endDate }}</span>
           </div>
         </van-cell>
-        <van-calendar v-model="show" type="range" @confirm="onConfirm" />
+        <!-- 日期选择 -->
+        <van-calendar
+          color="#FF9645"
+          v-model="show"
+          type="range"
+          @confirm="onConfirm"
+          @select="onCalfirm"
+          :style="{ height: '100%' }"
+        >
+          <!-- 日期选择标题 -->
+          <template #title>
+            <div class="date-continer">
+              <span class="clear-empty" @click="dateEmpty">清空</span>
+              <span class="checkDate">{{checkDate}}</span>
+              <span class="sumDate">共{{sumDate}}晚</span>
+              <span class="leaveDate">{{leaveDate}}</span>
+            </div>
+          </template>
+        </van-calendar>
       </van-cell-group>
       <!-- 选择价格人数 -->
       <van-cell-group class="price-person">
@@ -62,19 +80,203 @@
           <van-col span="16">
             <van-cell @click="showPopup">
               <div>
-                <span>{{priceSum}}</span>
+                <span>{{ priceSum }}</span>
               </div>
             </van-cell>
           </van-col>
-          <van-col span="8">
+          <van-col span="8" @click="peoNumShow = true">
             <van-cell>
               <div>
-                <span>人数不限</span>
+                <span>{{ peoNumData }}</span>
               </div>
             </van-cell>
           </van-col>
         </van-row>
       </van-cell-group>
+      <!-- 搜索关键字 -->
+      <van-cell-group class="keywordSearch" @click="keyword">
+        <van-cell>
+          <span>关键字/位置/民宿名</span>
+        </van-cell>
+      </van-cell-group>
+      <!-- 关键地点搜索 -->
+      <div class="dataTag">
+        <van-tag
+          round
+          type="primary"
+          v-for="(item, index) in keywordCity"
+          :key="index"
+          >{{ item }}</van-tag
+        >
+      </div>
+      <!-- 搜索按钮 -->
+      <van-button color="linear-gradient(to right, #FA8D1E, #FCAF3F)">
+        开始搜索
+      </van-button>
+    </div>
+    <!-- 滑动轮播 -->
+    <div class="scroball">
+      <ul>
+        <li>
+          <img
+            src="https://pic.tujia.com/upload/resourcespic/day_210329/202103291824074567.png"
+            alt=""
+          /><br />
+          <span>房东入住</span>
+        </li>
+        <li>
+          <img
+            src="https://pic.tujia.com/upload/resourcespic/day_210329/202103291824074567.png"
+            alt=""
+          /><br />
+          <span>房东入住</span>
+        </li>
+        <li>
+          <img
+            src="https://pic.tujia.com/upload/resourcespic/day_210329/202103291824074567.png"
+            alt=""
+          /><br />
+          <span>房东入住</span>
+        </li>
+        <li>
+          <img
+            src="https://pic.tujia.com/upload/resourcespic/day_210329/202103291824074567.png"
+            alt=""
+          /><br />
+          <span>房东入住</span>
+        </li>
+        <li>
+          <img
+            src="https://pic.tujia.com/upload/resourcespic/day_210329/202103291824074567.png"
+            alt=""
+          /><br />
+          <span>房东入住</span>
+        </li>
+        <li>
+          <img
+            src="https://pic.tujia.com/upload/resourcespic/day_210329/202103291824074567.png"
+            alt=""
+          /><br />
+          <span>房东入住</span>
+        </li>
+        <li>
+          <img
+            src="https://pic.tujia.com/upload/resourcespic/day_210329/202103291824074567.png"
+            alt=""
+          /><br />
+          <span>房东入住</span>
+        </li>
+        <li>
+          <img
+            src="https://pic.tujia.com/upload/resourcespic/day_210329/202103291824074567.png"
+            alt=""
+          /><br />
+          <span>房东入住</span>
+        </li>
+        <li>
+          <img
+            src="https://pic.tujia.com/upload/resourcespic/day_210329/202103291824074567.png"
+            alt=""
+          /><br />
+          <span>房东入住</span>
+        </li>
+        <li>
+          <img
+            src="https://pic.tujia.com/upload/resourcespic/day_210329/202103291824074567.png"
+            alt=""
+          /><br />
+          <span>房东入住</span>
+        </li>
+      </ul>
+    </div>
+    <!-- 瀑布流民宿数据 -->
+    <div class="waterfall">
+      <van-list
+        v-model="loading"
+        :finished="finished"
+        finished-text="没有更多了"
+        @load="onLoad"
+      >
+        <!-- <van-cell v-for="item in waterList" :key="item" :title="item" /> -->
+        <div class="homestay">
+          <div class="homestay-item">
+            <img
+              src="https://pic.tujia.com/upload/qualifiedpics/day_190822/thumb/201908220023388144_360_480.jpg"
+              alt=""
+            />
+            <van-tag round class="preference">优选PRO</van-tag>
+            <van-icon name="like-o" />
+            <div class="text-description">
+              <p>三钻 2居4床 4人</p>
+              <p>古北水镇🌸花开半夏复式叠拼观景loft</p>
+              <van-rate
+                size="10px"
+                gutter="20px"
+                v-model="rateValue"
+                color="#fff"
+              />
+              <span>￥1180</span>
+            </div>
+          </div>
+          <div class="homestay-item">
+            <img
+              src="https://pic.tujia.com/upload/landlordunit/day_191023/thumb/201910230840469081_360_240.jpg"
+              alt=""
+            />
+            <van-tag round class="preference">天天特惠</van-tag>
+            <div class="text-introduce">
+              <span class="city">北京·丰台区</span>
+              <p>【loft】宋家庄地铁站 榻榻米精品公寓</p>
+              <span class="class">三钻 1居2床 4人</span><br />
+              <span class="price">
+                ¥799
+              </span>
+              <span class="originalPrice">
+                ¥888
+              </span>
+              <van-tag round type="danger">已减¥89</van-tag>
+            </div>
+          </div>
+          <div class="homestay-item">
+            <img
+              src="https://pic.tujia.com/upload/landlordunit/day_191023/thumb/201910230840469081_360_240.jpg"
+              alt=""
+            />
+            <van-tag round class="preference">天天特惠</van-tag>
+            <div class="text-introduce">
+              <span class="city">北京·丰台区</span>
+              <p>【loft】宋家庄地铁站 榻榻米精品公寓</p>
+              <span class="class">三钻 1居2床 4人</span><br />
+              <span class="price">
+                ¥799
+              </span>
+              <span class="originalPrice">
+                ¥888
+              </span>
+              <van-tag round type="danger">已减¥89</van-tag>
+            </div>
+          </div>
+          <div class="homestay-item">
+            <img
+              src="https://pic.tujia.com/upload/landlordunit/day_191023/thumb/201910230840469081_360_240.jpg"
+              alt=""
+            />
+            <van-tag round class="preference">天天特惠</van-tag>
+            <div class="text-introduce">
+              <span class="city">北京·丰台区</span>
+              <p>【loft】宋家庄地铁站 榻榻米精品公寓</p>
+              <span class="class">三钻 1居2床 4人</span><br />
+              <span class="price">
+                ¥799
+              </span>
+              <span class="originalPrice">
+                ¥888
+              </span>
+              <van-tag round type="danger">已减¥89</van-tag>
+            </div>
+          </div>
+        </div>
+      </van-list>
     </div>
     <!-- 价格弹出层 -->
     <van-popup v-model="showPrice" position="bottom" :style="{ height: '50%' }">
@@ -149,6 +351,56 @@
         </div>
       </div>
     </van-popup>
+    <!-- 人数弹出层 -->
+    <van-popup
+      style="border-radius:0;"
+      v-model="peoNumShow"
+      position="bottom"
+      :style="{ height: '100%' }"
+    >
+      <div class="peoNumContiner">
+        <div class="title">
+          <van-icon name="cross" @click="peoNumShow = false" />
+          <div class="title-text">
+            <span>
+              选择入住人数
+            </span>
+          </div>
+        </div>
+        <div
+          class="peoNumItem"
+          v-for="(item, index) in peoNum"
+          :key="index"
+          @click="peoNumBtn(item[0])"
+        >
+          <span>{{ item[0] }}</span>
+          <van-icon v-if="peoNumData == item[0]" name="success" />
+        </div>
+      </div>
+    </van-popup>
+    <!-- 搜索框弹出 -->
+    <van-search
+      v-model="searchValue"
+      v-show="searchShow"
+      show-action
+      placeholder="请输入搜索关键词"
+    >
+      <template #action>
+        <div>搜索</div>
+      </template>
+      <template #left>
+        <div class="bourn">
+          <span>目的地</span>
+          <br />
+          <span class="city">北京</span>
+        </div>
+        <div class="search-time">
+          <span>住6.30</span>
+          <br />
+          <span>离11.30</span>
+        </div>
+      </template>
+    </van-search>
   </div>
 </template>
 
@@ -158,7 +410,7 @@ export default {
     return {
       // 轮播图
       images: [
-        "https://pic.tujia.com/upload/resourcespic/day_210521/202105212103212518.jpg",
+        "https://pic.tujia.com/upload/resourcespic/day_210609/202106091432152901.jpg",
         "https://pic.tujia.com/upload/resourcespic/day_210521/202105212103212518.jpg",
         "https://pic.tujia.com/upload/resourcespic/day_210521/202105212103212518.jpg",
         "https://pic.tujia.com/upload/resourcespic/day_210521/202105212103212518.jpg",
@@ -171,6 +423,8 @@ export default {
       endDate: "",
       // 价格选择隐藏
       showPrice: false,
+      // 人数弹出层隐藏
+      peoNumShow: false,
       // 价格滑条
       value: [0, 150],
       minPrice: 0,
@@ -186,10 +440,70 @@ export default {
         [400, 600],
         [600, 800],
         [800, 1000],
-        [1000, 1050],
+        [1000, "不限"],
       ],
       // 价格显示
-      priceSum:'价格等级不限'
+      priceSum: "价格等级不限",
+      // 优选评论
+      rateValue: 5,
+      // 选择人数
+      peoNum: [
+        ["1人"],
+        ["2人"],
+        ["3人"],
+        ["4人"],
+        ["5人"],
+        ["6人"],
+        ["7人"],
+        ["8人"],
+        ["9人"],
+        ["10人+"],
+        ["不限人数"],
+      ],
+      // 主页人数
+      peoNumData: "人数不限",
+      // 天数
+      putDate: 1,
+      // 关键地点搜索数据
+      keywordCity: [
+        "怀柔风景区",
+        "古北水镇",
+        "天安门广场",
+        "十渡风景区",
+        "延庆休闲度假区",
+        "金海湖",
+        "玉渡山风景区",
+        "雁栖湖",
+        "前门",
+        "故宫",
+      ],
+      waterList: [],
+      loading: false,
+      finished: false,
+      // 搜索框弹出层
+      searchShow: false,
+      // 搜索内容
+      searchValue: "",
+      // 入住日期
+      checkDate:'入住日期',
+      // 间隔时间
+      sumDate:0,
+      // 离店日期
+      leaveDate:'离店日期'
+    };
+  },
+  created() {
+    let date = new Date();
+    this.starDate = `${date.getMonth() + 1}月${date.getDate()}日`;
+    this.endDate = `${date.getMonth() + 1}月${date.getDate() + 1}日`;
+    let that = this;
+    window.onscroll = function() {
+      let dom = document.documentElement.scrollTop;
+      if (dom > 520) {
+        that.searchShow = true;
+      } else {
+        that.searchShow = false;
+      }
     };
   },
   methods: {
@@ -208,9 +522,13 @@ export default {
     // 起始时间和结束时间
     onConfirm(date) {
       const [start, end] = date;
+      this.putDate =
+        parseInt(date[1].getTime() / 1000 / 60 / 60 / 24) -
+        parseInt(date[0].getTime() / 1000 / 60 / 60 / 24);
       this.show = false;
       this.starDate = this.formatDate(start);
       this.endDate = this.formatDate(end);
+      // 点击开始搜索再保存先写在这
       this.$store.commit("hotelStarDate", this.starDate);
       this.$store.commit("hotelEndDate", this.endDate);
     },
@@ -228,7 +546,11 @@ export default {
       this.maxPrice = value[1];
       if (value[1] > 1000) {
         this.maxPrice = "不限";
-      };
+      }
+    },
+    // 关键字
+    keyword() {
+      this.$router.push("search");
     },
     // 价格区间选择
     priceFirst(item) {
@@ -252,21 +574,75 @@ export default {
       this.maxPrice = item[1];
     },
     // 清空按钮
-    emptyBtn(){
-      this.value = [0,1050]
-      this.minPrice = 0
-      this.maxPrice = 1059
+    emptyBtn() {
+      this.value = [0, 1050];
+      this.minPrice = 0;
+      this.maxPrice = "不限";
     },
     // 确认按钮
-    affirmBtn(){
-      this.priceSum = `￥${this.minPrice}- ${this.maxPrice}`
-      this.showPrice = false
-    }
+    affirmBtn() {
+      this.priceSum = `￥${this.minPrice}- ${this.maxPrice}`;
+      this.showPrice = false;
+    },
+    // 选择人数
+    peoNumBtn(item) {
+      this.peoNumData = item;
+      this.peoNumShow = false;
+    },
+    // 页面选择时间
+    onCalfirm(date) {
+      this.sumDate = 0
+      this.leaveDate = '离店日期'
+      let checkDateMonth = date[0].getMonth()+1
+        let checkDateDate = date[0].getDate()
+        this.checkDate = `${checkDateMonth}月${checkDateDate}日`
+      if(date[1]!==null){
+        let leaveDateMonth = date[1].getMonth()+1
+        let leaveDateDate = date[1].getDate()
+        this.leaveDate = `${leaveDateMonth}月${leaveDateDate}日`
+        let timea = date[0].getTime() / 1000 / 60 / 60 / 24;
+        let timeb = date[1].getTime() / 1000 / 60 / 60 / 24;
+        this.sumDate = timeb-timea
+      }
+    },
+    // 选择时间清空
+    dateEmpty(){
+      this.sumDate = 0
+      this.leaveDate = '离店日期'
+      this.checkDate = '入住日期'
+    },
+    // 瀑布流更新数据
+    onLoad() {
+      // 异步更新数据
+      // setTimeout 仅做示例，真实场景中一般为 ajax 请求
+      setTimeout(() => {
+        for (let i = 0; i < 10; i++) {
+          this.list.push(this.list.length + 1);
+        }
+
+        // 加载状态结束
+        this.loading = false;
+
+        // 数据全部加载完成
+        if (this.list.length >= 40) {
+          this.finished = true;
+        }
+      }, 1000);
+    },
   },
 };
 </script>
 
 <style lang="scss">
+::-webkit-scrollbar {
+  height: 2px;
+}
+::-webkit-scrollbar-thumb {
+  border-radius: 10px;
+  width: 5px;
+  background: red;
+}
+
 .Index-view {
   // 头部标题栏
   .headerTitle {
@@ -330,6 +706,36 @@ export default {
     top: 18vh;
     border-radius: 18px;
     box-shadow: 0px 30px 30px -10px #f0f0f0;
+    // 关键字搜索样式
+    .keywordSearch {
+      .van-cell {
+        span {
+          font-family: PingFangSC-Regular;
+          color: #999;
+        }
+      }
+    }
+    // 关键地点搜索
+    .dataTag {
+      width: 100%;
+      // height: 10vh;
+      // background-color: red;
+
+      .van-tag {
+        background-color: #f1f3f5;
+        color: #000;
+        margin-left: 3vw;
+        margin-top: 1vh;
+        display: inline-flex;
+        flex-wrap: wrap;
+      }
+    }
+    .van-button {
+      width: 84vw;
+      margin-top: 3vh;
+      margin-left: 3vw;
+      border-radius: 20px;
+    }
   }
 
   // 卡片地址
@@ -476,13 +882,13 @@ export default {
         // background-color: red;
         margin-top: 3vh;
         line-height: 8vh;
-        .van-button:nth-child(1){
+        .van-button:nth-child(1) {
           border-radius: 20px;
           width: 30vw;
           display: inline-flex;
           justify-content: center;
         }
-        .van-button:nth-child(2){
+        .van-button:nth-child(2) {
           border-radius: 20px;
           width: 55vw;
           margin-left: 5vw;
@@ -491,6 +897,258 @@ export default {
         }
       }
     }
+  }
+  .van-popup {
+    .peoNumContiner {
+      height: 100%;
+      background-color: #ffffff;
+      .title {
+        width: 100%;
+        height: 5vh;
+        line-height: 5vh;
+        // background-color: red;
+        border-bottom: 1px solid #f1f1f1;
+        .title-text {
+          text-align: center;
+        }
+        .van-icon {
+          // float: left;
+          position: absolute;
+          line-height: 5vh;
+          left: 4vw;
+        }
+      }
+      .peoNumItem {
+        width: 100%;
+        height: 7vh;
+        // background-color: red;
+        border-bottom: 1px solid #f1f1f1;
+        line-height: 7vh;
+        font-size: 14px;
+        display: flex;
+        justify-content: space-between;
+        span {
+          margin-left: 4vw;
+        }
+        .van-icon {
+          color: #ffa661;
+          line-height: 7vh;
+          margin-right: 4vw;
+        }
+      }
+    }
+  }
+  .waterfall {
+    width: 100%;
+    .van-list {
+      .homestay {
+        height: 80vh;
+        // min-height: 100vh;
+        width: 100%;
+        // background-color: red;
+        // float: left;
+        // margin-top: 50vh;
+        // display: flex;
+        // flex-wrap: wrap;
+        display: flex;
+        flex-direction: column;
+        flex-wrap: wrap;
+        // justify-content: center;
+        // align-items: center;
+        .homestay-item {
+          position: relative;
+          margin-bottom: 1vh;
+          // clear:both;
+          width: 45vw;
+          margin-left: 3vw;
+          img {
+            width: 45vw;
+          }
+          .preference {
+            position: absolute;
+            // top: 0;
+            top: 2vh;
+            right: 28vw;
+            background-color: #ffffff;
+            color: #000;
+            font-size: 12px;
+          }
+          .van-icon {
+            position: absolute;
+            // top: 0;
+            top: 2vh;
+            left: 37vw;
+          }
+          .text-description {
+            width: 100%;
+            height: 15vh;
+            // background-color: black;
+            position: absolute;
+            z-index: 10000;
+            top: 19vh;
+            p:nth-child(1) {
+              font-family: PingFangSC-Regular;
+              font-size: 10px;
+              color: #fff;
+              line-height: 12px;
+              margin-bottom: 4px;
+              width: 100%;
+            }
+            p:nth-child(2) {
+              font-family: PingFangSC-Medium;
+              font-size: 14px;
+              color: #fff;
+              line-height: 17px;
+              margin-bottom: 6px;
+              overflow: hidden;
+              text-overflow: ellipsis;
+              display: -webkit-box;
+              line-clamp: 2;
+              word-break: break-all;
+            }
+            .van-rate {
+              position: absolute;
+              bottom: 5vh;
+              right: 62vw;
+            }
+            span {
+              position: absolute;
+              bottom: 1vh;
+              right: 2vw;
+              font-family: PingFangSC-Medium;
+              font-size: 16px;
+              color: #fff;
+            }
+          }
+          .text-introduce {
+            // position: absolute;
+            // bottom:16vh;
+            margin-top: -5px;
+            width: 100%;
+            height: 15vh;
+            background-color: #ffffff;
+            .city {
+              display: block;
+              font-size: 12px;
+              color: #666;
+            }
+            p {
+              margin-top: 0;
+              margin-bottom: 0;
+            }
+            .class {
+              // display: block;
+              font-size: 12px;
+              color: #666;
+            }
+            .price {
+              font-family: PingFangSC-Medium;
+              font-size: 14px;
+              color: var(--tjc-theme-price, #ff9645);
+            }
+            .originalPrice {
+              font-family: PingFangSC-Light;
+              font-size: 10px;
+              color: #999;
+              text-decoration: line-through;
+              margin-left: 2px;
+            }
+          }
+        }
+      }
+    }
+  }
+
+  .scroball {
+    width: 100%;
+    overflow: auto;
+    height: 10vh;
+    float: left;
+    margin-top: 48vh;
+    margin-bottom: 4vh;
+    // background-color: red;
+    ul {
+      white-space: nowrap;
+
+      li {
+        // float: left;
+        display: inline-block;
+        margin-left: 6vw;
+        img {
+          margin-left: 3vw;
+          width: 32px;
+        }
+      }
+    }
+  }
+  // 搜索框
+  .van-search {
+    position: fixed;
+    top: 0;
+    width: 100%;
+  }
+
+  // 搜索框左侧内容
+  .bourn {
+    background-color: #f7f8fa;
+    margin-right: 1vw;
+    span:nth-child(1) {
+      font-size: 10px;
+      color: #999;
+      line-height: 14px;
+    }
+    .city {
+      font-family: PingFangSC-Medium;
+      font-weight: 500;
+      font-size: 14px;
+      padding-right: 2px;
+      color: #333;
+      margin-left: 1vw;
+      text-align: center;
+    }
+  }
+  .search-time {
+    background-color: #f7f8fa;
+    margin-right: 1vw;
+    width: 66px;
+    border-right: 1px solid #fff;
+    color: #999;
+    font-size: 10px;
+    text-align: center;
+  }
+  .date-continer {
+    display: flex;
+    justify-content: space-between;
+    padding: 10px;
+    margin-top: 5vh;
+    .checkDate {
+      margin-left: 13vw;
+      font-size: 21px;
+      color: #999;
+    }
+    .sumDate{
+    content: "";
+    // width: 40px;
+    height: 1px;
+    color: #ff9645;
+    -webkit-font-smoothing: antialiased;
+    }
+    .leaveDate {
+      margin-right: 13vw;
+      font-size: 21px;
+      color: #999;
+    }
+  }
+  .van-calendar{
+    border-radius: 0 !important; 
+  }
+  .clear-empty{
+    position: absolute;
+    top: 15px;
+    left: 20px;
+    font-size: 16px;
+    color: #666;
+    line-height: 1;
   }
 }
 </style>
