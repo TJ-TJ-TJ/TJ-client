@@ -9,6 +9,9 @@ import 'vant/lib/index.css';
 import axios from 'axios'
 import { Lazyload } from 'vant';
 import { List } from 'vant';
+// vue-touch
+import VueTouch from "vue-touch";
+Vue.use(VueTouch, {name: "v-touch"});
 
 Vue.use(List);
 Vue.use(Lazyload);

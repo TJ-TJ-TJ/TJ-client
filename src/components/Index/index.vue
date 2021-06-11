@@ -542,36 +542,42 @@ export default {
     },
     // 价格滑块控制
     sliderChange(value) {
-      this.minPrice = value[0];
-      this.maxPrice = value[1];
+      let arr = [...value]
+      console.log(arr)
+      this.minPrice = arr[0];
+      this.maxPrice = arr[1];
       if (value[1] > 1000) {
         this.maxPrice = "不限";
       }
     },
+    // 价格区间选择
+    priceFirst(item) {
+      let arr = [...item]
+      this.value = arr;
+      this.minPrice = arr[0];
+      this.maxPrice = arr[1];
+    },
+    priceSecond(item) {
+      let arr = [...item]
+      this.value = arr;
+      this.minPrice = arr[0];
+      this.maxPrice = arr[1];
+    },
+    priceThirdly(item) {
+      let arr = [...item]
+      this.value = arr;
+      this.minPrice = arr[0];
+      this.maxPrice = arr[1];
+    },
+    priceFourthly(item) {
+      let arr = [...item]
+      this.value = arr;
+      this.minPrice = arr[0];
+      this.maxPrice = arr[1];
+    },
     // 关键字
     keyword() {
       this.$router.push("search");
-    },
-    // 价格区间选择
-    priceFirst(item) {
-      this.value = item;
-      this.minPrice = item[0];
-      this.maxPrice = item[1];
-    },
-    priceSecond(item) {
-      this.value = item;
-      this.minPrice = item[0];
-      this.maxPrice = item[1];
-    },
-    priceThirdly(item) {
-      this.value = item;
-      this.minPrice = item[0];
-      this.maxPrice = item[1];
-    },
-    priceFourthly(item) {
-      this.value = item;
-      this.minPrice = item[0];
-      this.maxPrice = item[1];
     },
     // 清空按钮
     emptyBtn() {
@@ -634,14 +640,14 @@ export default {
 </script>
 
 <style lang="scss">
-::-webkit-scrollbar {
-  height: 2px;
-}
-::-webkit-scrollbar-thumb {
-  border-radius: 10px;
-  width: 5px;
-  background: red;
-}
+// ::-webkit-scrollbar {
+//   height: 2px;
+// }
+// ::-webkit-scrollbar-thumb {
+//   border-radius: 10px;
+//   width: 5px;
+//   background: red;
+// }
 
 .Index-view {
   // 头部标题栏
@@ -1140,7 +1146,7 @@ export default {
     }
   }
   .van-calendar{
-    border-radius: 0 !important; 
+    border-radius: 0 !important;
   }
   .clear-empty{
     position: absolute;
