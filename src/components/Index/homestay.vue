@@ -157,6 +157,167 @@
           <strong class="comment-grade">4.5分</strong>
           <span>十大打阿斯顿打撒阿三大苏打算</span>
         </div>
+        <div class="header-moods">
+          <span>怀柔风景区人气榜 No.1</span>
+        </div>
+        <div class="header-user">
+          <van-image
+            round
+            width="2rem"
+            height="2rem"
+            src="https://pic.tujia.com/upload/customeravatar/day_190818/thumb/201908182139522553_90_90.jpg"
+          />
+          <van-icon name="like" color="#FFFFFF" size="1.5rem">
+            <span>111</span>
+          </van-icon>
+          <van-icon name="chat" color="#FFFFFF" size="1.5rem">
+            <span>111</span>
+          </van-icon>
+        </div>
+        <div class="foot-comment">
+          <div class="foot-title">
+            <van-tag color="#3F4954">距离圈中心12.1公里</van-tag>
+            <span class="aaa">单间 · 9居1床2人</span>
+          </div>
+          <div class="foot-msg">
+            <span>
+              十悦亲子庄园-初尘房间｜免费早餐｜慕田峪｜大床房｜独立山景｜团建｜灯光庭院｜KYV｜露天烧烤｜123露天烧烤｜123露天烧烤｜123露天烧烤｜123露天烧烤｜123露天烧烤｜123露天烧烤｜123
+            </span>
+          </div>
+          <div class="foot-tag">
+            <van-tag type="primary">连住优惠减3</van-tag>
+            <van-tag type="primary">宽松取消</van-tag>
+            <van-tag type="primary">行李寄存</van-tag>
+            <van-tag type="primary">免费停车</van-tag>
+            <van-tag type="primary">前台接待</van-tag>
+          </div>
+          <div class="foot-price">
+            <div class="price-num">
+              <span class="price">￥891</span>
+              <span class="price-unit">/晚</span>
+              <span class="price-original">￥559</span>
+              <van-tag round color="#FD5858">7.0折，连住优惠</van-tag>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="header-stay">
+        <van-swipe :autoplay="0" @change="carRoll">
+          <van-swipe-item v-for="(image, index) in images" :key="index">
+            <img v-lazy="image" />
+          </van-swipe-item>
+          <template #indicator>
+            <div class="custom-indicator">
+              {{ current + 1 }}/{{ images.length }}
+            </div>
+          </template>
+        </van-swipe>
+        <div class="header-comment">
+          <strong class="comment-grade">4.5分</strong>
+          <span>十大打阿斯顿打撒阿三大苏打算</span>
+        </div>
+        <div class="header-moods">
+          <span>怀柔风景区人气榜 No.1</span>
+        </div>
+        <div class="header-user">
+          <van-image
+            round
+            width="2rem"
+            height="2rem"
+            src="https://pic.tujia.com/upload/customeravatar/day_190818/thumb/201908182139522553_90_90.jpg"
+          />
+          <van-icon name="like" color="#FFFFFF" size="1.5rem">
+            <span>111</span>
+          </van-icon>
+          <van-icon name="chat" color="#FFFFFF" size="1.5rem">
+            <span>111</span>
+          </van-icon>
+        </div>
+        <div class="foot-comment">
+          <div class="foot-title">
+            <van-tag color="#3F4954">距离圈中心12.1公里</van-tag>
+            <span class="aaa">单间 · 9居1床2人</span>
+          </div>
+          <div class="foot-msg">
+            <span>
+              十悦亲子庄园-初尘房间｜免费早餐｜慕田峪｜大床房｜独立山景｜团建｜灯光庭院｜KYV｜露天烧烤｜123露天烧烤｜123露天烧烤｜123露天烧烤｜123露天烧烤｜123露天烧烤｜123露天烧烤｜123
+            </span>
+          </div>
+          <div class="foot-tag">
+            <van-tag type="primary">连住优惠减3</van-tag>
+            <van-tag type="primary">宽松取消</van-tag>
+            <van-tag type="primary">行李寄存</van-tag>
+            <van-tag type="primary">免费停车</van-tag>
+            <van-tag type="primary">前台接待</van-tag>
+          </div>
+          <div class="foot-price">
+            <div class="price-num">
+              <span class="price">￥891</span>
+              <span class="price-unit">/晚</span>
+              <span class="price-original">￥559</span>
+              <van-tag round color="#FD5858">7.0折，连住优惠</van-tag>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="header-stay">
+        <van-swipe :autoplay="0" @change="carRoll">
+          <van-swipe-item v-for="(image, index) in images" :key="index">
+            <img v-lazy="image" />
+          </van-swipe-item>
+          <template #indicator>
+            <div class="custom-indicator">
+              {{ current + 1 }}/{{ images.length }}
+            </div>
+          </template>
+        </van-swipe>
+        <div class="header-comment">
+          <strong class="comment-grade">4.5分</strong>
+          <span>十大打阿斯顿打撒阿三大苏打算</span>
+        </div>
+        <div class="header-moods">
+          <span>怀柔风景区人气榜 No.1</span>
+        </div>
+        <div class="header-user">
+          <van-image
+            round
+            width="2rem"
+            height="2rem"
+            src="https://pic.tujia.com/upload/customeravatar/day_190818/thumb/201908182139522553_90_90.jpg"
+          />
+          <van-icon name="like" color="#FFFFFF" size="1.5rem">
+            <span>111</span>
+          </van-icon>
+          <van-icon name="chat" color="#FFFFFF" size="1.5rem">
+            <span>111</span>
+          </van-icon>
+        </div>
+        <div class="foot-comment">
+          <div class="foot-title">
+            <van-tag color="#3F4954">距离圈中心12.1公里</van-tag>
+            <span class="aaa">单间 · 9居1床2人</span>
+          </div>
+          <div class="foot-msg">
+            <span>
+              十悦亲子庄园-初尘房间｜免费早餐｜慕田峪｜大床房｜独立山景｜团建｜灯光庭院｜KYV｜露天烧烤｜123露天烧烤｜123露天烧烤｜123露天烧烤｜123露天烧烤｜123露天烧烤｜123露天烧烤｜123
+            </span>
+          </div>
+          <div class="foot-tag">
+            <van-tag type="primary">连住优惠减3</van-tag>
+            <van-tag type="primary">宽松取消</van-tag>
+            <van-tag type="primary">行李寄存</van-tag>
+            <van-tag type="primary">免费停车</van-tag>
+            <van-tag type="primary">前台接待</van-tag>
+          </div>
+          <div class="foot-price">
+            <div class="price-num">
+              <span class="price">￥891</span>
+              <span class="price-unit">/晚</span>
+              <span class="price-original">￥559</span>
+              <van-tag round color="#FD5858">7.0折，连住优惠</van-tag>
+            </div>
+          </div>
+        </div>
       </div>
     </div>
     <!-- </v-touch> -->
@@ -266,311 +427,409 @@ export default {
 };
 </script>
 
-<style lang="scss">
-.homestay-Index {
-  // 搜索框
-  .van-search {
-    position: fixed;
-    top: 0;
-    width: 100%;
-    z-index: 100;
-  }
-  // 搜索框左侧内容
-  .bourn {
-    background-color: #f7f8fa;
-    margin-right: 1vw;
-    span:nth-child(1) {
-      font-size: 10px;
-      color: #999;
-      line-height: 14px;
-    }
-    .city {
-      font-family: PingFangSC-Medium;
-      font-weight: 500;
-      font-size: 14px;
-      padding-right: 2px;
-      color: #333;
-      margin-left: 1vw;
-      text-align: center;
-    }
-  }
-  .search-time {
-    background-color: #f7f8fa;
-    margin-right: 1vw;
-    width: 66px;
-    border-right: 1px solid #fff;
-    color: #999;
-    font-size: 10px;
-    text-align: center;
-  }
-  .date-continer {
-    display: flex;
-    justify-content: space-between;
-    padding: 10px;
-    margin-top: 5vh;
-    .checkDate {
-      margin-left: 13vw;
-      font-size: 21px;
-      color: #999;
-    }
-    .sumDate {
-      content: "";
-      // width: 40px;
-      height: 1px;
-      color: #ff9645;
-      -webkit-font-smoothing: antialiased;
-    }
-    .leaveDate {
-      margin-right: 13vw;
-      font-size: 21px;
-      color: #999;
-    }
-  }
-  .dropdown {
-    position: fixed;
-    top: 7vh;
-    width: 100%;
-  }
-  .price-section {
-    width: 100%;
-    height: 50vh;
-    background-color: #fff;
-  }
-  .price-select {
-    float: left;
-    width: 84vw;
-    float: left;
-    margin-left: 3vw;
-    // background-color: red;
-    height: 10vh;
-    margin-top: 3vh;
-    .van-row {
-      .van-col {
-        .van-tag {
-          width: 100%;
-          height: 3vh;
-          display: inline-flex;
-          justify-content: center;
-          line-height: 3vh;
-          font-family: PingFangSC-Regular;
-          font-size: 12px;
-          color: #333;
-          margin-top: 2vh;
-          font-weight: 500;
-        }
-      }
-    }
-  }
-  .price-section {
-    width: 84vw;
-    margin-left: 3vw;
-    // position: absolute;
-    float: left;
-    margin-top: 2vh;
-    // background-color: red;
-    span {
-      font-family: PingFangSC-Medium;
-      font-weight: 500;
-      font-size: 14px;
-      color: #333;
-      padding: 0 0 12px 0;
-    }
-  }
-  .van-slider {
-    width: 85vw;
-    margin-left: 5vw;
-    margin-top: 2vh;
-  }
-  .section-title {
-    span {
-      margin-left: 3vw;
-    }
-  }
-  .steel-grade {
-    width: 90vw;
-    height: 20vh;
-    // background-color: red;
-    margin-top: 20vh;
-    margin-left: 3vw;
-    .steel-title {
-      display: flex;
-      justify-content: space-between;
-      .steel-item {
-        font-family: PingFangSC-Medium;
-        font-weight: 500;
-        font-size: 14px;
-        color: #333;
-      }
-      .steel-explain {
-        font-family: PingFangSC-Regular;
-        font-size: 10px;
-        color: #999;
-        letter-spacing: 0;
-        text-align: right;
-        margin-right: 4px;
-      }
-    }
-    .steel-tag {
-      display: flex;
-      flex-wrap: wrap;
-      .van-tag {
-        margin-top: 2vh;
-        width: 19vw;
-        display: inline-block;
-        font-weight: 500;
-        font-size: 12px;
-        color: #333;
-        height: 5vh;
-        text-align: center;
-        background: #f8f8f8;
-        border-radius: 25px;
-        margin-left: 2vw;
-        line-height: 3vh;
-        span {
-          font-family: PingFangSC-Medium;
-          font-weight: 500;
-          text-align: center;
-          color: #333;
-        }
-      }
-    }
-  }
-  .foot-base {
-    width: 100%;
-    height: 7vh;
-    position: fixed;
-    bottom: 0;
-    left: 0;
-    //   background-color: red;
-    border-top: 1px solid #f3f6f9;
-    box-shadow: 0px 50px 50px 5px #000;
-    .empty {
-      display: inline-block;
-      overflow: hidden;
-      margin-left: 20px;
-      width: 22.66667vw;
-      height: 5vh;
-      text-align: center;
-      line-height: 7vh;
-      background: #f3f4f6;
-      border-radius: 20px;
-      font-family: PingFangSC-Regular;
-      font-size: 15px;
-      margin-top: 1vh;
-      padding: 9px 0px 0px 0px;
-    }
-    .examine {
-      margin-left: 10px;
-      width: 64vw;
-      height: 40px;
-      border-radius: 20px;
-      font-family: Helvetica;
-      font-weight: 500;
-      font-size: 15px;
-      color: #fff;
-      padding: 9px 0px 0px 0px;
-    }
-  }
-  .scroball {
-    width: 100%;
-    overflow: auto;
-    height: 5vh;
-    position: fixed;
-    top: 60;
-    // background-color: red;
-    line-height: 4vh;
-    ul {
-      white-space: nowrap;
+<style scope>
+.homestay-Index .van-search {
+  position: fixed;
+  top: 0;
+  width: 100%;
+  z-index: 100;
+}
+.homestay-Index .bourn {
+  background-color: #f7f8fa;
+  margin-right: 1vw;
+}
+.homestay-Index .bourn span:nth-child(1) {
+  font-size: 10px;
+  color: #999;
+  line-height: 14px;
+}
+.homestay-Index .bourn .city {
+  font-family: PingFangSC-Medium;
+  font-weight: 500;
+  font-size: 14px;
+  padding-right: 2px;
+  color: #333;
+  margin-left: 1vw;
+  text-align: center;
+}
+.homestay-Index .search-time {
+  background-color: #f7f8fa;
+  margin-right: 1vw;
+  width: 66px;
+  border-right: 1px solid #fff;
+  color: #999;
+  font-size: 10px;
+  text-align: center;
+}
+.homestay-Index .date-continer {
+  display: flex;
+  justify-content: space-between;
+  padding: 10px;
+  margin-top: 5vh;
+}
+.homestay-Index .date-continer .checkDate {
+  margin-left: 13vw;
+  font-size: 21px;
+  color: #999;
+}
+.homestay-Index .date-continer .sumDate {
+  content: "";
+  height: 1px;
+  color: #ff9645;
+  -webkit-font-smoothing: antialiased;
+}
+.homestay-Index .date-continer .leaveDate {
+  margin-right: 13vw;
+  font-size: 21px;
+  color: #999;
+}
+.homestay-Index .dropdown {
+  position: fixed;
+  top: 7vh;
+  width: 100%;
+  z-index: 1;
+}
+.homestay-Index .price-section {
+  width: 100%;
+  height: 50vh;
+  background-color: #fff;
+}
+.homestay-Index .price-select {
+  float: left;
+  width: 84vw;
+  float: left;
+  margin-left: 3vw;
+  height: 10vh;
+  margin-top: 3vh;
+}
+.homestay-Index .price-select .van-row .van-col .van-tag {
+  width: 100%;
+  height: 3vh;
+  display: inline-flex;
+  justify-content: center;
+  line-height: 3vh;
+  font-family: PingFangSC-Regular;
+  font-size: 12px;
+  color: #333;
+  margin-top: 2vh;
+  font-weight: 500;
+}
+.homestay-Index .price-section {
+  width: 84vw;
+  margin-left: 3vw;
+  float: left;
+  margin-top: 2vh;
+}
+.homestay-Index .price-section span {
+  font-family: PingFangSC-Medium;
+  font-weight: 500;
+  font-size: 14px;
+  color: #333;
+  padding: 0 0 12px 0;
+}
+.homestay-Index .van-slider {
+  width: 85vw;
+  margin-left: 5vw;
+  margin-top: 2vh;
+}
+.homestay-Index .section-title span {
+  margin-left: 3vw;
+}
+.homestay-Index .steel-grade {
+  width: 90vw;
+  height: 20vh;
+  margin-top: 20vh;
+  margin-left: 3vw;
+}
+.homestay-Index .steel-grade .steel-title {
+  display: flex;
+  justify-content: space-between;
+}
+.homestay-Index .steel-grade .steel-title .steel-item {
+  font-family: PingFangSC-Medium;
+  font-weight: 500;
+  font-size: 14px;
+  color: #333;
+}
+.homestay-Index .steel-grade .steel-title .steel-explain {
+  font-family: PingFangSC-Regular;
+  font-size: 10px;
+  color: #999;
+  letter-spacing: 0;
+  text-align: right;
+  margin-right: 4px;
+}
+.homestay-Index .steel-grade .steel-tag {
+  display: flex;
+  flex-wrap: wrap;
+}
+.homestay-Index .steel-grade .steel-tag .van-tag {
+  margin-top: 2vh;
+  width: 19vw;
+  display: inline-block;
+  font-weight: 500;
+  font-size: 12px;
+  color: #333;
+  height: 5vh;
+  text-align: center;
+  background: #f8f8f8;
+  border-radius: 25px;
+  margin-left: 2vw;
+  line-height: 3vh;
+}
+.homestay-Index .steel-grade .steel-tag .van-tag span {
+  font-family: PingFangSC-Medium;
+  font-weight: 500;
+  text-align: center;
+  color: #333;
+}
+.homestay-Index .foot-base {
+  width: 100%;
+  height: 7vh;
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  border-top: 1px solid #f3f6f9;
+  box-shadow: 0px 50px 50px 5px #000;
+}
+.homestay-Index .foot-base .empty {
+  display: inline-block;
+  overflow: hidden;
+  margin-left: 20px;
+  width: 22.66667vw;
+  height: 5vh;
+  text-align: center;
+  line-height: 7vh;
+  background: #f3f4f6;
+  border-radius: 20px;
+  font-family: PingFangSC-Regular;
+  font-size: 15px;
+  margin-top: 1vh;
+  padding: 9px 0px 0px 0px;
+}
+.homestay-Index .foot-base .examine {
+  margin-left: 10px;
+  width: 64vw;
+  height: 40px;
+  border-radius: 20px;
+  font-family: Helvetica;
+  font-weight: 500;
+  font-size: 15px;
+  color: #fff;
+  padding: 9px 0px 0px 0px;
+}
+.homestay-Index .scroball {
+  width: 100%;
+  overflow: auto;
+  height: 5vh;
+  position: fixed;
+  top: 60;
+  line-height: 4vh;
+}
+.homestay-Index .scroball ul {
+  white-space: nowrap;
+}
+.homestay-Index .scroball ul li {
+  display: inline-block;
+  margin-left: 1vw;
+}
+.homestay-Index .scroball ul li .van-tag {
+  box-sizing: content-box;
+  font-family: PingFangSC-Regular;
+  font-size: 12px;
+  color: #666;
+  border: 1px solid rgba(0, 0, 0, 0);
+  display: inline-block;
+  margin-right: 10px;
+  padding: 0 12px;
+  height: 4vh;
+  line-height: 3vh;
+  background: #fff;
+  box-shadow: 0 2px 14px 0 rgba(0, 2, 4, 0.08);
+  border-radius: 13px;
+  background-size: cover;
+}
+.homestay-Index .header-continer {
+  width: 100%;
+  margin-top: 20vh;
+}
+.homestay-Index .header-continer .header-stay {
+  margin-bottom: 6vh;
+  width: 90%;
+  margin-left: 5%;
+  position: relative;
+  z-index: 0;
 
-      li {
-        // float: left;
-        display: inline-block;
-        margin-left: 1vw;
-        .van-tag {
-          box-sizing: content-box;
-          font-family: PingFangSC-Regular;
-          font-size: 12px;
-          color: #666;
-          border: 1px solid rgba(0, 0, 0, 0);
-          display: inline-block;
-          margin-right: 10px;
-          padding: 0 12px;
-          height: 4vh;
-          line-height: 3vh;
-          background: #fff;
-          box-shadow: 0 2px 14px 0 rgb(0 2 4 / 8%);
-          border-radius: 13px;
-          background-size: cover;
-        }
-      }
-    }
-  }
-  // 民宿列表样式
-  .header-continer {
-    width: 100%;
-    // height: 20vh;
-    // background-color: red;
-    margin-top: 20vh;
-    .header-stay {
-      width: 90%;
-      // height: 20vh;
-      margin-left: 5%;
-      // background-color: red;
-      position: relative;
-      .van-swipe {
-        height: 34vh;
-        .van-swipe-item {
-          img {
-            width: 100%;
-          }
-        }
-      }
-      .header-comment {
-        display: flex;
-        align-items: center;
-        background-color: hsla(0, 0%, 100%, 0.9);
-        border-radius: 10px;
-        height: 17px;
-        width: 40vw;
-        padding: 1px 8px 0;
-        // justify-content: center;
-        position: absolute;
-        bottom: 2vh;
-        left: 4vw;
-        .comment-grade {
-          font-size: 10px;
-          display: inline-block;
-          width: 9vw;
-          border-right: 1px solid #dadada;
-        }
-        span {
-          font-size: 10px;
-          display: inline-block;
-          margin-left: 5px;
-          padding-left: 5px;
-          position: relative;
-          color: #666;
-          flex: 1;
-          //   .文本强制不合法，不换行
-          white-space: nowrap;
-          //   2.文本溢出显示省略号
-          text-overflow: ellipsis;
-          //   3.溢出部分隐藏
-          overflow: hidden;
-        }
-      }
-    }
-  }
-  // 轮播图指示器样式
-  .custom-indicator {
-    position: absolute;
-    right: 3vw;
-    bottom: 2vh;
-    padding: 2px 10px;
+}
+.homestay-Index .header-continer .header-stay .van-swipe {
+  height: 34vh;
+  max-height: 85vh;
+}
+.homestay-Index .header-continer .header-stay .van-swipe .van-swipe-item img {
+  width: 100%;
+}
+.homestay-Index .header-continer .header-stay .header-comment {
+  display: flex;
+  align-items: center;
+  background-color: rgba(255, 255, 255, 0.9);
+  border-radius: 10px;
+  height: 17px;
+  width: 40vw;
+  padding: 1px 8px 0;
+  position: absolute;
+  top: 30vh;
+  left: 4vw;
+}
+.homestay-Index .header-continer .header-stay .header-comment .comment-grade {
+  font-size: 10px;
+  display: inline-block;
+  width: 9vw;
+  border-right: 1px solid #dadada;
+}
+.homestay-Index .header-continer .header-stay .header-comment span {
+  font-size: 10px;
+  display: inline-block;
+  margin-left: 5px;
+  padding-left: 5px;
+  position: relative;
+  color: #666;
+  flex: 1;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  overflow: hidden;
+}
+.homestay-Index .header-continer .header-stay .header-moods {
+  display: flex;
+  align-items: center;
+  background-color: #ff9645;
+  border-radius: 10px;
+  height: 17px;
+  width: 40vw;
+  padding: 1px 8px 0;
+  justify-content: center;
+  position: absolute;
+  top: 2vh;
+  left: 4vw;
+}
+.homestay-Index .header-continer .header-stay .header-moods span {
+  display: inline-block;
+  font-family: PingFangSC-Medium;
+  line-height: 17px;
+  font-size: 10px;
+  font-weight: 500;
+  vertical-align: top;
+  color: #fff;
+}
+.homestay-Index .header-continer .header-stay .header-user {
+  position: absolute;
+  top: 2vh;
+  right: 1vw;
+  width: 10vw;
+  height: 20vh;
+  display: flex;
+  flex-flow: column;
+  align-items: center;
+}
+.homestay-Index .header-continer .header-stay .header-user .van-icon {
+  margin-top: 2vh;
+}
+.homestay-Index .header-continer .header-stay .header-user .van-icon span {
+  font-size: 10px;
+  display: block;
+  padding-bottom: 0;
+  text-align: center;
+}
+.homestay-Index .custom-indicator {
+  position: absolute;
+  right: 3vw;
+  top: 30vh;
+  padding: 2px 10px;
+  font-size: 12px;
+  background: rgba(0, 0, 0, 0.1);
+  border-radius: 10px;
+  color: #fff;
+}
+
+.homestay-Index .foot-comment {
+  width: 100%;
+  height: 15vh;
+  margin-top: 1vh;
+  /* background-color: red; */
+}
+
+.homestay-Index .foot-title {
+  width: 100%;
+  height: 3vh;
+}
+
+.homestay-Index .foot-title .van-tag {
+  float: left;
+  margin-right: 2vw;
+}
+
+.homestay-Index .foot-title .aaa {
+  float: left;
+  font-size: 12px;
+  white-space: nowrap;
+  color: #666;
+  line-height: normal;
+  font-weight: 400;
+}
+
+.homestay-Index .foot-msg {
+  max-height: 44px;
+  width: 100%;
+  overflow: hidden;
+  line-height: 22px;
+  font-size: 18px;
+  margin-top: 8px;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  font-family: PingFangSC-Medium, Helvetica Neue, Arial, sans-serif;
+  font-weight: 500;
+}
+
+.homestay-Index .foot-tag {
+  margin-top: 1vh;
+}
+
+.homestay-Index .foot-tag .van-tag {
+  float: left;
+  margin-right: 1vw;
+}
+
+.homestay-Index .foot-price {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  margin-top: 4vh;
+  /* background-color: red; */
+}
+
+.homestay-Index .foot-price .price-num .price {
+  font-size: 20px;
+  /* position: relative;
+  top: 1px; */
+  color: #ff9645;
+}
+
+.homestay-Index .foot-price .price-num .price-unit {
+  font-size: 12px;
+  color: #ff9645;
+}
+
+.homestay-Index .price-original{
+      margin-left: 5px;
+    display: inline-block;
+    text-decoration: line-through;
+    font-family: PingFangSC-Medium,Helvetica Neue,Arial,sans-serif;
+    font-weight: 500;
     font-size: 12px;
-    background: rgba(0, 0, 0, 0.1);
-    border-radius: 10px;
-    color: #fff;
-  }
+    color: #999;
+}
+
+.homestay-Index .van-tag{
+  margin-left: 5px;
 }
 </style>
