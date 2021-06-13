@@ -12,7 +12,10 @@
 
     <van-cell-group class="grub">
       <div class="van-cell__title ">
-        森岚·逸云「玖号房」 家庭房丨踏青丨台球丨桌游丨红螺寺丨慕田峪长城丨轰趴
+       
+   
+        云深·金陵 门头沟天街S1线简欧loft超清投影房，落地窗采光好可做饭，近潭柘寺八大处首钢园
+    
         <span v-for="(val, index) in goodtime" :key="index">
           <img src="/icon/diamondLevel.png" alt=""
         /></span>
@@ -31,7 +34,7 @@
       </div>
       <div class="listinfo2">
         <div class="leftlist">
-          <div class="dizhi">
+          <div class="van-ellipsis">
             石景山区, 北京石景山区鲁谷大街与京源路交叉口紫御长安
           </div>
           <div class="ditie">
@@ -45,7 +48,7 @@
       </div>
     </van-cell-group>
     <div class="xbx"></div>
-    <div v-for="k in 50" :key="k">dsadadasdaddadsas</div>
+    <!-- <div v-for="k in 50" :key="k">dsadadasdaddadsas</div> -->
   </div>
 </template>
 
@@ -162,11 +165,11 @@ export default {
       height: 58px;
       width: 253px;
      
-      .dizhi {
-        white-space: nowrap;
-        overflow: hidden;
-        text-overflow: ellipsis;
-      }
+      // .dizhi {
+      //   white-space: nowrap;
+      //   overflow: hidden;
+      //   text-overflow: ellipsis;
+      // }
       .ditie {
         white-space: nowrap;
         overflow: hidden;

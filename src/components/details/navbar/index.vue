@@ -1,6 +1,6 @@
 <template>
   <div class="navbar">
-    <van-nav-bar title="房屋详情" left-text="途家" left-arrow fixed placeholder>
+    <van-nav-bar title="房屋详情"    placeholder fixed>
     <span  class="back" slot="left">
       <img  src="/icon/mob-TjHeader-header-left.png" alt="">
       <img slot="left" class="last" src="/icon/mob-TjHeader-header-logo.png" alt="">
@@ -22,6 +22,7 @@ export default {
 
 <style lang="scss">
 .navbar {
+  z-index: 200000;
 
   .back {
    img {

@@ -1,38 +1,47 @@
 <template>
- <div class="details">
-
+  <div class="details">
     <nav-bar></nav-bar>
-  <sw-ipe></sw-ipe>
-  <intro-duce></intro-duce>
-
-
- 
- </div>
-  
- 
+    <!-- <scroll-tab v-show="show">
+      
+    </scroll-tab> -->
+    <sw-ipe></sw-ipe>
+    <act-ion></act-ion>
+    <intro-duce></intro-duce>
+    <hous-scource></hous-scource>
+    <facil-ities></facil-ities>
+    <land-lord></land-lord>
+    <com-ment></com-ment>
+    <not-ice></not-ice>
+  </div>
 </template>
 
-
-
-
 <script>
-  import navbar from '@/components/details/navbar'
-  import swipe from '@/components/details/swipe'
-  import introduce from '@/components/details/introduce'
+import navbar from "@/components/details/navbar";
+import scrolltab from "@/components/details/scrolltab";
+import swipe from "@/components/details/swipe";
+import introduce from "@/components/details/introduce";
+import HousScource from "@/components/details/houssource";
+import FacilIties from "@/components/details/facilities";
+import landLord from "@/components/details/landlord";
+import comMent from "@/components/details/comment";
+import notIce from "@/components/details/notice";
+import action from "@/components/details/action";
 export default {
-
   data() {
     return {};
   },
- components: {
-   'nav-bar': navbar,
-   'sw-ipe': swipe,
-   'intro-duce': introduce
-
- }
-  
-}
+  components: {
+    "nav-bar": navbar,
+    "scroll-tab": scrolltab,
+    "sw-ipe": swipe,
+    "intro-duce": introduce,
+    HousScource,
+    FacilIties,
+    landLord,
+    comMent,
+    notIce,
+    "act-ion": action,
+  },
+};
 </script>
-<style lang="scss">
-
-</style>
+<style lang="scss"></style>
