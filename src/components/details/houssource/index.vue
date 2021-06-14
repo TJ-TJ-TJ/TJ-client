@@ -385,14 +385,20 @@ export default {
     border-bottom-left-radius: 6px;
   }
   .other {
+    display: flex;
+    align-items: flex-end;
+    box-sizing: border-box;
+    height: 36px;
+    position: relative;
+
     font-size: 13px;
     font-weight: 600;
     color: #333;
     padding: 0 0 5px 29px;
     &::before {
       position: absolute;
-      bottom: -72px;
-      left: 17px;
+      bottom: 5px;
+      left: 16px;
       display: block;
       content: "";
       width: 3px;

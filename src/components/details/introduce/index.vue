@@ -30,9 +30,9 @@
         <span class="pingfen">4.9</span>
         <span class=".zan">超赞</span>
         <span class="pingyu">"房东超赞"</span>
-        <span class="pinglun">89条评论></span>
+        <span class="pinglun">89条评论<span><img src="/icon/tujia_arrow_right.png" alt=""></span></span>
       </div>
-      <div class="listinfo2">
+      <!-- <div class="listinfo2">
         <div class="leftlist">
           <div class="van-ellipsis">
             石景山区, 北京石景山区鲁谷大街与京源路交叉口紫御长安
@@ -45,8 +45,25 @@
         </div>
         <div class="rightlist"><span>地图</span> <span>周边></span></div>
         
+      </div> -->
+
+      <div class="ditu">
+      <div class="ditu-cont">
+        <div class="ditu-left">
+          <div class="dizhi">怀柔区, 北京怀柔区京加路西150米潘玉琴商店</div>
+          <div class="juli">
+            <img src="/icon/position_subway.png" alt="">
+            近火车站.距离怀柔北站直线距离3.3km，驾车约8min
+          </div>
+        </div>
+        <div class="ditu-right">
+          <span class="text">地图·周边</span>
+          <span><img src="/icon/tujia_arrow_right.png" alt=""></span>
+        </div>
       </div>
+    </div>
     </van-cell-group>
+   
     <div class="xbx"></div>
     <!-- <div v-for="k in 50" :key="k">dsadadasdaddadsas</div> -->
   </div>
@@ -145,49 +162,105 @@ export default {
     .pinglun {
       float: right;
       color: #ff9645;
+      img {
+          width: 5px;
+          height: 8px;
+          margin-left: 2px;
+
+      }
     }
     .pingyu {
       color: #666;
     }
   }
-  .listinfo2 {
-    margin-top: 8px;
-    height: 58px;
-    background: #f5f7fa;
-    border-radius: 5px;
-    padding: 0 12px;
-    line-height: 30px;
-    font-size: 12px;
-    // display: flex;
-    // justify-content: space-between;
-    .leftlist {
-      float: left;
-      height: 58px;
-      width: 253px;
-     
-      // .dizhi {
-      //   white-space: nowrap;
-      //   overflow: hidden;
-      //   text-overflow: ellipsis;
-      // }
-      .ditie {
-        white-space: nowrap;
+
+
+
+  .ditu {
+    padding: 12PX;
+    position: relative;
+    margin-top: 15px;
+    &::before {
+      content: "";
+      width: 100%;
+      height: 100%;
+      background-image: url('/icon/map_bg.png');
+      background-size: 100% 100%;
+      background-repeat: no-repeat;
+      border-radius: 6px;
+      position: absolute;
+      top: 0;
+      left: 0;
+      z-index: 0;
+      opacity: .5;
+    }
+    .ditu-cont {
+      position: relative;
+      z-index: 1;
+      width: 100%;
+      height: 100%;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      border-radius: 6px;
+      white-space: nowrap;
+      text-overflow: ellipsis;
+      overflow: hidden;
+
+      .ditu-left {
+        flex: 1;
         overflow: hidden;
-        // text-overflow: ellipsis;
-        
-        img {
-          width: 10px;
-          height: 10px;
+
+        .dizhi {
+          font-weight: 700;
+          font-size: 14px;
+          color: #333;
+          line-height: 16px;
+          white-space: nowrap;
+          overflow: hidden;
+          text-overflow : ellipsis;
+        }
+        .juli {
+          font-size: 12px;
+          line-height: 14px;
+          color: #666;
+          margin-top: 4px;
+          overflow: hidden;
+          // text-overflow: ellipsis;
+          white-space: nowrap;
+          img {
+            width: 10px;
+            height: 10px;
+            vertical-align: middle;
+          }
+        }
+      }
+
+      .ditu-right {
+        height: 100%;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        color: #666;
+        .text {
+          width: 60px;
+          font-size: 10px;
+          color: #ff9645;
+          text-align: right;
+        }
+        .text + span >img {
+          width: 5px;
+          height: 8px;
+          margin-left: 2px;
         }
       }
     }
-    .rightlist {
-      float: right;
-      line-height: 58px;
-      text-align: center;
-      color: #ff9645;
-    }
   }
+
+
+
+
+
   .xbx {
     height: 5px;
     // background-color: #333;
