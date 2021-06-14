@@ -12,6 +12,7 @@
     <land-lord></land-lord>
     <com-ment></com-ment>
     <not-ice></not-ice>
+    <foo-ter></foo-ter>
   </div>
 </template>
 
@@ -26,6 +27,7 @@ import landLord from "@/components/details/landlord";
 import comMent from "@/components/details/comment";
 import notIce from "@/components/details/notice";
 import action from "@/components/details/action";
+import FooTer from "@/components/details/footer";
 export default {
   data() {
     return {};
@@ -40,6 +42,7 @@ export default {
     landLord,
     comMent,
     notIce,
+    FooTer,
     "act-ion": action,
   },
 };
