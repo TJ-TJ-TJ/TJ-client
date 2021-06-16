@@ -1,6 +1,7 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
 import details from '@/components/details'
+// import map from "@/components/details/map";
 
 Vue.use(VueRouter)
 
@@ -12,6 +13,13 @@ const routes = [
     
     
   },
+  // {
+  //   path: '/map',
+  //   name: 'Dtail',
+  //   component: map
+    
+    
+  // },
 
 ]
 // path: '/about',

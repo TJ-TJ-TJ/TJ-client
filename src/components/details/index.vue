@@ -1,7 +1,7 @@
 <template>
   <div class="details">
     <nav-bar></nav-bar>
-       <sw-ipe></sw-ipe>
+     <sw-ipe></sw-ipe>
      <scroll-tab ></scroll-tab>
 
     <!-- <intro-duce></intro-duce>

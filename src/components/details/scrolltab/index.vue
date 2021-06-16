@@ -6,6 +6,7 @@
       color="#ff9645"
       title-active-color="#ff9645"
       v-model="activeName"
+      @click="show($event)"
     >
       <van-tab :title="'概览'" name="a">
         <intro-duce></intro-duce>
@@ -25,6 +26,10 @@
       <van-tab :title="'须知'" name="f">
         <not-ice></not-ice>
       </van-tab>
+      <van-tab :title="'周边'" name="f">
+        <!-- <map-around></map-around> -->
+        <map-img></map-img>
+      </van-tab>
     </van-tabs>
   </div>
 </template>
@@ -37,6 +42,8 @@ import FacilIties from "@/components/details/facilities";
 import landLord from "@/components/details/landlord";
 import comMent from "@/components/details/comment";
 import notIce from "@/components/details/notice";
+// import map from "@/components/details/map";
+import mapImg from "@/components/details/mapimg";
 export default {
   data() {
     return {
@@ -52,6 +59,9 @@ export default {
     comMent,
     notIce,
     // FooTer,
+    // "map-around": map,
+    mapImg,
+
   },
   mounted() {
     window.addEventListener("scroll", this.handleScroll); // 监听滚动事件
@@ -72,6 +82,11 @@ export default {
       } else if (scrollTop <= "300") {
         stick.classList.remove("hsueh");
       }
+      },
+
+      show(e) {
+        console.log(e)
+        console.log(tit)
       }
     
   },
