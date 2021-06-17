@@ -195,7 +195,6 @@
         v-model="loading"
         :finished="finished"
         finished-text="没有更多了"
-        @load="onLoad"
       >
         <!-- <van-cell v-for="item in waterList" :key="item" :title="item" /> -->
         <div class="homestay">
@@ -479,7 +478,7 @@ export default {
       ],
       waterList: [],
       loading: false,
-      finished: false,
+      finished: true,
       // 搜索框弹出层
       searchShow: false,
       // 搜索内容
@@ -489,7 +488,8 @@ export default {
       // 间隔时间
       sumDate:0,
       // 离店日期
-      leaveDate:'离店日期'
+      leaveDate:'离店日期',
+      dataDate:[]
     };
   },
   created() {
@@ -523,14 +523,26 @@ export default {
     onConfirm(date) {
       const [start, end] = date;
       this.putDate =
-        parseInt(date[1].getTime() / 1000 / 60 / 60 / 24) -
+        parseInt(date[1].getTime() / 1000 / 60 / 60 / 24)-
         parseInt(date[0].getTime() / 1000 / 60 / 60 / 24);
       this.show = false;
       this.starDate = this.formatDate(start);
       this.endDate = this.formatDate(end);
-      // 点击开始搜索再保存先写在这
+      // var res = parseInt(date[1].getTime()/1000/60/60/24)
+      let data = []
+      // for(let i = 0;i<=this.putDate;i++){
+        data.unshift(date[0].getTime());
+        data.unshift(date[1].getTime());
+      // }
+      // console.log(data)
+      this.dataDate = data
+      // 点击开始搜索再保存先写在这date[0].getTime()
       this.$store.commit("hotelStarDate", this.starDate);
+      // this.$store.commit("hotelStarDate", date[0].getTime());
       this.$store.commit("hotelEndDate", this.endDate);
+      // this.$store.commit("hotelEndDate", date[1].getTime());
+      this.$store.commit("hotDataDate",this.dataDate)
+      console.log(this.$store.state)
     },
     // 控制弹出层
     showPopup() {
@@ -618,23 +630,23 @@ export default {
       this.checkDate = '入住日期'
     },
     // 瀑布流更新数据
-    onLoad() {
-      // 异步更新数据
-      // setTimeout 仅做示例，真实场景中一般为 ajax 请求
-      setTimeout(() => {
-        for (let i = 0; i < 10; i++) {
-          this.list.push(this.list.length + 1);
-        }
+    // onLoad() {
+    //   // 异步更新数据
+    //   // setTimeout 仅做示例，真实场景中一般为 ajax 请求
+    //   setTimeout(() => {
+    //     for (let i = 0; i < 10; i++) {
+    //       this.list.push(this.list.length + 1);
+    //     }
 
-        // 加载状态结束
-        this.loading = false;
+    //     // 加载状态结束
+    //     this.loading = false;
 
-        // 数据全部加载完成
-        if (this.list.length >= 40) {
-          this.finished = true;
-        }
-      }, 1000);
-    },
+    //     // 数据全部加载完成
+    //     if (this.list.length >= 40) {
+    //       this.finished = true;
+    //     }
+    //   }, 1000);
+    // },
   },
 };
 </script>

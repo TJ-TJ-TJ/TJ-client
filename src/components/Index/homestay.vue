@@ -15,15 +15,15 @@
           <br />
           <span class="city">北京</span>
         </div>
-        <div class="search-time">
-          <span>住6.30</span>
+        <div class="search-time" @click="searchTimes">
+          <span>住{{$store.state.starDate}}</span>
           <br />
-          <span>离11.30</span>
+          <span>离{{$store.state.endDate}}</span>
         </div>
       </template>
     </van-search>
     <!-- 条件查询栏 -->
-    <div class="dropdown">
+    <div class="dropdown" ref="dropDownRef">
       <van-dropdown-menu>
         <van-dropdown-item title="价格/钻级">
           <!-- 价格筛选 -->
@@ -321,10 +321,13 @@
       </div>
     </div>
     <!-- </v-touch> -->
+    <!-- 时间选择组件 -->
+    <calender ref="calenderRef"/>
   </div>
 </template>
 
 <script>
+import calender from './calender.vue'
 export default {
   data() {
     return {
@@ -369,9 +372,54 @@ export default {
       ],
       // 轮播图指示器
       current: 0,
+      // 入住
+      // starDate:'',
+      // 离店
+      // endDate:''
     };
   },
+  components:{
+    calender
+  },
+  mounted(){
+    window.addEventListener('scroll', this.handleScroll, true);  
+    // 监听（绑定）滚轮 滚动事件
+  },
+  updated(){
+    this.starDate = this.$refs.calenderRef.checkDate
+    console.log('刷新')
+  },
   methods: {
+    // 选择时间
+    searchTimes(){
+      console.log(this.$store.state.starDate)
+      this.$refs.calenderRef._data.show = true
+      console.log(this.$refs.calenderRef)
+
+    },
+    // 监听滚动
+    handleScroll(){
+            // 页面滚动距顶部距离
+            var scrollTop = window.pageYOffset || document.documentElement.scrollTop ||
+                      document.body.scrollTop
+                      // console.log(scrollTop)
+            var scroll = scrollTop - this.i;
+            this.i = scrollTop;
+            if(scroll<0){
+                // console.log()
+                // this.$refs.dropDownRef.style.display = 'block'
+                this.$refs.dropDownRef.style.transform = 'translateY(0)'
+                
+            }else if(scroll>0 && scrollTop>80){
+                // console.log(this.$refs.dropDownRef)
+                //  this.$refs.dropDownRef.style.display = 'none'
+                 this.$refs.dropDownRef.style.transform = 'translateY(-100px)'
+                //  this.$refs.dropDownRef.style.top = '-7vh'
+                //  this.$refs.dropDownRef.transition = '2s'
+                // console.log(this.$refs.dropDownRef.style)
+
+            }
+        },
     // 价格滑块控制
     sliderChange(value) {
       let arr = [...value];
@@ -488,7 +536,11 @@ export default {
   top: 7vh;
   width: 100%;
   z-index: 1;
+
+  /* 过渡 */
+  transition: transform .3s;
 }
+
 .homestay-Index .price-section {
   width: 100%;
   height: 50vh;
@@ -621,10 +673,11 @@ export default {
 .homestay-Index .scroball {
   width: 100%;
   overflow: auto;
-  height: 5vh;
+  height: 7vh;
   position: fixed;
   top: 60;
-  line-height: 4vh;
+  line-height: 6vh;
+  background-color: #F5F8FA;
 }
 .homestay-Index .scroball ul {
   white-space: nowrap;
@@ -652,6 +705,7 @@ export default {
 .homestay-Index .header-continer {
   width: 100%;
   margin-top: 20vh;
+  background-color: #F2F5F7;
 }
 .homestay-Index .header-continer .header-stay {
   margin-bottom: 6vh;

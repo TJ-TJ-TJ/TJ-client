@@ -6,14 +6,18 @@ Vue.use(Vuex)
 export default new Vuex.Store({
   state: {
       starDate:'',
-      endDate:''
+      endDate:'',
+      dataDate:[],
   },
   mutations: {
     hotelStarDate(state,starDate){
       state.starDate = starDate
     },
     hotelEndDate(state,endDate){
-      state.endDare = endDate
+      state.endDate = endDate
+    },
+    hotDataDate(state,dataDate){
+      state.dataDate = dataDate
     }
   },
   actions: {

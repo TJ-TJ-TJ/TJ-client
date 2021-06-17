@@ -36,8 +36,12 @@ export default {
   data() {
     return {
       value: "",
-      radioStatus:'展开'
+      radioStatus:'展开',
     };
+  },
+  components:{
+  },
+  mounted(){
   },
   methods: {
     onSearch(val) {
@@ -55,6 +59,7 @@ export default {
         this.$refs.continerRef.style.overflow = 'hidden'
         this.radioStatus = '展开'
         }
+        
     }
   },
 };

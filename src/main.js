@@ -13,32 +13,32 @@ import { List } from 'vant';
 import VueTouch from "vue-touch";
 Vue.use(VueTouch, {name: "v-touch"});
 // 高德离线地图
-import VueAMap from 'vue-amap';   //引入高德
+// import VueAMap from 'vue-amap';   //引入高德
 
 
-Vue.use(VueAMap)
+// Vue.use(VueAMap)
 Vue.use(List);
 Vue.use(Lazyload);
 Vue.use(Vant);
 Vue.config.productionTip = false
 
 axios.defaults.baseURL = '/'
-VueAMap.initAMapApiLoader({
-  key: '3cb5838683de37cca0d00bdcd3d4c6ad',
-  //插件集合
-  plugin: [
-    'AMap.Geolocation',  //定位空间，用来获取和展示用户主机所在的经纬度位置
-    ' AMap.Autocomplete ',  //输入提示插件
-    ' AMap.PlaceSearch ', //POI搜索插件
-    ' AMap.Scale ',   //右下角缩略图插件，比例尺
-    ' AMap.OverView ', //地图鹰眼插件
-    ' AMap.ToolBar ',  //地图工具条
-    ' AMap.MapType ',  //类别切换空间，实现默认图层与卫星图，实施交通层之间切换的控制
-    ' AMap.PolyEditor ', //编辑 折线多边形
-    ' AMap.CircleEditor ',
-    "AMap.Geocoder"     //地图编码
-  ]
-});
+// VueAMap.initAMapApiLoader({
+//   key: '3cb5838683de37cca0d00bdcd3d4c6ad',
+//   //插件集合
+//   plugin: [
+//     'AMap.Geolocation',  //定位空间，用来获取和展示用户主机所在的经纬度位置
+//     ' AMap.Autocomplete ',  //输入提示插件
+//     ' AMap.PlaceSearch ', //POI搜索插件
+//     ' AMap.Scale ',   //右下角缩略图插件，比例尺
+//     ' AMap.OverView ', //地图鹰眼插件
+//     ' AMap.ToolBar ',  //地图工具条
+//     ' AMap.MapType ',  //类别切换空间，实现默认图层与卫星图，实施交通层之间切换的控制
+//     ' AMap.PolyEditor ', //编辑 折线多边形
+//     ' AMap.CircleEditor ',
+//     "AMap.Geocoder"     //地图编码
+//   ]
+// });
 
 // VueAMap.initAMapApiLoader({
 //   // 高德Key
@@ -49,7 +49,7 @@ VueAMap.initAMapApiLoader({
 //   uiVersion: '1.0'//ui版本
 // })
 
-Vue.prototype.$http = axios
+Vue.prototype.$axios = axios
 
 
 new Vue({

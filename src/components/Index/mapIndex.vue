@@ -84,7 +84,7 @@ export default {
           infoWindow.open(map);
           var infoWindow = new AMap.InfoWindow({
             anchor: "bottom-center",
-            content: `房屋位置:<br/>北京东城区万程酒店`,
+            content: `房屋位置:<br/>北京海淀区达内`,
           });
 
           infoWindow.open(map, [this.curse, this.qrigine]);
