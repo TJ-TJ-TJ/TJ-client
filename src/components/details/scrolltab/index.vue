@@ -12,6 +12,9 @@
         <intro-duce></intro-duce>
       </van-tab>
       <van-tab :title="'房源'" name="b">
+        <you-hui></you-hui>
+        <da-te  @dateshow='cs($event)'></da-te>
+        <calen-dar :titls='ss' ref="qwe"></calen-dar>
         <hous-scource></hous-scource>
       </van-tab>
       <van-tab :title="'设施'" name="c">
@@ -44,10 +47,15 @@ import comMent from "@/components/details/comment";
 import notIce from "@/components/details/notice";
 // import map from "@/components/details/map";
 import mapImg from "@/components/details/mapimg";
+import youHui from "@/components/details/youhui";
+
+import DaTe from "@/components/details/date";
+import calenDar from "@/components/details/calendar";
 export default {
   data() {
     return {
       activeName: "a",
+      ss: ''
     };
   },
   components: {
@@ -61,12 +69,18 @@ export default {
     // FooTer,
     // "map-around": map,
     mapImg,
+    youHui,
+    DaTe,
+    calenDar
 
   },
   mounted() {
     window.addEventListener("scroll", this.handleScroll); // 监听滚动事件
   },
   methods: {
+    cs(c) {
+      this.$refs.qwe.show=c
+    },
     handleScroll() {
       let scrollTop =
         window.pageYOffset ||
