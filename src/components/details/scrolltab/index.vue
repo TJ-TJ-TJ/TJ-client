@@ -29,7 +29,7 @@
       <van-tab :title="'须知'" name="f">
         <not-ice></not-ice>
       </van-tab>
-      <van-tab :title="'周边'" name="f">
+      <van-tab :title="'周边'" name="g">
         <!-- <map-around></map-around> -->
         <map-img></map-img>
       </van-tab>
