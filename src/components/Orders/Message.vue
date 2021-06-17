@@ -1,153 +1,488 @@
 <template>
-  <div class="msg_center">
-    <van-nav-bar title="聊天消息" left-arrow @click-left="onClickLeft" />
-    <div class="msglist" v-if='kw==""'></div>
+  <div class="msg_center" :style="{ height: outheight }">
+    <van-nav-bar :title="title" left-arrow @click-left="onClickLeft" fixed />
+    <div class="msg_content">
+      <!-- 刷新组件 -->
 
-    <div class='product' v-else>
-      <div class="div">
-        <img :src="product.img" alt="">
+      <!-- <div class="msglist" v-if='kw==""'></div>
+      <div class='product' v-else>
+        <div class="div">
+          <img :src="product.img" alt="">
+          <div>
+            <div>
+              {{product.title}}
+            </div>
+            <p>
+              {{product.title2}}
+            </p>
+          </div>
+          <button class="btn">发送房屋</button>
+        </div>
+      </div> -->
+      <!-- 消息区 -->
+      <van-pull-refresh v-model="isLoading" @refresh="onRefresh">
+        <div class="mess_age">
+          <div
+            v-for="(item, i) in message"
+            :key="i"
+            :class="item.uid == uid ? 'left' : 'right'"
+          >
+            <!-- 消息部分 -->
+            <div class="msg">
+              <!-- 如果消息是文本类型就显示文本 否显示语音 -->
+              <div v-if="item.type === 'text'">
+                {{ item.message }}
+              </div>
+
+              <div
+                v-else
+                class="dialog"
+                @click="start_audio($event, i, item.uid, item.sid, item.m_id)"
+                :class="{
+                  audioPlay: i == active,
+                  dian: item.audio_isRead == 0,
+                }"
+              >
+                <span> {{ item.time }}"&nbsp;</span>
+                <audio :src="item.audio" @ended="isend">
+                  <!-- 监视音频播放完毕 触发的事件-->
+                </audio>
+                <div id="done"></div>
+                <div id="dtwo"></div>
+                <div id="dthree"></div>
+                <div id="dfour"></div>
+              </div>
+
+              <!-- 三角 -->
+              <!--  <div class="tri">
+          </div> -->
+            </div>
+            <!-- 头像 -->
+            <div class="imgSrc">
+              <img :src="item.head_img" alt="" />
+            </div>
+          </div>
+        </div>
+      </van-pull-refresh>
+    </div>
+
+    <!-- 底部消息输入区域 -->
+    <div style="backgroundclor: #fff">
+      <div class="mess_foot">
         <div>
           <div>
-            {{product.title}}
+            <van-icon
+              v-if="Edit == true"
+              name="volume-o"
+              size="30"
+              @click="edit"
+            />
+            <van-icon v-else name="edit" size="30" @click="edit" />
+            <textarea
+              v-if="Edit == true"
+              type="text"
+              v-model="text_msg"
+              @input="change_height"
+              @focus="femoji"
+            ></textarea>
+            <input
+              v-else
+              type="text"
+              placeholder="按住 说话"
+              disabled
+              @touchstart.prevent="start"
+              @touchend="end"
+              style="textalign: center"
+            />
           </div>
-          <p>
-            {{product.title2}}
-          </p>
-        </div>
-        <button class="btn">发送房屋</button>
-      </div>
-    </div>
-    <!-- 消息区 -->
-    <div class="mess_age">
-      <div v-for="(item,i) in data" :key='i' :class="item.user==item.local?'right':'left'">
-        <!-- 消息部分 -->
-        <div class="msg">
-          <!-- 如果消息是文本类型就显示文本 否则1显示语音 -->
-          <div v-if='item.type==="text"'>
-            你好
-          </div> <!-- 三角 -->
-          <div v-else class="dialog" @click='start_audio(i)' :class='{audioPlay:i==active}'>
-            <span> {{item.time}}"&nbsp;</span>
-            <audio :src="item.audio">
-            </audio>
-            <div id="done"></div>
-            <div id="dtwo"></div>
-            <div id="dthree"></div>
-            <div id="dfour"></div>
-          </div>
-          <div class="tri">
+          <div>
+            <van-icon name="smile-o" size="30" @click="change_emoji" />
+            <van-button
+              type="default"
+              color="#ff9645"
+              size="small"
+              @click="sendmsg"
+              >发送</van-button
+            >
           </div>
         </div>
-        <!-- 头像 -->
-        <div class="imgSrc">
-          <img :src="item.imgsrc" alt="">
+        <!-- 下方表情包区域 -->
+        <div class="emoji" v-show="isemoji">
+          <div v-for="(item, i) in emoji" :key="i" @click="addemoji(item)">
+            {{ item }}
+          </div>
         </div>
-      </div>
-    </div>
-
-    <div class="mess_foot">
-      <div>
-        <van-icon name="volume-o" size='30' @touchstart='send_audio' />
-        <input type="text">
-      </div>
-      <div>
-        <van-icon name="smile-o" size='30' />
-        <van-button type="default" size='small'>发送</van-button>
       </div>
     </div>
   </div>
 </template>
 <script>
+let Audio = false;
+let recorder = new Recorder({
+  bitRate: 40,
+  sampleRate: 10100,
+  success: function (v) {
+    this.Audio = true;
+    console.log("可以录音");
+  },
+  error: function (v) {
+    this.Audio = false;
+    console.log("录音设备损坏");
+  },
+  fix: function (v) {
+    console.log("您的设备不支持录音");
+  },
+});
+
 export default {
   data() {
     return {
-      active: "###",
-      kw: "",
+      pageSize: 1,
+      isLoading: false,
+      title: "", //导航标题 如果是商品跳转过来的就展示商品名称
+      uid: "",
+      msg_info: {
+        uid: "", //先给个默认值  用户id name 到时候应该存在vuex中
+        uname: "", //当前名称
+        sid: "",
+      },
+      loop: "", // 发送语音的定时器
+      Edit: true, //是语音播放 还是文字输入
+      isemoji: false, // 是否开启表情包
+      active: "###", // 播放语音的class
+      kw: "", // 假定的假定页面传参 对话人的id
+      outheight: "", //视口高度
+      text_msg: "", //文本内容区
+      emoji: [
+        "😊",
+        "😂",
+        "🤣",
+        "😍",
+        "😒",
+        "😘",
+        "😁",
+        "😉",
+        "😎",
+        "🥰",
+        "🙄",
+        "🤑",
+        "😤",
+        "😴",
+        "🤐",
+        "😪",
+        "😭",
+        "👿",
+        "🤬",
+        "👻",
+        "🤬",
+        "🤡",
+        "👽",
+        "😻",
+        "🥶",
+        "😜",
+        "😢",
+        "🤔",
+        "🤢",
+        "👌",
+        "🙌",
+        "✌",
+        "👏",
+        "💋",
+        "👍",
+      ], // 表情包大全
+      long: false, //控制长按语音
       product: {
         img: "https://pic.tujia.com/upload/qualifiedpics/day_210313/thumb/202103130127386354_221_221.jpg",
         title:
           "古北水镇～观景  Loft复式大客厅（空调+地暖+免费接送+管家式服务）",
         title2: "整套 2居3床4人",
-      },
-      data: [
-        {
-          name: "ycl",
-          user: "用户",
-          local: "用户",
-          audio: "",
-          time: "0",
-          type: "text",
-          imgsrc: "https://staticfile.tujia.com/IM/Images/Avatar/user.png",
-        },
-        {
-          name: "ycl1",
-          user: "老板",
-          local: "商家",
-          time: "16",
-          type: "mp3",
-          imgsrc:
-            "https://pic.tujia.com/upload/landlordstorelogo/day_210426/thumb/202104261551514528_90_90.jpg",
-        },
-        {
-          name: "ycl1",
-          user: "老板",
-          local: "商家",
-          type: "text",
-          imgsrc:
-            "https://pic.tujia.com/upload/landlordstorelogo/day_210426/thumb/202104261551514528_90_90.jpg",
-        },
-        {
-          name: "ycl1",
-          user: "老板",
-          local: "商家",
-          time: "16",
-          audio: "",
-          type: "text",
-          imgsrc:
-            "https://pic.tujia.com/upload/landlordstorelogo/day_210426/thumb/202104261551514528_90_90.jpg",
-        },
-        {
-          name: "ycl1",
-          user: "用户",
-          local: "用户",
-          time: "20",
-          audio: "",
-          type: "mp3",
-          imgsrc: "https://staticfile.tujia.com/IM/Images/Avatar/user.png",
-        },
-      ],
+      }, //详情页跳转过来的商品
+      //用户和对方的消息记录
+      message: [],
     };
   },
+
   methods: {
+    change_height() {
+      this.Edit = true;
+      this.outheight = window.innerHeight - 200 + "px";
+    },
+    capture(xxx) {
+      //对async错误处理做出一个封装
+      return xxx()
+        .then((val) => [null, val.data])
+        .catch((err) => [err, null]);
+    },
+    // 下拉刷新事件
+    onRefresh() {
+      this.pageSize += 1;
+      setTimeout(async () => {
+        let obj = await this.$axios.get(
+          "http://localhost:9000/getHistoryPage",
+          {
+            params: {
+              uid: this.msg_info.uid,
+              sid: this.msg_info.sid,
+              m_id: this.$store.state.msg_info.m_id,
+              pageSize: this.pageSize,
+            },
+          }
+        );
+        if (obj.data.data.length == 0) {
+           this.$toast.fail("暂无更多数据");
+        } else {
+          obj.data.data.forEach((item) => {
+            this.message.unshift(item);
+          });
+          this.$toast("刷新成功");
+        }
+
+        this.isLoading = false;
+      }, 1000);
+    },
+    // 音频播放完毕触发的事件
+    isend() {
+      this.active = "####";
+    },
+    //文本域获得焦点 表情包退下
+    femoji() {
+      this.isemoji = false;
+    },
+    addemoji(item) {
+      //添加发送表情
+      this.text_msg += item;
+    },
+    // 发送文本或者表情消息消息
+    sendmsg() {
+      if (!this.text_msg) {
+        return;
+      }
+      //发送的消息  //数据先定死一部分
+      let sendObj = {
+        uid: this.msg_info.uid,
+        sid: this.msg_info.sid, //
+        audio: "", //语音消息,
+        message: this.text_msg, //文本消息
+        type: "text",
+        //自己的头像
+        head_img:
+          "http://localhost:9000/images/1623742900483微信图片_20210602104016.png",
+        uname: this.uname,
+        is_read: false, // text是否已读
+        send_date: this.$getDate(),
+        send_time: this.$getTime(),
+        audio_isRead: false, //语音是否已读
+        m_id: Date.now(),
+        be_uname: "无良商家", //接收者uname
+        be_head_img: "https://staticfile.tujia.com/IM/Images/Avatar/user.png", //接收者头像
+      };
+      this.$socket.emit("puoToMessage", sendObj);
+      this.text_msg = "";
+      this.message.push(sendObj);
+      this.$axios.post("/updateMsgRead", {
+        uid: this.msg_info.uid,
+        sid: this.msg_info.sid,
+      });
+      var div = document.getElementsByClassName("mess_age")[0]; //滚动条实时在底部
+      div.scrollTop = div.scrollHeight;
+      let textarea = document.querySelector("textarea");
+      textarea.style.height = "30px";
+    },
+    //更改是否语音输入
+    edit() {
+      this.Edit = !this.Edit;
+    },
+    // 按住事件 不超过一秒不执行
+    start(e) {
+      console.log(this.Audio);
+      if (this.Audio == false) {
+        this.$toast.fail("您的设别不支持录音功能");
+        return;
+      }
+      clearTimeout(this.loop); //再次清空定时器，防止重复注册定时器
+      this.loop = setTimeout(() => {
+        /* if (isAudio == false) {
+          this.$toast.fail("您的设备不支持录音");
+          return;
+        } */
+        recorder.start(); //开始录音
+        this.long = true; //800后将他赋值 开始录音 不到300hm 则清空定时器不开始录音
+      }, 400);
+      this.$toast.loading({
+        message: "按住说话,松开发送",
+        duration: 10000, //持续提示
+        icon: "volume-o",
+        forbidClick: false,
+      });
+    }, // 松开事件
+    end() {
+      if (this.long == false) {
+        //如果按住时长没超过一定时间则提示  并清除定时器任务 停止发送语音
+        this.$toast.fail("按住时间过短");
+        clearTimeout(this.loop);
+        return;
+      }
+      recorder.getBlob((data) => {
+        console.log(data); //拿到的音频对象
+        let sendObj = {
+          uid: this.msg_info.uid,
+          sid: this.msg_info.sid, //
+          audio: data, //语音消息,
+          message: "", //文本消息
+          type: "audio/mp3",
+          head_img:
+            "http://localhost:9000/images/1623742900483微信图片_20210602104016.png",
+          uname: this.uname, //发送人的id
+          is_read: false, // text是否已读
+          send_date: this.$getDate(), //发送日期
+          send_time: this.$getTime(), //发送准确时间
+          audio_isRead: false, //语音是否已读
+          m_id: Date.now(), //当前时间
+          be_uname: "无良商家", //接收者uname
+          be_head_img: "https://staticfile.tujia.com/IM/Images/Avatar/user.png", //接收者头像
+        };
+
+        recorder.stop(); //录音停止
+        this.$socket.compress(true).emit("puoToMessage", sendObj);
+        sendObj.audio = URL.createObjectURL(data);
+        this.message.push(sendObj);
+        clearTimeout(this.loop); //清空定时器，防止重复注册定时器
+        this.$toast.clear(); //清除轻提示
+        this.long = false; //清除状态
+      });
+    }, //返回按钮
     onClickLeft() {
       this.$router.go(-1);
     },
     // 开始播放录音的方法
-    start_audio(i) {
+    start_audio(event, i, uid, sid, m_id) {
+      console.log(uid, sid, m_id);
+      this.$axios.post("/updateVoiceRead", {
+        uid,
+        sid,
+        m_id,
+      });
+      this.message[i].audio_isRead = 1;
+      let obj = event.currentTarget.children; //触发事件的元素本身
       if (this.active == i) {
         this.active = "###";
       } else {
         this.active = i;
       }
+      for (let i = 0; i < obj.length; i++) {
+        if (obj[i].tagName == "AUDIO") {
+          obj[i].addEventListener(
+            //音频是否已结束 结束就将动画结束
+            "ended",
+            () => {
+              this.active = "###";
+            },
+            false
+          );
+          // audio播放音频
+          if (obj[i].paused) {
+            //如果是暂停状态 就播放
+            var other = document.getElementsByTagName("audio");
+            other.forEach((item) => {
+              if (item !== obj[i]) {
+                item.pause(); //点击播放当前音频  使其他音频暂停播放
+              }
+            });
+            obj[i].load(); //重新加载语音
+            obj[i].play(); //播放语音
+          } else {
+            obj[i].pause(); //如果在播放状态就暂停
+          }
+        }
+      }
     },
-    //发送语音
-    send_audio(e) {},
+    //是否显示下方表情包
+    change_emoji() {
+      this.isemoji = !this.isemoji;
+    },
   },
-  mounted() {
-    this.kw = 2;
+  async created() {
+    // console.log(this.$store.state.msg_info);
+    this.msg_info.uid = this.$store.state.msg_info.uid;
+    this.uid = this.$store.state.msg_info.uid;
+    this.msg_info.sid = this.$store.state.msg_info.sid;
+    this.msg_info.uname = this.$store.state.msg_info.uname;
+
+    let obj = await this.$axios.get("http://localhost:9000/getHistoryPage", {
+      params: this.$store.state.msg_info,
+    });
+
+    this.message = obj.data.data; //消息列表
+    this.title = "小霸王比比机"; //根据传过来身份展示标题
+  },
+  async mounted() {
+    // console.log(obj);
+    // console.log(this.message, this.msg_info, "--------------");
+
+    this.$socket.open(); //主动连接sockte
+    var div = document.getElementsByClassName("mess_age")[0]; //滚动条实时在底部
+
+    div.scrollTop = div.scrollHeight;
+    this.outheight = window.innerHeight + "px";
+    let textarea = document.querySelector("textarea"); //聊天的文本域 滚动条实时底部
+    textarea.oninput = () => {
+      textarea.style.height = "auto"; //文本域高度自适应  但不超过100px
+      textarea.style.height = textarea.scrollHeight + "px";
+    };
+    textarea.onfocus = () => {
+      //文本域获得焦点表情包就消失
+      this.isemoji = false;
+      console.log("失去焦点");
+    };
+  },
+  sockets: {
+    connect: function () {
+      //与socket.io连接后回调
+      console.log("连接成功");
+    },
+    //>>>>>>>>    待完善
+    oToMessage(data) {
+      //接收私发消息
+      console.log(data);
+      if (data.type == "audio/mp3") {
+        let blob = new Blob([data.audio], {
+          type: data.type,
+        });
+        data.audio = URL.createObjectURL(blob);
+        this.message.push(data);
+      } else {
+        this.message.push(data);
+      }
+    },
+  },
+  updated() {
+    //只要有新消息 滚动条一直在底部
   },
 };
 </script>
 <style lang="scss">
 .msg_center {
-  background: white;
+  background: #f7f9fb;
+  padding: 46px 0 56px 0;
+  box-sizing: border-box;
   .van-icon {
     color: #333;
   }
+  .empty {
+    height: 56px;
+    background: #fff;
+    width: 100%;
+  }
   .mess_age {
+    width: 100%;
+    height: calc(100vh - 48px);
+    padding-bottom: 54px;
+    box-sizing: border-box;
     background-color: #f7f9fb;
-    height: 90vh;
+    overflow-y: auto;
+    margin: 0;
     .dialog {
+      position: relative;
       text-align: right;
       height: 26px;
       display: flex;
@@ -160,6 +495,16 @@ export default {
       justify-content: flex-end;
       align-items: center;
       padding: 15px 0;
+      .dian::after {
+        content: " ";
+        border: 2px solid red; /*设置红色*/
+        background-color: red;
+        border-radius: 50%; /*设置圆角*/
+        position: absolute;
+        right: 55px;
+        margin-right: -5px;
+        margin-top: -5px;
+      }
       img {
         width: 35px;
         height: 35px;
@@ -167,29 +512,29 @@ export default {
         border-radius: 50%;
       }
       .msg {
+        width: 80%;
         position: relative;
-        left: 5px;
+        right: 5px;
         display: flex;
-
-        justify-content: space-between;
+        justify-content: flex-end;
         div {
+          max-width: 80%;
+          word-wrap: break-word;
           background-color: #fbcd64;
-          padding: 8px;
+          padding: 5px 8px;
           border-radius: 5px;
         }
-        .tri {
-          font-size: 0;
-          margin: 0;
-          padding: 0;
-          position: relative;
-          top: 10px;
-          left: -1px;
-          width: 0;
-          height: 0;
-          background-color: #f7f9fb;
-          border: 8px solid transparent;
-          border-left: 8px solid #fbcd64;
-        }
+      }
+      .msg::after {
+        content: " ";
+        position: absolute;
+        width: 10px;
+        height: 10px;
+        background: #fbcd64;
+        top: 10px;
+        right: -5px;
+        z-index: 0;
+        transform: rotate(45deg);
       }
     }
     //消息框左边的样式
@@ -199,35 +544,44 @@ export default {
       justify-content: flex-end; //从末尾排序
       flex-direction: row-reverse; //然后翻转
       align-items: center;
-      align-items: center;
       margin-left: 8px;
+      .dian::after {
+        content: " ";
+        border: 2px solid red; /*设置红色*/
+        background-color: red;
+        border-radius: 50%; /*设置圆角*/
+        position: absolute;
+        right: -5px;
+        margin-right: -5px;
+        margin-top: -5px;
+      }
       img {
         width: 35px;
         height: 35px;
-        margin: 0 5px;
+        margin: 0 6px;
       }
       .msg {
         position: relative;
-        right: 5px;
+        left: 5px;
         display: flex;
         flex-direction: row-reverse;
         div {
           background-color: #fff;
           padding: 8px;
           border-radius: 5px;
+          word-wrap: break-word;
         }
-        .tri {
-          font-size: 0;
-          margin: 0;
-          padding: 0;
-          position: relative;
-          top: 10px;
-          width: 0;
-          height: 0;
-          background-color: #f7f9fb;
-          border: 8px solid transparent;
-          border-right: 8px solid #fff;
-        }
+      }
+      .msg::before {
+        content: " ";
+        position: absolute;
+        width: 10px;
+        height: 10px;
+        background: #fff;
+        top: 10px;
+        left: -5px;
+        z-index: 0;
+        transform: rotate(45deg);
       }
     }
   }
@@ -352,37 +706,64 @@ export default {
     width: 100vw;
     background-color: #fff;
     position: fixed;
+    z-index: 111;
+    opacity: 1;
     bottom: 0;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    padding: 8px 20px;
-    & > div:first-child {
-      display: flex;
-      align-items: center;
-      width: 70%;
-    }
-    & > div:last-child {
-      display: flex;
-      align-items: center;
-      justify-content: flex-start;
-      width: 30%;
-    }
-    input {
-      width: calc(100% - 30px); //意思是父级元素减去30px的宽度
-      margin: auto 10px;
-      height: 35px;
-      z-index: 100;
-      line-height: 35px;
-      padding-left: 5px;
+    textarea {
+      width: calc(100% - 20px); //意思是父级元素减去30px的宽度
+      margin: 0 0 0 10px;
+      max-height: 100px;
+      min-height: 30px;
       border: 0.5px solid #dadada;
       -webkit-border-radius: 2px;
       border-radius: 2px;
       background: #f7f9fb;
       -webkit-appearance: none;
     }
-    button {
-      margin-left: 1vw;
+    & > div:first-child {
+      display: flex;
+      /*   height: 40px; */
+      align-items: center;
+      justify-content: space-between;
+      padding: 8px 20px;
+      & > div:first-child {
+        display: flex;
+        align-items: center;
+        width: 77%;
+      }
+      & > div:last-child {
+        display: flex;
+        align-items: center;
+        justify-content: flex-end;
+        width: 23%;
+      }
+      input {
+        width: calc(100% - 20px); //意思是父级元素减去30px的宽度
+        margin: 0 0 0 10px;
+        line-height: 35px;
+        padding-left: 5px;
+        border: 0.5px solid #dadada;
+        -webkit-border-radius: 2px;
+        border-radius: 2px;
+        background: #f7f9fb;
+        -webkit-appearance: none;
+        text-align: center;
+      }
+
+      button {
+        margin-left: 1vw;
+      }
+    }
+    .emoji {
+      display: flex;
+      height: 150px;
+      overflow: hidden;
+      overflow-y: auto;
+      flex-wrap: wrap;
+      padding-bottom: 50px;
+      & div {
+        margin: 15px;
+      }
     }
   }
 }

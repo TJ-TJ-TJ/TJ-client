@@ -1,6 +1,7 @@
 <template>
   <div class="order_edit">
-    <van-nav-bar title="订单填写" left-text="." left-arrow @click-left="onClickLeft" @click-right="onClickRight" class="header" />
+    <van-nav-bar title="订单填写" left-text="." left-arrow  @click-left="onClickLeft" class="header" />
+    <!-- 头部用户信息 -->
     <div class="order_info">
       <div class="head">
         <img style="width:60px;height:60px;border-radius:6px;" src="https://pic.tujia.com/upload/qualifiedpics/day_201130/thumb/202011301839083086_700_467.jpg" alt="">
@@ -39,8 +40,9 @@
     <!-- 波浪线部分 -->
     <div class="bottom"></div>
 
+    <!-- 选择用户信息 -->
     <div class="check_info">
-
+      <!-- 卡片 -->
       <div class="card">
         <header class="head">入住信息</header>
         <div class="body">
@@ -48,21 +50,23 @@
             <div>
               入住人<img style="width:16px;height:16px" src="https://pic.tujia.com/upload/festatic/publicImages/tips_warn.png" alt="">
             </div>
-            <div class="right">
+            <div class="right" @click="gocheck">
               添加/编辑
             </div>
           </div>
           <div class="bot">
             <!-- 待改善  可遍历形式的按钮就行了 且可更改样式 -->
-            <button v-if="person_show">余成林 <van-badge color="#ff9645">
-                <div class="child" />
-                <template #content>
-                  <van-icon name="success" />
-                </template>
-              </van-badge></button>
-            <button v-else class="fei_show">
-              余成林
-            </button>
+            <span v-for="(item,i) in user_info" :key="i">
+              <button v-if="item.person_show" @click="changeedit(i)">{{item.uname}} <van-badge color="#ff9645">
+                  <div class="child" />
+                  <template #content>
+                    <van-icon name="success" />
+                  </template>
+                </van-badge></button>
+              <button v-else class="fei_show" @click="changeedit(i)">
+                {{item.uname}}
+              </button>
+            </span>
           </div>
         </div>
         <footer class="foot">
@@ -95,6 +99,21 @@
 
     </div>
 
+    <!-- 底部固定 -->
+    <div class="bot_fixed">
+      <div>
+        <div>
+          {{'￥'+1172.00.toFixed(2)}}
+          <div>含押金:200</div>
+        </div><span>明细</span>
+      </div>
+      <div>
+        <p>
+
+        </p>
+        <van-button type="primary" color="#ff9645" size="normal" @click="go_pay">提交订单</van-button>
+      </div>
+    </div>
   </div>
 
 </template>
@@ -102,22 +121,43 @@
 export default {
   data() {
     return {
-      /* 入住人是否选中person_show */
-      person_show: true,
-      user_info: [
-        { uanme: "余成林", uphone: 17630902513 },
-        { uanme: "高武杰", uphone: 110110110 },
-      ],
+      user_info: [],
     };
   },
   methods: {
-    onClickLeft() {},
-    onClickRight() {},
+    onClickLeft() {
+      this.$dialog
+        .confirm({
+          title: "提示",
+          message: "当前订单未完成 确认要离开吗",
+        })
+        .then(() => {
+          this.$router.go(-1);
+        })
+        .catch(() => {
+          return;
+        });
+    },
+    changeedit(i) {
+      this.user_info[i].person_show = !this.user_info[i].person_show;
+    },
+    gocheck() {
+      this.$router.push("/check_person");
+    },
+    go_pay(){
+      this.$router.push('/order_pay')
+    }
+  },
+  mounted() {
+    let obj = JSON.parse(sessionStorage.getItem("check_person"));
+    console.log(obj);
+    this.user_info = obj;
   },
 };
 </script>
 <style lang="scss">
 .order_edit {
+  word-wrap: break-word;
   .header {
     .van-icon {
       color: #ff9654 !important;
@@ -253,7 +293,7 @@ export default {
           }
         }
         .bot {
-          padding: 15px 0;
+          padding: 15px 5px;
           border-bottom: 1px solid rgb(240, 240, 240);
           .van-badge--fixed {
             position: absolute;
@@ -265,6 +305,7 @@ export default {
             height: 28px;
             border-radius: 6px !important;
             font-size: 14px;
+            margin: 0 5px;
             font-weight: 100;
             border: 1px solid #ff9645;
             color: #ff9645;
@@ -351,6 +392,61 @@ export default {
         font-size: 11px;
         line-height: 16px;
         color: #666;
+      }
+    }
+  }
+  .bot_fixed {
+    background-color: #fff;
+    position: fixed;
+    width: 100%;
+    bottom: 0;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    height: 60px;
+    padding: 0 15px;
+    color: #ff9645;
+    & > div:first-child {
+      width: 70%;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 0 10px;
+      box-sizing: border-box;
+      div {
+        font-size: 18px;
+        div {
+          display: block;
+          font-size: 11px;
+          color: #999;
+          margin-top: 3px;
+        }
+      }
+      span {
+        position: relative;
+        width: 28px;
+        text-align: right;
+        font-size: 11px;
+        color: #ff9645;
+      }
+    }
+    & > div:last-child {
+      display: flex;
+      justify-content: flex-start;
+      align-items: center;
+      width: 30%;
+      padding-right: 10px;
+      p {
+        display: inline-block;
+        background-image: url(https://fe.tujiacdn.com/mob/static/img/page-unitOrder.7d75bdbc.png);
+        background-position: -91px -52px;
+        width: 6px;
+        height: 6px;
+        background-size: 115.5px 107px;
+        margin-right: 5px;
+      }
+      button {
+        border-radius: 5px !important;
       }
     }
   }
