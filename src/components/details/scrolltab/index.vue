@@ -6,7 +6,7 @@
       color="#ff9645"
       title-active-color="#ff9645"
       v-model="activeName"
-      @click="show($event)"
+     
     >
       <van-tab :title="'概览'" name="a">
         <intro-duce></intro-duce>
@@ -14,7 +14,7 @@
       <van-tab :title="'房源'" name="b">
         <you-hui></you-hui>
         <da-te  @dateshow='cs($event)'></da-te>
-        <calen-dar :titls='ss' ref="qwe"></calen-dar>
+        <calen-dar :titls='ss' ref="calend"></calen-dar>
         <hous-scource></hous-scource>
       </van-tab>
       <van-tab :title="'设施'" name="c">
@@ -32,6 +32,7 @@
       <van-tab :title="'周边'" name="g">
         <!-- <map-around></map-around> -->
         <map-img></map-img>
+        <map-tabs></map-tabs>
       </van-tab>
     </van-tabs>
   </div>
@@ -47,6 +48,7 @@ import comMent from "@/components/details/comment";
 import notIce from "@/components/details/notice";
 // import map from "@/components/details/map";
 import mapImg from "@/components/details/mapimg";
+import mapTabs from "@/components/details/maptabs";
 import youHui from "@/components/details/youhui";
 
 import DaTe from "@/components/details/date";
@@ -69,6 +71,7 @@ export default {
     // FooTer,
     // "map-around": map,
     mapImg,
+    mapTabs,
     youHui,
     DaTe,
     calenDar
@@ -79,7 +82,9 @@ export default {
   },
   methods: {
     cs(c) {
-      this.$refs.qwe.show=c
+
+      console.log(this.$refs)
+      this.$refs.calend.show=c
     },
     handleScroll() {
       let scrollTop =

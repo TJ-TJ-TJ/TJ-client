@@ -3,17 +3,27 @@
     <div class="map-title">位置周边</div>
     <div class="map-cont">
       <div class="map-local">
-        <img :src="`https://restapi.amap.com/v3/staticmap?markers=-1,${map.markersUrl},0:${map.location}&size=307*137&key=${map.key}`" alt="" />
+        <!-- https://restapi.amap.com/v3/staticmap?markers=-1,${map.markersUrl},0:${map.location}&size=307*137&key=${map.key} -->
+        <img
+          :src="`https://api.map.baidu.com/staticimage/v2?zoom=17&dpiType=ph&ak=${map.bkey}&height=246&width=686&center=${map.location}&markers=${map.location}&coordtype=bd09ll&markerStyles=-1,${map.markersUrl}`"
+          alt=""
+        />
         <div class="map-top-tit">
           <div class="address-desc">
-            <img src="https://pic.tujia.com/upload/festatic/mp/ndetail_black.png" alt="">
-            <div class="address-desc-text">
+            <img
+              src="https://pic.tujia.com/upload/festatic/mp/ndetail_black.png"
+              alt=""
+            />
+            <div class="address-desc-text" id="copy">
               北京延庆区孙森林农家饭庄(南20米即“青山木屋”)
             </div>
           </div>
           <div class="address-copy">
-            <img src="https://pic.tujia.com/upload/festatic/mp/nedit_division.png" alt="">
-            <div>复制</div>
+            <img
+              src="https://pic.tujia.com/upload/festatic/mp/nedit_division.png"
+              alt=""
+            />
+            <div @click="copytext">复制</div>
           </div>
           <div class="bottom-arrow"></div>
         </div>
@@ -36,14 +46,31 @@ export default {
       //markers=-1,http://pic.tujia.com/upload/festatic/crn/position2.png,0:116.294331,39.909518
       //&key=8105cb97f8e7c42bf9f281893eae3f4f
       map: {
+        bkey: "G2KVCcxS91G0ZZ5XiUZxgP3pXaQy2g8v",
         key: "8105cb97f8e7c42bf9f281893eae3f4f",
-        location: "116.294331,39.909518", //：经度和纬度用","分隔 经纬度小数点后不得超过6位
+        location: "116.300901,39.916085", //：经度和纬度用","分隔 经纬度小数点后不得超过6位
         // zoom: "17", // 地图级别 地图缩放级别:[1,17]
         // markers: '-1',
         markersUrl: "http://pic.tujia.com/upload/festatic/crn/position2.png", // 标注图片
         // size: "400*400", //图片大小
       },
     };
+  },
+  methods: {
+    copytext() {
+      // var val = document.getElementById('copy');//此处为需要复制文本的包裹元素
+      // window.getSelection().selectAllChildren(val);
+      // document.execCommand ("Copy");
+      // this.$toast('复制成功');
+      let text = document.getElementById("copy").innerText;
+      let inputElement = document.createElement("input");
+      inputElement.value = text;
+      document.body.appendChild(inputElement);
+      inputElement.select(); //选中文本
+      document.execCommand("copy"); //执行浏览器复制命令
+      inputElement.remove();
+      this.$toast("复制成功");
+    },
   },
 };
 </script>
@@ -71,8 +98,7 @@ export default {
         // vertical-align: middle;
         // background-size: cover;
         border: 0;
-    // vertical-align: middle;
-        
+        // vertical-align: middle;
       }
       .map-top-tit {
         position: absolute;
@@ -104,7 +130,6 @@ export default {
             text-overflow: ellipsis;
             white-space: nowrap;
             overflow: hidden;
-
           }
         }
 
@@ -125,13 +150,12 @@ export default {
           height: 0;
           border-width: 5px;
           border-style: solid;
-          border-color: #fff rgba(0,0,0,0) rgba(0,0,0,0) rgba(0,0,0,0) ;
+          border-color: #fff rgba(0, 0, 0, 0) rgba(0, 0, 0, 0) rgba(0, 0, 0, 0);
           position: absolute;
           bottom: -14px;
           left: 50%;
-          transform: translate(-50%,-50%);
+          transform: translate(-50%, -50%);
         }
-
       }
     }
   }
