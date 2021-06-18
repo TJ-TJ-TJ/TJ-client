@@ -1,21 +1,25 @@
 import Vue from 'vue'
 
-Vue.use(VueRouter)
-
 const routes = [
+//获取信息页
   {
-    
+    path:'/user',
+    name:'user',
+    component: () => import(/* webpackChunkName: "user" */ '../components/user/user.vue')
   },
+//编辑个人信息页
   {
-    
+    path:'/editSelfData',
+    name:'editSelfData',
+    component: () => import(/* webpackChunkName: "user" */ '../components/user/editSelfData.vue')
+  },
+  //设置页面
+  {
+    path:'/setting',
+    name:'setting',
+    component: () => import(/* webpackChunkName: "user" */ '../components/user/setting.vue')
   }
 ]
-// path: '/about',
-// name: 'About',
-// route level code-splitting
-// this generates a separate chunk (about.[hash].js) for this route
-// which is lazy-loaded when the route is visited.
-// component: () => import(/* webpackChunkName: "about" */ '../views/About.vue')
 
 
 const router = new VueRouter({
