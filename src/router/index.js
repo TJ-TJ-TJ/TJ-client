@@ -9,6 +9,9 @@ import VueRouter from 'vue-router'
 Vue.use(VueRouter)
 
 const routes = [
+  // 收藏路由重定向
+  {path:'/index', redirect: '/collects'},
+
   {path:'/',name:'index',
   component: () => import(/* webpackChunkName: "about" */ '../components/Index/index.vue')},
   {path:'/search',name:'search',
@@ -23,6 +26,13 @@ const routes = [
   component: () => import(/* webpackChunkName: "about" */ '../components/Index/report.vue')},
   {path:'/user',name:'user',
   component: () => import(/* webpackChunkName: "about" */ '../components/Index/user.vue')},
+  {path:'/index',name:'index',
+  component: () => import(/* webpackChunkName: "about" */ '../components/Collect/index.vue'), children: [
+    {path:'/collects',name:'collects',
+    component: () => import(/* webpackChunkName: "about" */ '../components/Collect/modules/collects.vue')},
+    {path:'/history',name:'history',
+    component: () => import(/* webpackChunkName: "about" */ '../components/Collect/modules/history.vue')}
+  ]},
   // {path:'/form',name:'form',
   // component: () => import(/* webpackChunkName: "about" */ '../components/Index/form.vue')}
 ]

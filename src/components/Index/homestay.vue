@@ -24,7 +24,7 @@
       </template>
     </van-search>
     <!-- 条件查询栏 -->
-    <div class="dropdown" ref="dropDownRef">
+    <div class="dropdown" id="dropDownRef" ref="dropDownRef">
       <van-dropdown-menu>
         <van-dropdown-item title="价格/钻级">
           <!-- 价格筛选 -->
@@ -308,12 +308,14 @@ export default {
             if(scroll<0){
                 // console.log()
                 // this.$refs.dropDownRef.style.display = 'block'
-                this.$refs.dropDownRef.style.transform = 'translateY(0)'
+                document.getElementById('dropDownRef').style.transform = 'translateY(0)'
+                // this.$refs.dropDownRef.style.transform = 'translateY(0)'
                 
             }else if(scroll>0 && scrollTop>80){
                 // console.log(this.$refs.dropDownRef)
                 //  this.$refs.dropDownRef.style.display = 'none'
-                 this.$refs.dropDownRef.style.transform = 'translateY(-100px)'
+                document.getElementById('dropDownRef').style.transform = 'translateY(-100px)'
+                //  this.$refs.dropDownRef.style.transform = 'translateY(-100px)'
                 //  this.$refs.dropDownRef.style.top = '-7vh'
                 //  this.$refs.dropDownRef.transition = '2s'
                 // console.log(this.$refs.dropDownRef.style)
