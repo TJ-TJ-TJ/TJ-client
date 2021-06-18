@@ -84,6 +84,7 @@
               v-model="text_msg"
               @input="change_height"
               @focus="femoji"
+              class="textarea-msg"
             ></textarea>
             <input
               v-else
@@ -119,7 +120,7 @@
 <script>
 let Audio = false;
 let recorder = new Recorder({
-  bitRate: 40,
+  bitRate: 40, //参数采样率
   sampleRate: 10100,
   success: function (v) {
     this.Audio = true;
@@ -141,6 +142,8 @@ export default {
       isLoading: false,
       title: "", //导航标题 如果是商品跳转过来的就展示商品名称
       uid: "",
+      sid: "",
+      be: {},
       msg_info: {
         uid: "", //先给个默认值  用户id name 到时候应该存在vuex中
         uname: "", //当前名称
@@ -182,13 +185,18 @@ export default {
         "😜",
         "😢",
         "🤔",
-        "🤢",
         "👌",
         "🙌",
         "✌",
         "👏",
         "💋",
         "👍",
+        "🐂",
+        "🐎",
+        "🐖",
+        "🐕",
+        "🐏",
+        "🐱",
       ], // 表情包大全
       long: false, //控制长按语音
       product: {
@@ -215,28 +223,29 @@ export default {
     },
     // 下拉刷新事件
     onRefresh() {
-      this.pageSize += 1;
       setTimeout(async () => {
+        console.log(this.message[0]);
+        this.pageSize += 1;
         let obj = await this.$axios.get(
           "http://localhost:9000/getHistoryPage",
           {
             params: {
-              uid: this.msg_info.uid,
-              sid: this.msg_info.sid,
-              m_id: this.$store.state.msg_info.m_id,
+              uid: this.uid,
+              sid: this.be.uid,
+              m_id: this.message[0].m_id,
               pageSize: this.pageSize,
             },
           }
         );
+        console.log(obj);
         if (obj.data.data.length == 0) {
-           this.$toast.fail("暂无更多数据");
+          this.$toast.fail("暂无更多数据");
         } else {
           obj.data.data.forEach((item) => {
             this.message.unshift(item);
           });
           this.$toast("刷新成功");
         }
-
         this.isLoading = false;
       }, 1000);
     },
@@ -259,8 +268,8 @@ export default {
       }
       //发送的消息  //数据先定死一部分
       let sendObj = {
-        uid: this.msg_info.uid,
-        sid: this.msg_info.sid, //
+        uid: this.uid, //用户id
+        sid: this.be.uid, //对方id‘
         audio: "", //语音消息,
         message: this.text_msg, //文本消息
         type: "text",
@@ -269,10 +278,10 @@ export default {
           "http://localhost:9000/images/1623742900483微信图片_20210602104016.png",
         uname: this.uname,
         is_read: false, // text是否已读
-        send_date: this.$getDate(),
-        send_time: this.$getTime(),
-        audio_isRead: false, //语音是否已读
-        m_id: Date.now(),
+        send_date: this.$getDate(), //当前日期
+        send_time: this.$getTime(), //当前时间
+        audio_isRead: true, //语音是否已读
+        m_id: Date.now(), //当前毫秒值
         be_uname: "无良商家", //接收者uname
         be_head_img: "https://staticfile.tujia.com/IM/Images/Avatar/user.png", //接收者头像
       };
@@ -283,14 +292,14 @@ export default {
         uid: this.msg_info.uid,
         sid: this.msg_info.sid,
       });
-      var div = document.getElementsByClassName("mess_age")[0]; //滚动条实时在底部
-      div.scrollTop = div.scrollHeight;
+      window.scrollTo(0, document.body.scrollHeight);
       let textarea = document.querySelector("textarea");
       textarea.style.height = "30px";
     },
     //更改是否语音输入
     edit() {
       this.Edit = !this.Edit;
+      this.isemoji = false;
     },
     // 按住事件 不超过一秒不执行
     start(e) {
@@ -325,8 +334,8 @@ export default {
       recorder.getBlob((data) => {
         console.log(data); //拿到的音频对象
         let sendObj = {
-          uid: this.msg_info.uid,
-          sid: this.msg_info.sid, //
+          uid: this.uid, //用户id
+          sid: this.be.uid, //对方id‘
           audio: data, //语音消息,
           message: "", //文本消息
           type: "audio/mp3",
@@ -343,9 +352,10 @@ export default {
         };
 
         recorder.stop(); //录音停止
-        this.$socket.compress(true).emit("puoToMessage", sendObj);
+        this.$socket.compress(true).emit("puoToMessage", sendObj); //将数据压缩发到后台
         sendObj.audio = URL.createObjectURL(data);
         this.message.push(sendObj);
+        window.scrollTo(0, document.body.scrollHeight);
         clearTimeout(this.loop); //清空定时器，防止重复注册定时器
         this.$toast.clear(); //清除轻提示
         this.long = false; //清除状态
@@ -402,29 +412,28 @@ export default {
     },
   },
   async created() {
-    // console.log(this.$store.state.msg_info);
-    this.msg_info.uid = this.$store.state.msg_info.uid;
-    this.uid = this.$store.state.msg_info.uid;
-    this.msg_info.sid = this.$store.state.msg_info.sid;
-    this.msg_info.uname = this.$store.state.msg_info.uname;
-
-    let obj = await this.$axios.get("http://localhost:9000/getHistoryPage", {
-      params: this.$store.state.msg_info,
+    // console.log(this.$store.state.msg_info);  消息传参
+    let store = this.$store.state.msg_info.newarr;
+    console.log(store);
+    store.msgArr.forEach((item) => {
+      item.audio = "http://localhost:9000" + item.audio;
     });
-
-    this.message = obj.data.data; //消息列表
-    this.title = "小霸王比比机"; //根据传过来身份展示标题
+    this.message = store.msgArr; //消息列表
+    this.be = store.be;
+    this.uid = store.uid;
+    this.sid = store.sid;
+    console.log(this.uid);
+    console.log(this.message);
+    this.title = "海淀小霸王"; //根据传过来身份展示标题
   },
   async mounted() {
     // console.log(obj);
     // console.log(this.message, this.msg_info, "--------------");
 
     this.$socket.open(); //主动连接sockte
-    var div = document.getElementsByClassName("mess_age")[0]; //滚动条实时在底部
-
-    div.scrollTop = div.scrollHeight;
+    window.scrollTo(0, document.body.scrollHeight);
     this.outheight = window.innerHeight + "px";
-    let textarea = document.querySelector("textarea"); //聊天的文本域 滚动条实时底部
+    let textarea = document.querySelector(".textarea-msg"); //聊天的文本域 滚动条实时底部
     textarea.oninput = () => {
       textarea.style.height = "auto"; //文本域高度自适应  但不超过100px
       textarea.style.height = textarea.scrollHeight + "px";
@@ -444,15 +453,16 @@ export default {
     oToMessage(data) {
       //接收私发消息
       console.log(data);
-      if (data.type == "audio/mp3") {
-        let blob = new Blob([data.audio], {
-          type: data.type,
-        });
-        data.audio = URL.createObjectURL(blob);
-        this.message.push(data);
-      } else {
-        this.message.push(data);
-      }
+      this.message.push(data);
+      // if (data.type == "audio/mp3") {
+      //   let blob = new Blob([data.audio], {
+      //     type: data.type,
+      //   });
+      //   data.audio = URL.createObjectURL(blob);
+      //   this.message.push(data);
+      // } else {
+      //   this.message.push(data);
+      // }
     },
   },
   updated() {
@@ -475,11 +485,11 @@ export default {
   }
   .mess_age {
     width: 100%;
-    height: calc(100vh - 48px);
-    padding-bottom: 54px;
+    // height: calc(100vh - 48px);
+    padding-bottom: 60px;
     box-sizing: border-box;
     background-color: #f7f9fb;
-    overflow-y: auto;
+    // overflow-y: auto;
     margin: 0;
     .dialog {
       position: relative;
@@ -493,7 +503,7 @@ export default {
       display: flex;
       margin-left: 35px;
       justify-content: flex-end;
-      align-items: center;
+      // align-items: center;
       padding: 15px 0;
       .dian::after {
         content: " ";
@@ -514,15 +524,20 @@ export default {
       .msg {
         width: 80%;
         position: relative;
+        min-height: 28px;
         right: 5px;
         display: flex;
         justify-content: flex-end;
+        word-wrap: break-word;
         div {
-          max-width: 80%;
-          word-wrap: break-word;
+          max-width: 100%;
           background-color: #fbcd64;
           padding: 5px 8px;
           border-radius: 5px;
+          display: flex;
+          align-items: center;
+          word-wrap: break-word;
+          word-break: break-all;
         }
       }
       .msg::after {
@@ -543,7 +558,7 @@ export default {
       padding: 15px 0;
       justify-content: flex-end; //从末尾排序
       flex-direction: row-reverse; //然后翻转
-      align-items: center;
+      // align-items: center;
       margin-left: 8px;
       .dian::after {
         content: " ";
@@ -561,15 +576,24 @@ export default {
         margin: 0 6px;
       }
       .msg {
+        width: 80%;
+        min-height: 28px;
         position: relative;
         left: 5px;
         display: flex;
-        flex-direction: row-reverse;
+        justify-content: flex-start;
+        // flex-direction: row-reverse;
+        word-wrap: break-word;
+        text-overflow: ellipsis;
         div {
+          max-width: 100%;
           background-color: #fff;
           padding: 8px;
           border-radius: 5px;
           word-wrap: break-word;
+          word-break: break-all;
+          display: flex;
+          align-items: center;
         }
       }
       .msg::before {
@@ -719,6 +743,7 @@ export default {
       border-radius: 2px;
       background: #f7f9fb;
       -webkit-appearance: none;
+      resize: none;
     }
     & > div:first-child {
       display: flex;
@@ -759,10 +784,13 @@ export default {
       height: 150px;
       overflow: hidden;
       overflow-y: auto;
+      justify-content: center;
       flex-wrap: wrap;
       padding-bottom: 50px;
       & div {
-        margin: 15px;
+        padding: 10px;
+        box-sizing: border-box;
+        width: 10%;
       }
     }
   }

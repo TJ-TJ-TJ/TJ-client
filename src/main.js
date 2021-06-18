@@ -7,6 +7,8 @@ import 'vant/lib/index.css';
 import VueSocketIO from 'vue-socket.io'
 import ClientSocketIO from 'socket.io-client'
 import axios from 'axios'
+import TableBar from './components/tableBar.vue'  //全局的底部tablebar组件
+Vue.component('table-bar', TableBar) // 直接使用即可 <table-bar></table-bar> 
 Vue.use(Vant);
 Vue.prototype.$axios=axios
 Vue.use(new VueSocketIO({
@@ -16,7 +18,7 @@ Vue.use(new VueSocketIO({
     transports: ['websocket'],
     auth: {
       imgPath: 1,
-      uid: 1,
+      uid: 1, //到时候根据登录的账户不同 传递不同的id 用于确认私聊者的身份
       uname:1
     }
   }), //连接服务端

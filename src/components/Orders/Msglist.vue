@@ -1,7 +1,7 @@
 <template>
   <div class="msg_list" :style="{ height: innerheight }">
     <!-- 头部导航 -->
-    <van-nav-bar title="消息中心" left-arrow fixed class="head">
+    <van-nav-bar title="消息中心" left-arrow  @click-left="onClickLeft" fixed class="head">
       <template #right>
         <div class="head_right" @click="gomsg()">
           <van-icon name="service-o" size="20" />
@@ -25,7 +25,7 @@
         class="msg_detail"
         v-for="(item, i) in arrlength"
         :key="i"
-        @click="go_detail(item)"
+        @click="go_detail(item,i)"
       >
         <img :src="item.head_img" alt="" />
         <div class="f1">
@@ -60,18 +60,19 @@ export default {
       // 展示的消息列表
       arrlength: [],
       msginfo: [], // 已读未读消息
+      newMsg:[],//携带过去的最新的15条消息
+      Arrmsg:[]
     };
   },
   methods: {
+    onClickLeft(){
+      this.$router.back(-1)
+    },
     ...mapMutations(["update_msginfo"]),
-    go_detail(item) {
-      console.log(item);
-      this.update_msginfo({
-        uid: item.uid,
-        sid: item.sid,
-        m_id: item.m_id,
-        pageSize: 1,
-        uname: item.uname,
+    go_detail(item,i) {
+      console.log(item,i);
+       this.update_msginfo({
+        newarr:this.Arrmsg[i]
       });
       //使所有文本消息都成为已读
       this.$axios.post("/updateMsgRead", {
@@ -91,14 +92,10 @@ export default {
     getHistory() {
       return this.$axios.get(`/getHistoryMsg?uid=${this.uid}`);
     },
-    gomsg() {
-      /// 这里是去往客服的聊天
+    gomsg(i) {
+      /// 假设 这里是去往客服的聊天
       this.update_msginfo({
-        uid: 1, ///待定
-        sid: 1,
-        m_id: 1,
-        pageSize: 1,
-        uname: 1,
+        newarr:this.Arrmsg[i]
       });
       this.$router.push("/msg");
     },
@@ -106,11 +103,14 @@ export default {
   async created() {
     // 组件创建完成   获取消息列表
     let arr = await this.capture(this.getHistory);
+    console.log(arr[1].data)
+    this.Arrmsg=arr[1].data
     arr[1].data.forEach((item) => {
       //最新的一条消息
       this.arrlength.push(item.msgArr[item.msgArr.length - 1]);
+      this.newMsg.push(item.msgArr)
     });
-    console.log(arr);
+    console.log(this.newMsg)
     let count = 0;
     arr[1].data.forEach((item) => {
       item.msgArr.forEach((i) => {
@@ -118,7 +118,7 @@ export default {
           count++;
         }
       });
-      this.msginfo.push(count);
+      this.msginfo.push(count); //未读消息的次数
       count = 0;
     });
 

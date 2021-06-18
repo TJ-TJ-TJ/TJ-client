@@ -216,7 +216,7 @@ export default {
         uavatar:
           "https://pic.tujia.com/upload/landlordstorelogo/day_191027/thumb/201910270252191736_150_150.jpg",
         order_place: "2021-06-14 18:49", //下单时间
-        landlord:'无良奸商'
+        landlord: "无良奸商",
       },
     };
   },
@@ -228,15 +228,19 @@ export default {
       this.show = !this.show;
       this.show_msg = i;
     },
-    gomsg(i){
-      this.$router.push({name:"msg",params:{uname:i}})
-    }
+    gomsg(i) {
+      this.$router.push({ name: "msg", params: { uname: i } });
+    },
+  },
+  created() {
+    console.log(this.$route.query.id); //商品id
   },
 };
 </script>
 <style lang="scss">
 .order_detail {
   background-color: #eff1f3;
+  padding-bottom: 50px;
   .info {
     height: 20px !important;
   }

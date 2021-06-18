@@ -1,41 +1,54 @@
 <template>
   <div class="myorder">
     <h4 class="order_title">订单列表</h4>
-    <van-tabs v-model="active" class="order_list" animated color='#ff9645'>
-      <van-tab v-for="(item,i) of order_type" :key='i' :title="item">
-        <div v-if="order.length>0">
-          <div v-for="(item,i) of order" :key="i" class="order_detail">
-
-            <div class="order_content">
+    <van-tabs v-model="active" class="order_list" animated color="#ff9645">
+      <van-tab v-for="(item, i) of order_type" :key="i" :title="item">
+        <div v-if="order.length > 0">
+          <div v-for="(item, i) of order" :key="i" class="order_detail">
+            <div class="order_content" @click="go_detail(item.order_id)">
               <div class="detail_head">
                 <p>
-                  {{item.order_title}}
+                  {{ item.order_title }}
                 </p>
                 <div>
                   <span>
-                    {{item.order_status}}
+                    {{ item.order_status }}
                   </span>
                 </div>
               </div>
 
-              <div class="detail_body" :style="{backgroundImage:`url(${item.order_src})`}">
-                <div style="display:flex">
+              <div
+                class="detail_body"
+                :style="{ backgroundImage: `url(${item.order_src})` }"
+              >
+                <div style="display: flex">
                   <div class="text">
                     <p>6月8日</p>
                     <p>周二 14:00</p>
                   </div>
                   <div>
-                    <svg t="1623141143116" class="icon" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="19236" width="20" height="20">
+                    <svg
+                      t="1623141143116"
+                      class="icon"
+                      viewBox="0 0 1024 1024"
+                      version="1.1"
+                      xmlns="http://www.w3.org/2000/svg"
+                      p-id="19236"
+                      width="20"
+                      height="20"
+                    >
                       <path
                         d="M78.443 550.032l733.558 0-187.319 180.328c-4.795 4.796-4.79500001 12.57 0 17.367l37.627 37.627c4.796 4.795 12.57 4.79500001 17.367 0l235.807-227.011c0.272-0.229 0.541-0.465 0.797-0.721l1.259-1.259 36.367-35.009c2.567-2.568 3.746-5.99 3.564-9.352 0.188-3.369-0.991-6.8-3.562-9.372l-37.627-36.267c-0.243-0.241-0.496-0.463-0.752-0.68l-235.852-227.05c-4.796-4.797-12.57-4.797-17.367 0l-37.627 37.627c-4.795 4.795-4.795 12.569 0 17.367l185.562 178.637-731.8 0c-6.783 0-12.28 5.498-12.28 12.28000001l0 53.21299999c0 6.781 5.497 12.28 12.28 12.28z"
-                        p-id="19237" fill="#ff9645"></path>
+                        p-id="19237"
+                        fill="#ff9645"
+                      ></path>
                     </svg>
                   </div>
                   <div>
                     <p class="p1">6月9日</p>
                     <p class="p2">周三 14:00</p>
                   </div>
-                  <div style="width:1px;height:35px;background:#fff"></div>
+                  <div style="width: 1px; height: 35px; background: #fff"></div>
                   <div>
                     <p class="p1">支付总价</p>
                     <p class="p2">￥438.00</p>
@@ -50,7 +63,6 @@
                 </p>
               </div>
             </div>
-
           </div>
           <div class="order_end">
             <p>已显示最近三个月的订单</p>
@@ -58,21 +70,40 @@
           </div>
         </div>
         <div v-else>
-          <img class="order_status" src="https://fe.tujiacdn.com/mob/static/img/icon-norder.191ba321.png" alt="">
+          <img
+            class="order_status"
+            src="https://fe.tujiacdn.com/mob/static/img/icon-norder.191ba321.png"
+            alt=""
+          />
           <h3>近期暂无订单</h3>
         </div>
       </van-tab>
     </van-tabs>
+        <table-bar></table-bar>
   </div>
 </template>
 <script>
 export default {
   data() {
     return {
+      uid:"",
       active: 0,
       order_type: ["全部订单", "近期订单", "待支付", "待确认", "待入住"],
-      order: [
+      order:[]
+    };
+  },
+  methods: {
+    go_detail(id) {
+      this.$router.push({path:'/order_detail',query:{id}})
+    },
+  },
+  mounted() {
+    if(!this.uid){
+      return 
+    }else{ //后续是向后台获取数据
+      this.order=[
         {
+          order_id:"922319772613",
           order_title:
             "紫御长安/直达天安门/故宫/五棵松地铁/301医院/玉泉医院/航天医院/华熙LIVE精装，可住多人",
           order_status: "待支付",
@@ -82,12 +113,9 @@ export default {
           order_dateEnd: "6月9日 周三 12:00",
           order_price: "438",
         },
-      ],
-    };
+      ]
+    }
   },
-  mounted(){
-      
-  }
 };
 </script>
 <style lang="scss">
@@ -197,8 +225,8 @@ export default {
         border: 1px solid #ff9645;
         color: #ff9645;
       }
-      button:active{
-        background-color: #F3F3F3;
+      button:active {
+        background-color: #f3f3f3;
       }
     }
   }

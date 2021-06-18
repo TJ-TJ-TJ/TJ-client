@@ -47,9 +47,9 @@ const routes = [
     component: () => import(/* webpackChunkName: "msg_list"*/ '../components/Orders/Msglist.vue')
   },
   {
-    path: '/map', //消息列表
-    name: 'map',
-    component: () => import(/* webpackChunkName: "msg_list"*/ '../components/Index/index(1).vue')
+    path: '/table', //消息列表
+    name: 'table',
+    component: () => import(/* webpackChunkName: "msg_list"*/ '../components/tableBar.vue')
   }
 ]
 

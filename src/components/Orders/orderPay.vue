@@ -34,7 +34,7 @@
                         <div>
                             <img width="28px" src="https://pic.tujia.com/upload/mobileconfig/day_190404/201904041811421748.png" alt="">
                             <div class="OP-payWay-items-left">
-                                <p>支付宝支付</p>
+                                <p>微信支付</p>
                                 <p style="font-size:12px">安全支付，推荐使用</p>
                             </div>
                             <div class="OP-payWay-items-right">
@@ -45,8 +45,8 @@
                         <div>
                             <img width="28px" src="https://pic.tujia.com/upload/mobileconfig/day_190404/201904041813299294.png" alt="">
                             <div class="OP-payWay-items-left">
-                                <p>支付宝支付</p>
-                                <p style="font-size:12px">安全支付，推荐使用</p>
+                                <p>京东白条</p>
+                                <p style="font-size:12px">京东安全支付</p>
                             </div>
                             <div class="OP-payWay-items-right">
                                     <van-radio name="3" checked-color="#ff9645"></van-radio>
@@ -56,8 +56,8 @@
                         <div>
                             <img width="28px" src="https://pic.tujia.com/upload/mobileconfig/day_201016/202010161807031102.png" alt="">
                             <div class="OP-payWay-items-left">
-                                <p>支付宝支付</p>
-                                <p style="font-size:12px">安全支付，推荐使用</p>
+                                <p>云闪付支付</p>
+                                <p style="font-size:12px">云闪付支付</p>
                             </div>
                             <div class="OP-payWay-items-right">
                                     <van-radio name="4" checked-color="#ff9645"></van-radio>
@@ -69,6 +69,7 @@
             </van-radio-group>
 
         </div>
+        <van-button type="primary" color="#ff9645" class="submit" block>确认支付 ￥ 915.00</van-button>
   </div>
 </template>
 
@@ -91,6 +92,11 @@ export default {
 <style lang="scss">
 p{
     margin: 0;
+}
+.submit{
+    height: 60px;
+    position: fixed;
+    bottom: 0;
 }
 .OP-box{
     height: 100vh;
@@ -116,6 +122,8 @@ p{
 }
 .OP-countDownBox div{
     text-align: center;
+    white-space: nowrap;
+    text-overflow: ellipsis;
 }
 /* 倒计时>>>>>>>>>>>>>>>start  */
   .colon {
@@ -146,7 +154,7 @@ p{
         margin-top: 10px;
         padding: 0px 20px;
         background: white;
-        height: 35%;
+        min-height: 300px;
         box-shadow: 0 1px 3px 0 rgb(0 0 0 / 6%);
     }
     .OP-payWay-box div{
