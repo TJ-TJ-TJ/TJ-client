@@ -4,16 +4,17 @@
     <van-search
       v-model="searchValue"
       show-action
-      placeholder="请输入搜索关键词"
+      placeholder="搜索北京的景点、地标、房源"
+      @click="searchLink"
     >
       <template #action>
-        <div>搜索</div>
+        <div @click="cancalBtn">取消</div>
       </template>
       <template #left>
-        <div class="bourn">
+        <div class="bourn" @click="cityLink">
           <span>目的地</span>
           <br />
-          <span class="city">北京</span>
+          <span class="city">{{$store.state.city.slice(0,2)}}</span>
         </div>
         <div class="search-time" @click="searchTimes">
           <span>住{{$store.state.starDate}}</span>
@@ -142,14 +143,14 @@
       style="touch-action: pan-y!important"
     > -->
     <div class="header-continer">
-      <div class="header-stay">
+      <div class="header-stay" v-for="item in result" :key="item._id">
         <van-swipe :autoplay="0" @change="carRoll">
-          <van-swipe-item v-for="(image, index) in images" :key="index">
+          <van-swipe-item v-for="(image, index) in item.swiper" :key="index">
             <img v-lazy="image" />
           </van-swipe-item>
           <template #indicator>
             <div class="custom-indicator">
-              {{ current + 1 }}/{{ images.length }}
+              {{ current + 1 }}/{{ item.swiper.length }}
             </div>
           </template>
         </van-swipe>
@@ -157,9 +158,9 @@
           <strong class="comment-grade">4.5分</strong>
           <span>十大打阿斯顿打撒阿三大苏打算</span>
         </div>
-        <div class="header-moods">
-          <span>怀柔风景区人气榜 No.1</span>
-        </div>
+<!--        <div class="header-moods">-->
+<!--          <span>怀柔风景区人气榜 No.1</span>-->
+<!--        </div>-->
         <div class="header-user">
           <van-image
             round
@@ -176,145 +177,23 @@
         </div>
         <div class="foot-comment">
           <div class="foot-title">
-            <van-tag color="#3F4954">距离圈中心12.1公里</van-tag>
-            <span class="aaa">单间 · 9居1床2人</span>
+            <van-tag color="#3F4954">近圈中心1,2公里</van-tag>
+            <span class="aaa">{{ item.params.attr }} · {{item.params.house}}居{{item.params.bed}}床{{item.params.person_count}}人</span>
           </div>
           <div class="foot-msg">
             <span>
-              十悦亲子庄园-初尘房间｜免费早餐｜慕田峪｜大床房｜独立山景｜团建｜灯光庭院｜KYV｜露天烧烤｜123露天烧烤｜123露天烧烤｜123露天烧烤｜123露天烧烤｜123露天烧烤｜123露天烧烤｜123
+            {{ item.r_name }}
             </span>
           </div>
           <div class="foot-tag">
-            <van-tag type="primary">连住优惠减3</van-tag>
-            <van-tag type="primary">宽松取消</van-tag>
-            <van-tag type="primary">行李寄存</van-tag>
-            <van-tag type="primary">免费停车</van-tag>
-            <van-tag type="primary">前台接待</van-tag>
+            <van-tag type="primary" v-for="(i,index) in item.label.base" :key="index">{{i}}</van-tag>
           </div>
           <div class="foot-price">
             <div class="price-num">
-              <span class="price">￥891</span>
+              <span class="price">￥{{item.new_price}}</span>
               <span class="price-unit">/晚</span>
-              <span class="price-original">￥559</span>
-              <van-tag round color="#FD5858">7.0折，连住优惠</van-tag>
-            </div>
-          </div>
-        </div>
-      </div>
-      <div class="header-stay">
-        <van-swipe :autoplay="0" @change="carRoll">
-          <van-swipe-item v-for="(image, index) in images" :key="index">
-            <img v-lazy="image" />
-          </van-swipe-item>
-          <template #indicator>
-            <div class="custom-indicator">
-              {{ current + 1 }}/{{ images.length }}
-            </div>
-          </template>
-        </van-swipe>
-        <div class="header-comment">
-          <strong class="comment-grade">4.5分</strong>
-          <span>十大打阿斯顿打撒阿三大苏打算</span>
-        </div>
-        <div class="header-moods">
-          <span>怀柔风景区人气榜 No.1</span>
-        </div>
-        <div class="header-user">
-          <van-image
-            round
-            width="2rem"
-            height="2rem"
-            src="https://pic.tujia.com/upload/customeravatar/day_190818/thumb/201908182139522553_90_90.jpg"
-          />
-          <van-icon name="like" color="#FFFFFF" size="1.5rem">
-            <span>111</span>
-          </van-icon>
-          <van-icon name="chat" color="#FFFFFF" size="1.5rem">
-            <span>111</span>
-          </van-icon>
-        </div>
-        <div class="foot-comment">
-          <div class="foot-title">
-            <van-tag color="#3F4954">距离圈中心12.1公里</van-tag>
-            <span class="aaa">单间 · 9居1床2人</span>
-          </div>
-          <div class="foot-msg">
-            <span>
-              十悦亲子庄园-初尘房间｜免费早餐｜慕田峪｜大床房｜独立山景｜团建｜灯光庭院｜KYV｜露天烧烤｜123露天烧烤｜123露天烧烤｜123露天烧烤｜123露天烧烤｜123露天烧烤｜123露天烧烤｜123
-            </span>
-          </div>
-          <div class="foot-tag">
-            <van-tag type="primary">连住优惠减3</van-tag>
-            <van-tag type="primary">宽松取消</van-tag>
-            <van-tag type="primary">行李寄存</van-tag>
-            <van-tag type="primary">免费停车</van-tag>
-            <van-tag type="primary">前台接待</van-tag>
-          </div>
-          <div class="foot-price">
-            <div class="price-num">
-              <span class="price">￥891</span>
-              <span class="price-unit">/晚</span>
-              <span class="price-original">￥559</span>
-              <van-tag round color="#FD5858">7.0折，连住优惠</van-tag>
-            </div>
-          </div>
-        </div>
-      </div>
-      <div class="header-stay">
-        <van-swipe :autoplay="0" @change="carRoll">
-          <van-swipe-item v-for="(image, index) in images" :key="index">
-            <img v-lazy="image" />
-          </van-swipe-item>
-          <template #indicator>
-            <div class="custom-indicator">
-              {{ current + 1 }}/{{ images.length }}
-            </div>
-          </template>
-        </van-swipe>
-        <div class="header-comment">
-          <strong class="comment-grade">4.5分</strong>
-          <span>十大打阿斯顿打撒阿三大苏打算</span>
-        </div>
-        <div class="header-moods">
-          <span>怀柔风景区人气榜 No.1</span>
-        </div>
-        <div class="header-user">
-          <van-image
-            round
-            width="2rem"
-            height="2rem"
-            src="https://pic.tujia.com/upload/customeravatar/day_190818/thumb/201908182139522553_90_90.jpg"
-          />
-          <van-icon name="like" color="#FFFFFF" size="1.5rem">
-            <span>111</span>
-          </van-icon>
-          <van-icon name="chat" color="#FFFFFF" size="1.5rem">
-            <span>111</span>
-          </van-icon>
-        </div>
-        <div class="foot-comment">
-          <div class="foot-title">
-            <van-tag color="#3F4954">距离圈中心12.1公里</van-tag>
-            <span class="aaa">单间 · 9居1床2人</span>
-          </div>
-          <div class="foot-msg">
-            <span>
-              十悦亲子庄园-初尘房间｜免费早餐｜慕田峪｜大床房｜独立山景｜团建｜灯光庭院｜KYV｜露天烧烤｜123露天烧烤｜123露天烧烤｜123露天烧烤｜123露天烧烤｜123露天烧烤｜123露天烧烤｜123
-            </span>
-          </div>
-          <div class="foot-tag">
-            <van-tag type="primary">连住优惠减3</van-tag>
-            <van-tag type="primary">宽松取消</van-tag>
-            <van-tag type="primary">行李寄存</van-tag>
-            <van-tag type="primary">免费停车</van-tag>
-            <van-tag type="primary">前台接待</van-tag>
-          </div>
-          <div class="foot-price">
-            <div class="price-num">
-              <span class="price">￥891</span>
-              <span class="price-unit">/晚</span>
-              <span class="price-original">￥559</span>
-              <van-tag round color="#FD5858">7.0折，连住优惠</van-tag>
+              <span class="price-original" v-if="item.price!=item.new_price">￥{{item.price}}</span>
+              <van-tag round color="#FD5858" v-if="item.price!=item.new_price">{{parseInt(item.price/(item.price-item.new_price))}}.0折，连住优惠</van-tag>
             </div>
           </div>
         </div>
@@ -365,10 +244,6 @@ export default {
       ],
       // 轮播图片
       images: [
-        "https://pic.tujia.com/upload/landlordunit/day_201204/thumb/202012041616075755_700_467.jpg",
-        "https://pic.tujia.com/upload/landlordunit/day_201206/thumb/202012061156088910_700_467.jpg",
-        "https://pic.tujia.com/upload/landlordunit/day_201206/thumb/202012061156016274_700_467.jpg",
-        "https://pic.tujia.com/upload/landlordunit/day_201204/thumb/202012041616062264_700_467.jpg",
       ],
       // 轮播图指示器
       current: 0,
@@ -376,6 +251,7 @@ export default {
       // starDate:'',
       // 离店
       // endDate:''
+      result:{}
     };
   },
   components:{
@@ -385,17 +261,41 @@ export default {
     window.addEventListener('scroll', this.handleScroll, true);  
     // 监听（绑定）滚轮 滚动事件
   },
+  created() {
+    this.getStayList()
+  },
   updated(){
     this.starDate = this.$refs.calenderRef.checkDate
     console.log('刷新')
   },
   methods: {
+    // 返回
+    cancalBtn(){
+      this.$router.push('/')
+    },
+    // 获取数据请求
+    async getStayList(){
+      const {data:res} = await this.$axios.post('search/find',{
+        "wd":this.$store.state.city.slice(0,1),
+        "page": 1,
+        "count": 10,
+        "minPrice": this.$store.state.searchData.minPrice || 0,
+        "maxPrice": this.$store.state.searchData.maxPrice || 2000,
+        "star": [1,2,3,4],
+      })
+      this.result=res.result
+      console.log(this.result)
+    },
     // 选择时间
     searchTimes(){
       console.log(this.$store.state.starDate)
       this.$refs.calenderRef._data.show = true
       console.log(this.$refs.calenderRef)
 
+    },
+    // 搜索跳转
+    searchLink(){
+      this.$router.push('/search')
     },
     // 监听滚动
     handleScroll(){
@@ -420,6 +320,10 @@ export default {
 
             }
         },
+    //目的地跳转
+    cityLink(){
+      this.$router.push('/city')
+    },
     // 价格滑块控制
     sliderChange(value) {
       let arr = [...value];
@@ -494,7 +398,7 @@ export default {
 .homestay-Index .bourn .city {
   font-family: PingFangSC-Medium;
   font-weight: 500;
-  font-size: 14px;
+  font-size: 12px;
   padding-right: 2px;
   color: #333;
   margin-left: 1vw;
@@ -559,12 +463,13 @@ export default {
   height: 3vh;
   display: inline-flex;
   justify-content: center;
-  line-height: 3vh;
+  /*line-height: 3vh;*/
   font-family: PingFangSC-Regular;
-  font-size: 12px;
+  font-size: 10px;
   color: #333;
   margin-top: 2vh;
   font-weight: 500;
+  padding: 1px;
 }
 .homestay-Index .price-section {
   width: 84vw;
@@ -575,7 +480,7 @@ export default {
 .homestay-Index .price-section span {
   font-family: PingFangSC-Medium;
   font-weight: 500;
-  font-size: 14px;
+  font-size: 10px;
   color: #333;
   padding: 0 0 12px 0;
 }
@@ -704,11 +609,12 @@ export default {
 }
 .homestay-Index .header-continer {
   width: 100%;
+  float:left;
   margin-top: 20vh;
   background-color: #F2F5F7;
 }
 .homestay-Index .header-continer .header-stay {
-  margin-bottom: 6vh;
+  margin-bottom: 50px;
   width: 90%;
   margin-left: 5%;
   position: relative;
@@ -731,7 +637,7 @@ export default {
   width: 40vw;
   padding: 1px 8px 0;
   position: absolute;
-  top: 30vh;
+  bottom: 34rem;
   left: 4vw;
 }
 .homestay-Index .header-continer .header-stay .header-comment .comment-grade {
@@ -796,7 +702,7 @@ export default {
 .homestay-Index .custom-indicator {
   position: absolute;
   right: 3vw;
-  top: 30vh;
+  bottom: 2rem;
   padding: 2px 10px;
   font-size: 12px;
   background: rgba(0, 0, 0, 0.1);
@@ -813,12 +719,21 @@ export default {
 
 .homestay-Index .foot-title {
   width: 100%;
-  height: 3vh;
+  height: 18px;
+/*. 文本强制不合法，不换行*/
+white-space: nowrap;
+  /*2. 文本溢出显示省略号*/
+  text-overflow:ellipsis;
+  /*3. 溢出部分隐藏*/
+  overflow:hidden;
+  /*background-color: red;*/
 }
 
 .homestay-Index .foot-title .van-tag {
   float: left;
-  margin-right: 2vw;
+  margin-right: 3px;
+  font-size: 10px;
+
 }
 
 .homestay-Index .foot-title .aaa {
@@ -851,6 +766,7 @@ export default {
 .homestay-Index .foot-tag .van-tag {
   float: left;
   margin-right: 1vw;
+  font-size: 9px;
 }
 
 .homestay-Index .foot-price {

@@ -22,7 +22,8 @@ Vue.use(Lazyload);
 Vue.use(Vant);
 Vue.config.productionTip = false
 
-axios.defaults.baseURL = '/'
+// axios.defaults.baseURL = 'http://8.131.61.141:3000/v1'
+axios.defaults.baseURL = 'http://tj.testw.top/v1'
 // VueAMap.initAMapApiLoader({
 //   key: '3cb5838683de37cca0d00bdcd3d4c6ad',
 //   //插件集合

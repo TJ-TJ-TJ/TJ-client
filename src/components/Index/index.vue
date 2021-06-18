@@ -28,12 +28,12 @@
           <div class="current-city">
             <!-- 定位地点 -->
             <span>
-              北京丰台
+              {{local}}
             </span>
           </div>
           <!-- 定位按钮 -->
           <div class="currentBtn">
-            <span>
+            <span @click="getLocation()">
               我的位置
             </span>
           </div>
@@ -96,21 +96,22 @@
       <!-- 搜索关键字 -->
       <van-cell-group class="keywordSearch" @click="keyword">
         <van-cell>
-          <span>关键字/位置/民宿名</span>
+          <span v-if="$store.state.searchData.wd!=''">关键字/位置/民宿名</span>
+          <span v-else>{{store.state.searchData.wd}}</span>
         </van-cell>
       </van-cell-group>
       <!-- 关键地点搜索 -->
       <div class="dataTag">
-        <van-tag
-          round
-          type="primary"
-          v-for="(item, index) in keywordCity"
-          :key="index"
-          >{{ item }}</van-tag
-        >
+<!--        <van-tag-->
+<!--          round-->
+<!--          type="primary"-->
+<!--          v-for="(item, index) in keywordCity"-->
+<!--          :key="index"-->
+<!--          >{{ item }}</van-tag-->
+<!--        >-->
       </div>
       <!-- 搜索按钮 -->
-      <van-button color="linear-gradient(to right, #FA8D1E, #FCAF3F)">
+      <van-button color="linear-gradient(to right, #FA8D1E, #FCAF3F)" @click="searchBtn">
         开始搜索
       </van-button>
     </div>
@@ -198,80 +199,43 @@
       >
         <!-- <van-cell v-for="item in waterList" :key="item" :title="item" /> -->
         <div class="homestay">
-          <div class="homestay-item">
+<!--          <div class="homestay-item">-->
+<!--            <img-->
+<!--              src="https://pic.tujia.com/upload/qualifiedpics/day_190822/thumb/201908220023388144_360_480.jpg"-->
+<!--              alt=""-->
+<!--            />-->
+<!--            <van-tag round class="preference">优选PRO</van-tag>-->
+<!--            <van-icon name="like-o" />-->
+<!--            <div class="text-description">-->
+<!--              <p>三钻 2居4床 4人</p>-->
+<!--              <p>古北水镇🌸花开半夏复式叠拼观景loft</p>-->
+<!--              <van-rate-->
+<!--                size="10px"-->
+<!--                gutter="20px"-->
+<!--                v-model="rateValue"-->
+<!--                color="#fff"-->
+<!--                disabled-->
+<!--              />-->
+<!--              <span>￥1180</span>-->
+<!--            </div>-->
+<!--          </div>-->
+          <div class="homestay-item" v-for="item in result" :key="result._id">
             <img
-              src="https://pic.tujia.com/upload/qualifiedpics/day_190822/thumb/201908220023388144_360_480.jpg"
+              :src="item.swiper"
               alt=""
             />
-            <van-tag round class="preference">优选PRO</van-tag>
-            <van-icon name="like-o" />
-            <div class="text-description">
-              <p>三钻 2居4床 4人</p>
-              <p>古北水镇🌸花开半夏复式叠拼观景loft</p>
-              <van-rate
-                size="10px"
-                gutter="20px"
-                v-model="rateValue"
-                color="#fff"
-              />
-              <span>￥1180</span>
-            </div>
-          </div>
-          <div class="homestay-item">
-            <img
-              src="https://pic.tujia.com/upload/landlordunit/day_191023/thumb/201910230840469081_360_240.jpg"
-              alt=""
-            />
-            <van-tag round class="preference">天天特惠</van-tag>
+            <van-tag round class="preference">{{item.con_title}}</van-tag>
             <div class="text-introduce">
-              <span class="city">北京·丰台区</span>
-              <p>【loft】宋家庄地铁站 榻榻米精品公寓</p>
-              <span class="class">三钻 1居2床 4人</span><br />
+              <span class="city">{{item.location.slice(4,10)}}</span>
+              <p>{{item.r_name}}</p>
+              <span class="class">{{item.params.attr}} · {{item.params.house}}居{{item.params.bed}}床{{item.params.person_count}}人</span><br />
               <span class="price">
-                ¥799
+                ¥{{item.new_price}}
               </span>
               <span class="originalPrice">
-                ¥888
+                ¥{{item.price}}
               </span>
-              <van-tag round type="danger">已减¥89</van-tag>
-            </div>
-          </div>
-          <div class="homestay-item">
-            <img
-              src="https://pic.tujia.com/upload/landlordunit/day_191023/thumb/201910230840469081_360_240.jpg"
-              alt=""
-            />
-            <van-tag round class="preference">天天特惠</van-tag>
-            <div class="text-introduce">
-              <span class="city">北京·丰台区</span>
-              <p>【loft】宋家庄地铁站 榻榻米精品公寓</p>
-              <span class="class">三钻 1居2床 4人</span><br />
-              <span class="price">
-                ¥799
-              </span>
-              <span class="originalPrice">
-                ¥888
-              </span>
-              <van-tag round type="danger">已减¥89</van-tag>
-            </div>
-          </div>
-          <div class="homestay-item">
-            <img
-              src="https://pic.tujia.com/upload/landlordunit/day_191023/thumb/201910230840469081_360_240.jpg"
-              alt=""
-            />
-            <van-tag round class="preference">天天特惠</van-tag>
-            <div class="text-introduce">
-              <span class="city">北京·丰台区</span>
-              <p>【loft】宋家庄地铁站 榻榻米精品公寓</p>
-              <span class="class">三钻 1居2床 4人</span><br />
-              <span class="price">
-                ¥799
-              </span>
-              <span class="originalPrice">
-                ¥888
-              </span>
-              <van-tag round type="danger">已减¥89</van-tag>
+              <van-tag round type="danger">已减¥{{item.price-item.new_price}}</van-tag>
             </div>
           </div>
         </div>
@@ -464,18 +428,6 @@ export default {
       // 天数
       putDate: 1,
       // 关键地点搜索数据
-      keywordCity: [
-        "怀柔风景区",
-        "古北水镇",
-        "天安门广场",
-        "十渡风景区",
-        "延庆休闲度假区",
-        "金海湖",
-        "玉渡山风景区",
-        "雁栖湖",
-        "前门",
-        "故宫",
-      ],
       waterList: [],
       loading: false,
       finished: true,
@@ -489,13 +441,18 @@ export default {
       sumDate:0,
       // 离店日期
       leaveDate:'离店日期',
-      dataDate:[]
+      dataDate:[],
+      result:{},
+    //  地址
+      local:''
     };
   },
   created() {
     let date = new Date();
     this.starDate = `${date.getMonth() + 1}月${date.getDate()}日`;
     this.endDate = `${date.getMonth() + 1}月${date.getDate() + 1}日`;
+    this.$store.commit('hotelStarDate',this.starDate)
+    this.$store.commit('hotelEndDate',this.endDate)
     let that = this;
     window.onscroll = function() {
       let dom = document.documentElement.scrollTop;
@@ -505,8 +462,98 @@ export default {
         that.searchShow = false;
       }
     };
+    this.getIndexList()
+    this.getLocation()
+  },
+  watch:{
+    local(val){
+      console.log(val)
+      this.$store.commit('cityData',val)
+    }
   },
   methods: {
+    // 地理位置获取
+    getLocation() {
+      const self = this;
+
+      AMap.plugin("AMap.Geolocation", function() {
+        var geolocation = new AMap.Geolocation({
+          // 是否使用高精度定位，默认：true
+
+          enableHighAccuracy: true,
+
+          // 设置定位超时时间，默认：无穷大
+
+          timeout: 0,
+        });
+
+        geolocation.getCurrentPosition();
+
+        AMap.event.addListener(geolocation, "complete", onComplete);
+
+        AMap.event.addListener(geolocation, "error", onError);
+
+        function onComplete(data) {
+          // data是具体的定位信息
+
+          console.log("定位成功信息：", data);
+          self.local=data.formattedAddress
+        }
+
+        function onError(data) {
+          // 定位出错
+
+          console.log("定位失败错误：", data);
+
+          // 调用ip定位
+
+          self.getLngLatLocation();
+        }
+      });
+    },
+
+    getLngLatLocation() {
+      let that=this
+      AMap.plugin("AMap.CitySearch", function() {
+        var citySearch = new AMap.CitySearch();
+
+        citySearch.getLocalCity(function(status, result) {
+          if (status === "complete" && result.info === "OK") {
+            // 查询成功，result即为当前所在城市信息
+
+            console.log("通过ip获取当前城市：", result);
+
+            //逆向地理编码
+
+            AMap.plugin("AMap.Geocoder", function() {
+              var geocoder = new AMap.Geocoder({
+                // city 指定进行编码查询的城市，支持传入城市名、adcode 和 citycode
+
+                city: result.adcode,
+
+              });
+              // console.log(geocoder)
+
+              var lnglat = result.rectangle.split(";")[0].split(",");
+              geocoder.getAddress(lnglat, function(status, data) {
+                if (status === "complete" && data.info === "OK") {
+                  // result为对应的地理位置详细信息
+                  // this.local=data
+                  console.log(data.regeocode.addressComponent.province);
+                  that.local=data.regeocode.addressComponent.province
+                }
+              });
+            });
+          }
+        });
+      });
+    },
+    // 请求数据
+    async getIndexList(){
+      const {data:res} = await this.$axios.get('index/list?page=1&count=4')
+      this.result = res.result
+      console.log(this.result)
+    },
     // 轮播图
     onChange(index) {
       let div = this.$refs.indecatorRef.querySelectorAll("div");
@@ -522,6 +569,9 @@ export default {
     // 起始时间和结束时间
     onConfirm(date) {
       const [start, end] = date;
+      date[0].setHours(12)
+      date[1].setHours(12)
+      console.log(date)
       this.putDate =
         parseInt(date[1].getTime() / 1000 / 60 / 60 / 24)-
         parseInt(date[0].getTime() / 1000 / 60 / 60 / 24);
@@ -589,7 +639,7 @@ export default {
     },
     // 关键字
     keyword() {
-      this.$router.push("search");
+       this.$router.push("search");
     },
     // 清空按钮
     emptyBtn() {
@@ -601,6 +651,8 @@ export default {
     affirmBtn() {
       this.priceSum = `￥${this.minPrice}- ${this.maxPrice}`;
       this.showPrice = false;
+      this.$store.commit('priceData',[this.minPrice,this.maxPrice])
+      console.log(this.$store.state)
     },
     // 选择人数
     peoNumBtn(item) {
@@ -629,6 +681,10 @@ export default {
       this.leaveDate = '离店日期'
       this.checkDate = '入住日期'
     },
+    //开始搜索
+    searchBtn(){
+      this.$router.push('/stay')
+    }
     // 瀑布流更新数据
     // onLoad() {
     //   // 异步更新数据
@@ -660,7 +716,13 @@ export default {
 //   width: 5px;
 //   background: red;
 // }
-
+html{
+  width: 100%;
+  height: 100%;
+}
+body{
+  background-color: #F5F7F9;
+}
 .Index-view {
   // 头部标题栏
   .headerTitle {
@@ -736,7 +798,7 @@ export default {
     // 关键地点搜索
     .dataTag {
       width: 100%;
-      // height: 10vh;
+       height: 10vh;
       // background-color: red;
 
       .van-tag {
@@ -884,7 +946,7 @@ export default {
                 justify-content: center;
                 line-height: 3vh;
                 font-family: PingFangSC-Regular;
-                font-size: 12px;
+                font-size: 10px;
                 color: #333;
                 margin-top: 2vh;
                 font-weight: 500;
@@ -960,8 +1022,8 @@ export default {
     width: 100%;
     .van-list {
       .homestay {
-        height: 80vh;
-        // min-height: 100vh;
+        height: 68vh;
+        //overflow:  ;
         width: 100%;
         // background-color: red;
         // float: left;
@@ -975,12 +1037,13 @@ export default {
         // align-items: center;
         .homestay-item {
           position: relative;
-          margin-bottom: 1vh;
+          margin-bottom: 2vh;
           // clear:both;
           width: 45vw;
           margin-left: 3vw;
           img {
             width: 45vw;
+            border-radius: 15px 15px 0px 0px;
           }
           .preference {
             position: absolute;
@@ -1003,7 +1066,7 @@ export default {
             // background-color: black;
             position: absolute;
             z-index: 10000;
-            top: 19vh;
+            bottom: 0vh;
             p:nth-child(1) {
               font-family: PingFangSC-Regular;
               font-size: 10px;
@@ -1027,23 +1090,25 @@ export default {
             .van-rate {
               position: absolute;
               bottom: 5vh;
-              right: 62vw;
+              right: 58vw;
             }
             span {
               position: absolute;
               bottom: 1vh;
               right: 2vw;
               font-family: PingFangSC-Medium;
-              font-size: 16px;
+              font-size: 12px;
               color: #fff;
             }
           }
           .text-introduce {
             // position: absolute;
             // bottom:16vh;
-            margin-top: -5px;
+            //margin-top: -5px;
             width: 100%;
-            height: 15vh;
+            //height: 15vh;
+            padding: 5px;
+            border-radius: 0px 0px 15px 15px;
             background-color: #ffffff;
             .city {
               display: block;

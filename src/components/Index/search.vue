@@ -15,17 +15,8 @@
         <span class="radio" @click="radioBtn">{{radioStatus}}</span>
       </div>
       <div class="search-continer" style="overflow: hidden;" ref="continerRef">
-        <van-tag>怀柔风景区</van-tag>
-        <van-tag>古北水镇</van-tag>
-        <van-tag>天安门广场</van-tag>
-        <van-tag>十渡风景区</van-tag>
-        <van-tag>延庆休闲度假区</van-tag>
-        <van-tag>金海湖</van-tag>
-        <van-tag>怀柔风景区</van-tag>
-        <van-tag>怀柔风景区</van-tag>
-        <van-tag>怀柔风景区</van-tag>
-        <van-tag>怀柔风景区</van-tag>
-        <van-tag>怀柔风景区</van-tag>
+        <van-tag v-for="(item,index) in result" :key="index" v-if="index<3" class="hot">{{item}}<van-icon name="fire" color="red"/></van-tag>
+        <van-tag v-else>{{item}}</van-tag>
       </div>
     </div>
   </div>
@@ -37,15 +28,39 @@ export default {
     return {
       value: "",
       radioStatus:'展开',
+      result:[]
     };
   },
   components:{
   },
+  created() {
+    this.getSearchList()
+  },
   mounted(){
   },
   methods: {
+    // 热搜
+    async getSearchList(){
+      const {data:res} = await this.$axios.get('search/hot')
+      console.log(res)
+      this.result = res.result
+    },
+    // 搜索
     onSearch(val) {
       console.log(val);
+      if(val!=''){
+        this.$store.commit('searchData',{
+          "wd":val,
+          "page":1,
+          "count":10,
+          "minPrice":this.$store.state.priceData[0],
+          "maxPrice":this.$store.state.priceData[1],
+          "star":[1,2,3,4]
+        })
+        this.$store.commit('cityData',val)
+        console.log(this.$store.state)
+        this.$router.push('/stay')
+      }
     },
     onCancel() {
     //   console.log("取消");

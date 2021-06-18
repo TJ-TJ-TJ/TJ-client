@@ -1,29 +1,41 @@
 <template>
   <div class="userIndex">
     <div class="title">
-      <div class="backImg"></div>
+      <div class="backImg">
+        <div class="uname-container">
+          <span class="uname">
+            注册/登录
+          </span>
+          <br>
+          <span class="unameMsg">
+            注册预定返积分
+          </span>
+        </div>
+      </div>
       <van-image
         round
-        width="6rem"
-        height="6rem"
+        width="5rem"
+        height="5rem"
         src="https://img01.yzcdn.cn/vant/cat.jpeg"
       />
-      <van-icon name="setting" size="2rem"/>
+      <div class="icon">
+        <van-icon name="icon/编辑.png" size="1.5rem" ref="spanRef"/>
+      </div>
       <div class="price">
         <div>
-          <span>积分</span>
+          <span class="price-title">红包</span>
           <br />
-          <span class="price-span">0分</span>
+          <span class="price-span">0个</span>
         </div>
         <div>
-          <span>积分</span>
+          <span class="price-title">积分</span>
           <br />
-          <span class="price-span">0分</span>
+          <span class="price-span">0</span>
         </div>
         <div>
-          <span>积分</span>
+          <span class="price-title">余额</span>
           <br />
-          <span class="price-span">0分</span>
+          <span class="price-span">￥0</span>
         </div>
       </div>
       <div class="my-order">
@@ -35,68 +47,63 @@
       <div class="container">
         <div class="head-item">
           <van-image
-            width="3rem"
-            height="3rem"
-            src="https://img01.yzcdn.cn/vant/cat.jpeg"
+            
+            src="icon/发票.png"
           />
           <br />
-          <span>
+          <span class="fontTitle">
             开具发票
           </span>
           <br />
-          <span>历史发票</span>
+          <span class="fontMsg">历史发票</span>
         </div>
         <div class="head-item">
           <van-image
-            width="3rem"
-            height="3rem"
-            src="https://img01.yzcdn.cn/vant/cat.jpeg"
+            
+            src="icon/历史记录.png"
           />
           <br />
-          <span>
-            开具发票
+          <span class="fontTitle">
+            浏览历史
           </span>
           <br />
-          <span>历史发票</span>
+          <!-- <span>历史发票</span> -->
         </div>
         <div class="head-item">
           <van-image
-            width="3rem"
-            height="3rem"
-            src="https://img01.yzcdn.cn/vant/cat.jpeg"
+            
+            src="icon/常用信息.png"
           />
           <br />
-          <span>
-            开具发票
+          <span class="fontTitle">
+            常用信息
           </span>
           <br />
-          <span>历史发票</span>
+          <span class="fontMsg">入住人/地址</span>
         </div>
         <div class="head-item">
           <van-image
-            width="3rem"
-            height="3rem"
-            src="https://img01.yzcdn.cn/vant/cat.jpeg"
+            
+            src="icon/吐槽我们.png"
           />
           <br />
-          <span>
-            开具发票
+          <span class="fontTitle">
+            吐槽我们
           </span>
           <br />
-          <span>历史发票</span>
+          <!-- <span>历史发票</span> -->
         </div>
         <div class="head-item">
           <van-image
-            width="3rem"
-            height="3rem"
-            src="https://img01.yzcdn.cn/vant/cat.jpeg"
+            
+            src="icon/意见反馈.png"
           />
           <br />
-          <span>
-            开具发票
+          <span class="fontTitle">
+            意见反馈
           </span>
           <br />
-          <span>历史发票</span>
+          <!-- <span>历史发票</span> -->
         </div>
       </div>
     </div>
@@ -104,7 +111,15 @@
 </template>
 
 <script>
-export default {};
+export default {
+  data(){
+    return{
+
+    }
+  },
+  mounted(){
+  }
+};
 </script>
 
 <style lang="scss">
@@ -119,8 +134,9 @@ export default {};
     .backImg {
       width: 100%;
       height: 30vh;
-      background-image: url(https://dss2.bdstatic.com/8_V1bjqh_Q23odCf/pacific/1989393657.jpg);
-      clip-path: polygon(100% 0%, 0% 0%, 0% 0%, 0% 80%, 100% 35%);
+      background-image: url('/img/背景.jpg');
+       clip-path: polygon(100% 0%,  0% 0%, 0% 80%, 100% 35%);
+      //clip-path: ellipse(90% 16vh at 15% 15%);
     }
     .van-image {
       position: absolute;
@@ -128,20 +144,28 @@ export default {};
       left: 6vw;
       box-shadow: 5px 5px 10px #888888;
     }
-    .van-icon{
+    .icon{
+      height: 2rem;
+      width: 2rem;
+      background-color: #3E4852;
       position: absolute;
       top: 10vh;
       right: 10vw;
+      border-radius: 50%;
+      padding: 7px;
+      box-shadow: 1px 1px 7px black;
+      text-align: center;
+      line-height: 2.8rem;
     }
     .price {
       // height: 5rem;
       text-align: center;
-      width: 60vw;
+      width: 50vw;
       display: flex;
       justify-content: space-between;
       // background-color: red;
       position: absolute;
-      right: 0;
+      right: 20px;
       top: 20vh;
       .price-span {
         font-weight: bold;
@@ -179,6 +203,32 @@ export default {};
         margin-left: 10vw;
         margin-top: 4vh;
       }
+    }
+  }
+  .fontTitle{
+    font-weight: bold;
+  }
+  .fontMsg{
+    color: #B9B9B8;
+    font-size: 12px;
+    font-weight: 500;
+  }
+  .price-title{
+    color:#9F9A98;
+  }
+  .uname-container{
+    color: #000;
+    float: left;
+    margin-top: 3vh;
+    margin-left: 8vw;
+    .uname{
+      font-size: 20px;
+      font-weight: bold;
+    }
+    .unameMsg{
+      display: inline-block;
+      margin-top: 5px;
+      font-size: 5px;
     }
   }
 }

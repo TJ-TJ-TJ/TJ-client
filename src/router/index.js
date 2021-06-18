@@ -22,7 +22,9 @@ const routes = [
   {path:'/report',name:'photo',
   component: () => import(/* webpackChunkName: "about" */ '../components/Index/report.vue')},
   {path:'/user',name:'user',
-  component: () => import(/* webpackChunkName: "about" */ '../components/Index/user.vue')}
+  component: () => import(/* webpackChunkName: "about" */ '../components/Index/user.vue')},
+  // {path:'/form',name:'form',
+  // component: () => import(/* webpackChunkName: "about" */ '../components/Index/form.vue')}
 ]
 
 const router = new VueRouter({

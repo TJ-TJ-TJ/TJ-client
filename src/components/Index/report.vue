@@ -6,21 +6,18 @@
           <span>个人基本信息</span>
         </div>
         <div class="user-msg">
-          <van-form validate-first @failed="onFailed">
             <!-- 通过 pattern 进行正则校验 -->
             <van-field
               v-model="value1"
               name="pattern"
               label="姓名"
-              placeholder="正则校验"
-              :rules="[{ pattern, message: '请输入正确内容' }]"
+              placeholder="姓名"
             />
             <van-field
               v-model="value2"
               name="pattern"
               label="证件号"
-              placeholder="正则校验"
-              :rules="[{ pattern, message: '请输入正确内容' }]"
+              placeholder="身份证号"
             />
             <van-field name="radio" label="性别">
               <template #input>
@@ -34,8 +31,7 @@
               v-model="value3"
               name="pattern"
               label="手机号"
-              placeholder="正则校验"
-              :rules="[{ pattern, message: '请输入正确内容' }]"
+              placeholder="手机号"
             />
             <!-- 地区选择 -->
             <van-field
@@ -43,10 +39,7 @@
               name="picker"
               :value="value4"
               label="14日所在城市"
-              placeholder="点击选择城市"
                class="van-cll"
-               v-for="item in num"
-               :key="item"
             >
             <template #input>
                 <span @click="showPicker = true">{{value4}}</span>
@@ -61,6 +54,53 @@
                 @cancel="showPicker = false"
               />
             </van-popup>
+             <!-- 地区选择2 -->
+            <van-field
+              readonly
+              name="picker1"
+              :value="value5"
+              label="14日所在城市"
+              placeholder="点击选择城市"
+               class="van-cll"
+               v-show="field2"
+            >
+            <template #input>
+                <span @click="showPicker1 = true">{{value5}}</span>
+                <van-icon class="addIcon" name="close" @click="minusField"/>
+            </template>
+            </van-field>
+            <van-popup v-model="showPicker1" position="bottom">
+              <van-picker
+                show-toolbar
+                :columns="columns1"
+                @confirm="onConfirm1"
+                @cancel="showPicker1 = false"
+              />
+            </van-popup>
+             <!-- 地区选择3 -->
+            <van-field
+              readonly
+              name="picker2"
+              :value="value6"
+              label="14日所在城市"
+              placeholder="点击选择城市"
+               class="van-cll"
+               v-show="field3"
+            >
+            <template #input>
+                <span @click="showPicker2 = true">{{value6}}</span>
+                <van-icon class="addIcon" name="close" @click="minusField2"/>
+            </template>
+            </van-field>
+            <van-popup v-model="showPicker2" position="bottom">
+              <van-picker
+                show-toolbar
+                :columns="columns2"
+                @confirm="onConfirm2"
+                @cancel="showPicker2 = false"
+              />
+            </van-popup>
+            
             <!-- 疫苗接种记录 -->
              <van-field class="radio1" name="radio1" label="有无接种疫苗" ref="radioRef">
               <template #input>
@@ -70,7 +110,9 @@
                 </van-radio-group>
               </template>
             </van-field>
-          </van-form>
+            <div class="btnSet">
+              <van-button color="#07C3F2" block>提交</van-button>
+            </div>
         </div>
       </div>
     </div>
@@ -84,26 +126,51 @@ export default {
       value1: "",
       value2: "",
       value3: "",
-      value4:"",
+      value4: "点击选择城市",
+      value5: "",
+      value6: "",
       columns: [],
+      columns1: [],
+      columns2: [],
       showPicker: false,
+      showPicker1: false,
+      showPicker2: false,
       radio: "",
       radio1:"",
       pattern: /\d{6}/,
-      num:1
+      num:1,
+      field2:false,
+      field3:false
     };
   },
   created(){
-      this.$axios.get('json/province.json').then((res)=>{
+      this.$axios.get('/json/province.json').then((res)=>{
           console.log(res)
           for(let k of res.data){
             //   console.log(k)
               this.columns.push(k.name)
+              this.columns1.push(k.name)
+              this.columns2.push(k.name)
           }
       })
   },
   mounted(){
       
+  },
+  watch:{
+    num(val){
+      if(val==1){
+        this.field2 = false
+        this.field3 = false
+      }else if(val==2){
+        this.field2 = true
+        this.field3 = false
+      }else if(val==3){
+        this.field3 = true
+      }else{
+        val = 3
+      }
+    }
   },
   methods: {
     // 校验函数返回 true 表示校验通过，false 表示不通过
@@ -121,17 +188,33 @@ export default {
         }, 1000);
       });
     },
-    onFailed(errorInfo) {
-      console.log("failed", errorInfo);
-    },
+    // onFailed(errorInfo) {
+    //   console.log("failed", errorInfo);
+    // },
     // 地区选择
     onConfirm(value) {
       this.value4 = value;
       this.showPicker = false;
     },
+    onConfirm1(value) {
+      this.value5 = value;
+      this.showPicker1 = false;
+    },
+    onConfirm2(value) {
+      this.value6 = value;
+      this.showPicker2 = false;
+    },
     // 添加所在城市
     addField(){
-      this.num++
+      if(this.value4!=='' && this.value4!=="点击选择城市"){
+        this.num++
+      }
+    },
+    minusField(){
+      this.num = 1
+    },
+    minusField2(){
+      this.num = 2
     }
   },
 };
@@ -158,7 +241,7 @@ html {
       .title {
         float: left;
         margin-top: 3vh;
-        border-left: 5px solid blue;
+        border-left: 5px solid #FA9425;
         span {
           margin-left: 3vw;
           font-weight: bold;
@@ -181,6 +264,16 @@ html {
           float: left;
           margin-right: 5vw;
       }
+  }
+  .btnSet{
+    width: 100%;
+    height: 10vh;
+    // background-color: red;
+    display: flex;
+    margin-left: 3vw;
+    .van-button{
+      width: 100%;
+    }
   }
 }
 </style>
