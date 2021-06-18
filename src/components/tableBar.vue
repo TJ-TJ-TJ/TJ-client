@@ -7,25 +7,25 @@
       class="table__bar"
       route
     >
-      <van-tabbar-item replace to="/1">
+      <van-tabbar-item to="/">
         <span>首页</span>
         <template #icon="props">
           <img :src="props.active ? icon1.active : icon1.inactive" />
         </template>
       </van-tabbar-item>
-      <van-tabbar-item replace to="/order">
+      <van-tabbar-item to="/order">
         <span>订单</span>
         <template #icon="props">
           <img :src="props.active ? icon2.active : icon2.inactive" />
         </template>
       </van-tabbar-item>
-      <van-tabbar-item replace to="/msg_list">
+      <van-tabbar-item to="/msg_list">
         <span>消息</span>
         <template #icon="props">
           <img :src="props.active ? icon3.active : icon3.inactive" />
         </template>
       </van-tabbar-item>
-      <van-tabbar-item replace to="/1">
+      <van-tabbar-item to="/user">
         <span>我的</span>
         <template #icon="props">
           <svg
@@ -69,6 +69,7 @@
   </div>
 </template>
 <script>
+
 export default {
   data() {
     return {
@@ -84,7 +85,7 @@ export default {
         active:
           "https://pic.tujia.com/upload/festatic/publicImages/icon-tab-order-p.png",
         inactive:
-          "https://pic.tujia.com/upload/festatic/publicImages/icon-tab-unIM.png",
+          "https://pic.tujia.com/upload/festatic/publicImages/icon-tab-unorder.png",
       },
       icon3: {
         active:
@@ -94,15 +95,24 @@ export default {
       },
     };
   },
+  created() {
+  },
 };
 </script>
 <style lang="scss" >
 .table_bar {
-  position: fixed;
-  bottom: 0;
+  // position: fixed;
+  // z-index: 111111111;
+  // left: 0;
+  // height: 55px;
+  // bottom: 0;
+  .van-tabbar--fixed{
+    height: 55px;
+    left: 0;
+    right: 0;
+  }
   .table__bar {
     .van-tabbar-item__icon img {
-      display: block;
       height: 28px;
       width: 36px;
     }

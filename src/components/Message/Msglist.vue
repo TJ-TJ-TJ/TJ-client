@@ -1,7 +1,13 @@
 <template>
   <div class="msg_list" :style="{ height: innerheight }">
     <!-- 头部导航 -->
-    <van-nav-bar title="消息中心" left-arrow  @click-left="onClickLeft" fixed class="head">
+    <van-nav-bar
+      title="消息中心"
+      left-arrow
+      @click-left="onClickLeft"
+      fixed
+      class="head"
+    >
       <template #right>
         <div class="head_right" @click="gomsg()">
           <van-icon name="service-o" size="20" />
@@ -25,25 +31,25 @@
         class="msg_detail"
         v-for="(item, i) in arrlength"
         :key="i"
-        @click="go_detail(item,i)"
+        @click="go_detail(item, i)"
       >
         <img :src="item.head_img" alt="" />
         <div class="f1">
           <div class="msg_head">
-            <div>{{ item.uname }}</div>
+            <div>{{ item.uname == null ? "匿名用户" : item.uname }}</div>
             <div>{{ item.send_date }}</div>
           </div>
           <div class="msg_foot" v-if="item.type == 'text'">
             <p>{{ item.message }}</p>
-            <van-badge :content="msginfo[i]" v-if="msginfo[i] != 0" class="hb">
+            <!-- <van-badge :content="msginfo[i]" v-if="msginfo[i] != 0" class="hb">
               <div />
-            </van-badge>
+            </van-badge> -->
           </div>
           <div class="msg_foot" v-else>
-            <div>语音消息</div>
-            <van-badge :content="msginfo[i]" v-if="msginfo[i] != 0" class="hb">
+            <div style="color: red">[语音]</div>
+            <!-- <van-badge :content="msginfo[i]" v-if="msginfo[i] != 0" class="hb">
               <div />
-            </van-badge>
+            </van-badge> -->
           </div>
         </div>
       </div>
@@ -60,19 +66,19 @@ export default {
       // 展示的消息列表
       arrlength: [],
       msginfo: [], // 已读未读消息
-      newMsg:[],//携带过去的最新的15条消息
-      Arrmsg:[]
+      newMsg: [], //携带过去的最新的15条消息
+      Arrmsg: [], //
     };
   },
   methods: {
-    onClickLeft(){
-      this.$router.back(-1)
+    onClickLeft() {
+      this.$router.go(-1);
     },
     ...mapMutations(["update_msginfo"]),
-    go_detail(item,i) {
-      console.log(item,i);
-       this.update_msginfo({
-        newarr:this.Arrmsg[i]
+    go_detail(item, i) {
+      console.log(item, i);
+      this.update_msginfo({
+        newarr: this.Arrmsg[i],
       });
       //使所有文本消息都成为已读
       this.$axios.post("/updateMsgRead", {
@@ -90,41 +96,67 @@ export default {
     },
     //获取用户消息列表
     getHistory() {
-      return this.$axios.get(`/getHistoryMsg?uid=${this.uid}`);
+      return this.$axios.get(`http://localhost:9000/getHistoryMsg?uid=${this.uid}`);
     },
     gomsg(i) {
       /// 假设 这里是去往客服的聊天
       this.update_msginfo({
-        newarr:this.Arrmsg[i]
+        newarr: this.Arrmsg[i],
       });
       this.$router.push("/msg");
     },
+    async updatemsg() {
+      let uid = this.$route.query.uid;
+      sessionStorage.setItem("uid", uid); //这里是模拟用户登录的uid 后期传入登陆者的uid
+      this.uid = sessionStorage.getItem("uid");
+      // console.log(this.uid);
+      // 组件创建完成   获取消息列表
+      let arr = await this.capture(this.getHistory);
+      // console.log(arr);
+      this.Arrmsg = arr[1].data; //搜索过来的所有的消息列表 每个最多15条消息
+      arr[1].data.forEach((item) => {
+        //最新的一条消息
+        this.arrlength.push(item.msgArr[item.msgArr.length - 1]);
+        this.newMsg.push(item.msgArr);
+      });
+      let count = 0;
+      arr[1].data.forEach((item) => {
+        item.msgArr.forEach((i) => {
+          if (i.is_read == 0 || i.audio_isRead == 0) {
+            count++;
+          }
+        });
+        this.msginfo.push(count); //未读消息的次数
+        count = 0;
+      });
+      console.log(this.arrlength);
+      console.log(this.msginfo);
+    },
   },
   async created() {
-    // 组件创建完成   获取消息列表
-    let arr = await this.capture(this.getHistory);
-    console.log(arr[1].data)
-    this.Arrmsg=arr[1].data
-    arr[1].data.forEach((item) => {
-      //最新的一条消息
-      this.arrlength.push(item.msgArr[item.msgArr.length - 1]);
-      this.newMsg.push(item.msgArr)
-    });
-    console.log(this.newMsg)
-    let count = 0;
-    arr[1].data.forEach((item) => {
-      item.msgArr.forEach((i) => {
-        if (i.is_read == 0 && i.audio_isRead == 0) {
-          count++;
+    this.updatemsg();
+  },
+  sockets: {
+    connect: function () {
+      //与socket.io连接后回调
+      console.log("web socket + 连接成功");
+    },
+    //>>>>>>>>    待完善
+    async oToMessage(data) {
+      console.log(this.arrlength);
+      this.arrlength.forEach((item, i) => {
+        if (item.uid == data.uid) {
+          this.arrlength.splice(i, 1, data);
+          this.msginfo[i] += 1;
         }
       });
-      this.msginfo.push(count); //未读消息的次数
-      count = 0;
-    });
-
-    console.log(this.msginfo);
+      let arr = await this.capture(this.getHistory);
+      // console.log(arr);
+      this.Arrmsg = arr[1].data; //搜索过来的所有的消息列表 每个最多15条消息
+    },
   },
   mounted() {
+    this.$socket.open(); //主动连接sockte
     this.innerheight = window.innerHeight + "px";
   },
 };
@@ -232,13 +264,18 @@ export default {
           div {
             width: 50%;
             line-height: 16px;
-            font-size: 12px;
+            font-size: 14px;
             font-weight: 300;
-            color: #999;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+            color: #333;
           }
           & > div:last-child {
             width: 50%;
+            font-size: 12px;
             text-align: right;
+            padding-right: 5px;
+             color: #999;
           }
         }
         .msg_body {
@@ -251,6 +288,7 @@ export default {
         }
         .msg_foot {
           line-height: 16px;
+          padding-top: 3px;
           font-size: 12px;
           font-weight: 300;
           color: #999;
@@ -261,6 +299,12 @@ export default {
           text-overflow: ellipsis;
           display: flex;
           justify-content: space-between;
+          p {
+            word-wrap: normal;
+            white-space: nowrap;
+            -o-text-overflow: ellipsis;
+            text-overflow: ellipsis;
+          }
         }
       }
     }

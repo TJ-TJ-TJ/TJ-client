@@ -58,15 +58,19 @@
 
               <div class="detail_foot">
                 <p>
-                  <button type="default">删除</button>
-                  <button type="default">再次预定</button>
+                  <button type="default" @click.stop="delete_order">
+                    删除
+                  </button>
+                  <button type="default" @click.stop="go_order">
+                    再次预定
+                  </button>
                 </p>
               </div>
             </div>
           </div>
           <div class="order_end">
-            <p>已显示最近三个月的订单</p>
-            <span>查看全部订单</span>
+            <p>已显示全部订单</p>
+            <!-- <span>查看全部订单</span> -->
           </div>
         </div>
         <div v-else>
@@ -79,31 +83,51 @@
         </div>
       </van-tab>
     </van-tabs>
-        <table-bar></table-bar>
+    <table-bar></table-bar>
   </div>
 </template>
 <script>
 export default {
   data() {
     return {
-      uid:"",
+      uid: "",
       active: 0,
-      order_type: ["全部订单", "近期订单", "待支付", "待确认", "待入住"],
-      order:[]
+      order_type: ["全部订单", "待支付", "待确认", "待入住"],
+      order: [],
     };
   },
   methods: {
     go_detail(id) {
-      this.$router.push({path:'/order_detail',query:{id}})
+      this.$router.push({ path: "/order_detail", query: { id } });
+    },
+    delete_order() {
+      // 删除订单
+      this.$dialog
+        .confirm({
+          title: "提示",
+          message: "您确定要删除订单吗",
+        })
+        .then(() => {
+          // 删除接口
+        })
+        .catch(() => {
+          return
+        });
+    },
+    go_order() {
+      this.$router.push('/order_edit')
+      //再次购买订单
     },
   },
   mounted() {
-    if(!this.uid){
-      return 
-    }else{ //后续是向后台获取数据
-      this.order=[
+    this.uid = 1;
+    if (!this.uid) {
+      return;
+    } else {
+      //后续是向后台获取数据
+      this.order = [
         {
-          order_id:"922319772613",
+          order_id: "922319772613",
           order_title:
             "紫御长安/直达天安门/故宫/五棵松地铁/301医院/玉泉医院/航天医院/华熙LIVE精装，可住多人",
           order_status: "待支付",
@@ -113,7 +137,7 @@ export default {
           order_dateEnd: "6月9日 周三 12:00",
           order_price: "438",
         },
-      ]
+      ];
     }
   },
 };

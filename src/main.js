@@ -2,15 +2,30 @@ import Vue from 'vue'
 import App from './App.vue'
 import router from './router'
 import store from './store'
+
 import Vant from 'vant';
 import 'vant/lib/index.css';
 import VueSocketIO from 'vue-socket.io'
 import ClientSocketIO from 'socket.io-client'
 import axios from 'axios'
 import TableBar from './components/tableBar.vue'  //全局的底部tablebar组件
+
+
+import { Lazyload } from 'vant';
+import { List } from 'vant';
+// vue-touch
+import VueTouch from "vue-touch";
+Vue.use(VueTouch, {name: "v-touch"});
 Vue.component('table-bar', TableBar) // 直接使用即可 <table-bar></table-bar> 
 Vue.use(Vant);
+Vue.use(List);
+Vue.use(Lazyload);
+axios.defaults.baseURL = 'http://tj.testw.top/v1'
 Vue.prototype.$axios=axios
+
+
+
+
 Vue.use(new VueSocketIO({
   debug: true,
   connection: ClientSocketIO.connect('http://localhost:9000',{
@@ -18,11 +33,16 @@ Vue.use(new VueSocketIO({
     transports: ['websocket'],
     auth: {
       imgPath: 1,
-      uid: 1, //到时候根据登录的账户不同 传递不同的id 用于确认私聊者的身份
-      uname:1
+      uid: sessionStorage.getItem('uid') ||1, //用户的uid
+      uname:sessionStorage.getItem('username') ||1
     }
   }), //连接服务端
+
 }))
+
+
+
+
 //获取年月日 格式 ` 2020-01-01`  
 Vue.prototype.$getDate = () => {
   let now = new Date()

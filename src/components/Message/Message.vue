@@ -207,6 +207,7 @@ export default {
       }, //详情页跳转过来的商品
       //用户和对方的消息记录
       message: [],
+      status: "", //用于监控滚动条状态
     };
   },
 
@@ -224,7 +225,7 @@ export default {
     // 下拉刷新事件
     onRefresh() {
       setTimeout(async () => {
-        console.log(this.message[0]);
+        // console.log(this.message[0]);
         this.pageSize += 1;
         let obj = await this.$axios.get(
           "http://localhost:9000/getHistoryPage",
@@ -237,7 +238,7 @@ export default {
             },
           }
         );
-        console.log(obj);
+        // console.log(obj);
         if (obj.data.data.length == 0) {
           this.$toast.fail("暂无更多数据");
         } else {
@@ -266,6 +267,7 @@ export default {
       if (!this.text_msg) {
         return;
       }
+      this.isemoji = false;
       //发送的消息  //数据先定死一部分
       let sendObj = {
         uid: this.uid, //用户id
@@ -292,9 +294,7 @@ export default {
         uid: this.msg_info.uid,
         sid: this.msg_info.sid,
       });
-      window.scrollTo(0, document.body.scrollHeight);
-      let textarea = document.querySelector("textarea");
-      textarea.style.height = "30px";
+      this.status = !this.status;
     },
     //更改是否语音输入
     edit() {
@@ -303,7 +303,7 @@ export default {
     },
     // 按住事件 不超过一秒不执行
     start(e) {
-      console.log(this.Audio);
+      // console.log(this.Audio);
       if (this.Audio == false) {
         this.$toast.fail("您的设别不支持录音功能");
         return;
@@ -332,7 +332,7 @@ export default {
         return;
       }
       recorder.getBlob((data) => {
-        console.log(data); //拿到的音频对象
+        //console.log(data); //拿到的音频对象
         let sendObj = {
           uid: this.uid, //用户id
           sid: this.be.uid, //对方id‘
@@ -341,8 +341,8 @@ export default {
           type: "audio/mp3",
           head_img:
             "http://localhost:9000/images/1623742900483微信图片_20210602104016.png",
-          uname: this.uname, //发送人的id
-          is_read: false, // text是否已读
+          uname: this.uname, //发送人的名称为
+          is_read: true, // text是否已读
           send_date: this.$getDate(), //发送日期
           send_time: this.$getTime(), //发送准确时间
           audio_isRead: false, //语音是否已读
@@ -366,8 +366,9 @@ export default {
     },
     // 开始播放录音的方法
     start_audio(event, i, uid, sid, m_id) {
-      console.log(uid, sid, m_id);
+      // console.log(uid, sid, m_id);
       this.$axios.post("/updateVoiceRead", {
+        //更改当前语音消息为已读状态
         uid,
         sid,
         m_id,
@@ -399,7 +400,7 @@ export default {
               }
             });
             obj[i].load(); //重新加载语音
-            obj[i].play(); //播放语音
+            obj[i].play(); //播放当前点击的语音
           } else {
             obj[i].pause(); //如果在播放状态就暂停
           }
@@ -412,25 +413,21 @@ export default {
     },
   },
   async created() {
-    // console.log(this.$store.state.msg_info);  消息传参
+    // console.log(this.$store.state.msg_info); 好友列表传过来 消息传参
     let store = this.$store.state.msg_info.newarr;
-    console.log(store);
-    store.msgArr.forEach((item) => {
-      item.audio = "http://localhost:9000" + item.audio;
-    });
+    // console.log(store);
     this.message = store.msgArr; //消息列表
     this.be = store.be;
-    this.uid = store.uid;
-    this.sid = store.sid;
-    console.log(this.uid);
-    console.log(this.message);
-    this.title = "海淀小霸王"; //根据传过来身份展示标题
+    this.uid = store.uid; //当前用户的id
+    this.sid = store.sid; //私发消息对方的id
+    // console.log(this.uid);
+    // console.log(this.message);
+    this.title = "途家"; //根据传过来身份展示标题
   },
   async mounted() {
+    this.$socket.open(); //主动连接sockte
     // console.log(obj);
     // console.log(this.message, this.msg_info, "--------------");
-
-    this.$socket.open(); //主动连接sockte
     window.scrollTo(0, document.body.scrollHeight);
     this.outheight = window.innerHeight + "px";
     let textarea = document.querySelector(".textarea-msg"); //聊天的文本域 滚动条实时底部
@@ -441,32 +438,32 @@ export default {
     textarea.onfocus = () => {
       //文本域获得焦点表情包就消失
       this.isemoji = false;
-      console.log("失去焦点");
+      // console.log("失去焦点");
     };
   },
   sockets: {
     connect: function () {
       //与socket.io连接后回调
-      console.log("连接成功");
+      console.log("web socket + 连接成功");
     },
     //>>>>>>>>    待完善
     oToMessage(data) {
       //接收私发消息
-      console.log(data);
+      // console.log(data);
       this.message.push(data);
-      // if (data.type == "audio/mp3") {
-      //   let blob = new Blob([data.audio], {
-      //     type: data.type,
-      //   });
-      //   data.audio = URL.createObjectURL(blob);
-      //   this.message.push(data);
-      // } else {
-      //   this.message.push(data);
-      // }
+      this.status=!this.status
     },
   },
   updated() {
-    //只要有新消息 滚动条一直在底部
+  },
+  watch: {
+    status() {
+      console.log("触发了");
+      setTimeout(() => {
+        console.log('底部滚动条定时器')
+        window.scrollTo(0, document.body.scrollHeight);
+      }, 200);
+    },
   },
 };
 </script>

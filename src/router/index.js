@@ -1,62 +1,89 @@
-import Vue from 'vue'
-import VueRouter from 'vue-router'
-Vue.use(VueRouter)
-
+import Vue from "vue";
+import VueRouter from "vue-router";
+import Order from "./order"; //订单 及 消息模块的路由配置
+Vue.use(VueRouter);
 const routes = [
+  ...Order,
+  { path: "/index", redirect: "/collects" },
+
   {
-    path: '/order',
-    name: 'Order',   //订单主页面
-    component: () => import(/* webpackChunkName: "order" */ '../components/Orders/index.vue')
+    path: "/",
+    name: "index",
+    component: () =>
+      import(/* webpackChunkName: "about" */ "../components/Index/index.vue"),
   },
   {
-    path: '/order_edit', //订单编辑页
-    name: 'oder_edit',
-    component: () => import(/* webpackChunkName: "order_edit" */'../components/Orders/Orderedit.vue')
+    path: "/search",
+    name: "search",
+    component: () =>
+      import(/* webpackChunkName: "about" */ "../components/Index/search.vue"),
   },
   {
-    path: '/order_detail', //订单详情页
-    name: 'oder_detail',
-    component: () => import(/* webpackChunkName: "order_deail" */ '../components/Orders/Orderdetail.vue')
+    path: "/stay",
+    name: "stay",
+    component: () =>
+      import(
+        /* webpackChunkName: "about" */ "../components/Index/homestay.vue"
+      ),
   },
   {
-    path: '/order_pay', //订单详情页
-    name: 'oder_pay',
-    component: () => import(/* webpackChunkName: "order_pay" */ '../components/Orders/orderPay.vue')
+    path: "/mapIndex",
+    name: "mapIndex",
+    component: () =>
+      import(
+        /* webpackChunkName: "about" */ "../components/Index/mapIndex.vue"
+      ),
   },
   {
-    path: '/check_person', //选择入住人
-    name: 'check_person',
-    component: () => import(/* webpackChunkName: "order_edit" */ '../components/Orders/Checkperson.vue')
+    path: "/city",
+    name: "city",
+    component: () =>
+      import(/* webpackChunkName: "about" */ "../components/Index/city.vue"),
   },
   {
-    path: '/add_person', //添加入住人
-    name: 'add_person',
-    component: () => import(/* webpackChunkName: "add_person" */ '../components/Orders/Addperson.vue')
+    path: "/report",
+    name: "photo",
+    component: () =>
+      import(/* webpackChunkName: "about" */ "../components/Index/report.vue"),
   },
   {
-    path: '/msg', //聊天界面
-    name: 'msg',
-    // meta:{
-    //   keepAlive:true   //默认缓存  当socket监测到有新的消息更新时 再重新加载
-    // },
-    component: () => import(/* webpackChunkName: "msg" */ '../components/Orders/Message.vue')
+    path: "/user",
+    name: "user",
+    component: () =>
+      import(/* webpackChunkName: "about" */ "../components/Index/user.vue"),
   },
   {
-    path: '/msg_list', //消息列表
-    name: 'msg_list',
-    component: () => import(/* webpackChunkName: "msg_list"*/ '../components/Orders/Msglist.vue')
+    path: "/index",
+    name: "index",
+    component: () =>
+      import(/* webpackChunkName: "about" */ "../components/Collect/index.vue"),
+    children: [
+      {
+        path: "/collects",
+        name: "collects",
+        component: () =>
+          import(
+            /* webpackChunkName: "about" */ "../components/Collect/modules/collects.vue"
+          ),
+      },
+      {
+        path: "/history",
+        name: "history",
+        component: () =>
+          import(
+            /* webpackChunkName: "about" */ "../components/Collect/modules/history.vue"
+          ),
+      },
+    ],
   },
-  {
-    path: '/table', //消息列表
-    name: 'table',
-    component: () => import(/* webpackChunkName: "msg_list"*/ '../components/tableBar.vue')
-  }
-]
+  // {path:'/form',name:'form',
+  // component: () => import(/* webpackChunkName: "about" */ '../components/Index/form.vue')}
+];
 
 const router = new VueRouter({
-  mode: 'history',
+  mode: "history",
   base: process.env.BASE_URL,
-  routes
-})
+  routes,
+});
 
-export default router
+export default router;
