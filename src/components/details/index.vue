@@ -39,7 +39,6 @@ export default {
     this.axios.get('/details/?rid=60c164a7074200005d003192').then(result=>{
       // console.log(result.data.result)
       const data = result.data.result;
-      console.log(data)
       this.swiper = data.swiper;
 
 
