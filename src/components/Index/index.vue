@@ -224,7 +224,7 @@
 <!--              <span>￥1180</span>-->
 <!--            </div>-->
 <!--          </div>-->
-          <div class="homestay-item" v-for="item in result" :key="result._id">
+          <div class="homestay-item" v-for="item in result" :key="item._id">
             <img
               :src="item.swiper"
               alt=""
