@@ -31,7 +31,7 @@
       </van-tab>
       <van-tab :title="'周边'" name="g">
         <!-- <map-around></map-around> -->
-        <map-img></map-img>
+        <map-img :location="location"></map-img>
         <map-tabs :circum="circum"></map-tabs>
       </van-tab>
     </van-tabs>
@@ -54,6 +54,16 @@ import youHui from "@/components/details/youhui";
 import DaTe from "@/components/details/date";
 import calenDar from "@/components/details/calendar";
 export default {
+   props: {
+    allDate: {
+      type: Object,
+      require: true,
+      default: function() {
+        return {};
+      }
+    }
+
+  },
   data() {
     return {
       activeName: "a",
@@ -69,6 +79,7 @@ export default {
       discuss:'',
       notice: undefined,
       circum: undefined,
+      location:"",
 
     };
   },
@@ -92,21 +103,68 @@ export default {
   mounted() {
     window.addEventListener("scroll", this.handleScroll); // 监听滚动事件
 
-    this.axios.get('/details/?rid=60c164a7074200005d003192').then(result=>{
-      // console.log(result.data.result)
-      const data = result.data.result
-      console.log(data)
+    // this.axios.get('/details/?rid=60c164a7074200005d003192').then(result=>{
+    //   // console.log(result.data.result)
+    //   const data = result.data.result
+    //   console.log(data)
 
-      // {(this.title.name),(this.title.star),(this.title.location),(this.title.nearby)} = {(data:'r_name'),(data.star),(data.location),(data.nearby)}
+    //   // {(this.title.name),(this.title.star),(this.title.location),(this.title.nearby)} = {(data:'r_name'),(data.star),(data.location),(data.nearby)}
       
-      let  {r_name:name,star,location,nearby,label,params,swiper, price, new_price,facility,owner,discuss,notice,circum} =data;
-      // console.log(name,star,location,nearby)
-      this.title = {
+    //   let  {r_name:name,star,location,nearby,label,params,swiper, price, new_price,facility,owner,discuss,notice,circum} =data;
+    //   // console.log(name,star,location,nearby)
+    //   this.title = {
+    //     name,
+    //     star,
+    //     location,
+    //     nearby,
+    //     label
+        
+
+    //   }
+    //   // console.log(label)
+    //   this.label = label;
+    //   this.params = params;
+    //   this.swiper = swiper;
+    //   this.jiage = {
+    //     price,
+    //     new_price
+    //   };
+
+    //   this.facility = facility;
+    //   this.owner = owner;
+    //   this.discuss = discuss;
+    //   this.notice = notice;
+    //   this.circum = circum;
+
+
+    //   // :swiper="swiper[0].url"
+    //   // this.bus.$emit('url', this.swiper[0].url[0])
+    //   // console.log(hsueh)
+    //   // console.log(this.title)
+    //   // console.log(this.swiper)
+    //   // console.log(this.jiage)
+    //   // console.log(facility)
+    //   // console.log(owner)
+    //   // console.log(discuss)
+    //   // console.log(this.notice)
+    //   // console.log(this.circum)
+
+
+    // })
+
+  },
+  watch:{
+    allDate(val) {
+      // console.log(val)
+        let  {r_name:name,star,location,nearby,label,params,swiper, price, new_price,facility,owner,discuss,notice,circum,} =val;
+        this.title = {
         name,
         star,
         location,
         nearby,
-        label
+        label,
+        price,
+        new_price
         
 
       }
@@ -124,25 +182,11 @@ export default {
       this.discuss = discuss;
       this.notice = notice;
       this.circum = circum;
+      this.location = location;
 
+      // console.log(this.location)
 
-      // :swiper="swiper[0].url"
-      // this.bus.$emit('url', this.swiper[0].url[0])
-      // console.log(hsueh)
-      // console.log(this.title)
-      // console.log(this.swiper)
-      // console.log(this.jiage)
-      // console.log(facility)
-      // console.log(owner)
-      // console.log(discuss)
-      // console.log(this.notice)
-      // console.log(this.circum)
-
-
-    })
-
-  },
-  watch:{
+    }
     
   },
   methods: {

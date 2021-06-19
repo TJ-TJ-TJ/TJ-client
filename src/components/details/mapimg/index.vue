@@ -15,7 +15,7 @@
               alt=""
             />
             <div class="address-desc-text" id="copy">
-              北京延庆区孙森林农家饭庄(南20米即“青山木屋”)
+              {{ locations }}
             </div>
           </div>
           <div class="address-copy">
@@ -34,6 +34,15 @@
 
 <script>
 export default {
+  props: {
+    location: {
+      type: String,
+      require: true,
+      default: function () {
+        return "ss";
+      },
+    },
+  },
   data() {
     return {
       //https://api.map.baidu.com/staticimage/v2?
@@ -48,12 +57,13 @@ export default {
       map: {
         bkey: "G2KVCcxS91G0ZZ5XiUZxgP3pXaQy2g8v",
         key: "8105cb97f8e7c42bf9f281893eae3f4f",
-        location: "116.300901,39.916085", //：经度和纬度用","分隔 经纬度小数点后不得超过6位
+        location: "", //：经度和纬度用","分隔 经纬度小数点后不得超过6位
         // zoom: "17", // 地图级别 地图缩放级别:[1,17]
         // markers: '-1',
         markersUrl: "http://pic.tujia.com/upload/festatic/crn/position2.png", // 标注图片
         // size: "400*400", //图片大小
       },
+      locations: this.location,
     };
   },
   methods: {
@@ -72,6 +82,23 @@ export default {
       this.$toast("复制成功");
     },
   },
+  watch: {
+    location(val) {
+      this.locations = val;
+
+      window.showLocation = (res)=>{
+      
+      let r =[res.result.location.lng,res.result.location.lat]
+      let loca = r.toString()
+      this.map.location = loca
+      
+     }
+    const script =  document.createElement('script')
+    script.src = `http://api.map.baidu.com/geocoding/v3/?address=${val}&output=json&ak=G2KVCcxS91G0ZZ5XiUZxgP3pXaQy2g8v&callback=showLocation`;
+    document.body.appendChild(script)
+    },
+  },
+
 };
 </script>
 

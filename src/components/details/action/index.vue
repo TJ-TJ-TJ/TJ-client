@@ -12,8 +12,8 @@
         <!-- <span class="shux">|</span>
        <div class="price">￥262 <span id="price2">/晚￥328</span> </div> -->
         <div class="pric">
-          <span class="price">￥449</span>
-          <span class="price2">/晚 <s>￥500</s> </span>
+          <span class="price">￥{{jiage.new_price}}</span>
+          <span class="price2">/晚 <s>￥{{jiage.price}}</s> </span>
         </div>
 
         <van-goods-action-button color="#ff9645" class="btn">
@@ -27,6 +27,31 @@
     </van-tabbar>
   </div>
 </template>
+
+<script>
+export default {
+  props: {
+    prices: {
+      type: Object,
+      require: true,
+      default: ()=> {
+        return {};
+      }
+    }
+  },
+  data() {
+    return {
+      jiage: this.prices
+    };
+  },
+  watch: {
+    prices(val) {
+      this.jiage = val
+    } 
+  }
+  
+}
+</script>
 
 <style lang="scss">
 .action {

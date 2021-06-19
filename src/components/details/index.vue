@@ -3,7 +3,7 @@
        <!-- <button @click="qingq">请求</button> -->
     <nav-bar></nav-bar>
      <sw-ipe  :swiper="swiper"></sw-ipe>
-     <scroll-tab ></scroll-tab>
+     <scroll-tab :allDate="allDate"></scroll-tab>
 
     <!-- <intro-duce></intro-duce>
     <hous-scource></hous-scource>
@@ -12,7 +12,7 @@
     <com-ment></com-ment>
     <not-ice></not-ice> -->
     <foo-ter></foo-ter> 
-    <act-ion></act-ion>
+    <act-ion :prices="prices"></act-ion>
  
   </div>
 </template>
@@ -32,14 +32,26 @@ import FooTer from "@/components/details/footer";
 export default {
   data() {
     return {
-      swiper: ''
+      swiper: '',
+      allDate:undefined,
+      prices: undefined,
     };
   },
   mounted() {
     this.axios.get('/details/?rid=60c164a7074200005d003192').then(result=>{
       // console.log(result.data.result)
       const data = result.data.result;
+      this.allDate = data
+      console.log(data)
       this.swiper = data.swiper;
+         const {price,new_price}=data
+
+      // console.log(price,new_price)
+      this.prices = {
+        price,
+        new_price
+      }
+      // console.log(this.prices)
 
 
 

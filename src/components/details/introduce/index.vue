@@ -8,22 +8,22 @@
     天津西青大学城幕围电影主题大床房
     </div> -->
 
-    <div class="discount">特惠价格！已优惠125元</div>
+    <div class="discount" v-if="chajiashow" >特惠价格！已优惠{{chajia}}元</div>
 
     <van-cell-group class="grub">
       <div class="van-cell__title ">
        
-    {{title.name}}
+    {{biaoti.name}}
     <!-- X -->
         <span v-for="(val, index) in goodtime" :key="index">
           <img src="/icon/diamondLevel.png" alt=""
         /></span>
       </div>
       <div class="lable" >
-        <span  v-for="val,i  in label.base " :key="i" class="lablelist">{{
+        <span  v-for="val,i  in miaoshu.base " :key="i" class="lablelist">{{
           val
         }}</span>
-        <span v-for="k in label.play" :key="k" class="lablelist2">{{ k }}</span>
+        <span v-for="k in miaoshu.play" :key="k" class="lablelist2">{{ k }}</span>
       </div>
       <div class="listinfo">
         <span class="pingfen">4.9</span>
@@ -49,10 +49,10 @@
       <div class="ditu">
       <div class="ditu-cont">
         <div class="ditu-left">
-          <div class="dizhi">{{title.location}}</div>
+          <div class="dizhi">{{biaoti.location}}</div>
           <div class="juli">
             <img src="/icon/position_subway.png" alt="">
-            {{title.nearby}}
+            {{biaoti.nearby}}
           </div>
         </div>
         <div class="ditu-right">
@@ -75,9 +75,9 @@ export default {
     title: {
       type: String | Number,
       require: true,
-      // default: function() {
-      //   return {}
-      // }
+      default: function() {
+        return {}
+      }
     },
     label:{
       type: Array | String,
@@ -85,8 +85,8 @@ export default {
 
       default: function() {
         return {
-          base:['ss'],
-          play:['ss']
+          base:[''],
+          play:['']
         }
       }
 
@@ -95,9 +95,12 @@ export default {
   data() {
     return {
       show: false,
-
-      goodtime: 3,
       
+      biaoti:'',
+      miaoshu: '',
+      goodtime: 3,
+      chajia:'',
+      chajiashow:true
          
           //  base: this.title.label.base,
           //  play: this.title.label.play,
@@ -111,8 +114,21 @@ export default {
     
    
 
-      }
+    }
     
+  },
+  watch: {
+    title(val) {
+      this.biaoti=val
+      this.chajia = (val.price - val.new_price)
+      // console.log(this.chajia);
+      if(this.chajia == 0) {
+        this.chajiashow = false
+      }
+    },
+     label(val) {
+       this.miaoshu = val
+     }
   },
   mounted() {
     // console.log(this.title)
