@@ -1,32 +1,98 @@
-import Vue from 'vue'
-import VueRouter from 'vue-router'
-Vue.use(VueRouter)
+import Vue from "vue";
+import VueRouter from "vue-router";
+import Order from "./order"; //订单 及 消息模块的路由配置
+import user from "./user"; //用户信息界面(user)
+Vue.use(VueRouter);
 const routes = [
-//获取信息页
-  {
-    path:'/user',
-    name:'user',
-    component: () => import(/* webpackChunkName: "user" */ '../components/user/user.vue')
-  },
-//编辑个人信息页
-  {
-    path:'/editSelfData',
-    name:'editSelfData',
-    component: () => import(/* webpackChunkName: "user" */ '../components/user/editSelfData.vue')
-  },
-  //设置页面
-  {
-    path:'/setting',
-    name:'setting',
-    component: () => import(/* webpackChunkName: "user" */ '../components/user/setting.vue')
-  }
-]
+  ...Order,
+  ...user,
+  // {
+  //   path: "/index",
+  //   redirect: "/collects",
+  // },
 
+  {
+    path: "/",
+    name: "index",
+    component: () =>
+      import(/* webpackChunkName: "about" */ "../components/Index/index.vue"),
+  },
+  {
+    path: "/search",
+    name: "search",
+    component: () =>
+      import(/* webpackChunkName: "about" */ "../components/Index/search.vue"),
+  },
+  {
+    path: "/stay",
+    name: "stay",
+    component: () =>
+      import(
+        /* webpackChunkName: "about" */
+        "../components/Index/homestay.vue"
+      ),
+  },
+  {
+    path: "/mapIndex",
+    name: "mapIndex",
+    component: () =>
+      import(
+        /* webpackChunkName: "about" */
+        "../components/Index/mapIndex.vue"
+      ),
+  },
+  {
+    path: "/city",
+    name: "city",
+    component: () =>
+      import(/* webpackChunkName: "about" */ "../components/Index/city.vue"),
+  },
+  {
+    path: "/report",
+    name: "photo",
+    component: () =>
+      import(/* webpackChunkName: "about" */ "../components/Index/report.vue"),
+  },
+  {
+    path: "/user",
+    name: "user",
+    component: () =>
+      import(/* webpackChunkName: "about" */ "../components/Index/user.vue"),
+  },
+  {
+    path: "/index",
+    name: "index",
+    component: () =>
+      import(/* webpackChunkName: "about" */ "../components/Collect/index.vue"),
+    children: [
+      {
+        path: "/collects",
+        name: "collects",
+        component: () =>
+          import(
+            /* webpackChunkName: "about" */
+            "../components/Collect/modules/collects.vue"
+          ),
+      },
+      {
+        path: "/history",
+        name: "history",
+        component: () =>
+          import(
+            /* webpackChunkName: "about" */
+            "../components/Collect/modules/history.vue"
+          ),
+      },
+    ],
+  },
+  // {path:'/form',name:'form',
+  // component: () => import(/* webpackChunkName: "about" */ '../components/Index/form.vue')}
+];
 
 const router = new VueRouter({
-  mode: 'history',
+  mode: "history",
   base: process.env.BASE_URL,
-  routes
-})
+  routes,
+});
 
-export default router
+export default router;

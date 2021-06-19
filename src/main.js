@@ -20,6 +20,7 @@ Vue.component('table-bar', TableBar) // 直接使用即可 <table-bar></table-ba
 Vue.use(Vant);
 Vue.use(List);
 Vue.use(Lazyload);
+axios.defaults.validateStatus = status=> true
 axios.defaults.baseURL = 'http://tj.testw.top/v1'
 Vue.prototype.$axios=axios
 

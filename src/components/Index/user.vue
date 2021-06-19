@@ -2,8 +2,8 @@
   <div class="userIndex">
     <div class="title">
       <div class="backImg">
-        <div class="uname-container">
-          <span class="uname">
+        <div v-show="!userInfo.uname" class="uname-container">
+          <span @click="goLogin" class="uname">
             注册/登录
           </span>
           <br>
@@ -11,15 +11,31 @@
             注册预定返积分
           </span>
         </div>
+        <div v-show="userInfo.uname" class="uname-container">
+          <span class="uname">
+             {{userInfo.uname}}
+          </span>
+        </div>
       </div>
       <van-image
+        v-if="!userInfo.token"
         round
         width="5rem"
         height="5rem"
-        src="https://img01.yzcdn.cn/vant/cat.jpeg"
+        class="headimg"
+        src="/img/defaultHead.png"
+      />
+       <van-image
+       @click="goEdit"
+        v-else
+        round
+        width="5rem"
+        height="5rem"
+        class="headimg"
+        :src="userInfo.headImg"
       />
       <div class="icon">
-        <van-icon name="icon/编辑.png" size="1.5rem" ref="spanRef"/>
+        <van-icon @click="goEdit" name="icon/编辑.png" size="1.5rem" ref="spanRef"/>
       </div>
       <div class="price">
         <div>
@@ -107,6 +123,7 @@
         </div>
       </div>
     </div>
+     <table-bar></table-bar>
   </div>
 </template>
 
@@ -114,9 +131,27 @@
 export default {
   data(){
     return{
-
+        userInfo:{
+          token:window.localStorage.getItem('token'),
+          phone:window.localStorage.getItem('phone'),
+          uname:window.localStorage.getItem('uname'),
+          headImg:window.localStorage.getItem('headImg'),
+        }
     }
   },
+  methods:{
+    //去登录
+    goLogin(){
+      this.$router.push({path:'login'});
+    },
+    goEdit(){
+      this.$router.push({path:'setting'})
+      if(!this.userInfo.token){
+        this.$router.push({path:'login'})
+      }
+    },
+  },
+
   mounted(){
   }
 };
@@ -134,8 +169,9 @@ export default {
     .backImg {
       width: 100%;
       height: 30vh;
-      background-image: url('/img/背景.jpg');
-       clip-path: polygon(100% 0%,  0% 0%, 0% 80%, 100% 35%);
+      background: url('/img/背景.png');
+      background-position: 0px -20px;
+      clip-path: polygon(100% 0%,  0% 0%, 0% 80%, 100% 35%);
       //clip-path: ellipse(90% 16vh at 15% 15%);
     }
     .van-image {
@@ -231,5 +267,13 @@ export default {
       font-size: 5px;
     }
   }
+}
+.headimg{
+  display: flex;
+  justify-content: center;
+}
+.headimg img{
+  width: 105%;
+  height: 105%;
 }
 </style>

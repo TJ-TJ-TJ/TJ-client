@@ -13,7 +13,7 @@
             </template>
          </van-nav-bar>
         <!-- 个人资料------start -->
-        <div class="US-box-item">
+        <div @click="goSelfData" class="US-box-item">
             <div> 个人资料 </div>
             <van-icon name="arrow" size="25" />
         </div>
@@ -35,7 +35,7 @@
             <div> 手机号 </div>
             <div class="US-box-item-right">
               
-                <font style="font-weight:600;color:#454545">183****3334</font>
+                <font style="font-weight:600;color:#454545">{{userInfo.phone}}</font>
             </div>
             <van-icon name="arrow" size="25" />
         </div>
@@ -46,7 +46,7 @@
             <div> 邮箱 </div>
             <div class="US-box-item-right">
                 
-                <font style="font-weight:600;color:#454545">zhao1985019435@gmail.com</font>
+                <font style="font-weight:600;color:#454545"></font>
             </div>
             <van-icon name="arrow" size="25" />
         </div>
@@ -66,7 +66,7 @@
         </div>
         <!-- 登陆密码------end -->
 
-        <div class="US-box-signOut">
+        <div @click="exitLogin" class="US-box-signOut">
             <div>退出登录</div>
         </div>
     </div>
@@ -76,13 +76,32 @@
 export default {
     data() {
         return {
-            
+            userInfo:{
+                token:window.localStorage.getItem('token'),
+                phone:window.localStorage.getItem('phone'),
+                uname:window.localStorage.getItem('uname'),
+                headImg:window.localStorage.getItem('headImg'),
+            }
         }
     },
     methods:{
         onClickLeft() {
             this.$router.go(-1)
         },
+
+        //点击 进入个人资料页面
+        goSelfData(){
+            this.$router.push({path:'editSelfData'})
+        },
+        
+
+        //退出登录
+        exitLogin(){
+            window.localStorage.removeItem('token'),
+            window.localStorage.removeItem('uname'),
+            window.localStorage.removeItem('phone'),
+            window.localStorage.removeItem('headImg')
+        }
     }
 }
 </script>

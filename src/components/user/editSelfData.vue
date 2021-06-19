@@ -72,7 +72,7 @@
         
         <van-dialog :beforeClose="unameClickRules"  v-model="dialogShow" title="姓名" show-cancel-button>
           
-                <van-form ref="unameRef" @submit="onSubmit">
+                <van-form ref="unameRef">
                     <van-field
                         v-model="userConfig.uname"
                         name="姓名"
@@ -128,7 +128,7 @@ export default {
             currentDialogOption:'',
             headImgBlob:'',
             userConfig:{
-                nickname:'游客123123',
+                nickname:window.localStorage.getItem('uname'),
                 uname:'', //真实姓名
                 sex:'',  //性别
                 age:'', //年龄
