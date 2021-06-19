@@ -7,7 +7,7 @@
         <van-image
           width="82"
           height="104"
-          src="https://pic.tujia.com/upload/landlordunit/day_190414/thumb/201904141312143092_700_467.jpg"
+          :src="house"
         />
         <span class="card-img-text">当前房源</span>
       </div>
@@ -26,13 +26,13 @@
         <van-image
           width="82"
           height="104"
-          src="https://pic.tujia.com/upload/landlordunit/day_190414/thumb/201904141312143092_700_467.jpg"
+          :src="swiper[0].url[0]"
         />
         <span class="card-img-text">当前房源</span>
       </template>
       <template #title>
         <div class="card-title">
-          实拍·整套·1居1床2人·48㎡
+          {{params.attr}}·{{params.house}}居{{params.bed}}床{{params.person_count}}人·{{params.area}}㎡
           <!-- <div class="card-arrow"><img src="/icon/aggregation-right-black.png" alt=""></div> -->
         </div>
       </template>
@@ -61,10 +61,10 @@
         </van-col> -->
 
             <van-col class="yjg" offset="2" span="4">
-              <s>¥1000</s>
+              <s>{{jiage.price}}</s>
             </van-col>
             <van-col offset="4" span="6">
-              <span class="newjg">¥989 </span>/晚
+              <span class="newjg">¥{{jiage.new_price}} </span>/晚
             </van-col>
             <van-col offset="3" span="4">
               <van-button
@@ -91,14 +91,14 @@
         <!-- <span class="card-img-text">当前房源</span> -->
       </template>
       <template #title>
-        <div class="card-title">实拍·整套·1居1床2人·48㎡</div>
+        <div class="card-title">实拍·整套·2居2床2人·38㎡</div>
       </template>
       <template #desc>
-        <div class="card-desc">北欧风情观景大床房 （车接车送）</div>
+        <div class="card-desc">欧风情观景大床房 （车接车送）</div>
       </template>
       <template #tags>
         <van-tag color="rgba(255, 102, 102, 0.1)" text-color="#f66"
-          >今日特价减110</van-tag
+          >今日特价减210</van-tag
         >
         <br />
         <div class="card-xuzhi">
@@ -121,7 +121,7 @@
               <s>¥1000</s>
             </van-col>
             <van-col offset="4" span="6">
-              <span class="newjg">¥989 </span>/晚
+              <span class="newjg">¥789 </span>/晚
             </van-col>
             <van-col offset="3" span="4">
               <van-button
@@ -146,14 +146,14 @@
         <!-- <span class="card-img-text">当前房源</span> -->
       </template>
       <template #title>
-        <div class="card-title">实拍·整套·1居1床2人·48㎡</div>
+        <div class="card-title">实拍·整套·3居1床2人·68㎡</div>
       </template>
       <template #desc>
-        <div class="card-desc">北欧风情观景大床房 （车接车送）</div>
+        <div class="card-desc">欧洲风情观景大床房 （车接车送）</div>
       </template>
       <template #tags>
         <van-tag color="rgba(255, 102, 102, 0.1)" text-color="#f66"
-          >今日特价减110</van-tag
+          >今日特价减80</van-tag
         >
         <br />
         <div class="card-xuzhi">
@@ -173,7 +173,7 @@
         </van-col> -->
 
             <van-col class="yjg" offset="2" span="4">
-              <s>¥1000</s>
+              <s>¥1100</s>
             </van-col>
             <van-col offset="4" span="6">
               <span class="newjg">¥989 </span>/晚
@@ -201,14 +201,14 @@
         <!-- <span class="card-img-text">当前房源</span> -->
       </template>
       <template #title>
-        <div class="card-title">实拍·整套·1居1床2人·48㎡</div>
+        <div class="card-title">{{params.attr}}·{{params.house}}居{{params.bed}}床{{params.person_count}}人·{{params.area}}㎡</div>
       </template>
       <template #desc>
-        <div class="card-desc">北欧风情观景大床房 （车接车送）</div>
+        <div class="card-desc">英国风情观景大床房 （车接车送）</div>
       </template>
       <template #tags>
         <van-tag color="rgba(255, 102, 102, 0.1)" text-color="#f66"
-          >今日特价减110</van-tag
+          >今日特价减90</van-tag
         >
         <br />
         <div class="card-xuzhi">
@@ -228,10 +228,10 @@
         </van-col> -->
 
             <van-col class="yjg" offset="2" span="4">
-              <s>¥1000</s>
+              <s>¥103</s>
             </van-col>
             <van-col offset="4" span="6">
-              <span class="newjg">¥989 </span>/晚
+              <span class="newjg">¥999 </span>/晚
             </van-col>
             <van-col offset="3" span="4">
               <van-button
@@ -251,9 +251,38 @@
 </template>
 <script>
 export default {
+  props: {
+    params: {
+      type: Number | String,
+      require: true
+    },
+    swiper: {
+      type: Object | Array | String,
+      require: true,
+      default: function(){return [
+        {
+          class_name: '',
+          type: '',
+          url: ['']
+        }
+      ]}
+    },
+    jiage: {
+      type: Object | Number,
+      require: true,
+      default: function() {
+        return {
+          price:"",
+          new_price:""
+        }
+      }
+    }
+  },
+  // props: ['params','swiper'],
   data() {
     return {
       show: false,
+      // houses: 'https://pic.tujia.com/upload/landlordunit/day_190414/thumb/201904141312288527_700_467.jpg',
     };
   },
 
@@ -265,6 +294,30 @@ export default {
       return document.querySelector(".houssource");
     },
   },
+  beforeCreate() {
+    
+  },
+  created(){
+    // console.log(this.$props.swiper, '------->>>>>');
+  },
+  watch:{
+
+  },
+  mounted() {
+    // this.houses = this.$props.swiper[0].url[0]
+    // console.log(this.params)
+    
+    this.bus.$on('url', data=>{
+      console.log(data)
+    })
+    // console.log(this.house)
+  },
+  watch: {
+    // swiper(newval,oldval) {
+    //     this.houses = newval
+    // }
+  }
+ 
 };
 </script>
 
@@ -356,20 +409,7 @@ export default {
   //   visibility: hidden;
   // }
 
-  // .desc::after {
-  //   display: block;
-  //   content: "";
-  //   width: 7px;
-  //   height: 12px;
-  //   background-image: url('https://pic.tujia.com/upload/festatic/publicImages/aggregation-right-black.png');
-  //   background-size: 100% 100%;
-  //   position: absolute;
-  //   right: 0;
-  //   bottom: 2px;
-
-  // }
-  //     }
-  //   }
+  
 
   .card-img-text {
     position: absolute;

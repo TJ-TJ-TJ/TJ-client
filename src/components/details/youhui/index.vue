@@ -22,7 +22,7 @@
       closeable
       close-icon="cross"
     >
-    <!-- 红包内容 -->
+      <!-- 红包内容 -->
       <div class="cont">
         <div class="popu-head">红包</div>
         <div class="popu-cont">
@@ -39,27 +39,31 @@
               </div>
               <span class="kage-desc">满100元减1元</span>
               <div class="kage-val">
-                  <span class="val-date">有效期：2021-06-04至2021-07-31</span>
+                <span class="val-date">有效期：2021-06-04至2021-07-31</span>
               </div>
             </div>
             <div class="item-info-btn">
-                <div class="operate-txt">立即领取</div>
-
+              <div class="operate-txt">立即领取</div>
             </div>
           </div>
-          <div class="item-desc">
-              <div class="item-desc-txt " @click="showitem" id="showtext">
-                  <span class="txt-info">1、适用入住日期：2021-06-12至2021-12-13</span>
-                  <span class="txt-info overflow-hide">2、每张订单房东红包与平台红包可以叠加使用，分别最多使用一个</span>
-                  <span class="txt-info overflow-hide">3、一次性使用，抵扣定金后的余额不能再使用</span>
-                  <span class="txt-info overflow-hide">4、部分促销活动暂不支持红包支付，具体详见相关活动规则页面</span>
-
-              </div>
-              <div class="item-desc-icon">
-                  <img src="/icon/ndetail_arr_down.png" alt="" class="icon-info">
-
-              </div>
-
+          <div class="item-desc" @click="showitem">
+            <div class="item-desc-txt" :class="{'auto-height': showtxt}" >
+              <span class="txt-info "
+                >1、适用入住日期：2021-06-12至2021-12-13</span
+              >
+              <span :class="{ 'txt-info': showtxt, 'overflow-hide': !showtxt }"
+                >2、每张订单房东红包与平台红包可以叠加使用，分别最多使用一个</span
+              >
+              <span :class="{ 'txt-info': showtxt, 'overflow-hide': !showtxt }"
+                >3、一次性使用，抵扣定金后的余额不能再使用</span
+              >
+              <span :class="{ 'txt-info': showtxt, 'overflow-hide': !showtxt }"
+                >4、部分促销活动暂不支持红包支付，具体详见相关活动规则页面</span
+              >
+            </div>
+            <div class="item-desc-icon">
+              <img src="/icon/ndetail_arr_down.png" alt="" :class="{'icon-info': showtxt,'icon-info-rotate': !showtxt}" />
+            </div>
           </div>
         </div>
       </div>
@@ -72,6 +76,7 @@ export default {
   data() {
     return {
       show: false,
+      showtxt: false,
     };
   },
   methods: {
@@ -79,17 +84,8 @@ export default {
       this.show = true;
     },
     showitem() {
-       let div = document.getElementById('showtext');
-       console.log(div)
-       let span = div.getElementsByTagName('span')
-       console.log(span)
-       for(let i = 0; i<span.length; i++) {
-           
-        span[i].classList.remove('overflow-hide')
-           
-
-       }
-    }
+      this.showtxt = !this.showtxt;
+    },
   },
 };
 </script>
@@ -216,19 +212,18 @@ export default {
         background-image: linear-gradient(90deg, #fcefe5, #ffe4cf);
         border-radius: 6px 6px 0 0;
         position: relative;
-         &::after {
-                display: block;
-                content: "";
-                width: 100%;
-                height: 4px;
-                background-image: url("https://pic.tujia.com/upload/festatic/mp/ndetail_circle2x.png");
-                background-size: 100% 100%;
-                background-repeat: repeat-x;
-                position: absolute;
-                bottom: -1px;
-                left: 0;
-
-            }
+        &::after {
+          display: block;
+          content: "";
+          width: 100%;
+          height: 4px;
+          background-image: url("https://pic.tujia.com/upload/festatic/mp/ndetail_circle2x.png");
+          background-size: 100% 100%;
+          background-repeat: repeat-x;
+          position: absolute;
+          bottom: -1px;
+          left: 0;
+        }
 
         .item-info-list {
           flex: 1;
@@ -244,78 +239,80 @@ export default {
               color: #ff9645;
               font-weight: 500;
             }
-            
           }
           .kage-desc {
-              font-size: 12px;
-              color: #666;
-              margin-top: 5px;
+            font-size: 12px;
+            color: #666;
+            margin-top: 5px;
+          }
+          .kage-val {
+            margin-top: 5px;
+            .val-date {
+              font-size: 11px;
+              color: #999;
             }
-            .kage-val {
-                margin-top: 5px;
-                .val-date {
-                    font-size: 11px;
-                    color: #999;
-                }
-            }
+          }
         }
 
-
-
         .item-info-btn {
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            height: 25px;
-            background: #ff9645;
-            border-radius: 12px;
-            padding: 0 10px;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          height: 25px;
+          background: #ff9645;
+          border-radius: 12px;
+          padding: 0 10px;
 
-            .operate-txt {
-                font-size: 12px;
-                color: #fff;
-            }
-           
+          .operate-txt {
+            font-size: 12px;
+            color: #fff;
+          }
         }
       }
 
       .item-desc {
+        display: flex;
+        align-items: flex-start;
+        background: #fff;
+        border: 0 0 6px 6px;
+        padding: 8px 16px;
+
+        .item-desc-txt {
+          flex: 1;
+          overflow: hidden;
+          .txt-info {
+            display: block;
+            font-size: 11px;
+            color: #999;
+            line-height: 14px;
+          }
+          .overflow-hide {
+            display: none;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+          }
+        }
+        .auto-height {
+          height: auto;
+        }
+
+        .item-desc-icon {
           display: flex;
-          align-items: flex-start;
-          background: #fff;
-          border:  0 0 6px 6px;
-          padding: 8px 16px;
-
-          .item-desc-txt {
-              flex: 1;
-              overflow: hidden;
-              .txt-info {
-                  display: block;
-                  font-size: 11px;
-                  color: #999;
-                  line-height: 14px;
-              }
-              .overflow-hide {
-                  display: none;
-                  text-overflow: ellipsis;
-                  white-space: nowrap;
-              }
+          align-items: center;
+          height: 14px;
+          margin-left: 20px;
+          .icon-info {
+            display: block;
+            width: 8px;
+            height: 8px;
           }
-          .auto-height {
-              height: auto;
+          .icon-info-rotate {
+            transform: rotate(180deg);
+             width: 8px;
+            height: 8px;
+            
           }
-
-          .item-desc-icon {
-              display: flex;
-              align-items: center;
-              height: 14px;
-              margin-left: 20px;
-              .icon-info {
-                  display: block;
-                  width: 8px;
-                  height: 8px;
-              }
-          }
+        }
       }
     }
   }

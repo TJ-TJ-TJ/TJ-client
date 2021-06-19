@@ -1,7 +1,8 @@
 <template>
   <div class="details">
+       <!-- <button @click="qingq">请求</button> -->
     <nav-bar></nav-bar>
-     <sw-ipe></sw-ipe>
+     <sw-ipe  :swiper="swiper"></sw-ipe>
      <scroll-tab ></scroll-tab>
 
     <!-- <intro-duce></intro-duce>
@@ -12,6 +13,7 @@
     <not-ice></not-ice> -->
     <foo-ter></foo-ter> 
     <act-ion></act-ion>
+ 
   </div>
 </template>
 
@@ -29,7 +31,26 @@ import action from "@/components/details/action";
 import FooTer from "@/components/details/footer";
 export default {
   data() {
-    return {};
+    return {
+      swiper: ''
+    };
+  },
+  mounted() {
+    this.axios.get('/details/?rid=60c164a7074200005d003192').then(result=>{
+      // console.log(result.data.result)
+      const data = result.data.result;
+      console.log(data)
+      this.swiper = data.swiper;
+
+
+
+
+  
+
+
+
+    })
+
   },
   components: {
     "nav-bar": navbar,
@@ -44,6 +65,15 @@ export default {
     FooTer,
     "act-ion": action,
   },
+  // methods: {
+  //   qingq() {
+
+  //     this.axios.get('/details/?rid=60c164a7074200005d003192').then(result=>{
+  //       console.log(result)
+  //     })
+
+  //   }
+  // }
 };
 </script>
 <style lang="scss"></style>

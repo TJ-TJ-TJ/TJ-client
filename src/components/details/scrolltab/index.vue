@@ -9,30 +9,30 @@
      
     >
       <van-tab :title="'概览'" name="a">
-        <intro-duce></intro-duce>
+        <intro-duce :title="title" :label="label"></intro-duce>
       </van-tab>
       <van-tab :title="'房源'" name="b">
         <you-hui></you-hui>
-        <da-te  @dateshow='cs($event)'></da-te>
+        <da-te ref="dataRef" @dateshow='cs($event)'></da-te>
         <calen-dar :titls='ss' ref="calend"></calen-dar>
-        <hous-scource></hous-scource>
+        <hous-scource :params="params" :swiper="swiper" :jiage="jiage"></hous-scource>
       </van-tab>
       <van-tab :title="'设施'" name="c">
-        <facil-ities></facil-ities>
+        <facil-ities :facility="facility"></facil-ities>
       </van-tab>
       <van-tab :title="'房东'" name="d">
-        <land-lord></land-lord>
+        <land-lord :fowner="owner"></land-lord>
       </van-tab>
       <van-tab :title="'点评'" name="e">
-        <com-ment></com-ment>
+        <com-ment :discuss="discuss"></com-ment>
       </van-tab>
       <van-tab :title="'须知'" name="f">
-        <not-ice></not-ice>
+        <not-ice :notice="notice"></not-ice>
       </van-tab>
       <van-tab :title="'周边'" name="g">
         <!-- <map-around></map-around> -->
         <map-img></map-img>
-        <map-tabs></map-tabs>
+        <map-tabs :circum="circum"></map-tabs>
       </van-tab>
     </van-tabs>
   </div>
@@ -57,7 +57,19 @@ export default {
   data() {
     return {
       activeName: "a",
-      ss: ''
+      ss: '',
+
+      swiper: undefined,
+      title:'',
+      label: undefined,
+      params:'',
+      jiage: '',
+      facility: undefined,
+      owner:'',
+      discuss:'',
+      notice: undefined,
+      circum: undefined,
+
     };
   },
   components: {
@@ -79,12 +91,65 @@ export default {
   },
   mounted() {
     window.addEventListener("scroll", this.handleScroll); // 监听滚动事件
+
+    this.axios.get('/details/?rid=60c164a7074200005d003192').then(result=>{
+      // console.log(result.data.result)
+      const data = result.data.result
+      console.log(data)
+
+      // {(this.title.name),(this.title.star),(this.title.location),(this.title.nearby)} = {(data:'r_name'),(data.star),(data.location),(data.nearby)}
+      
+      let  {r_name:name,star,location,nearby,label,params,swiper, price, new_price,facility,owner,discuss,notice,circum} =data;
+      // console.log(name,star,location,nearby)
+      this.title = {
+        name,
+        star,
+        location,
+        nearby,
+        label
+        
+
+      }
+      // console.log(label)
+      this.label = label;
+      this.params = params;
+      this.swiper = swiper;
+      this.jiage = {
+        price,
+        new_price
+      };
+
+      this.facility = facility;
+      this.owner = owner;
+      this.discuss = discuss;
+      this.notice = notice;
+      this.circum = circum;
+
+
+      // :swiper="swiper[0].url"
+      // this.bus.$emit('url', this.swiper[0].url[0])
+      // console.log(hsueh)
+      // console.log(this.title)
+      // console.log(this.swiper)
+      // console.log(this.jiage)
+      // console.log(facility)
+      // console.log(owner)
+      // console.log(discuss)
+      // console.log(this.notice)
+      // console.log(this.circum)
+
+
+    })
+
+  },
+  watch:{
+    
   },
   methods: {
     cs(c) {
-
-      console.log(this.$refs)
       this.$refs.calend.show=c
+     
+      
     },
     handleScroll() {
       let scrollTop =

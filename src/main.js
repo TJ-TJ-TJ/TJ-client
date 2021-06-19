@@ -4,10 +4,15 @@ import router from './router'
 import store from './store'
 import Vant from 'vant';
 import 'vant/lib/index.css';
+import axios from 'axios'
 
+Vue.prototype.axios= axios
+axios.defaults.baseURL = 'http://tj.testw.top/v1'
 Vue.use(Vant);
 
 Vue.config.productionTip = false
+
+Vue.prototype.bus = new Vue()
 
 new Vue({
   router,

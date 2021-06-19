@@ -9,11 +9,11 @@
         round
         width="3.5rem"
         height="3.5rem"
-        src="https://pic.tujia.com/upload/customeravatar/day_210415/thumb/202104151226442220_90_90.jpg"
+        :src="land.img"
       />
 
       <div class="jies-info">
-        <div class="fd-name">五棵松温馨民宿</div>
+        <div class="fd-name">{{land.uname}}</div>
         <div class="fangcan">
           <span class="shuxian">自然人房东</span>
           <span class="shuxian">实名验证</span>
@@ -46,6 +46,34 @@
     <div class="zhuye">查看房东主页 <span class="arrow"></span></div>
   </div>
 </template>
+
+<script>
+export default {
+  props: {
+    fowner: {
+      type: [Object,String],
+      require: true
+    }
+
+  },
+  data() {
+    return {
+      land:this.fowner
+    };
+  },
+  mounted() {
+
+    // console.log(this.fowner)
+
+  },
+  watch: {
+    fowner(val) {
+      this.land = val
+      // console.log(this.land)
+    }
+  }
+}
+</script>
 
 <style lang="scss">
 .landlord {

@@ -2,7 +2,7 @@
   <div class="date">
     <div class="date-show" @click="$emit('dateshow',true)">
       <div class="date-item">
-        <span class="item-main">06月16日</span>
+        <span class="item-main">{{$store.state.startDate || '06月16日'}}</span>
         <div class="item-main-text">
           <span class="week-txt">周三 入住</span>
           <img src="icon\arrow_right2x.png" alt="" class="more-icon" />
@@ -12,7 +12,7 @@
           <span class="day-txt">共1晚</span>
       </div>
       <div class="date-item">
-          <span class="item-main">06月17日</span>
+          <span class="item-main">{{$store.state.endDate || '06月17日'}}</span>
           <div class="item-main-text">
           <span class="week-txt">周四 离开</span>
           <img src="icon\arrow_right2x.png" alt="" class="more-icon" />
@@ -26,7 +26,6 @@
 export default {
     data() {
         return {
-
         };
     },
    methods: {

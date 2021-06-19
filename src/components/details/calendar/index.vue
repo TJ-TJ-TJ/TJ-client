@@ -67,6 +67,8 @@ export default {
       //   // this.$store.commit("hotelEndDate", date[1].getTime());
       //   this.$store.commit("hotDataDate", this.dataDate);
       //   console.log(this.$store.state);
+      this.$store.commit('hotDate',this.starDate)
+      this.$store.commit('hotEndDate',this.endDate)
     },
     // 页面选择时间
     onCalfirm(date) {
@@ -83,6 +85,7 @@ export default {
         let timeb = date[1].getTime() / 1000 / 60 / 60 / 24;
         this.sumDate = timeb - timea;
       }
+      
     },
     // 选择时间清空
     dateEmpty() {

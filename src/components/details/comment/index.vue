@@ -1,6 +1,6 @@
 <template>
-  <div class="DF-box">
-    <div class="xiahuaxian"></div>
+  <div class="DF-box" v-if="dianping">
+    <div class="xiahuaxian" ></div>
       <div class="DF-title">
           <div class="DF-title-left">房客点评 </div>
           <div class="DF-title-right">
@@ -15,28 +15,33 @@
               </div>
           </div>
       </div>
-      <div class="DF-content-box">
-          <div class="DF-content">
+      <!--  评价中心 -->
+     <div class="DF-content-box">
+        <!-- ------------------------------ -->
+          <div class="DF-content" v-for="item,index in dianping" :key="index">
                <div class="DF-content-head">
                    <div class="DF-content-head-userInfo">
-                       <img height="32px" src="https://pic.tujia.com/upload/festatic/app/tujia_useravatar.png" alt="">
+                       <img height="32px" :src="item.uimg" alt="">
                        <div>
                            <div>
-                               钱*****竹
+                               {{item.uname}}
                            </div>
-                           <div>2020-10-02入住</div>
+                           <div>{{item.order_time | getday }} 入住</div>
                        </div>
                    </div>
                    <div>
-                       <p>5.0</p>
-                       <van-rate v-model="dtAvgRage" :size="8" allow-half readonly void-icon="star" void-color="#eee" />
+                       <p>{{item.score}}.0</p>
+                       <van-rate v-model="item.score" :size="8" allow-half readonly void-icon="star" void-color="#eee" />
                    </div>
                </div>
                <div class="Df-content-message">
-                       说下房价，开始觉得有点贵，但是到了以后才明白贵有贵的道理，网上图片全部真实，去过的还会再想去第二次
+                      {{item.content}}
                </div>
           </div>
-      </div>
+          <!-- ------------- -->
+      </div> 
+     <!--    end -->
+     
       <div class="DF-bottom-lookAllComments">
           <font style="padding-right:16px">查看全部99条评价></font>
       </div>
@@ -46,12 +51,37 @@
 
 <script>
 export default {
+   props: {
+      discuss: {
+         type: String | Array,
+         require: true
+      }
+   },
    data() {
        return {
            //防瞌平均评分
-           dtAvgRage:4
+           dtAvgRage:4,
+           dianping: this.discuss
        }
    },
+   watch: {
+      discuss(val) {
+         this.dianping = val
+         // console.log(this.dianping)
+
+
+      }
+   },
+   filters: {
+      getday (val) {
+         return val.split(/T\s*/)[0];
+
+      }
+   },
+   mounted() {
+
+
+   }
 }
 </script>
 

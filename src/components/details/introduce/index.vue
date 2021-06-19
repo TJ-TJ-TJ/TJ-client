@@ -13,15 +13,14 @@
     <van-cell-group class="grub">
       <div class="van-cell__title ">
        
-   
-        云深·金陵 门头沟天街S1线简欧loft超清投影房，落地窗采光好可做饭，近潭柘寺八大处首钢园
-    
+    {{title.name}}
+    <!-- X -->
         <span v-for="(val, index) in goodtime" :key="index">
           <img src="/icon/diamondLevel.png" alt=""
         /></span>
       </div>
-      <div class="lable">
-        <span v-for="(val, i) in label.base" :key="i" class="lablelist">{{
+      <div class="lable" >
+        <span  v-for="val,i  in label.base " :key="i" class="lablelist">{{
           val
         }}</span>
         <span v-for="k in label.play" :key="k" class="lablelist2">{{ k }}</span>
@@ -50,10 +49,10 @@
       <div class="ditu">
       <div class="ditu-cont">
         <div class="ditu-left">
-          <div class="dizhi">怀柔区, 北京怀柔区京加路西150米潘玉琴商店</div>
+          <div class="dizhi">{{title.location}}</div>
           <div class="juli">
             <img src="/icon/position_subway.png" alt="">
-            近火车站.距离怀柔北站直线距离3.3km，驾车约8min
+            {{title.nearby}}
           </div>
         </div>
         <div class="ditu-right">
@@ -70,19 +69,65 @@
 </template>
 
 <script>
+
 export default {
+  props:{
+    title: {
+      type: String | Number,
+      require: true,
+      // default: function() {
+      //   return {}
+      // }
+    },
+    label:{
+      type: Array | String,
+      require: true,
+
+      default: function() {
+        return {
+          base:['ss'],
+          play:['ss']
+        }
+      }
+
+    }
+  },
   data() {
     return {
       show: false,
 
       goodtime: 3,
-      label: {
-        base: ["实拍", "可做饭", "宽松取消", "行李寄存", "立即确认"],
-        play: ["山景房", "有麻将机"],
-      },
-    };
+      
+         
+          //  base: this.title.label.base,
+          //  play: this.title.label.play,
+          // titles: {
+          //   label: {
+          //     base: [''],
+          //     play: ['']
+          //   }
+
+          // }
+    
+   
+
+      }
+    
+  },
+  mounted() {
+    // console.log(this.title)
+    // console.log(this.title.label.base)
+    // console.log(this.lable)
   },
   methods: {},
+  // watch: {
+  //   title(newval,oldval) {
+  //     this.titles = newval
+  //     console.log(newval)
+  //   }
+
+  // }
+
 };
 </script>
 
