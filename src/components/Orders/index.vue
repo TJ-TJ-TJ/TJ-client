@@ -83,7 +83,7 @@
         </div>
       </van-tab>
     </van-tabs>
-    <table-bar></table-bar>
+<table-bar></table-bar> 
   </div>
 </template>
 <script>
@@ -111,16 +111,19 @@ export default {
           // 删除接口
         })
         .catch(() => {
-          return
+          return;
         });
     },
     go_order() {
-      this.$router.push('/order_edit')
+      this.$router.push("/order_edit");
       //再次购买订单
     },
   },
   mounted() {
-    this.uid = 1;
+    this.uid = 1; //假设的用户uid
+    sessionStorage.setItem("uid", this.uid);
+    this.$socket.open(); //主动连接sockte
+
     if (!this.uid) {
       return;
     } else {

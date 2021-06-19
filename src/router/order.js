@@ -16,7 +16,7 @@ var arr =[{
   {
     path: '/order_pay', //订单支付页
     name: 'oder_pay',
-    component: () => import(/* webpackChunkName: "order_pay" */ '../components/Orders/orderPay.vue')
+    component: () => import(/* webpackChunkName: "order_pay" */ '../components/Orders/OrderPay.vue')
   },
   {
     path: '/check_person', //选择入住人页
@@ -25,8 +25,13 @@ var arr =[{
   },
   {
     path: '/add_person', //添加入住人页
-    name: 'add_person',
+    name: 'add_person',    //Editperson
     component: () => import(/* webpackChunkName: "add_person" */ '../components/Orders/Addperson.vue')
+  },
+  {
+    path: '/edit_person', //添加入住人页
+    name: 'edit_person',    //Editperson
+    component: () => import(/* webpackChunkName: "Editperson" */ '../components/Orders/Editperson.vue')
   },
   {
     path: '/msg', //聊天私聊界面
@@ -37,11 +42,6 @@ var arr =[{
     path: '/msg_list', //消息列表页
     name: 'msg_list',
     component: () => import(/* webpackChunkName: "msg_list"*/ '../components/Message/Msglist.vue')
-  },
-  {
-    path: '/table', //tablebar底部导航
-    name: 'table',
-    component: () => import(/* webpackChunkName: "tablebar"*/ '../components/tableBar.vue')
-  }]
+  },]
 
   export default arr

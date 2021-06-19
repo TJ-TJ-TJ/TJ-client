@@ -33,7 +33,7 @@ Vue.use(new VueSocketIO({
     transports: ['websocket'],
     auth: {
       imgPath: 1,
-      uid: sessionStorage.getItem('uid') ||1, //用户的uid
+      uid: sessionStorage.getItem('uid') || 1, //用户的uid
       uname:sessionStorage.getItem('username') ||1
     }
   }), //连接服务端

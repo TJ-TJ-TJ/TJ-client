@@ -1,5 +1,5 @@
 <template>
-  <div class="msg_center" :style="{ height: outheight }">
+  <div class="msg_center">
     <van-nav-bar :title="title" left-arrow @click-left="onClickLeft" fixed />
     <div class="msg_content">
       <!-- 刷新组件 -->
@@ -59,7 +59,7 @@
             </div>
             <!-- 头像 -->
             <div class="imgSrc">
-              <img :src="item.head_img" alt="" />
+              <img :src="item.uid == uid ? item.head_img : be.head_img" />
             </div>
           </div>
         </div>
@@ -141,14 +141,9 @@ export default {
       pageSize: 1,
       isLoading: false,
       title: "", //导航标题 如果是商品跳转过来的就展示商品名称
-      uid: "",
-      sid: "",
-      be: {},
-      msg_info: {
-        uid: "", //先给个默认值  用户id name 到时候应该存在vuex中
-        uname: "", //当前名称
-        sid: "",
-      },
+      uid: "", //自己的uid
+      sid: "", //对方的id
+      be: {}, //聊天对方的信息
       loop: "", // 发送语音的定时器
       Edit: true, //是语音播放 还是文字输入
       isemoji: false, // 是否开启表情包
@@ -275,25 +270,24 @@ export default {
         audio: "", //语音消息,
         message: this.text_msg, //文本消息
         type: "text",
-        //自己的头像
-        head_img:
-          "http://localhost:9000/images/1623742900483微信图片_20210602104016.png",
+        //对方的头像
+        head_img: "http://localhost:9000/images/客服头像.jpg",
         uname: this.uname,
         is_read: false, // text是否已读
         send_date: this.$getDate(), //当前日期
         send_time: this.$getTime(), //当前时间
         audio_isRead: true, //语音是否已读
         m_id: Date.now(), //当前毫秒值
-        be_uname: "无良商家", //接收者uname
-        be_head_img: "https://staticfile.tujia.com/IM/Images/Avatar/user.png", //接收者头像
+        be_uname: "无良商家", // 对方的name
+        be_head_img: this.be.head_img, // 对方的头像
       };
       this.$socket.emit("puoToMessage", sendObj);
       this.text_msg = "";
       this.message.push(sendObj);
-      this.$axios.post("/updateMsgRead", {
-        uid: this.msg_info.uid,
-        sid: this.msg_info.sid,
-      });
+      // this.$axios.post("/updateMsgRead", {  //消息已读未读
+      //   uid: this.msg_info.uid,
+      //   sid: this.msg_info.sid,
+      // });
       this.status = !this.status;
     },
     //更改是否语音输入
@@ -303,8 +297,7 @@ export default {
     },
     // 按住事件 不超过一秒不执行
     start(e) {
-      // console.log(this.Audio);
-      if (this.Audio == false) {
+      if (Audio == false) {
         this.$toast.fail("您的设别不支持录音功能");
         return;
       }
@@ -325,6 +318,10 @@ export default {
       });
     }, // 松开事件
     end() {
+       if (Audio == false) {
+        this.$toast.fail("您的设别不支持录音功能");
+        return;
+      }
       if (this.long == false) {
         //如果按住时长没超过一定时间则提示  并清除定时器任务 停止发送语音
         this.$toast.fail("按住时间过短");
@@ -339,8 +336,7 @@ export default {
           audio: data, //语音消息,
           message: "", //文本消息
           type: "audio/mp3",
-          head_img:
-            "http://localhost:9000/images/1623742900483微信图片_20210602104016.png",
+          head_img: "http://localhost:9000/images/客服头像.jpg", //自己的头像
           uname: this.uname, //发送人的名称为
           is_read: true, // text是否已读
           send_date: this.$getDate(), //发送日期
@@ -348,7 +344,7 @@ export default {
           audio_isRead: false, //语音是否已读
           m_id: Date.now(), //当前时间
           be_uname: "无良商家", //接收者uname
-          be_head_img: "https://staticfile.tujia.com/IM/Images/Avatar/user.png", //接收者头像
+          be_head_img: this.be.head_img, //接收者头像
         };
 
         recorder.stop(); //录音停止
@@ -362,7 +358,7 @@ export default {
       });
     }, //返回按钮
     onClickLeft() {
-      this.$router.go(-1);
+      this.$router.back();
     },
     // 开始播放录音的方法
     start_audio(event, i, uid, sid, m_id) {
@@ -409,23 +405,25 @@ export default {
     },
     //是否显示下方表情包
     change_emoji() {
+      this.Edit = !this.Edit;
+      this.isemoji = false;
       this.isemoji = !this.isemoji;
     },
   },
   async created() {
     // console.log(this.$store.state.msg_info); 好友列表传过来 消息传参
-    let store = this.$store.state.msg_info.newarr;
-    // console.log(store);
+    let store = this.$store.state.msg_info;
+    console.log(store);
     this.message = store.msgArr; //消息列表
     this.be = store.be;
     this.uid = store.uid; //当前用户的id
     this.sid = store.sid; //私发消息对方的id
     // console.log(this.uid);
     // console.log(this.message);
-    this.title = "途家"; //根据传过来身份展示标题
+    this.title = store.be.uname; //根据传过来身份展示标题
   },
   async mounted() {
-    this.$socket.open(); //主动连接sockte
+    // this.$socket.open(); //主动连接sockte
     // console.log(obj);
     // console.log(this.message, this.msg_info, "--------------");
     window.scrollTo(0, document.body.scrollHeight);
@@ -450,17 +448,26 @@ export default {
     oToMessage(data) {
       //接收私发消息
       // console.log(data);
-      this.message.push(data);
-      this.status=!this.status
+      // 判断是否是当前聊天对象给自己发的消息  是的话就追加记录
+      console.log(data, "=--------==", this.be, "------", this.uid);
+      console.log(data.uid == this.be.uid && data.sid == this.uid);
+      if (
+        data.uid == this.be.uid &&
+        data.sid == this.uid //||
+        // (data.uid == this.sid && data.uid == this.uid)
+      ) {
+        this.message.push(data);
+      }
+
+      this.status = !this.status;
     },
   },
-  updated() {
-  },
+  updated() {},
   watch: {
     status() {
       console.log("触发了");
       setTimeout(() => {
-        console.log('底部滚动条定时器')
+        console.log("底部滚动条定时器");
         window.scrollTo(0, document.body.scrollHeight);
       }, 200);
     },
@@ -468,10 +475,16 @@ export default {
 };
 </script>
 <style lang="scss">
+html,
+body {
+  width: 100%;
+  height: 100%;
+}
 .msg_center {
   background: #f7f9fb;
   padding: 46px 0 56px 0;
   box-sizing: border-box;
+  height: 100%;
   .van-icon {
     color: #333;
   }

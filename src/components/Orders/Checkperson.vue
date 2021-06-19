@@ -1,6 +1,6 @@
 <template>
   <div class="check_person" :style="{height:outheight}">
-    <van-nav-bar title="入住人" left-arrow @click-left="onClickLeft" />
+    <van-nav-bar title="入住人" left-arrow @click-left="onClickLeft" class="head1" />
     <div class="head" @click='addperson'>
       + 添加入住人
     </div>
@@ -15,7 +15,7 @@
         <div><span>身份证：&nbsp;</span> <span>{{md(item.user_iden)}}</span></div>
       </div>
       <div>
-        <van-icon name="arrow" @click="go(name)" />
+        <van-icon name="arrow" @click="go(item.uname,item.user_iden)" />
       </div>
     </div>
     <div class="foot">
@@ -58,8 +58,8 @@ export default {
     addperson() {
       this.$router.push("/add_person");
     },
-    go(name) {
-      this.$router.push(`/add_person?go=edit&name=${name}`);
+    go(name,id) {
+      this.$router.push({name:'edit_person',params:{uname:name,user_iden:id}})
     },
   },
   computed: {
@@ -76,6 +76,11 @@ export default {
 .check_person {
   width: 100%;
   background-color: #f7f9fb;
+  .head1{
+    .van-icon {
+      color: #ff9654 !important;
+    }
+  }
   .head {
     padding: 10px 0;
     text-align: center;

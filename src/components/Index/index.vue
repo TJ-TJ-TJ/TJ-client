@@ -34,15 +34,19 @@
           </div>
           <!-- 定位按钮 -->
           <div class="currentBtn">
-            <span @click="getLocation()">
+           <div v-if="local">
+              <van-icon name="icon/定位.png" />
+             <span @click="getLocation()">
               我的位置
-            </span>
+            </span> 
+            </div>
+            <van-loading v-else size="12px" color="#ff9645" text-color="#666">我的位置...</van-loading>
           </div>
         </van-cell>
       </van-cell-group>
       <!-- 选择日期 -->
       <van-cell-group class="option-date">
-        <van-cell @click="show = true">
+        <van-cell @click="optionDate">
           <div class="option-dateDiv">
             <span>入住</span>
             <span class="star-date">{{ starDate }}</span>
@@ -118,7 +122,7 @@
     </div>
     <!-- 滑动轮播 -->
     <div class="scroball">
-      <ul>
+     <ul>
         <li>
           <img
             src="https://pic.tujia.com/upload/resourcespic/day_210329/202103291824074567.png"
@@ -128,66 +132,66 @@
         </li>
         <li>
           <img
-            src="https://pic.tujia.com/upload/resourcespic/day_210329/202103291824074567.png"
+            src="https://pic.tujia.com/upload/resourcespic/day_201124/202011241613557364.png"
             alt=""
           /><br />
-          <span>房东入住</span>
+          <span>新房特惠</span>
         </li>
         <li>
           <img
-            src="https://pic.tujia.com/upload/resourcespic/day_210329/202103291824074567.png"
+            src="https://pic.tujia.com/upload/resourcespic/day_201124/202011241606527781.png"
             alt=""
           /><br />
-          <span>房东入住</span>
+          <span>实拍美屋</span>
         </li>
         <li>
           <img
-            src="https://pic.tujia.com/upload/resourcespic/day_210329/202103291824074567.png"
+            src="https://pic.tujia.com/upload/resourcespic/day_201124/202011241609392352.png"
             alt=""
           /><br />
-          <span>房东入住</span>
+          <span>品牌民宿</span>
         </li>
         <li>
           <img
-            src="https://pic.tujia.com/upload/resourcespic/day_210329/202103291824074567.png"
+            src="https://pic.tujia.com/upload/resourcespic/day_201124/202011241610475893.png"
             alt=""
           /><br />
-          <span>房东入住</span>
+          <span>整套出租</span>
         </li>
         <li>
           <img
-            src="https://pic.tujia.com/upload/resourcespic/day_210329/202103291824074567.png"
+            src="https://pic.tujia.com/upload/resourcespic/day_201124/202011241619599744.png"
             alt=""
           /><br />
-          <span>房东入住</span>
+          <span>做饭方便</span>
         </li>
         <li>
           <img
-            src="https://pic.tujia.com/upload/resourcespic/day_210329/202103291824074567.png"
+            src="https://pic.tujia.com/upload/resourcespic/day_201124/202011241618017144.png"
             alt=""
           /><br />
-          <span>房东入住</span>
+          <span>LOFT</span>
         </li>
         <li>
           <img
-            src="https://pic.tujia.com/upload/resourcespic/day_210329/202103291824074567.png"
+            src="https://pic.tujia.com/upload/resourcespic/day_201124/202011241616084091.png"
             alt=""
           /><br />
-          <span>房东入住</span>
+          <span>客栈</span>
         </li>
         <li>
           <img
-            src="https://pic.tujia.com/upload/resourcespic/day_210329/202103291824074567.png"
+            src="https://pic.tujia.com/upload/resourcespic/day_201124/202011241615137585.png"
             alt=""
           /><br />
-          <span>房东入住</span>
+          <span>别墅</span>
         </li>
         <li>
           <img
-            src="https://pic.tujia.com/upload/resourcespic/day_210329/202103291824074567.png"
+            src="https://pic.tujia.com/upload/resourcespic/day_201124/202011241611372682.png"
             alt=""
           /><br />
-          <span>房东入住</span>
+          <span>优选</span>
         </li>
       </ul>
     </div>
@@ -366,7 +370,7 @@
       </template>
     </van-search>
     </div>
-     <table-bar></table-bar> 
+    <table-bar v-show="tabbar"></table-bar>  
   </div>
 </template>
 
@@ -383,6 +387,8 @@ export default {
       ],
       // 时间弹出层
       show: false,
+      // tabbar
+      tabbar:true,
       // 入住时间
       starDate: "",
       // 离店时间
@@ -439,26 +445,26 @@ export default {
       // 搜索内容
       searchValue: "",
       // 入住日期
-      checkDate:'入住日期',
+      checkDate: "入住日期",
       // 间隔时间
-      sumDate:0,
+      sumDate: 0,
       // 离店日期
-      leaveDate:'离店日期',
-      dataDate:[],
-      result:{},
-    //  地址
-      local:''
+      leaveDate: "离店日期",
+      dataDate: [],
+      result: {},
+      //  地址
+      local: "",
     };
   },
   created() {
     let date = new Date();
     this.starDate = `${date.getMonth() + 1}月${date.getDate()}日`;
     this.endDate = `${date.getMonth() + 1}月${date.getDate() + 1}日`;
-    this.$store.commit('hotelStarDate',this.starDate)
-    this.$store.commit('hotelEndDate',this.endDate)
+    this.$store.commit("hotelStarDate", this.starDate);
+    this.$store.commit("hotelEndDate", this.endDate);
     let that = this;
-    this.$nextTick(_ => {
-      document.querySelector('.test-scroll-wrap').onscroll = function() {
+    this.$nextTick((_) => {
+      document.querySelector(".test-scroll-wrap").onscroll = function () {
         // let dom = document.documentElement.scrollTop;
         let dom = this.scrollTop;
         if (dom > 520) {
@@ -467,29 +473,37 @@ export default {
           that.searchShow = false;
         }
       };
-    })
-    this.getIndexList()
-    this.getLocation()
+    });
+    this.getIndexList();
+    this.getLocation();
   },
-  watch:{
-    local(val){
-      console.log(val)
-      this.$store.commit('cityData',val)
+  watch: {
+    local(val) {
+      console.log(val);
+      this.$store.commit("cityData", val);
+    },
+    show(val){
+      if(val == true){
+        return this.tabbar = false
+      }
+      this.tabbar = true
     }
   },
   methods: {
+    // 显示日期选择
+    optionDate(){
+      this.show = true
+    },
     // 地理位置获取
     getLocation() {
       const self = this;
 
-      AMap.plugin("AMap.Geolocation", function() {
+      AMap.plugin("AMap.Geolocation", function () {
         var geolocation = new AMap.Geolocation({
           // 是否使用高精度定位，默认：true
 
           enableHighAccuracy: true,
-
           // 设置定位超时时间，默认：无穷大
-
           timeout: 0,
         });
 
@@ -503,7 +517,8 @@ export default {
           // data是具体的定位信息
 
           console.log("定位成功信息：", data);
-          self.local=data.addressComponent.province+data.addressComponent.district
+          self.local =
+            data.addressComponent.province + data.addressComponent.district;
         }
 
         function onError(data) {
@@ -519,11 +534,11 @@ export default {
     },
 
     getLngLatLocation() {
-      let that=this
-      AMap.plugin("AMap.CitySearch", function() {
+      let that = this;
+      AMap.plugin("AMap.CitySearch", function () {
         var citySearch = new AMap.CitySearch();
 
-        citySearch.getLocalCity(function(status, result) {
+        citySearch.getLocalCity(function (status, result) {
           if (status === "complete" && result.info === "OK") {
             // 查询成功，result即为当前所在城市信息
 
@@ -531,22 +546,21 @@ export default {
 
             //逆向地理编码
 
-            AMap.plugin("AMap.Geocoder", function() {
+            AMap.plugin("AMap.Geocoder", function () {
               var geocoder = new AMap.Geocoder({
                 // city 指定进行编码查询的城市，支持传入城市名、adcode 和 citycode
 
                 city: result.adcode,
-
               });
               // console.log(geocoder)
 
               var lnglat = result.rectangle.split(";")[0].split(",");
-              geocoder.getAddress(lnglat, function(status, data) {
+              geocoder.getAddress(lnglat, function (status, data) {
                 if (status === "complete" && data.info === "OK") {
                   // result为对应的地理位置详细信息
                   // this.local=data
                   console.log(data.regeocode.addressComponent.province);
-                  that.local=data.regeocode.addressComponent.province
+                  that.local = data.regeocode.addressComponent.province;
                 }
               });
             });
@@ -555,10 +569,12 @@ export default {
       });
     },
     // 请求数据
-    async getIndexList(){
-      const {data:res} = await this.$axios.get('index/list?page=1&count=100')
-      this.result = res.result
-      console.log(this.result)
+    async getIndexList() {
+      const { data: res } = await this.$axios.get(
+        "index/list?page=1&count=100"
+      );
+      this.result = res.result;
+      console.log(this.result);
     },
     // 轮播图
     onChange(index) {
@@ -575,30 +591,30 @@ export default {
     // 起始时间和结束时间
     onConfirm(date) {
       const [start, end] = date;
-      date[0].setHours(12)
-      date[1].setHours(12)
-      console.log(date)
+      date[0].setHours(12);
+      date[1].setHours(12);
+      console.log(date);
       this.putDate =
-        parseInt(date[1].getTime() / 1000 / 60 / 60 / 24)-
+        parseInt(date[1].getTime() / 1000 / 60 / 60 / 24) -
         parseInt(date[0].getTime() / 1000 / 60 / 60 / 24);
       this.show = false;
       this.starDate = this.formatDate(start);
       this.endDate = this.formatDate(end);
       // var res = parseInt(date[1].getTime()/1000/60/60/24)
-      let data = []
+      let data = [];
       // for(let i = 0;i<=this.putDate;i++){
-        data.unshift(date[0].getTime());
-        data.unshift(date[1].getTime());
+      data.unshift(date[0].getTime());
+      data.unshift(date[1].getTime());
       // }
       // console.log(data)
-      this.dataDate = data
+      this.dataDate = data;
       // 点击开始搜索再保存先写在这date[0].getTime()
       this.$store.commit("hotelStarDate", this.starDate);
       // this.$store.commit("hotelStarDate", date[0].getTime());
       this.$store.commit("hotelEndDate", this.endDate);
       // this.$store.commit("hotelEndDate", date[1].getTime());
-      this.$store.commit("hotDataDate",this.dataDate)
-      console.log(this.$store.state)
+      this.$store.commit("hotDataDate", this.dataDate);
+      console.log(this.$store.state);
     },
     // 控制弹出层
     showPopup() {
@@ -610,8 +626,8 @@ export default {
     },
     // 价格滑块控制
     sliderChange(value) {
-      let arr = [...value]
-      console.log(arr)
+      let arr = [...value];
+      console.log(arr);
       this.minPrice = arr[0];
       this.maxPrice = arr[1];
       if (value[1] > 1000) {
@@ -620,32 +636,32 @@ export default {
     },
     // 价格区间选择
     priceFirst(item) {
-      let arr = [...item]
+      let arr = [...item];
       this.value = arr;
       this.minPrice = arr[0];
       this.maxPrice = arr[1];
     },
     priceSecond(item) {
-      let arr = [...item]
+      let arr = [...item];
       this.value = arr;
       this.minPrice = arr[0];
       this.maxPrice = arr[1];
     },
     priceThirdly(item) {
-      let arr = [...item]
+      let arr = [...item];
       this.value = arr;
       this.minPrice = arr[0];
       this.maxPrice = arr[1];
     },
     priceFourthly(item) {
-      let arr = [...item]
+      let arr = [...item];
       this.value = arr;
       this.minPrice = arr[0];
       this.maxPrice = arr[1];
     },
     // 关键字
     keyword() {
-       this.$router.push("search");
+      this.$router.push("search");
     },
     // 清空按钮
     emptyBtn() {
@@ -657,8 +673,8 @@ export default {
     affirmBtn() {
       this.priceSum = `￥${this.minPrice}- ${this.maxPrice}`;
       this.showPrice = false;
-      this.$store.commit('priceData',[this.minPrice,this.maxPrice])
-      console.log(this.$store.state)
+      this.$store.commit("priceData", [this.minPrice, this.maxPrice]);
+      console.log(this.$store.state);
     },
     // 选择人数
     peoNumBtn(item) {
@@ -667,30 +683,30 @@ export default {
     },
     // 页面选择时间
     onCalfirm(date) {
-      this.sumDate = 0
-      this.leaveDate = '离店日期'
-      let checkDateMonth = date[0].getMonth()+1
-        let checkDateDate = date[0].getDate()
-        this.checkDate = `${checkDateMonth}月${checkDateDate}日`
-      if(date[1]!==null){
-        let leaveDateMonth = date[1].getMonth()+1
-        let leaveDateDate = date[1].getDate()
-        this.leaveDate = `${leaveDateMonth}月${leaveDateDate}日`
+      this.sumDate = 0;
+      this.leaveDate = "离店日期";
+      let checkDateMonth = date[0].getMonth() + 1;
+      let checkDateDate = date[0].getDate();
+      this.checkDate = `${checkDateMonth}月${checkDateDate}日`;
+      if (date[1] !== null) {
+        let leaveDateMonth = date[1].getMonth() + 1;
+        let leaveDateDate = date[1].getDate();
+        this.leaveDate = `${leaveDateMonth}月${leaveDateDate}日`;
         let timea = date[0].getTime() / 1000 / 60 / 60 / 24;
         let timeb = date[1].getTime() / 1000 / 60 / 60 / 24;
-        this.sumDate = timeb-timea
+        this.sumDate = timeb - timea;
       }
     },
     // 选择时间清空
-    dateEmpty(){
-      this.sumDate = 0
-      this.leaveDate = '离店日期'
-      this.checkDate = '入住日期'
+    dateEmpty() {
+      this.sumDate = 0;
+      this.leaveDate = "离店日期";
+      this.checkDate = "入住日期";
     },
     //开始搜索
-    searchBtn(){
-      this.$router.push('/stay')
-    }
+    searchBtn() {
+      this.$router.push("/stay");
+    },
     // 瀑布流更新数据
     // onLoad() {
     //   // 异步更新数据
@@ -716,7 +732,8 @@ export default {
 <style lang="scss">
 .test-scroll-wrap {
   position: fixed;
-  left: 0; right: 0;
+  left: 0;
+  right: 0;
   top: 0;
   bottom: 55px;
   overflow: auto;
@@ -729,14 +746,24 @@ export default {
 //   width: 5px;
 //   background: red;
 // }
-html{
+html {
   width: 100%;
   height: 100%;
 }
-body{
-  background-color: #F5F7F9;
+body {
+  background-color: #f5f7f9;
 }
 .Index-view {
+  .van-overlay{
+    background: #fff !important;
+  }
+  .van-loading{
+    float: right;
+    //font-family: PingFangSC-Light;
+    font-weight: 300;
+    font-size: 12px;
+    color: #666;
+  }
   // 头部标题栏
   .headerTitle {
     width: 100%;
@@ -811,7 +838,7 @@ body{
     // 关键地点搜索
     .dataTag {
       width: 100%;
-       //height: 10vh;
+      //height: 10vh;
       // background-color: red;
 
       .van-tag {
@@ -834,7 +861,7 @@ body{
   // 卡片地址
   .current-location {
     .current-city {
-      width: 75%;
+      width: 70%;
       height: 3vh;
       // background-color: blue;
       line-height: 3vh;
@@ -842,16 +869,26 @@ body{
       float: left;
     }
     .currentBtn {
-      width: 20%;
+      width: 24%;
       margin-left: 5%;
       height: 3vh;
       // background-color: red;
       float: left;
-      line-height: 3vh;
-      font-family: PingFangSC-Light;
-      font-weight: 300;
-      font-size: 12px;
-      color: #666;
+
+      div{
+        float: right;
+        .van-icon{
+          vertical-align: middle;
+          //float: right;
+        }
+        span{
+          font-family: PingFangSC-Light;
+          font-weight: 300;
+          font-size: 12px;
+          color: #666;
+        }
+      }
+
     }
   }
 
@@ -1050,8 +1087,8 @@ body{
         flex-wrap: wrap;
         // justify-content: center;
         // align-items: center;
-        @media screen and (max-height: 800px){
-            height: 206vh;
+        @media screen and (max-height: 800px) {
+          height: 210vh;
         }
         .homestay-item {
           position: relative;
@@ -1227,12 +1264,12 @@ body{
       font-size: 21px;
       color: #999;
     }
-    .sumDate{
-    content: "";
-    // width: 40px;
-    height: 1px;
-    color: #ff9645;
-    -webkit-font-smoothing: antialiased;
+    .sumDate {
+      content: "";
+      // width: 40px;
+      height: 1px;
+      color: #ff9645;
+      -webkit-font-smoothing: antialiased;
     }
     .leaveDate {
       margin-right: 13vw;
@@ -1240,10 +1277,10 @@ body{
       color: #999;
     }
   }
-  .van-calendar{
+  .van-calendar {
     border-radius: 0 !important;
   }
-  .clear-empty{
+  .clear-empty {
     position: absolute;
     top: 15px;
     left: 20px;

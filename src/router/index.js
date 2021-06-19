@@ -5,7 +5,16 @@ Vue.use(VueRouter);
 const routes = [
   ...Order,
   { path: "/index", redirect: "/collects" },
-
+    {
+    path: '/table', //tablebar底部导航
+    name: 'table',
+    component: () => import(/* webpackChunkName: "tablebar"*/ '../components/tableBar.vue'),
+  },
+  {
+    path: '/order',
+    name: 'Order',   //订单主页面
+    component: () => import(/* webpackChunkName: "order" */ '../components/Orders/index.vue')
+  },
   {
     path: "/",
     name: "index",

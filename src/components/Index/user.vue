@@ -107,7 +107,7 @@
         </div>
       </div>
     </div>
-     <table-bar></table-bar>
+     <table-bar></table-bar> 
   </div>
 </template>
 

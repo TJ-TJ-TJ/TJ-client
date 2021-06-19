@@ -1,15 +1,34 @@
 <template>
-  <div class="add_person" :style="{height:outheight}">
-    <van-nav-bar :title="titles" @click-left="onClickLeft">
+  <div class="add_person" :style="{ height: outheight }">
+    <van-nav-bar :title="titles" class="titles" @click-left="onClickLeft">
       <template #left>
-        <van-icon name="arrow-left" color='rgb(102, 102, 102)' />
+        <van-icon name="arrow-left" color="rgb(102, 102, 102)" />
       </template>
     </van-nav-bar>
 
     <div class="content">
-      <van-field disabled name="证件类型" label="证件类型" placeholder="身份证" :rules="[{ required: true, message: '请填写证件类型' }]" right-icon="arrow" />
-      <van-field v-model="user_iden" name="证件号码" label="证件号码" placeholder="请填写正确的证件号码" :rules="[{ required: true, message: '请填写用' }]" />
-      <van-field v-model="username" name="真实姓名" label="真实姓名" placeholder="请填写入住人真实姓名" :rules="[{ required: true, message: '请填写用户名' }]" />
+      <van-field
+        disabled
+        name="证件类型"
+        label="证件类型"
+        placeholder="身份证"
+        :rules="[{ required: true, message: '请填写证件类型' }]"
+        right-icon="arrow"
+      />
+      <van-field
+        v-model="user_iden"
+        name="证件号码"
+        label="证件号码"
+        placeholder="请填写正确的证件号码"
+        :rules="[{ required: true, message: '请填写用' }]"
+      />
+      <van-field
+        v-model="username"
+        name="真实姓名"
+        label="真实姓名"
+        placeholder="请填写入住人真实姓名"
+        :rules="[{ required: true, message: '请填写用户名' }]"
+      />
     </div>
     <div class="msg">
       <div class="head">
@@ -19,9 +38,7 @@
           <span>途家住宿意外险，最高理赔21万</span>
         </div>
       </div>
-      <div>
-
-      </div>
+      <div></div>
     </div>
     <div class="warn">
       根据公安局酒店经营管理条例，预订经营性质的酒店/民宿，需要提供当前账户的实名身份信息。当前账户的实名身份信息只用于必要的身份核实，途家民宿会为您严格保密。
@@ -29,7 +46,6 @@
     <div class="bott">
       <van-button color="#ff9645" size="large" @click="save"> 确定</van-button>
     </div>
-
   </div>
 </template>
 
@@ -42,12 +58,12 @@ export default {
       titles: "添加入住人",
       username: "",
       user_iden: "",
-      pattern: /\d{6}/,
+      reg: /(^\d{15}$)|(^\d{18}$)|(^\d{17}(\d|X|x)$)/,
     };
   },
   methods: {
     onClickLeft() {
-      this.$router.go(-1);
+      this.$router.back();
     }, // 校验函数返回 true 表示校验通过，false 表示不通过
     validator(val) {
       return /1\d{10}/.test(val);
@@ -66,16 +82,18 @@ export default {
       console.log("failed", errorInfo);
     },
     save() {
-      if (this.username != "" && this.user_iden != "") {
+      if (this.username != "" && this.user_iden != ""&&this.reg.test(this.user_iden)) {
         let userinfo = {
           uname: this.username,
           user_iden: this.user_iden,
         };
         let obj = JSON.parse(sessionStorage.getItem("check_person"));
-        console.log(obj)
+        console.log(obj);
         obj.push(userinfo);
-        sessionStorage.setItem("check_person", JSON.stringify(obj));
+        sessionStorage.setItem("check_person", JSON.stringify(obj)); //保存入住人
         this.$router.push("/check_person");
+      }else{
+        this.$toast.fail('身份证号码格式不正确 请重新输入')
       }
     },
   },
@@ -93,6 +111,11 @@ export default {
 .add_person {
   width: 100%;
   background-color: #f7f9fb;
+  // .titles {
+  //   i {
+  //     color: #ff9654 ;
+  //   }
+  // }
   .content {
     margin: 15px 0;
   }

@@ -132,7 +132,7 @@ export default {
           message: "当前订单未完成 确认要离开吗",
         })
         .then(() => {
-          this.$router.go(-1);
+          this.$router.push('/order');
         })
         .catch(() => {
           return;

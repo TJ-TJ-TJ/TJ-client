@@ -66,7 +66,9 @@
         </template>
       </van-tabbar-item>
     </van-tabbar>
+    <router-view></router-view>
   </div>
+
 </template>
 <script>
 
@@ -95,8 +97,9 @@ export default {
       },
     };
   },
-  created() {
-  },
+  mounted(){
+    console.log('tablebar 更新了')
+  }
 };
 </script>
 <style lang="scss" >
