@@ -8,10 +8,10 @@ export default new Vuex.Store({
     endDate:''
   },
   mutations:{
-    hotDate(state,startDate){
+    hotDates(state,startDate){
       state.startDate = startDate
     },
-    hotEndDate(state,endDate){
+    hotEndDates(state,endDate){
       state.endDate = endDate
     }
   },
