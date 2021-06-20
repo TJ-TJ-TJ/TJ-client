@@ -95,7 +95,7 @@ export default {
       console.log(item, i);
       this.update_msginfo(item);
       //使所有文本消息都成为已读
-      // this.$axios.post("http://localhost:9000/updateMsgRead", {
+      // this.$axios.post(" http://kikyou.vip:9000/updateMsgRead", {
       //   uid: item.uid,
       //   sid: item.sid,
       // });
@@ -111,7 +111,7 @@ export default {
     //获取用户消息列表
     getHistory() {
       return this.$axios.get(
-        `http://localhost:9000/getHistoryMsg?uid=${this.uid}`
+        `http://kikyou.vip:9000/getHistoryMsg?uid=${this.uid}`
       );
     },
     gomsg(i) {
@@ -125,7 +125,7 @@ export default {
       // this.uid = sessionStorage.getItem("uid");
       // 组件创建完成     获取消息列表
       let [err, data] = await this.capture(this.getHistory);
-      // console.log(data);
+       console.log(data);
       this.arrlength = data.data; //所有的消息列表
       if (!data.data) {
         //如果请求不到数据 证明无消息

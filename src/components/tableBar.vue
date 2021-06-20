@@ -110,7 +110,7 @@ export default {
     },
     getHistory() {
       return this.$axios.get(
-        `http://localhost:9000/getHistoryMsg?uid=${this.uid}`
+        `http://kikyou.vip:9000/getHistoryMsg?uid=${this.uid}`
       );
     },
     async updatemsg() {

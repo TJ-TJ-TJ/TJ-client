@@ -8,7 +8,7 @@ export default new Vuex.Store({
     msg_info:{//私聊对象的信息 格式  默认是客服的信息 从消息列表等地方跳转时需重新赋值传参
       be:{
         uid:1234,
-        head_img:'http://localhost:9000/images/客服头像.jpg',
+        head_img:' http://kikyou.vip:9000/images/客服头像.jpg',
         uname:'客服'
       },//聊天对方的基本信息 头像 名称 id
       msgArr:[], //携带过去的最新的15条消息 

@@ -3,7 +3,7 @@
     <div class="cardBox">
       <div class="continer">
         <div class="title">
-          <span>个人基本信息</span>
+          <span>疫情报备</span>
         </div>
         <div class="user-msg">
             <!-- 通过 pattern 进行正则校验 -->

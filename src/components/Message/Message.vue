@@ -223,7 +223,7 @@ export default {
         // console.log(this.message[0]);
         this.pageSize += 1;
         let obj = await this.$axios.get(
-          "http://localhost:9000/getHistoryPage",
+          "http://kikyou.vip:9000/getHistoryPage",
           {
             params: {
               uid: this.uid,
@@ -271,7 +271,7 @@ export default {
         message: this.text_msg, //文本消息
         type: "text",
         //对方的头像
-        head_img: "http://localhost:9000/images/客服头像.jpg",
+        head_img: '',
         uname: this.uname,
         is_read: null, // text是否已读
         send_date: this.$getDate(), //当前日期
@@ -284,7 +284,7 @@ export default {
       this.$socket.emit("puoToMessage", sendObj);
       this.text_msg = "";
       this.message.push(sendObj);
-      this.$axios.post("http://localhost:9000/updateMsgRead", {
+      this.$axios.post("http://kikyou.vip:9000/updateMsgRead", {
         //消息已读未读
         uid: this.msg_info.uid,
         sid: this.msg_info.sid,
@@ -337,7 +337,7 @@ export default {
           audio: data, //语音消息,
           message: "", //文本消息
           type: "audio/mp3",
-          head_img: "http://localhost:9000/images/客服头像.jpg", //自己的头像
+          head_img: "", //自己的头像
           uname: this.uname, //发送人的名称为
           is_read: 1, // text是否已读
           send_date: this.$getDate(), //发送日期
@@ -364,7 +364,7 @@ export default {
     // 开始播放录音的方法
     start_audio(event, i, uid, sid, m_id) {
        console.log(uid, sid, m_id);
-      this.$axios.post("http://localhost:9000/updateVoiceRead", {
+      this.$axios.post("http://kikyou.vip:9000/updateVoiceRead", {
         //更改当前语音消息为已读状态
         uid,
         sid,
@@ -419,7 +419,7 @@ export default {
       if(JSON.stringify(sid)!='{}'){
         console.log("其他页面 跳转过来的");
         let obj = await this.$axios.get(
-          `http://localhost:9000/getHistoryMsg?uid=${this.uid}`
+          `http://kikyou.vip:9000/getHistoryMsg?uid=${this.uid}`
         );
         console.log(obj.data.data);
         let newarr = obj.data.data.filter((item) => {
@@ -459,8 +459,8 @@ export default {
     this.getlist();
   },
   async mounted() {
-    console.log(this.uid, this.sid);
-    this.$axios.post("http://localhost:9000/updateMsgRead", {
+    // console.log(this.uid, this.sid);
+    this.$axios.post("http://kikyou.vip:9000/updateMsgRead", {
       //消息已读未读
       uid: this.sid,
       sid: this.uid,
@@ -495,7 +495,7 @@ export default {
         data.sid == this.uid //   发送人的id 等于当前用户聊天的id
         // (data.uid == this.sid && data.uid == this.uid)
       ) {
-        await this.$axios.post("http://localhost:9000/updateMsgRead", {
+        await this.$axios.post("http://kikyou.vip:9000/updateMsgRead", {
           //消息已读未读
           uid: this.sid,
           sid: this.uid,
