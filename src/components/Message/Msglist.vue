@@ -37,11 +37,7 @@
         <div class="f1">
           <div class="msg_head">
             <div>
-              {{
-                item.be.uname == null
-                  ? "匿名用户"
-                  : item.be.uname
-              }}
+              {{ item.be.uname == null ? "匿名用户" : item.be.uname }}
             </div>
             <div>{{ item.msgArr[item.msgArr.length - 1].send_date }}</div>
           </div>
@@ -52,7 +48,7 @@
             <p>{{ item.msgArr[item.msgArr.length - 1].message }}</p>
             <van-badge :content="msginfo[i]" v-if="msginfo[i] != 0" class="hb">
               <div />
-            </van-badge> 
+            </van-badge>
           </div>
           <div class="msg_foot" v-else>
             <div style="color: red">[语音]</div>
@@ -83,7 +79,8 @@ export default {
       this.$router.back();
     },
     ...mapMutations(["update_msginfo"]),
-    go_detail(item, i) { //去私聊详情页
+    go_detail(item, i) {
+      //去私聊详情页
       console.log(item, i);
       this.update_msginfo(item);
       //使所有文本消息都成为已读
@@ -111,37 +108,37 @@ export default {
       this.$router.push("/msg");
     },
     async updatemsg() {
+      //获取消息列表
       // let uid = this.$route.query.uid;
       // sessionStorage.setItem("uid", uid); //这里是模拟用户登录的uid 后期传入登陆者的uid
       this.uid = sessionStorage.getItem("uid");
-      // console.log(this.uid);
-      // 组件创建完成   获取消息列表
+      // 组件创建完成     获取消息列表
       let [err, data] = await this.capture(this.getHistory);
-      console.log(data);
-      this.arrlength = data.data;
-      this.Arrmsg = data.data; //搜索过来的所有的消息列表 每个最多15条消息
+      // console.log(data);
+      this.arrlength = data.data; //所有的消息列表
       if (!data.data) {
+        //如果请求不到数据 证明无消息
         return;
       }
       data.data.forEach((item) => {
-        //最新的一条消息
-        // this.arrlength.push(item.msgArr[item.msgArr.length - 1]);
         this.newMsg.push(item.msgArr[item.msgArr.length - 1]); //最新的一条消息
       });
-      let count = 0;    //已读未读已咔嚓掉
+      let count = 0; //未读消息条数
       data.data.forEach((item) => {
         item.msgArr.forEach((i) => {
-          // console.log(i.sid==this.uid)
-          // console.log(i.is_read == 0 || i.audio_isRead == 0)
-          if (i.sid==this.uid&&i.is_read == 0 || i.audio_isRead == 0 ) {
-            count++;
+          //如果消息数组中的 接受者id等于客户uid 并且有未读消息
+          if ((i.sid == this.uid && i.is_read == 0) || i.audio_isRead == 0) {
+            count++; //未读消息 +1
           }
         });
-        this.msginfo.push(count); //未读消息的次数
+        this.msginfo.push(count); //未读消息数组
         count = 0;
+        let resul_count = this.msginfo.reduce((box, item) => box + item); //未读消息总条数
+        this.$store.commit("change_unread", resul_count); //更改未读消息总条数
+        // console.log( this.$store.state.unread_msg)
       });
-      console.log(this.arrlength);
-      console.log(this.msginfo);
+      // console.log(this.arrlength);
+      // console.log(this.msginfo);
     },
   },
   async created() {
@@ -154,28 +151,36 @@ export default {
     },
     //>>>>>>>>   监听发来的消息
     oToMessage(data) {
+      // 遍历所有的消息列表
       this.arrlength.forEach((item, i) => {
-        console.log(item);
-        if (item.be.uid == data.uid && data!='') {
+        // 如果对方的发来的消息  中的发送者uid = 消息列表其中一条消息的发送者uid 就是已知的好友列表
+        if (item.be.uid == data.uid && data != "") {
           //如果存在已有的列表即更新对应的最新的消息
           this.arrlength[i].msgArr.push(data);
           data = ""; //将data赋值为空  防止重复添加
-           this.msginfo[i] += 1;
-          console.log("已知好友列表");
-        } else if (data!='') {
+          this.msginfo[i] += 1; //未读消息列表那一条 ＋1
+          let resul_count = this.msginfo.reduce((box, item) => box + item); //未读消息总条数
+          this.$store.commit("change_unread", resul_count); //更改未读消息总条数
+          // console.log("已知好友列表");
+        } else if (data != "") {
+          //否则就是新的好友发的消息  更新消息列表
           console.log("未知好友列表");
           let obj = {
             be: {
+              //对方的基本信息
               head_img: data.head_img,
               uid: data.uid,
               uname: data.uname || 匿名用户,
             },
-            msgArr: [data],
-            sid: data.uid,
-            uid: data.sid,
+            msgArr: [data], //消息数组
+            sid: data.uid, //发送者的uid
+            uid: data.sid, //我的uid
           };
           this.arrlength.push(obj); // 如果是新消息 就追加一条消息列表的消息
           data = "";
+          this.msginfo[i] += 1; //未读消息列表那一条 ＋1
+          let resul_count = this.msginfo.reduce((box, item) => box + item); //未读消息总条数
+          this.$store.commit("change_unread", resul_count); //更改未读消息总条数
         }
       });
     },
@@ -183,15 +188,6 @@ export default {
   mounted() {
     // this.$socket.open(); //主动连接sockte
     this.innerheight = window.innerHeight + "px";
-  },
-  watch: {
-    $route(to, from) {
-      console.log(to.patn,from.path)
-      //检测路由变化 如果原地刷新就重新连接socket 重新连接socket
-      if (to.path == from.path) {
-        this.$socket.open();
-      }
-    },
   },
 };
 </script>

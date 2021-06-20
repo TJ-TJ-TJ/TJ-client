@@ -5,11 +5,14 @@
 </template>
 <script>
 export default {
+  created(){
+
+  },
   mounted() {
     let user_info = [
       { uname: "余成林", user_iden: 411522200010063611, person_show: true },
       { uname: "高武杰", user_iden: 411522200010063611, person_show: false },
-    ]; //入住人 默认
+    ]; //入住人 默认的
     sessionStorage.setItem("check_person", JSON.stringify(user_info)); //不能直接传递数组或者对象 可以存储字符串
   },
 };

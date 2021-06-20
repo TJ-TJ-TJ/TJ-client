@@ -19,12 +19,15 @@
           <img :src="props.active ? icon2.active : icon2.inactive" />
         </template>
       </van-tabbar-item>
-      <van-tabbar-item to="/msg_list">
-        <span>消息</span>
-        <template #icon="props">
-          <img :src="props.active ? icon3.active : icon3.inactive" />
-        </template>
-      </van-tabbar-item>
+      <van-badge :content="count">
+        <van-tabbar-item to="/msg_list" class="count_msg">
+          <span>消息</span>
+          <template #icon="props">
+            <img :src="props.active ? icon3.active : icon3.inactive" />
+          </template>
+        </van-tabbar-item>
+      </van-badge>
+
       <van-tabbar-item to="/user">
         <span>我的</span>
         <template #icon="props">
@@ -68,14 +71,13 @@
     </van-tabbar>
     <router-view></router-view>
   </div>
-
 </template>
 <script>
-
 export default {
   data() {
     return {
       active: 3,
+      count: "",
       icon1: {
         active:
           "https://pic.tujia.com/upload/festatic/publicImages/icon-tab-index-p.png",
@@ -97,9 +99,9 @@ export default {
       },
     };
   },
-  mounted(){
-    console.log('tablebar 更新了')
-  }
+  created() {
+    this.count = this.$store.state.unread_msg; //未读消息总条数
+  },
 };
 </script>
 <style lang="scss" >
@@ -109,10 +111,25 @@ export default {
   // left: 0;
   // height: 55px;
   // bottom: 0;
-  .van-tabbar--fixed{
+  .van-tabbar--fixed {
     height: 55px;
     left: 0;
     right: 0;
+    .van-badge__wrapper {
+      width: 25%;
+      .count_msg {
+        height: 100%;
+      }
+      .van-badge--fixed {
+        top: 15%;
+        right: 35%;
+      }
+      .van-tabbar-item {
+        bottom: 0;
+      }
+    }
+
+    // van-badge__wrapper
   }
   .table__bar {
     .van-tabbar-item__icon img {
