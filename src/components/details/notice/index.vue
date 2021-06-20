@@ -379,7 +379,7 @@ export default {
         font-size: 12px;
         height: 14px;
         overflow: hidden;
-        white-space: nowrap;
+        text-overflow: ellipsis;
         color: #999;
       }
 

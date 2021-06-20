@@ -26,7 +26,7 @@
                            <div>
                                {{item.uname}}
                            </div>
-                           <div>{{item.order_time | getday }} 入住</div>
+                           <div>{{item.order_time}} 入住</div>
                        </div>
                    </div>
                    <div>
@@ -74,7 +74,15 @@ export default {
    },
    filters: {
       getday (val) {
-         return val.split(/T\s*/)[0];
+
+         if (typeof val == 'string'){
+             return val.split(/T\s*/)[0];
+         }else if (typeof val == "number") {
+               let a = new Date(val);
+
+               console.log(a)
+         }
+        
 
       }
    },

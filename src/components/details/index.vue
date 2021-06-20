@@ -38,7 +38,7 @@ export default {
     };
   },
   mounted() {
-    this.axios.get('/details/?rid=60c164a7074200005d003192').then(result=>{
+    this.axios.get('/details/?rid=60c16569074200005d003199').then(result=>{
       // console.log(result.data.result)
       const data = result.data.result;
       this.allDate = data
