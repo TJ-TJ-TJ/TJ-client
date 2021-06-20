@@ -801,22 +801,24 @@ body {
     & > div:first-child {
       display: flex;
       /*   height: 40px; */
+      box-sizing: border-box;
       align-items: center;
       justify-content: space-between;
-      padding: 8px 20px;
+      padding: 8px 10px;
       & > div:first-child {
         display: flex;
         align-items: center;
-        width: 77%;
+        width: 72vw;
       }
       & > div:last-child {
         display: flex;
         align-items: center;
-        justify-content: flex-end;
-        width: 23%;
+        justify-content: center;
+        width: 28vw;
+        font-size: 12px;
       }
       input {
-        width: calc(100% - 20px); //意思是父级元素减去30px的宽度
+        width: calc(100% - 30px); 
         margin: 0 0 0 10px;
         line-height: 35px;
         padding-left: 5px;
