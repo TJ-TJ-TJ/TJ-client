@@ -50,7 +50,7 @@
       <div class="ditu-cont">
         <div class="ditu-left">
           <div class="dizhi">{{biaoti.location}}</div>
-          <div class="juli">
+          <div class="juli" v-if="ditieshow">
             <img src="/icon/position_subway.png" alt="">
             {{biaoti.nearby}}
           </div>
@@ -100,7 +100,8 @@ export default {
       miaoshu: '',
       goodtime: 3,
       chajia:'',
-      chajiashow:true
+      chajiashow:true,
+      ditieshow: true
          
           //  base: this.title.label.base,
           //  play: this.title.label.play,
@@ -125,10 +126,14 @@ export default {
       if(this.chajia == 0) {
         this.chajiashow = false
       }
+      if(val.nearby == '') {
+        this.ditieshow = false
+      }
     },
      label(val) {
        this.miaoshu = val
      }
+    
   },
   mounted() {
     // console.log(this.title)
