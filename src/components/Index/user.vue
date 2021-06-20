@@ -63,7 +63,7 @@
             src="icon/history.png"
           />
           <br />
-          <span class="fontTitle">
+          <span class="fontTitle" @click="$router.push('/hittory')">
             浏览历史
           </span>
           <br />
