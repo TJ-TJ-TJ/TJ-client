@@ -76,7 +76,7 @@
   }
   .foot-bianxian {
     width: 100%;
-    height: 90px;
+    height: 130px;
   }
  
 }

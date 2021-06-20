@@ -53,11 +53,11 @@ export default {
   methods: {
     liaotian()  {
       this.$router.push({
-        name: '/msg',
+        name: 'msg',
         params: {
-          uid: jiage.uid,
-          head_img: jiage.owner.img,
-          uname: jiage.owner.uanme
+          uid: this.jiage.uid,
+          head_img: this.jiage.owner.img,
+          uname: this.jiage.owner.uanme
         }
       })
     },
