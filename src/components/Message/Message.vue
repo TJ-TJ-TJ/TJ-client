@@ -352,7 +352,7 @@ export default {
         this.$socket.compress(true).emit("puoToMessage", sendObj); //将数据压缩发到后台
         sendObj.audio = URL.createObjectURL(data);
         this.message.push(sendObj);
-        window.scrollTo(0, document.body.scrollHeight);
+        // window.scrollTo(0, document.body.scrollHeight);
         clearTimeout(this.loop); //清空定时器，防止重复注册定时器
         this.$toast.clear(); //清除轻提示
         this.long = false; //清除状态
@@ -468,12 +468,12 @@ export default {
       uid: this.sid,
       sid: this.uid,
     });
-    window.scrollTo(0, document.body.scrollHeight);
+    // window.scrollTo(0, document.body.scrollHeight);
     this.outheight = window.innerHeight + "px";
     let textarea = document.querySelector(".textarea-msg"); //聊天的文本域 滚动条实时底部
     textarea.oninput = () => {
       textarea.style.height = "auto"; //文本域高度自适应  但不超过100px
-      textarea.style.height = textarea.scrollHeight + "px";
+      // textarea.style.height = textarea.scrollHeight + "px";
     };
     textarea.onfocus = () => {
       //文本域获得焦点表情包就消失
@@ -514,7 +514,7 @@ export default {
       console.log("触发了");
       setTimeout(() => {
         console.log("底部滚动条定时器");
-        window.scrollTo(0, document.body.scrollHeight);
+        // window.scrollTo(0, document.body.scrollHeight);
       }, 200);
     },
   },
