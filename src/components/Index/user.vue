@@ -19,7 +19,7 @@
         src="https://img01.yzcdn.cn/vant/cat.jpeg"
       />
       <div class="icon">
-        <van-icon name="icon/编辑.png" size="1.5rem" ref="spanRef"/>
+        <van-icon name="icon/edit.png" size="1.5rem" ref="spanRef"/>
       </div>
       <div class="price">
         <div>
@@ -48,7 +48,7 @@
         <div class="head-item">
           <van-image
             
-            src="icon/发票.png"
+            src="icon/bill.png"
           />
           <br />
           <span class="fontTitle">
@@ -60,7 +60,7 @@
         <div class="head-item">
           <van-image
             
-            src="icon/历史记录.png"
+            src="icon/history.png"
           />
           <br />
           <span class="fontTitle">
@@ -72,7 +72,7 @@
         <div class="head-item">
           <van-image
             
-            src="icon/常用信息.png"
+            src="icon/msg.png"
           />
           <br />
           <span class="fontTitle">
@@ -84,7 +84,7 @@
         <div class="head-item">
           <van-image
             
-            src="icon/吐槽我们.png"
+            src="icon/me.png"
           />
           <br />
           <span class="fontTitle">
@@ -96,7 +96,7 @@
         <div class="head-item">
           <van-image
             
-            src="icon/意见反馈.png"
+            src="icon/idea.png"
           />
           <br />
           <span class="fontTitle">
@@ -135,7 +135,7 @@ export default {
     .backImg {
       width: 100%;
       height: 30vh;
-      background-image: url('/img/背景.jpg');
+      background-image: url('/img/back.jpg');
        clip-path: polygon(100% 0%,  0% 0%, 0% 80%, 100% 35%);
       //clip-path: ellipse(90% 16vh at 15% 15%);
     }
