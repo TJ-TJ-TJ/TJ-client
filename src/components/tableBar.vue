@@ -78,7 +78,7 @@ export default {
     return {
       active: 3,
       count: "",
-      uid:1, ///假设的账号
+      uid: 1, ///假设的账号
       icon1: {
         active:
           "https://pic.tujia.com/upload/festatic/publicImages/icon-tab-index-p.png",
@@ -105,18 +105,22 @@ export default {
       `http://localhost:9000/getHistoryMsg?uid=1` //登录后的uid
     );
     let count = 0; //未读消息条数
-    console.log(obj.data.data)
-    obj.data.data.forEach((item) => {
-      item.msgArr.forEach((i) => {
-        //如果消息数组中的 接受者id等于客户uid 并且有未读消息
-        if ((i.sid == this.uid && i.is_read == 0) || i.audio_isRead == 0) {
-          count++; //未读消息 +1
-        }
+    console.log(obj.data.data);
+    if (obj.data.data==0) {
+       this.count=0
+    } else {
+      obj.data.data.forEach((item) => {
+        item.msgArr.forEach((i) => {
+          //如果消息数组中的 接受者id等于客户uid 并且有未读消息
+          if ((i.sid == this.uid && i.is_read == 0) || i.audio_isRead == 0) {
+            count++; //未读消息 +1
+          }
+        });
       });
-    });
-    this.$store.commit("change_unread", count); //更改未读消息总条数
-    console.log(count, this.$store.state.unread_msg);
-    this.count = this.$store.state.unread_msg; //未读消息总条数
+      this.$store.commit("change_unread", count); //更改未读消息总条数
+      console.log(count, this.$store.state.unread_msg);
+      this.count = this.$store.state.unread_msg; //未读消息总条数
+    }
   },
 };
 </script>

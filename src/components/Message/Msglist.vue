@@ -111,7 +111,7 @@ export default {
       //获取消息列表
       // let uid = this.$route.query.uid;
       // sessionStorage.setItem("uid", uid); //这里是模拟用户登录的uid 后期传入登陆者的uid
-      this.uid = sessionStorage.getItem("uid");
+      // this.uid = sessionStorage.getItem("uid");
       // 组件创建完成     获取消息列表
       let [err, data] = await this.capture(this.getHistory);
       // console.log(data);
