@@ -115,7 +115,7 @@
             <div class="foot-base">
               <van-button round color="#F3F4F6" class="empty">清空</van-button>
               <van-button round color="#FF9645" class="examine"
-                >查看房源</van-button
+                @click="selectHouse">查看房源</van-button
               >
             </div>
           </div>
@@ -270,6 +270,17 @@ export default {
   },
   
   methods: {
+    async selectHouse(){
+    const {data:res} = await this.$axios.post('search/find',{
+        "wd":this.$store.state.city.slice(0,1),
+        "page": 1,
+        "count": 100,
+        "minPrice": this.minPrice,
+        "maxPrice": this.maxPrice,
+        "star": [1,2,3,4],
+      })
+      this.result=res.result
+  },
     // 页面跳转
     skipBtn(id){
       this.$router.push('/details?id='+id)
@@ -283,7 +294,7 @@ export default {
       const {data:res} = await this.$axios.post('search/find',{
         "wd":this.$store.state.city.slice(0,1),
         "page": 1,
-        "count": 10,
+        "count": 100,
         "minPrice": this.$store.state.searchData.minPrice || 0,
         "maxPrice": this.$store.state.searchData.maxPrice || 2000,
         "star": [1,2,3,4],

@@ -70,7 +70,6 @@
     // 卡片样式
     .cardSearch {
       width: 90vw;
-      height: 40vh;
       margin-left: 5vw;
       background-color: #fff;
       margin-top: 10vh;
@@ -91,6 +90,7 @@
       // 关键地点搜索
       .dataTag {
         width: 100%;
+        padding-bottom: 10px;
   
         .van-tag {
           background-color: #f1f3f5;
@@ -312,14 +312,14 @@
   
       .van-list {
         .homestay {
-          height: 177vh;
+          height: 93rem;
           width: 100%;
           display: flex;
           flex-direction: column;
           flex-wrap: wrap;
-          @media screen and (max-height: 800px) {
-            height: 210vh;
-          }
+          // @media screen and (max-height: 800px) {
+          //   height: 210vh;
+          // }
           .homestay-item {
             position: relative;
             margin-bottom: 2vh;
@@ -426,7 +426,7 @@ overflow:hidden;
       overflow: auto;
       height: 10vh;
       float: left;
-      margin-top: 36vh;
+      margin-top: 39vh;
       margin-bottom: 4vh;
       ul {
         white-space: nowrap;

@@ -103,14 +103,17 @@
           </van-cell>
         </van-cell-group>
         <!-- 关键地点搜索 -->
-        <div class="dataTag"></div>
-        <!-- 搜索按钮 -->
-        <van-button
+        <div class="dataTag">
+          <!-- 搜索按钮 -->
+          <van-button
           color="linear-gradient(to right, #FA8D1E, #FCAF3F)"
           @click="searchBtn"
         >
           开始搜索
         </van-button>
+        </div>
+        
+        
       </div>
       <!-- 滑动轮播 -->
       <div class="scroball">
@@ -510,8 +513,7 @@ export default {
           // data是具体的定位信息
           console.log("定位成功信息：", data);
           console.log(data);
-          self.local =
-            data.addressComponent.province + data.addressComponent.district;
+          self.local = data.addressComponent.district;
         }
         function onError(data) {
           // 定位出错

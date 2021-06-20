@@ -88,6 +88,7 @@ export default {
         let timeb = date[1].getTime() / 1000 / 60 / 60 / 24;
         this.sumDate = timeb - timea;
       }
+      
     },
     // 选择时间清空
     dateEmpty() {
