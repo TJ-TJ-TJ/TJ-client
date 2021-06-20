@@ -125,12 +125,12 @@ export default {
       // this.uid = sessionStorage.getItem("uid");
       // 组件创建完成     获取消息列表
       let [err, data] = await this.capture(this.getHistory);
-       console.log(data);
-      this.arrlength = data.data; //所有的消息列表
+      //  console.log(data.code=402);
       if (!data.data) {
         //如果请求不到数据 证明无消息
         return;
       }
+            this.arrlength = data.data; //所有的消息列表
       data.data.forEach((item) => {
         this.newMsg.push(item.msgArr[item.msgArr.length - 1]); //最新的一条消息
       });
