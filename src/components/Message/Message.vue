@@ -415,8 +415,8 @@ export default {
       console.log(this.$route)
       let sid = this.$route.params; //  根据路由跳转传过来的 sid  重新获取消息记录渲染  下面的消息列表不执行
       let store = ""; //消息的信息
-      // console.log(sid==undefined);
-      if(sid!=undefined||sid!=null){
+      console.log(sid==undefined,JSON.stringify(sid)=='{}');
+      if(JSON.stringify(sid)!='{}'){
         console.log("其他页面 跳转过来的");
         let obj = await this.$axios.get(
           `http://localhost:9000/getHistoryMsg?uid=${this.uid}`
