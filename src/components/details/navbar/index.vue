@@ -1,7 +1,7 @@
 <template>
   <div class="navbar">
     <van-nav-bar title="房屋详情"    placeholder >
-    <span  class="back" slot="left">
+    <span @click="goBack"  class="back" slot="left">
       <img  src="/icon/mob-TjHeader-header-left.png" alt="">
       <img slot="left" class="last" src="/icon/mob-TjHeader-header-logo.png" alt="">
 
@@ -16,7 +16,11 @@
 
 <script>
 export default {
-  
+    methods:{
+      goBack(){
+        this.$router.replace({path:'/'})
+      }
+    }
 }
 </script>
 

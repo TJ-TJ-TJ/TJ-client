@@ -11,16 +11,6 @@ const routes = [
   ...Order,
   ...user,
   { path: "/index", redirect: "/collects" },
-    {
-    path: '/table', //tablebar底部导航
-    name: 'table',
-    component: () => import(/* webpackChunkName: "tablebar"*/ '../components/tableBar.vue'),
-  },
-  {
-    path: '/order',
-    name: 'Order',   //订单主页面
-    component: () => import(/* webpackChunkName: "order" */ '../components/Orders/index.vue')
-  },
   {
     path: "/",
     name: "index",
@@ -64,7 +54,7 @@ const routes = [
     path: "/report",
     name: "photo",
     component: () =>
-      import(/* webpackChunkName: "about" */ "../components/Index/report.vue"),
+      import(/* webpackChunkName: "about" */ "../components/Message/report.vue"),
   },
   {
     path: "/user",
@@ -73,10 +63,11 @@ const routes = [
       import(/* webpackChunkName: "about" */ "../components/Index/user.vue"),
   },
   {
-    path: "/index",
-    name: "index",
+    path: "/hittory",
+    name: "hittory",
+    redirect:'/collect',
     component: () =>
-      import(/* webpackChunkName: "about" */ "../components/Collect/index.vue"),
+      import(/* webpackChunkName: "about" */ "../components/Index/hittory.vue"),
     children: [
       {
         path: "/collects",
@@ -105,15 +96,16 @@ const router = new VueRouter({
   base: process.env.BASE_URL,
   routes,
 });
+
 router.beforeEach((to, from, next) => {
     console.log(to , from);
-    next()
     if(to.path=='/order_edit' || to.path=='/order_pay'){
      if(!window.localStorage.getItem('token')){
        return router.replace({path:'login'})
      }
     }
   // if (to.name !== 'Login' && !isAuthenticated) next({ name: 'Login' })
-  // else next()
+  // else 
+  next()
 })
 export default router;

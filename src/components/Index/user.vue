@@ -35,7 +35,7 @@
         :src="userInfo.headImg"
       />
       <div class="icon">
-        <van-icon @click="goEdit" name="icon/编辑.png" size="1.5rem" ref="spanRef"/>
+        <van-icon @click="goEdit" name="icon/edit.png" size="1.5rem" ref="spanRef"/>
       </div>
       <div class="price">
         <div>
@@ -64,7 +64,7 @@
         <div class="head-item">
           <van-image
             
-            src="icon/发票.png"
+            src="icon/bill.png"
           />
           <br />
           <span class="fontTitle">
@@ -76,10 +76,10 @@
         <div class="head-item">
           <van-image
             
-            src="icon/历史记录.png"
+            src="icon/history.png"
           />
           <br />
-          <span class="fontTitle">
+          <span class="fontTitle" @click="$router.push('/hittory')">
             浏览历史
           </span>
           <br />
@@ -88,7 +88,7 @@
         <div class="head-item">
           <van-image
             
-            src="icon/常用信息.png"
+            src="icon/msg.png"
           />
           <br />
           <span class="fontTitle">
@@ -100,7 +100,7 @@
         <div class="head-item">
           <van-image
             
-            src="icon/吐槽我们.png"
+            src="icon/me.png"
           />
           <br />
           <span class="fontTitle">
@@ -112,7 +112,7 @@
         <div class="head-item">
           <van-image
             
-            src="icon/意见反馈.png"
+            src="icon/idea.png"
           />
           <br />
           <span class="fontTitle">
@@ -123,7 +123,7 @@
         </div>
       </div>
     </div>
-     <table-bar></table-bar>
+     <table-bar></table-bar> 
   </div>
 </template>
 
@@ -145,7 +145,6 @@ export default {
       this.$router.push({path:'login'});
     },
     goEdit(){
-      
       if(!this.userInfo.token){
         return this.$router.push({path:'login'})
       }
@@ -163,6 +162,10 @@ export default {
   width: 100%;
   height: 100vh;
   background-color: #f1fafc;
+  .headimg img{
+    width: 105%;
+    height: 105%;
+  }
   .title {
     position: relative;
     background-color: #ffffff;
@@ -170,11 +173,11 @@ export default {
     .backImg {
       width: 100%;
       height: 30vh;
-      background: url('/img/背景.png');
-      background-position: 0px -20px;
-      clip-path: polygon(100% 0%,  0% 0%, 0% 80%, 100% 35%);
+      background-image: url('/img/back.jpg');
+       clip-path: polygon(100% 0%,  0% 0%, 0% 80%, 100% 35%);
       //clip-path: ellipse(90% 16vh at 15% 15%);
     }
+    
     .van-image {
       position: absolute;
       top: 16vh;
@@ -182,10 +185,12 @@ export default {
       box-shadow: 5px 5px 10px #888888;
     }
     .icon{
-      height: 2rem;
-      width: 2rem;
+      height: 3rem;
+      width: 3rem;
       background-color: #3E4852;
       position: absolute;
+      display: flex;
+      justify-content: center;
       top: 10vh;
       right: 10vw;
       border-radius: 50%;
@@ -268,13 +273,5 @@ export default {
       font-size: 5px;
     }
   }
-}
-.headimg{
-  display: flex;
-  justify-content: center;
-}
-.headimg img{
-  width: 105%;
-  height: 105%;
 }
 </style>

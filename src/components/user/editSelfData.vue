@@ -234,10 +234,10 @@ export default {
         //上传图片之前,获取file对象
         async afterUploadHeadImg(file){
             console.log(file);
-           let formDate = new FormData()
-           formDate.append('file',file.file)
-           let {data:res} = await this.$axios.post('/[待完善]',formDate)
-           if(res.code!=200)return this.$toast.fail('更新头像失败')
+            let formDate = new FormData()
+            formDate.append('file',file.file)
+            let {data:res} = await this.$axios.post('/[待完善]',formDate)
+            if(res.code!=200)return this.$toast.fail('更新头像失败')
         }
     },
     computed:{

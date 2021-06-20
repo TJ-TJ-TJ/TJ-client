@@ -49,6 +49,7 @@
             <van-field
               v-model="loginPhone"
               clearable
+              style="background-color:#f5f7f9"
               placeholder="请输入手机号"
               size="100%"
             />
@@ -190,13 +191,13 @@ export default {
       //全国 区号数据
       phoneCity: city,
       //登录手机号input绑定
-          loginPhone: '17538590303',
+          loginPhone: '',
       //区号选择
           phoneLocation:'+86',
       //区号选择显示隐藏
           SelectRegionShow:false,
       //协议是否同意
-          agreeAgreement:true,
+          agreeAgreement:false,
       //数字键盘显示隐藏,
           showKeyboard:true,
       //验证码input
@@ -422,6 +423,7 @@ async reloadSendPhoneSignUp(){
         window.localStorage.setItem('uname',info.uname || Date.now())
         window.localStorage.setItem('headImg',info.headImg || '/img/defaultHead.png')
         this.$router.replace({path:'/user'})
+        this.$socket.open()
     }
   },
   watch:{
