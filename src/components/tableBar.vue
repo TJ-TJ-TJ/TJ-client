@@ -19,7 +19,7 @@
           <img :src="props.active ? icon2.active : icon2.inactive" />
         </template>
       </van-tabbar-item>
-      <van-badge :content="count">
+      <van-badge :content="`${$store.state.unread_msg}`">
         <van-tabbar-item to="/msg_list" class="count_msg">
           <span>消息</span>
           <template #icon="props">
@@ -76,8 +76,9 @@
 export default {
   data() {
     return {
+      arrlength: [],//消息列表
       active: 3,
-      count: "",
+      count: "",//消息总条数
       uid: 1, ///假设的账号
       icon1: {
         active:
@@ -100,27 +101,48 @@ export default {
       },
     };
   },
-  async created() {
-    let obj = await this.$axios.get(
-      `http://localhost:9000/getHistoryMsg?uid=1` //登录后的uid
-    );
-    let count = 0; //未读消息条数
-    console.log(obj.data.data);
-    if (obj.data.data==0) {
-       this.count=0
-    } else {
-      obj.data.data.forEach((item) => {
+  methods: {
+    capture(xxx) {
+      //对async错误处理做出一个封装
+      return xxx()
+        .then((val) => [null, val.data])
+        .catch((err) => [err, null]);
+    },
+    getHistory() {
+      return this.$axios.get(
+        `http://localhost:9000/getHistoryMsg?uid=${this.uid}`
+      );
+    },
+    async updatemsg() {
+      let [err, data] = await this.capture(this.getHistory);
+      // console.log(data);
+      this.arrlength = data.data; //所有的消息列表
+      if (!data.data) {
+        //如果请求不到数据 证明无消息
+        return;
+      }
+      let count = 0; //未读消息条数
+      data.data.forEach((item) => {
         item.msgArr.forEach((i) => {
           //如果消息数组中的 接受者id等于客户uid 并且有未读消息
-          if ((i.sid == this.uid && i.is_read == 0) || i.audio_isRead == 0) {
+          if (i.is_read == 0 || i.audio_isRead == 0) {
             count++; //未读消息 +1
           }
         });
+        console.log("未读消息总数" + count);
+        this.$store.commit("change_unread", count);
       });
-      this.$store.commit("change_unread", count); //更改未读消息总条数
-      console.log(count, this.$store.state.unread_msg);
-      this.count = this.$store.state.unread_msg; //未读消息总条数
-    }
+    },
+  },
+  async created() {
+    this.updatemsg();
+  },
+  sockets: {
+    connect: function () {},
+    //>>>>>>>>   监听发来的消息
+    oToMessage(data) {
+      this.updatemsg();
+    },
   },
 };
 </script>

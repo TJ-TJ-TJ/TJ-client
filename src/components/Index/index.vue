@@ -2,376 +2,385 @@
   <div class="Index-view">
     <!-- 头部标题 -->
     <div class="test-scroll-wrap">
-<div class="headerTitle">
-      <span class="titleLogo">途家民宿</span>
-      <!-- <div>
+      <div class="headerTitle">
+        <span class="titleLogo">途家民宿</span>
+        <!-- <div>
         <van-icon name="wap-nav" size="30" />
       </div> -->
-    </div>
-    <!-- 背景图 -->
-    <van-swipe :autoplay="3000" @change="onChange">
-      <van-swipe-item v-for="(image, index) in images" :key="index">
-        <img v-lazy="image" />
-      </van-swipe-item>
-      <template #indicator>
-        <div class="custom-indicator" ref="indecatorRef">
-          <div></div>
-          <div></div>
-          <div></div>
-          <div></div>
-        </div>
-      </template>
-    </van-swipe>
-    <!-- 搜索订单卡片 -->
-    <div class="cardSearch">
-      <van-cell-group>
-        <van-cell class="current-location">
-          <div class="current-city">
-            <!-- 定位地点 -->
-            <span>
-              {{local}}
-            </span>
-          </div>
-          <!-- 定位按钮 -->
-          <div class="currentBtn">
-           <div v-if="local">
-              <van-icon name="icon/定位.png" />
-             <span @click="getLocation()">
-              我的位置
-            </span> 
-            </div>
-            <van-loading v-else size="12px" color="#ff9645" text-color="#666">我的位置...</van-loading>
-          </div>
-        </van-cell>
-      </van-cell-group>
-      <!-- 选择日期 -->
-      <van-cell-group class="option-date">
-        <van-cell @click="optionDate">
-          <div class="option-dateDiv">
-            <span>入住</span>
-            <span class="star-date">{{ starDate }}</span>
-          </div>
-          <div>
-            <span class="allTime">共{{ putDate }}晚</span>
-          </div>
-          <div>
-            <span>离店</span>
-            <span class="end-date">{{ endDate }}</span>
-          </div>
-        </van-cell>
-        <!-- 日期选择 -->
-        <van-calendar
-          color="#FF9645"
-          v-model="show"
-          type="range"
-          @confirm="onConfirm"
-          @select="onCalfirm"
-          :style="{ height: '100%' }"
-        >
-          <!-- 日期选择标题 -->
-          <template #title>
-            <div class="date-continer">
-              <span class="clear-empty" @click="dateEmpty">清空</span>
-              <span class="checkDate">{{checkDate}}</span>
-              <span class="sumDate">共{{sumDate}}晚</span>
-              <span class="leaveDate">{{leaveDate}}</span>
-            </div>
-          </template>
-        </van-calendar>
-      </van-cell-group>
-      <!-- 选择价格人数 -->
-      <van-cell-group class="price-person">
-        <van-row>
-          <van-col span="16">
-            <van-cell @click="showPopup">
-              <div>
-                <span>{{ priceSum }}</span>
-              </div>
-            </van-cell>
-          </van-col>
-          <van-col span="8" @click="peoNumShow = true">
-            <van-cell>
-              <div>
-                <span>{{ peoNumData }}</span>
-              </div>
-            </van-cell>
-          </van-col>
-        </van-row>
-      </van-cell-group>
-      <!-- 搜索关键字 -->
-      <van-cell-group class="keywordSearch" @click="keyword">
-        <van-cell>
-          <span v-if="$store.state.searchData!=''">关键字/位置/民宿名</span>
-          <span v-else>{{store.state.searchData}}</span>
-        </van-cell>
-      </van-cell-group>
-      <!-- 关键地点搜索 -->
-      <div class="dataTag">
-<!--        <van-tag-->
-<!--          round-->
-<!--          type="primary"-->
-<!--          v-for="(item, index) in keywordCity"-->
-<!--          :key="index"-->
-<!--          >{{ item }}</van-tag-->
-<!--        >-->
       </div>
-      <!-- 搜索按钮 -->
-      <van-button color="linear-gradient(to right, #FA8D1E, #FCAF3F)" @click="searchBtn">
-        开始搜索
-      </van-button>
-    </div>
-    <!-- 滑动轮播 -->
-    <div class="scroball">
-     <ul>
-        <li>
-          <img
-            src="https://pic.tujia.com/upload/resourcespic/day_210329/202103291824074567.png"
-            alt=""
-          /><br />
-          <span>房东入住</span>
-        </li>
-        <li>
-          <img
-            src="https://pic.tujia.com/upload/resourcespic/day_201124/202011241613557364.png"
-            alt=""
-          /><br />
-          <span>新房特惠</span>
-        </li>
-        <li>
-          <img
-            src="https://pic.tujia.com/upload/resourcespic/day_201124/202011241606527781.png"
-            alt=""
-          /><br />
-          <span>实拍美屋</span>
-        </li>
-        <li>
-          <img
-            src="https://pic.tujia.com/upload/resourcespic/day_201124/202011241609392352.png"
-            alt=""
-          /><br />
-          <span>品牌民宿</span>
-        </li>
-        <li>
-          <img
-            src="https://pic.tujia.com/upload/resourcespic/day_201124/202011241610475893.png"
-            alt=""
-          /><br />
-          <span>整套出租</span>
-        </li>
-        <li>
-          <img
-            src="https://pic.tujia.com/upload/resourcespic/day_201124/202011241619599744.png"
-            alt=""
-          /><br />
-          <span>做饭方便</span>
-        </li>
-        <li>
-          <img
-            src="https://pic.tujia.com/upload/resourcespic/day_201124/202011241618017144.png"
-            alt=""
-          /><br />
-          <span>LOFT</span>
-        </li>
-        <li>
-          <img
-            src="https://pic.tujia.com/upload/resourcespic/day_201124/202011241616084091.png"
-            alt=""
-          /><br />
-          <span>客栈</span>
-        </li>
-        <li>
-          <img
-            src="https://pic.tujia.com/upload/resourcespic/day_201124/202011241615137585.png"
-            alt=""
-          /><br />
-          <span>别墅</span>
-        </li>
-        <li>
-          <img
-            src="https://pic.tujia.com/upload/resourcespic/day_201124/202011241611372682.png"
-            alt=""
-          /><br />
-          <span>优选</span>
-        </li>
-      </ul>
-    </div>
-    <!-- 瀑布流民宿数据 -->
-    <div class="waterfall">
-      <van-list
-        v-model="loading"
-        :finished="finished"
-        finished-text="没有更多了"
-      >
-        <!-- <van-cell v-for="item in waterList" :key="item" :title="item" /> -->
-        <div class="homestay">
-<!--          <div class="homestay-item">-->
-<!--            <img-->
-<!--              src="https://pic.tujia.com/upload/qualifiedpics/day_190822/thumb/201908220023388144_360_480.jpg"-->
-<!--              alt=""-->
-<!--            />-->
-<!--            <van-tag round class="preference">优选PRO</van-tag>-->
-<!--            <van-icon name="like-o" />-->
-<!--            <div class="text-description">-->
-<!--              <p>三钻 2居4床 4人</p>-->
-<!--              <p>古北水镇🌸花开半夏复式叠拼观景loft</p>-->
-<!--              <van-rate-->
-<!--                size="10px"-->
-<!--                gutter="20px"-->
-<!--                v-model="rateValue"-->
-<!--                color="#fff"-->
-<!--                disabled-->
-<!--              />-->
-<!--              <span>￥1180</span>-->
-<!--            </div>-->
-<!--          </div>-->
-          <div class="homestay-item" v-for="item in result" :key="item._id" @click="skipBtn(item._id)">
+      <!-- 背景图 -->
+      <van-swipe :autoplay="3000" @change="onChange">
+        <van-swipe-item v-for="(image, index) in images" :key="index">
+          <img v-lazy="image" />
+        </van-swipe-item>
+        <template #indicator>
+          <div class="custom-indicator" ref="indecatorRef">
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+          </div>
+        </template>
+      </van-swipe>
+      <!-- 搜索订单卡片 -->
+      <div class="cardSearch">
+        <van-cell-group>
+          <van-cell class="current-location">
+            <div class="current-city">
+              <!-- 定位地点 -->
+              <span>
+                {{ local }}
+              </span>
+            </div>
+            <!-- 定位按钮 -->
+            <div class="currentBtn">
+              <div v-if="local">
+                <van-icon name="icon/定位.png" />
+                <span @click="getLocation()"> 我的位置 </span>
+              </div>
+              <van-loading v-else size="12px" color="#ff9645" text-color="#666"
+                >我的位置...</van-loading
+              >
+            </div>
+          </van-cell>
+        </van-cell-group>
+        <!-- 选择日期 -->
+        <van-cell-group class="option-date">
+          <van-cell @click="optionDate">
+            <div class="option-dateDiv">
+              <span>入住</span>
+              <span class="star-date">{{ starDate }}</span>
+            </div>
+            <div>
+              <span class="allTime">共{{ putDate }}晚</span>
+            </div>
+            <div>
+              <span>离店</span>
+              <span class="end-date">{{ endDate }}</span>
+            </div>
+          </van-cell>
+          <!-- 日期选择 -->
+          <van-calendar
+            color="#FF9645"
+            v-model="show"
+            type="range"
+            @confirm="onConfirm"
+            @select="onCalfirm"
+            :style="{ height: '100%' }"
+          >
+            <!-- 日期选择标题 -->
+            <template #title>
+              <div class="date-continer">
+                <span class="clear-empty" @click="dateEmpty">清空</span>
+                <span class="checkDate">{{ checkDate }}</span>
+                <span class="sumDate">共{{ sumDate }}晚</span>
+                <span class="leaveDate">{{ leaveDate }}</span>
+              </div>
+            </template>
+          </van-calendar>
+        </van-cell-group>
+        <!-- 选择价格人数 -->
+        <van-cell-group class="price-person">
+          <van-row>
+            <van-col span="16">
+              <van-cell @click="showPopup">
+                <div>
+                  <span>{{ priceSum }}</span>
+                </div>
+              </van-cell>
+            </van-col>
+            <van-col span="8" @click="peoNumShow = true">
+              <van-cell>
+                <div>
+                  <span>{{ peoNumData }}</span>
+                </div>
+              </van-cell>
+            </van-col>
+          </van-row>
+        </van-cell-group>
+        <!-- 搜索关键字 -->
+        <van-cell-group class="keywordSearch" @click="keyword">
+          <van-cell>
+            <span v-if="$store.state.searchData != ''">关键字/位置/民宿名</span>
+            <span v-else>{{ store.state.searchData }}</span>
+          </van-cell>
+        </van-cell-group>
+        <!-- 关键地点搜索 -->
+        <div class="dataTag">
+          <!--        <van-tag-->
+          <!--          round-->
+          <!--          type="primary"-->
+          <!--          v-for="(item, index) in keywordCity"-->
+          <!--          :key="index"-->
+          <!--          >{{ item }}</van-tag-->
+          <!--        >-->
+        </div>
+        <!-- 搜索按钮 -->
+        <van-button
+          color="linear-gradient(to right, #FA8D1E, #FCAF3F)"
+          @click="searchBtn"
+        >
+          开始搜索
+        </van-button>
+      </div>
+      <!-- 滑动轮播 -->
+      <div class="scroball">
+        <ul>
+          <li>
             <img
-              :src="item.swiper"
+              src="https://pic.tujia.com/upload/resourcespic/day_210329/202103291824074567.png"
               alt=""
-            />
-            <van-tag round class="preference">{{item.con_title}}</van-tag>
-            <div class="text-introduce">
-              <span class="city">{{item.location.slice(4,10)}}</span>
-              <p>{{item.r_name}}</p>
-              <span class="class">{{item.params.attr}} · {{item.params.house}}居{{item.params.bed}}床{{item.params.person_count}}人</span><br />
-              <span class="price">
-                ¥{{item.new_price}}
-              </span>
-              <span class="originalPrice">
-                ¥{{item.price}}
-              </span>
-              <van-tag round type="danger">已减¥{{item.price-item.new_price}}</van-tag>
+            /><br />
+            <span>房东入住</span>
+          </li>
+          <li>
+            <img
+              src="https://pic.tujia.com/upload/resourcespic/day_201124/202011241613557364.png"
+              alt=""
+            /><br />
+            <span>新房特惠</span>
+          </li>
+          <li>
+            <img
+              src="https://pic.tujia.com/upload/resourcespic/day_201124/202011241606527781.png"
+              alt=""
+            /><br />
+            <span>实拍美屋</span>
+          </li>
+          <li>
+            <img
+              src="https://pic.tujia.com/upload/resourcespic/day_201124/202011241609392352.png"
+              alt=""
+            /><br />
+            <span>品牌民宿</span>
+          </li>
+          <li>
+            <img
+              src="https://pic.tujia.com/upload/resourcespic/day_201124/202011241610475893.png"
+              alt=""
+            /><br />
+            <span>整套出租</span>
+          </li>
+          <li>
+            <img
+              src="https://pic.tujia.com/upload/resourcespic/day_201124/202011241619599744.png"
+              alt=""
+            /><br />
+            <span>做饭方便</span>
+          </li>
+          <li>
+            <img
+              src="https://pic.tujia.com/upload/resourcespic/day_201124/202011241618017144.png"
+              alt=""
+            /><br />
+            <span>LOFT</span>
+          </li>
+          <li>
+            <img
+              src="https://pic.tujia.com/upload/resourcespic/day_201124/202011241616084091.png"
+              alt=""
+            /><br />
+            <span>客栈</span>
+          </li>
+          <li>
+            <img
+              src="https://pic.tujia.com/upload/resourcespic/day_201124/202011241615137585.png"
+              alt=""
+            /><br />
+            <span>别墅</span>
+          </li>
+          <li>
+            <img
+              src="https://pic.tujia.com/upload/resourcespic/day_201124/202011241611372682.png"
+              alt=""
+            /><br />
+            <span>优选</span>
+          </li>
+        </ul>
+      </div>
+      <!-- 瀑布流民宿数据 -->
+      <div class="waterfall">
+        <van-list
+          v-model="loading"
+          :finished="finished"
+          finished-text="没有更多了"
+        >
+          <!-- <van-cell v-for="item in waterList" :key="item" :title="item" /> -->
+          <div class="homestay">
+            <!--          <div class="homestay-item">-->
+            <!--            <img-->
+            <!--              src="https://pic.tujia.com/upload/qualifiedpics/day_190822/thumb/201908220023388144_360_480.jpg"-->
+            <!--              alt=""-->
+            <!--            />-->
+            <!--            <van-tag round class="preference">优选PRO</van-tag>-->
+            <!--            <van-icon name="like-o" />-->
+            <!--            <div class="text-description">-->
+            <!--              <p>三钻 2居4床 4人</p>-->
+            <!--              <p>古北水镇🌸花开半夏复式叠拼观景loft</p>-->
+            <!--              <van-rate-->
+            <!--                size="10px"-->
+            <!--                gutter="20px"-->
+            <!--                v-model="rateValue"-->
+            <!--                color="#fff"-->
+            <!--                disabled-->
+            <!--              />-->
+            <!--              <span>￥1180</span>-->
+            <!--            </div>-->
+            <!--          </div>-->
+            <div
+              class="homestay-item"
+              v-for="item in result"
+              :key="item._id"
+              @click="skipBtn(item._id)"
+            >
+              <img :src="item.swiper" alt="" />
+              <van-tag round class="preference">{{ item.con_title }}</van-tag>
+              <div class="text-introduce">
+                <span class="city">{{ item.location.slice(4, 10) }}</span>
+                <p>{{ item.r_name }}</p>
+                <span class="class"
+                  >{{ item.params.attr }} · {{ item.params.house }}居{{
+                    item.params.bed
+                  }}床{{ item.params.person_count }}人</span
+                ><br />
+                <span class="price"> ¥{{ item.new_price }} </span>
+                <span class="originalPrice"> ¥{{ item.price }} </span>
+                <van-tag round type="danger"
+                  >已减¥{{ item.price - item.new_price }}</van-tag
+                >
+              </div>
             </div>
           </div>
-        </div>
-      </van-list>
-    </div>
-    <!-- 价格弹出层 -->
-    <van-popup v-model="showPrice" position="bottom" :style="{ height: '50%' }">
-      <div class="continer">
-        <div>
-          <span>价格/星级</span>
-          <van-icon name="cross" @click="empty" />
-        </div>
-        <div class="continer-card">
-          <div class="price-section">
-            <span v-if="maxPrice < 1000"
-              >价格区间￥{{ minPrice }}-￥{{ maxPrice }}</span
-            >
-            <span v-else>价格区间￥{{ minPrice }}-不限</span>
+        </van-list>
+      </div>
+      <!-- 价格弹出层 -->
+      <van-popup
+        v-model="showPrice"
+        position="bottom"
+        :style="{ height: '50%' }"
+      >
+        <div class="continer">
+          <div>
+            <span>价格/星级</span>
+            <van-icon name="cross" @click="empty" />
           </div>
-          <div class="price-slider">
-            <!-- 价格滑块 -->
-            <van-slider
-              v-model="value"
-              range
-              @change="sliderChange"
-              :step="50"
-              :min="0"
-              :max="1050"
-              bar-height="5px"
-              active-color="#FF9645"
-            />
-          </div>
-          <!-- 价格区间选择 -->
-          <div class="price-select">
-            <van-row gutter="24" ref="valueRef1">
-              <van-col
-                span="6"
-                v-for="(item, index) in valueSelect1"
-                :key="index"
+          <div class="continer-card">
+            <div class="price-section">
+              <span v-if="maxPrice < 1000"
+                >价格区间￥{{ minPrice }}-￥{{ maxPrice }}</span
               >
-                <van-tag
-                  color="#F8F8F8"
-                  v-if="item[0] !== 0"
-                  @click="priceFirst(item)"
-                  >￥{{ item[0] }}-{{ item[1] }}</van-tag
+              <span v-else>价格区间￥{{ minPrice }}-不限</span>
+            </div>
+            <div class="price-slider">
+              <!-- 价格滑块 -->
+              <van-slider
+                v-model="value"
+                range
+                @change="sliderChange"
+                :step="50"
+                :min="0"
+                :max="1050"
+                bar-height="5px"
+                active-color="#FF9645"
+              />
+            </div>
+            <!-- 价格区间选择 -->
+            <div class="price-select">
+              <van-row gutter="24" ref="valueRef1">
+                <van-col
+                  span="6"
+                  v-for="(item, index) in valueSelect1"
+                  :key="index"
                 >
-                <van-tag color="#F8F8F8" v-else @click="priceSecond(item)"
-                  >￥100以下</van-tag
-                >
-              </van-col>
-            </van-row>
+                  <van-tag
+                    color="#F8F8F8"
+                    v-if="item[0] !== 0"
+                    @click="priceFirst(item)"
+                    >￥{{ item[0] }}-{{ item[1] }}</van-tag
+                  >
+                  <van-tag color="#F8F8F8" v-else @click="priceSecond(item)"
+                    >￥100以下</van-tag
+                  >
+                </van-col>
+              </van-row>
 
-            <van-row gutter="24" ref="valueRef2">
-              <van-col
-                span="6"
-                v-for="(item, index) in valueSelect2"
-                :key="index"
-              >
-                <van-tag
-                  color="#F8F8F8"
-                  v-if="item[0] !== 1000"
-                  @click="priceThirdly(item)"
-                  >￥{{ item[0] }}-{{ item[1] }}</van-tag
+              <van-row gutter="24" ref="valueRef2">
+                <van-col
+                  span="6"
+                  v-for="(item, index) in valueSelect2"
+                  :key="index"
                 >
-                <van-tag color="#F8F8F8" v-else @click="priceFourthly(item)"
-                  >￥1000以上</van-tag
-                >
-              </van-col>
-            </van-row>
+                  <van-tag
+                    color="#F8F8F8"
+                    v-if="item[0] !== 1000"
+                    @click="priceThirdly(item)"
+                    >￥{{ item[0] }}-{{ item[1] }}</van-tag
+                  >
+                  <van-tag color="#F8F8F8" v-else @click="priceFourthly(item)"
+                    >￥1000以上</van-tag
+                  >
+                </van-col>
+              </van-row>
+            </div>
+          </div>
+          <!-- 功能按钮 -->
+          <div class="btnSet">
+            <van-button type="default" @click="emptyBtn">清空</van-button>
+            <van-button color="#FF9645" @click="affirmBtn">确认</van-button>
           </div>
         </div>
-        <!-- 功能按钮 -->
-        <div class="btnSet">
-          <van-button type="default" @click="emptyBtn">清空</van-button>
-          <van-button color="#FF9645" @click="affirmBtn">确认</van-button>
-        </div>
-      </div>
-    </van-popup>
-    <!-- 人数弹出层 -->
-    <van-popup
-      style="border-radius:0;"
-      v-model="peoNumShow"
-      position="bottom"
-      :style="{ height: '100%' }"
-    >
-      <div class="peoNumContiner">
-        <div class="title">
-          <van-icon name="cross" @click="peoNumShow = false" />
-          <div class="title-text">
-            <span>
-              选择入住人数
-            </span>
+      </van-popup>
+      <!-- 人数弹出层 -->
+      <van-popup
+        style="border-radius: 0"
+        v-model="peoNumShow"
+        position="bottom"
+        :style="{ height: '100%' }"
+      >
+        <div class="peoNumContiner">
+          <div class="title">
+            <van-icon name="cross" @click="peoNumShow = false" />
+            <div class="title-text">
+              <span> 选择入住人数 </span>
+            </div>
+          </div>
+          <div
+            class="peoNumItem"
+            v-for="(item, index) in peoNum"
+            :key="index"
+            @click="peoNumBtn(item[0])"
+          >
+            <span>{{ item[0] }}</span>
+            <van-icon v-if="peoNumData == item[0]" name="success" />
           </div>
         </div>
-        <div
-          class="peoNumItem"
-          v-for="(item, index) in peoNum"
-          :key="index"
-          @click="peoNumBtn(item[0])"
-        >
-          <span>{{ item[0] }}</span>
-          <van-icon v-if="peoNumData == item[0]" name="success" />
-        </div>
-      </div>
-    </van-popup>
-    <!-- 搜索框弹出 -->
-    <van-search
-      v-model="searchValue"
-      v-show="searchShow"
-      show-action
-      placeholder="请输入搜索关键词"
-      @search="onSearch"
-    >
-      <template #action>
-        <div @click="onSearch">搜索</div>
-      </template>
-      <template #left>
-        <div class="bourn">
-          <span>目的地</span>
-          <br />
-          <span class="city">北京</span>
-        </div>
-        <div class="search-time">
-          <span>住6.30</span>
-          <br />
-          <span>离11.30</span>
-        </div>
-      </template>
-    </van-search>
+      </van-popup>
+      <!-- 搜索框弹出 -->
+      <van-search
+        v-model="searchValue"
+        v-show="searchShow"
+        show-action
+        placeholder="请输入搜索关键词"
+        @search="onSearch"
+      >
+        <template #action>
+          <div @click="onSearch">搜索</div>
+        </template>
+        <template #left>
+          <div class="bourn">
+            <span>目的地</span>
+            <br />
+            <span class="city">北京</span>
+          </div>
+          <div class="search-time">
+            <span>住6.30</span>
+            <br />
+            <span>离11.30</span>
+          </div>
+        </template>
+      </van-search>
     </div>
-    <table-bar v-show="tabbar"></table-bar>  
+    <table-bar v-show="tabbar"></table-bar>
   </div>
 </template>
 
@@ -389,7 +398,7 @@ export default {
       // 时间弹出层
       show: false,
       // tabbar
-      tabbar:true,
+      tabbar: true,
       // 入住时间
       starDate: "",
       // 离店时间
@@ -458,6 +467,7 @@ export default {
     };
   },
   created() {
+    this.$socket.open(); //主动连接sockte
     let date = new Date();
     this.starDate = `${date.getMonth() + 1}月${date.getDate()}日`;
     this.endDate = `${date.getMonth() + 1}月${date.getDate() + 1}日`;
@@ -483,42 +493,42 @@ export default {
       console.log(val);
       this.$store.commit("cityData", val);
     },
-    show(val){
-      if(val == true){
-        return this.tabbar = false
+    show(val) {
+      if (val == true) {
+        return (this.tabbar = false);
       }
-      this.tabbar = true
-    }
+      this.tabbar = true;
+    },
   },
   methods: {
     // 页面跳转
-    skipBtn(id){
-      this.$router.push('/details?id='+id)
+    skipBtn(id) {
+      this.$router.push("/details?id=" + id);
     },
-     // 搜索
+    // 搜索
     onSearch(val) {
       console.log(val);
-      if(val!=''){
-        this.$store.commit('searchData',{
-          "wd":val,
-          "page":1,
-          "count":10,
-          "minPrice":this.$store.state.priceData[0],
-          "maxPrice":this.$store.state.priceData[1],
-          "star":[1,2,3,4]
-        })
-        this.$store.commit('cityData',val)
-        console.log(this.$store.state)
-        this.$router.push('/stay')
+      if (val != "") {
+        this.$store.commit("searchData", {
+          wd: val,
+          page: 1,
+          count: 10,
+          minPrice: this.$store.state.priceData[0],
+          maxPrice: this.$store.state.priceData[1],
+          star: [1, 2, 3, 4],
+        });
+        this.$store.commit("cityData", val);
+        console.log(this.$store.state);
+        this.$router.push("/stay");
       }
     },
     // 显示日期选择
-    optionDate(){
-      this.show = true
+    optionDate() {
+      this.show = true;
     },
     // 地理位置获取
     getLocation() {
-      this.local = ''
+      this.local = "";
       const self = this;
 
       AMap.plugin("AMap.Geolocation", function () {
@@ -583,7 +593,6 @@ export default {
                   // result为对应的地理位置详细信息
                   // this.local=data
                   console.log(data);
-                  
                 }
               });
             });
@@ -777,10 +786,10 @@ body {
   background-color: #f5f7f9;
 }
 .Index-view {
-  .van-overlay{
+  .van-overlay {
     background: #fff !important;
   }
-  .van-loading{
+  .van-loading {
     float: right;
     //font-family: PingFangSC-Light;
     font-weight: 300;
@@ -899,20 +908,19 @@ body {
       // background-color: red;
       float: left;
 
-      div{
+      div {
         float: right;
-        .van-icon{
+        .van-icon {
           vertical-align: middle;
           //float: right;
         }
-        span{
+        span {
           font-family: PingFangSC-Light;
           font-weight: 300;
           font-size: 12px;
           color: #666;
         }
       }
-
     }
   }
 
@@ -1236,7 +1244,7 @@ body {
         display: inline-block;
         margin-left: 8vw;
         text-align: center;
-        
+
         img {
           width: 32px;
         }

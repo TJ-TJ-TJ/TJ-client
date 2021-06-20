@@ -131,7 +131,7 @@ export default {
   mounted() {
     this.uid = 1; //假设的用户uid
     sessionStorage.setItem("uid", this.uid);
-    this.$socket.open(); //主动连接sockte
+    // this.$socket.open(); //主动连接sockte
 
     if (!this.uid) {
       return;
