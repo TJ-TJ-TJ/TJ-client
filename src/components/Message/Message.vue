@@ -424,7 +424,7 @@ export default {
         console.log(obj.data.data);
         let newarr = obj.data.data.filter((item) => {
           return item.be.uid == sid.uid;
-        });
+        })||[]
         console.log(newarr,sid)
         if(newarr.length==0){
           store={

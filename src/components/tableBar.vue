@@ -115,8 +115,8 @@ export default {
     },
     async updatemsg() {
       let [err, data] = await this.capture(this.getHistory);
-      // console.log(data.data);
-      this.arrlength = data.data; //所有的消息列表
+       console.log(data);
+      // this.arrlength = data.data; //所有的消息列表
       if (!data.data) {
         //如果请求不到数据 证明无消息
         return;
