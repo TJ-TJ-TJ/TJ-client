@@ -410,18 +410,56 @@ export default {
       this.isemoji = false;
       this.isemoji = !this.isemoji;
     },
+    //获取消息列表传过来的数据
+    async getlist() {
+      let sid = this.$route.params.sid; //  根据路由跳转传过来的 sid  重新获取消息记录渲染  下面的消息列表不执行
+      let store = ""; //消息的信息
+      // console.log(sid==undefined);
+      if(sid!=undefined||sid!=null){
+        console.log("其他页面 跳转过来的");
+        let obj = await this.$axios.get(
+          `http://localhost:9000/getHistoryMsg?uid=${this.uid}`
+        );
+        console.log(obj.data.data);
+        let newarr = obj.data.data.filter((item) => {
+          return item.be.uid == sid;
+        });
+        if(newarr.length==0){
+          store={
+            be:{
+              uid:sid.uid,
+              head_img:sid.head_img,
+              uname:sid.uname
+            },
+            uid:this.uid,
+            sid:sid.uid
+          }
+          //  this.$router.push({name:'/msg', params:{
+          //     uid:'',
+          //     head_img:"",
+          //     uname:""
+          //   }})
+        }else{
+           store = newarr[0];
+        }      
+      } else {
+        console.log("正常消息列表传过来");
+        // console.log(this.$store.state.msg_info); 好友列表传过来 消息参数
+        store = this.$store.state.msg_info;
+      }
+      console.log(store);
+      this.message = store.msgArr; //消息列表
+      this.be = store.be;
+      this.uid = store.uid; //当前用户的id
+      this.sid = store.sid; //私发消息对方的id
+      // console.log(this.uid);
+      // console.log(this.message);
+      this.title = store.be.uname; //根据传过来身份展示标题
+    },
   },
   async created() {
-    // console.log(this.$store.state.msg_info); 好友列表传过来 消息参数
-    let store = this.$store.state.msg_info;
-    console.log(store);
-    this.message = store.msgArr; //消息列表
-    this.be = store.be;
-    this.uid = store.uid; //当前用户的id
-    this.sid = store.sid; //私发消息对方的id
-    // console.log(this.uid);
-    // console.log(this.message);
-    this.title = store.be.uname; //根据传过来身份展示标题
+    this.uid = 1;
+    this.getlist();
   },
   async mounted() {
     console.log(this.uid, this.sid);
@@ -453,14 +491,14 @@ export default {
       //接收私发消息
       // console.log(data);
       // 判断是否是当前聊天对象给自己发的消息  是的话就追加记录
-      console.log(data, "=--------==", this.be, "------", this.uid);
-      console.log(data.uid == this.be.uid && data.sid == this.uid);
+      // console.log(data, "=--------==", this.be, "------", this.uid);
+      // console.log(data.uid == this.be.uid && data.sid == this.uid);
       if (
         data.uid == this.be.uid && //发送过来的 对方消息发送对象的id要等与自己
         data.sid == this.uid //   发送人的id 等于当前用户聊天的id
         // (data.uid == this.sid && data.uid == this.uid)
       ) {
-       await this.$axios.post("http://localhost:9000/updateMsgRead", {
+        await this.$axios.post("http://localhost:9000/updateMsgRead", {
           //消息已读未读
           uid: this.sid,
           sid: this.uid,

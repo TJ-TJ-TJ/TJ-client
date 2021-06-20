@@ -135,5 +135,8 @@ export default {
     color: #666;
     line-height: 1;
   }
+  .van-overlay{
+    background-color: #fff;
+  }
 }
 </style>

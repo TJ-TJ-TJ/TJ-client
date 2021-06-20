@@ -15,6 +15,7 @@ export default new Vuex.Store({
       sid:'',// 聊天对方的id
       uid:"1", //用户的uid
     },
+    unread_msg:'', //未读消息总条数
     starDate: "",
     endDate: "",
     dataDate: [],
@@ -23,7 +24,10 @@ export default new Vuex.Store({
     city: "",
   },
   mutations: {
-    update_msginfo(state, data) {
+    change_unread(state,data){ //更改未读消息 条数
+      state.unread_msg=data
+    },
+    update_msginfo(state, data) {//消息参数
       state.msg_info = data;
     },
     // 时间开始

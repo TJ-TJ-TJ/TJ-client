@@ -3,7 +3,7 @@ module.exports = {
   devServer: {
     open: true,//自动打开浏览器
     disableHostCheck: true,
-    proxy: 'http://localhost:9000',
+    // proxy: 'http://localhost:9000',
     /*       proxy: {
             "/": {
               target: http://localhost:9000,

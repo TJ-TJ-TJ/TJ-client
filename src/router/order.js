@@ -1,6 +1,6 @@
 var arr =[{
     path: '/order',
-    name: 'Order',   //订单主页面
+    name: 'Orders',   //订单主页面
     component: () => import(/* webpackChunkName: "order" */ '../components/Orders/index.vue')
   },
   {

@@ -14,7 +14,7 @@
         <div class="bourn" @click="cityLink">
           <span>目的地</span>
           <br />
-          <span class="city">{{$store.state.city.slice(0,2)}}</span>
+          <span class="city">{{$store.state.city}}</span>
         </div>
         <div class="search-time" @click="searchTimes">
           <span>住{{$store.state.starDate}}</span>
@@ -143,7 +143,7 @@
       style="touch-action: pan-y!important"
     > -->
     <div class="header-continer">
-      <div class="header-stay" v-for="item in result" :key="item._id">
+      <div class="header-stay" v-for="item in result" :key="item._id" @click="skipBtn(item._id)">
         <van-swipe :autoplay="0" @change="carRoll">
           <van-swipe-item v-for="(image, index) in item.swiper" :key="index">
             <img v-lazy="image" />
@@ -154,10 +154,10 @@
             </div>
           </template>
         </van-swipe>
-        <div class="header-comment">
-          <strong class="comment-grade">4.5分</strong>
-          <span>十大打阿斯顿打撒阿三大苏打算</span>
-        </div>
+        <!-- <div class="header-comment"> -->
+          <!-- <strong class="comment-grade">4.5分</strong> -->
+          <!-- <span>十大打阿斯顿打撒阿三大苏打算</span> -->
+        <!-- </div> -->
 <!--        <div class="header-moods">-->
 <!--          <span>怀柔风景区人气榜 No.1</span>-->
 <!--        </div>-->
@@ -268,7 +268,12 @@ export default {
     this.starDate = this.$refs.calenderRef.checkDate
     console.log('刷新')
   },
+  
   methods: {
+    // 页面跳转
+    skipBtn(id){
+      this.$router.push('/details?id='+id)
+    },
     // 返回
     cancalBtn(){
       this.$router.push('/')
@@ -307,14 +312,14 @@ export default {
             this.i = scrollTop;
             if(scroll<0){
                 // console.log()
-                // this.$refs.dropDownRef.style.display = 'block'
-                document.getElementById('dropDownRef').style.transform = 'translateY(0)'
+                this.$refs.dropDownRef.style.display = 'block'
+                // document.getElementById('dropDownRef').style.transform = 'translateY(0)'
                 // this.$refs.dropDownRef.style.transform = 'translateY(0)'
                 
             }else if(scroll>0 && scrollTop>80){
                 // console.log(this.$refs.dropDownRef)
-                //  this.$refs.dropDownRef.style.display = 'none'
-                document.getElementById('dropDownRef').style.transform = 'translateY(-100px)'
+                 this.$refs.dropDownRef.style.display = 'none'
+                // document.getElementById('dropDownRef').style.transform = 'translateY(-100px)'
                 //  this.$refs.dropDownRef.style.transform = 'translateY(-100px)'
                 //  this.$refs.dropDownRef.style.top = '-7vh'
                 //  this.$refs.dropDownRef.transition = '2s'
@@ -391,6 +396,7 @@ export default {
 .homestay-Index .bourn {
   background-color: #f7f8fa;
   margin-right: 1vw;
+  width: 10vw;
 }
 .homestay-Index .bourn span:nth-child(1) {
   font-size: 10px;
@@ -405,6 +411,12 @@ export default {
   color: #333;
   margin-left: 1vw;
   text-align: center;
+  /* . 文本强制不合法，不换行 */
+white-space: nowrap; 
+/* 2. 文本溢出显示省略号 */
+text-overflow:ellipsis;
+/* 3. 溢出部分隐藏 */
+overflow:hidden;
 }
 .homestay-Index .search-time {
   background-color: #f7f8fa;
@@ -445,6 +457,7 @@ export default {
 
   /* 过渡 */
   transition: transform .3s;
+  
 }
 
 .homestay-Index .price-section {
@@ -472,6 +485,12 @@ export default {
   margin-top: 2vh;
   font-weight: 500;
   padding: 1px;
+    /* . 文本强制不合法，不换行 */
+white-space: nowrap; 
+/* 2. 文本溢出显示省略号 */
+text-overflow:ellipsis;
+/* 3. 溢出部分隐藏 */
+overflow:hidden;
 }
 .homestay-Index .price-section {
   width: 84vw;

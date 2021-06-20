@@ -1,22 +1,23 @@
 <template>
   <div class="cityIndex">
-    <form action="/">
-      <van-search
+    <!-- <form action="/"> -->
+      <!-- <van-search
         v-model="value"
         show-action
         placeholder="请输入搜索关键词"
         @search="onSearch"
         @cancel="onCancel"
-      />
-    </form>
+      /> -->
+    <!-- </form> -->
     <van-index-bar v-for="(i, index) of indexList" :key="index" z-index="0">
       <van-index-anchor :index="i.initial" />
-      <van-cell v-for="(item, code) of i.list" :key="code" :title="item.name" />
+      <van-cell v-for="(item, code) of i.list" :key="code" :title="item.name" @click="city(item.name)"/>
     </van-index-bar>
   </div>
 </template>
 
 <script>
+import axios from 'axios'
 export default {
   data() {
     return {
@@ -27,19 +28,29 @@ export default {
   created() {
     this.cityJSON();
   },
+  destroyed(){
+    
+  },
   methods: {
     cityJSON() {
-      this.$axios.get("json/city.json").then((res) => {
+      axios.defaults.baseURL = 'http://tj.testw.top/'
+      this.$axios.get("public/city.json").then((res) => {
         console.log(res);
         this.indexList = res.data.city;
+        axios.defaults.baseURL = 'http://tj.testw.top/v1'
       });
     },
-    onSearch(val) {
-      console.log(val);
-    },
-    onCancel() {
-      console.log('取消');
-    },
+    city(name){
+      console.log(name)
+      this.$store.commit('cityData',name)
+      this.$router.go(-1)
+    }
+    // onSearch(val) {
+    //   console.log(val);
+    // },
+    // onCancel() {
+    //   console.log('取消');
+    // },
   },
 };
 </script>
