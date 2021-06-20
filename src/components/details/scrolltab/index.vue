@@ -218,6 +218,9 @@ export default {
       }
     
   },
+  beforeDestroy() { // 在组件生命周期结束的时候销毁。
+    window.removeEventListener('scroll', this.handleScroll)
+  },
 };
 </script>
 

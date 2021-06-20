@@ -32,7 +32,7 @@
             <!-- 定位按钮 -->
             <div class="currentBtn">
               <div v-if="local">
-                <van-icon name="icon/定位.png" />
+                <img width="18px" src="https://pic.tujia.com/upload/festatic/publicImages/icon-weizhi-tujia.png" alt="">
                 <span @click="getLocation()"> 我的位置 </span>
               </div>
               <van-loading v-else size="12px" color="#ff9645" text-color="#666"

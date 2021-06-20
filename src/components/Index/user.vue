@@ -2,8 +2,8 @@
   <div class="userIndex">
     <div class="title">
       <div class="backImg">
-        <div class="uname-container">
-          <span class="uname">
+        <div v-show="!userInfo.uname" class="uname-container">
+          <span @click="goLogin" class="uname">
             注册/登录
           </span>
           <br>
@@ -11,16 +11,31 @@
             注册预定返积分
           </span>
         </div>
+        <div v-show="userInfo.uname" class="uname-container">
+          <span class="uname">
+             {{userInfo.uname}}
+          </span>
+        </div>
       </div>
       <van-image
+        v-if="!userInfo.token"
         round
         width="5rem"
         height="5rem"
-        class="headImg"
+        class="headimg"
         src="/img/defaultHead.png"
       />
+       <van-image
+       @click="goEdit"
+        v-else
+        round
+        width="5rem"
+        height="5rem"
+        class="headimg"
+        :src="userInfo.headImg"
+      />
       <div class="icon">
-        <van-icon name="icon/edit.png" size="1.5rem" ref="spanRef"/>
+        <van-icon @click="goEdit" name="icon/edit.png" size="1.5rem" ref="spanRef"/>
       </div>
       <div class="price">
         <div>
@@ -116,9 +131,27 @@
 export default {
   data(){
     return{
-
+        userInfo:{
+          token:window.localStorage.getItem('token'),
+          phone:window.localStorage.getItem('phone'),
+          uname:window.localStorage.getItem('uname'),
+          headImg:window.localStorage.getItem('headImg'),
+        }
     }
   },
+  methods:{
+    //去登录
+    goLogin(){
+      this.$router.push({path:'login'});
+    },
+    goEdit(){
+      if(!this.userInfo.token){
+        return this.$router.push({path:'login'})
+      }
+      this.$router.push({path:'setting'})
+    },
+  },
+
   mounted(){
   }
 };
@@ -126,13 +159,13 @@ export default {
 
 <style lang="scss">
 .userIndex {
-  .headImg img{
-    width: 105%;
-    height: 105%;
-  }
   width: 100%;
   height: 100vh;
   background-color: #f1fafc;
+  .headimg img{
+    width: 105%;
+    height: 105%;
+  }
   .title {
     position: relative;
     background-color: #ffffff;
@@ -140,10 +173,11 @@ export default {
     .backImg {
       width: 100%;
       height: 30vh;
-      background-image: url('/img/back.png');
+      background-image: url('/img/back.jpg');
        clip-path: polygon(100% 0%,  0% 0%, 0% 80%, 100% 35%);
       //clip-path: ellipse(90% 16vh at 15% 15%);
     }
+    
     .van-image {
       position: absolute;
       top: 16vh;
