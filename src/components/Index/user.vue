@@ -2,8 +2,8 @@
   <div class="userIndex">
     <div class="title">
       <div class="backImg">
-        <div v-show="!userInfo.uname" class="uname-container">
-          <span @click="goLogin" class="uname">
+        <div class="uname-container">
+          <span class="uname">
             注册/登录
           </span>
           <br>
@@ -11,31 +11,16 @@
             注册预定返积分
           </span>
         </div>
-        <div v-show="userInfo.uname" class="uname-container">
-          <span class="uname">
-             {{userInfo.uname}}
-          </span>
-        </div>
       </div>
       <van-image
-        v-if="!userInfo.token"
         round
         width="5rem"
         height="5rem"
-        class="headimg"
+        class="headImg"
         src="/img/defaultHead.png"
       />
-       <van-image
-       @click="goEdit"
-        v-else
-        round
-        width="5rem"
-        height="5rem"
-        class="headimg"
-        :src="userInfo.headImg"
-      />
       <div class="icon">
-        <van-icon @click="goEdit" name="icon/编辑.png" size="1.5rem" ref="spanRef"/>
+        <van-icon name="icon/edit.png" size="1.5rem" ref="spanRef"/>
       </div>
       <div class="price">
         <div>
@@ -64,7 +49,7 @@
         <div class="head-item">
           <van-image
             
-            src="icon/发票.png"
+            src="icon/bill.png"
           />
           <br />
           <span class="fontTitle">
@@ -76,10 +61,10 @@
         <div class="head-item">
           <van-image
             
-            src="icon/历史记录.png"
+            src="icon/history.png"
           />
           <br />
-          <span class="fontTitle">
+          <span class="fontTitle" @click="$router.push('/hittory')">
             浏览历史
           </span>
           <br />
@@ -88,7 +73,7 @@
         <div class="head-item">
           <van-image
             
-            src="icon/常用信息.png"
+            src="icon/msg.png"
           />
           <br />
           <span class="fontTitle">
@@ -100,7 +85,7 @@
         <div class="head-item">
           <van-image
             
-            src="icon/吐槽我们.png"
+            src="icon/me.png"
           />
           <br />
           <span class="fontTitle">
@@ -112,7 +97,7 @@
         <div class="head-item">
           <van-image
             
-            src="icon/意见反馈.png"
+            src="icon/idea.png"
           />
           <br />
           <span class="fontTitle">
@@ -123,7 +108,7 @@
         </div>
       </div>
     </div>
-     <table-bar></table-bar>
+     <table-bar></table-bar> 
   </div>
 </template>
 
@@ -131,27 +116,9 @@
 export default {
   data(){
     return{
-        userInfo:{
-          token:window.localStorage.getItem('token'),
-          phone:window.localStorage.getItem('phone'),
-          uname:window.localStorage.getItem('uname'),
-          headImg:window.localStorage.getItem('headImg'),
-        }
+
     }
   },
-  methods:{
-    //去登录
-    goLogin(){
-      this.$router.push({path:'login'});
-    },
-    goEdit(){
-      if(!this.userInfo.token){
-        return this.$router.push({path:'login'})
-      }
-      this.$router.push({path:'setting'})
-    },
-  },
-
   mounted(){
   }
 };
@@ -159,6 +126,10 @@ export default {
 
 <style lang="scss">
 .userIndex {
+  .headImg img{
+    width: 105%;
+    height: 105%;
+  }
   width: 100%;
   height: 100vh;
   background-color: #f1fafc;
@@ -169,9 +140,8 @@ export default {
     .backImg {
       width: 100%;
       height: 30vh;
-      background: url('/img/背景.png');
-      background-position: 0px -20px;
-      clip-path: polygon(100% 0%,  0% 0%, 0% 80%, 100% 35%);
+      background-image: url('/img/back.png');
+       clip-path: polygon(100% 0%,  0% 0%, 0% 80%, 100% 35%);
       //clip-path: ellipse(90% 16vh at 15% 15%);
     }
     .van-image {
@@ -181,10 +151,12 @@ export default {
       box-shadow: 5px 5px 10px #888888;
     }
     .icon{
-      height: 2rem;
-      width: 2rem;
+      height: 3rem;
+      width: 3rem;
       background-color: #3E4852;
       position: absolute;
+      display: flex;
+      justify-content: center;
       top: 10vh;
       right: 10vw;
       border-radius: 50%;
@@ -267,13 +239,5 @@ export default {
       font-size: 5px;
     }
   }
-}
-.headimg{
-  display: flex;
-  justify-content: center;
-}
-.headimg img{
-  width: 105%;
-  height: 105%;
 }
 </style>

@@ -223,7 +223,7 @@ export default {
         // console.log(this.message[0]);
         this.pageSize += 1;
         let obj = await this.$axios.get(
-          "http://localhost:9000/getHistoryPage",
+          "http://kikyou.vip:9000/getHistoryPage",
           {
             params: {
               uid: this.uid,
@@ -271,7 +271,7 @@ export default {
         message: this.text_msg, //文本消息
         type: "text",
         //对方的头像
-        head_img: "http://localhost:9000/images/客服头像.jpg",
+        head_img: '',
         uname: this.uname,
         is_read: null, // text是否已读
         send_date: this.$getDate(), //当前日期
@@ -284,7 +284,7 @@ export default {
       this.$socket.emit("puoToMessage", sendObj);
       this.text_msg = "";
       this.message.push(sendObj);
-      this.$axios.post("http://localhost:9000/updateMsgRead", {
+      this.$axios.post("http://kikyou.vip:9000/updateMsgRead", {
         //消息已读未读
         uid: this.msg_info.uid,
         sid: this.msg_info.sid,
@@ -337,7 +337,7 @@ export default {
           audio: data, //语音消息,
           message: "", //文本消息
           type: "audio/mp3",
-          head_img: "http://localhost:9000/images/客服头像.jpg", //自己的头像
+          head_img: "", //自己的头像
           uname: this.uname, //发送人的名称为
           is_read: 1, // text是否已读
           send_date: this.$getDate(), //发送日期
@@ -352,7 +352,7 @@ export default {
         this.$socket.compress(true).emit("puoToMessage", sendObj); //将数据压缩发到后台
         sendObj.audio = URL.createObjectURL(data);
         this.message.push(sendObj);
-        // window.scrollTo(0, document.body.scrollHeight);
+        window.scrollTo(0, document.body.scrollHeight);
         clearTimeout(this.loop); //清空定时器，防止重复注册定时器
         this.$toast.clear(); //清除轻提示
         this.long = false; //清除状态
@@ -363,8 +363,8 @@ export default {
     },
     // 开始播放录音的方法
     start_audio(event, i, uid, sid, m_id) {
-      // console.log(uid, sid, m_id);
-      this.$axios.post("/updateVoiceRead", {
+       console.log(uid, sid, m_id);
+      this.$axios.post("http://kikyou.vip:9000/updateVoiceRead", {
         //更改当前语音消息为已读状态
         uid,
         sid,
@@ -412,18 +412,20 @@ export default {
     },
     //获取消息列表传过来的数据
     async getlist() {
-      let sid = this.$route.params.sid; //  根据路由跳转传过来的 sid  重新获取消息记录渲染  下面的消息列表不执行
+      console.log(this.$route)
+      let sid = this.$route.params; //  根据路由跳转传过来的 sid  重新获取消息记录渲染  下面的消息列表不执行
       let store = ""; //消息的信息
-      // console.log(sid==undefined);
-      if(sid!=undefined||sid!=null){
+      console.log(sid==undefined,JSON.stringify(sid)=='{}');
+      if(JSON.stringify(sid)!='{}'){
         console.log("其他页面 跳转过来的");
         let obj = await this.$axios.get(
-          `http://localhost:9000/getHistoryMsg?uid=${this.uid}`
+          `http://kikyou.vip:9000/getHistoryMsg?uid=${this.uid}`
         );
         console.log(obj.data.data);
         let newarr = obj.data.data.filter((item) => {
-          return item.be.uid == sid;
+          return item.be.uid == sid.uid;
         });
+        console.log(newarr,sid)
         if(newarr.length==0){
           store={
             be:{
@@ -434,11 +436,6 @@ export default {
             uid:this.uid,
             sid:sid.uid
           }
-          //  this.$router.push({name:'/msg', params:{
-          //     uid:'',
-          //     head_img:"",
-          //     uname:""
-          //   }})
         }else{
            store = newarr[0];
         }      
@@ -462,18 +459,18 @@ export default {
     this.getlist();
   },
   async mounted() {
-    console.log(this.uid, this.sid);
-    this.$axios.post("http://localhost:9000/updateMsgRead", {
+    // console.log(this.uid, this.sid);
+    this.$axios.post("http://kikyou.vip:9000/updateMsgRead", {
       //消息已读未读
       uid: this.sid,
       sid: this.uid,
     });
-    // window.scrollTo(0, document.body.scrollHeight);
+    window.scrollTo(0, document.body.scrollHeight);
     this.outheight = window.innerHeight + "px";
     let textarea = document.querySelector(".textarea-msg"); //聊天的文本域 滚动条实时底部
     textarea.oninput = () => {
       textarea.style.height = "auto"; //文本域高度自适应  但不超过100px
-      // textarea.style.height = textarea.scrollHeight + "px";
+      textarea.style.height = textarea.scrollHeight + "px";
     };
     textarea.onfocus = () => {
       //文本域获得焦点表情包就消失
@@ -498,7 +495,7 @@ export default {
         data.sid == this.uid //   发送人的id 等于当前用户聊天的id
         // (data.uid == this.sid && data.uid == this.uid)
       ) {
-        await this.$axios.post("http://localhost:9000/updateMsgRead", {
+        await this.$axios.post("http://kikyou.vip:9000/updateMsgRead", {
           //消息已读未读
           uid: this.sid,
           sid: this.uid,
@@ -514,7 +511,7 @@ export default {
       console.log("触发了");
       setTimeout(() => {
         console.log("底部滚动条定时器");
-        // window.scrollTo(0, document.body.scrollHeight);
+        window.scrollTo(0, document.body.scrollHeight);
       }, 200);
     },
   },
@@ -804,22 +801,24 @@ body {
     & > div:first-child {
       display: flex;
       /*   height: 40px; */
+      box-sizing: border-box;
       align-items: center;
       justify-content: space-between;
-      padding: 8px 20px;
+      padding: 8px 10px;
       & > div:first-child {
         display: flex;
         align-items: center;
-        width: 77%;
+        width: 72vw;
       }
       & > div:last-child {
         display: flex;
         align-items: center;
-        justify-content: flex-end;
-        width: 23%;
+        justify-content: center;
+        width: 28vw;
+        font-size: 12px;
       }
       input {
-        width: calc(100% - 20px); //意思是父级元素减去30px的宽度
+        width: calc(100% - 30px); 
         margin: 0 0 0 10px;
         line-height: 35px;
         padding-left: 5px;

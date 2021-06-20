@@ -3,7 +3,7 @@
     <div class="cardBox">
       <div class="continer">
         <div class="title">
-          <span>个人基本信息</span>
+          <span>疫情报备</span>
         </div>
         <div class="user-msg">
             <!-- 通过 pattern 进行正则校验 -->
@@ -111,7 +111,7 @@
               </template>
             </van-field>
             <div class="btnSet">
-              <van-button color="#07C3F2" block>提交</van-button>
+              <van-button color="#ff9645" block @click="submit">提交</van-button>
             </div>
         </div>
       </div>
@@ -120,6 +120,7 @@
 </template>
 
 <script>
+import axios from 'axios'
 export default {
   data() {
     return {
@@ -144,7 +145,8 @@ export default {
     };
   },
   created(){
-      this.$axios.get('/json/province.json').then((res)=>{
+    axios.defaults.baseURL = 'http://tj.testw.top/'
+      this.$axios.get('public/province.json').then((res)=>{
           console.log(res)
           for(let k of res.data){
             //   console.log(k)
@@ -152,6 +154,7 @@ export default {
               this.columns1.push(k.name)
               this.columns2.push(k.name)
           }
+          axios.defaults.baseURL = 'http://tj.testw.top/v1'
       })
   },
   mounted(){
@@ -173,6 +176,32 @@ export default {
     }
   },
   methods: {
+    // 提交
+    submit(){
+      let phone = /^(13[0-9]|14[01456879]|15[0-35-9]|16[2567]|17[0-8]|18[0-9]|19[0-35-9])\d{8}$/
+      let sf = /^[1-9]\d{5}(18|19|([23]\d))\d{2}((0[1-9])|(10|11|12))(([0-2][1-9])|10|20|30|31)\d{3}[0-9Xx]$/
+      if(this.value1==''){
+        return this.$toast.fail('姓名不能为空')
+      }else if(!sf.test(this.value2)){
+        return this.$toast.fail('身份证不合法')
+      }else if(!this.radio){
+        return this.$toast.fail('性别不能为空')
+      }else if(!phone.test(this.value3)){
+        this.$toast.fail('手机号格式不正确')
+      }else if(this.value4=='点击选择城市' || this.value4==''){
+        this.$toast.fail('地址不能为空')
+      }else if(this.field2==true){
+        if(this.value5==''){
+          this.$toast.fail('地址不能为空')
+        }
+      }else if(this.field3==true){
+        if(this.value6==''){
+          return this.$toast.fail('地址不能为空')
+        }
+      }else if(!this.radio1==''){
+        return this.$toast.fail('请选择是否接种疫苗')
+      }
+    },
     // 校验函数返回 true 表示校验通过，false 表示不通过
     validator(val) {
       return /1\d{10}/.test(val);

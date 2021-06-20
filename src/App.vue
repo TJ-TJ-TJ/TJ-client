@@ -5,8 +5,12 @@
 </template>
 <script>
 export default {
+  data() {
+    return {
+
+    };
+  },
   async created() {
-  
     let user_info = [
       { uname: "余成林", user_iden: 411522200010063611, person_show: true },
       { uname: "高武杰", user_iden: 411522200010063611, person_show: false },
