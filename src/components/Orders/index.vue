@@ -119,6 +119,10 @@ export default {
       //再次购买订单
     },
   },
+  async created(){
+    let obj = this.$axios.get('/order/list?state=-1',{headers:{'token':'eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCJ9.eyJkYXRhIjp7InVpZCI6IjYwYzBmMzIzY2U1NTAwMDA4MDAwNDdiMCIsImlzTG9naW4iOnRydWUsImxvZ2luVHlwZSI6Im1haWwifSwiZXhwIjowLCJpYXQiOjE2MjQxMDU4Mzh9.U2E3KnH1MR8u1wbQvvmGjmB4s7b5ZCZz4J49kw_zr9AIv1p7vyG28nkDeobRPgsMwmiavVe6PrLsooFhETkkbskXwGn-eTHsb_fDJP5izANCXhi-iTy352d1GWNyN-pvLSxPlXE_clW3qFuARyUJFNvJ5V3gtMvhlJeq48cVTGo'}})
+    console.log(obj)
+  },
   mounted() {
     this.uid = 1; //假设的用户uid
     sessionStorage.setItem("uid", this.uid);
