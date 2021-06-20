@@ -52,7 +52,6 @@ export default {
   },
   methods: {
     liaotian()  {
-      console.log('lt')
       this.$router.push({
         name: '/msg',
         params: {
@@ -63,7 +62,7 @@ export default {
       })
     },
     yuding() {
-      console.log("ss")
+ 
     }
 
   },
