@@ -579,6 +579,7 @@ export default {
       this.putDate =
         parseInt(date[1].getTime() / 1000 / 60 / 60 / 24) -
         parseInt(date[0].getTime() / 1000 / 60 / 60 / 24);
+      this.$store.commit('night',this.putDate)
       this.show = false;
       this.starDate = this.formatDate(start);
       this.endDate = this.formatDate(end);
