@@ -517,8 +517,7 @@ export default {
           // data是具体的定位信息
 
           console.log("定位成功信息：", data);
-          self.local =
-            data.addressComponent.province + data.addressComponent.district;
+          self.local =data.addressComponent.province + data.addressComponent.district;
         }
 
         function onError(data) {

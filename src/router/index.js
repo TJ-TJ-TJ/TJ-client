@@ -105,5 +105,10 @@ const router = new VueRouter({
   base: process.env.BASE_URL,
   routes,
 });
-
+router.beforeEach((to, from, next) => {
+    console.log(to , from);
+    next()
+  // if (to.name !== 'Login' && !isAuthenticated) next({ name: 'Login' })
+  // else next()
+})
 export default router;

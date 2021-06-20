@@ -18,6 +18,7 @@ import TableBar from './components/tableBar.vue'  //全局的底部tablebar组�
 
 import { Lazyload } from 'vant';
 import { List } from 'vant';
+import { Toast } from 'vant';
 // vue-touch
 import VueTouch from "vue-touch";
 Vue.use(VueTouch, {name: "v-touch"});
@@ -67,6 +68,30 @@ Vue.prototype.$getTime = () => {
   mm >= 10 ? '' : mm = '0' + mm
   return `${hh}:${mm}`
 }
+
+
+// 请求拦截器
+axios.interceptors.request.use(function(config){
+	//在发出请求之前进行信息的判断、设置等等
+    config.headers.token=window.localStorage.getItem('token')
+    return config
+},function(err){
+    console.log(err)
+})
+// 响应拦截器
+axios.interceptors.response.use(function(res){
+  
+    if(res.data.code==408){
+      Toast.fail('登录信息已失效,请重新登录')
+      setTimeout(_=>{
+        router.push('/login')
+        throw '错误'
+      },2000)
+    }
+    return res
+},function(err){
+
+})
 
 Vue.config.productionTip = false
 new Vue({
