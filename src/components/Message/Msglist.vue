@@ -8,12 +8,12 @@
       fixed
       class="head"
     >
-      <template #right>
+      <!-- <template #right>
         <div class="head_right" @click="pushmsg()">
           <van-icon name="service-o" size="20" />
           <div>客服</div>
         </div>
-      </template> 
+      </template>  -->
     </van-nav-bar>
     <div class="msg_center1">
       <img
@@ -75,16 +75,16 @@ export default {
     };
   },
   methods: {
-    pushmsg() {
-      this.$router.push({
-        name: "msg",
-        params: {
-          uid: "234",
-          head_img: "123.png",
-          uname: "鱼鱼鱼",
-        },
-      });
-    },
+    // pushmsg() {
+    //   this.$router.push({
+    //     name: "msg",
+    //     params: {
+    //       uid: "234",
+    //       head_img: "123.png",
+    //       uname: "鱼鱼鱼",
+    //     },
+    //   });
+    // },
 
     onClickLeft() {
       this.$router.back();
