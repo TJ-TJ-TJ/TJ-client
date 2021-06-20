@@ -518,6 +518,7 @@ export default {
     },
     // 地理位置获取
     getLocation() {
+      this.local = ''
       const self = this;
 
       AMap.plugin("AMap.Geolocation", function () {
