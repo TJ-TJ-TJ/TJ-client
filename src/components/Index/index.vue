@@ -330,12 +330,12 @@
         <div class="bourn">
           <span>目的地</span>
           <br />
-          <span class="city">北京</span>
+          <span class="city">{{$store.state.city}}</span>
         </div>
         <div class="search-time">
-          <span>住6.30</span>
+          <span>住{{$store.state.starDate}}</span>
           <br />
-          <span>离11.30</span>
+          <span>离{{$store.state.endDate}}</span>
         </div>
       </template>
     </van-search>
@@ -493,7 +493,7 @@ export default {
           // 是否使用高精度定位，默认：true
           enableHighAccuracy: true,
           // 设置定位超时时间，默认：无穷大
-          timeout: 10000,
+          timeout: 1000,
         });
         geolocation.getCurrentPosition();
         AMap.event.addListener(geolocation, "complete", onComplete);
