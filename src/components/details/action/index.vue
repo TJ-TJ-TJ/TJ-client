@@ -7,6 +7,7 @@
           icon="chat-o"
           text="聊天"
           badge="5"
+          @click="liaotian"
         />
         <van-goods-action-icon class="phone" icon="phone-o" text="电话" /><span class="shux">|</span>
         <!-- <span class="shux">|</span>
@@ -16,7 +17,7 @@
           <span class="price2">/晚 <s>￥{{jiage.price}}</s> </span>
         </div>
 
-        <van-goods-action-button color="#ff9645" class="btn">
+        <van-goods-action-button color="#ff9645" class="btn" @click="yuding">
           <img src="/icon/detailv2_shand.png" alt="" />
           立即预定
         </van-goods-action-button>
@@ -48,7 +49,27 @@ export default {
     prices(val) {
       this.jiage = val
     } 
-  }
+  },
+  methods: {
+    liaotian()  {
+      console.log('lt')
+      this.$router.push({
+        name: '/msg',
+        params: {
+          uid: jiage.uid,
+          head_img: jiage.owner.img,
+          uname: jiage.owner.uanme
+        }
+      })
+    },
+    yuding() {
+      console.log("ss")
+    }
+
+  },
+  // mounted() {
+  //   console.log(this.$router.push)
+  // }
   
 }
 </script>
