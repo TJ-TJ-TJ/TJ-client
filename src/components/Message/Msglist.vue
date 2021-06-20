@@ -8,12 +8,12 @@
       fixed
       class="head"
     >
-      <template #right>
+      <!-- <template #right>
         <div class="head_right" @click="gomsg()">
           <van-icon name="service-o" size="20" />
           <div>客服</div>
         </div>
-      </template>
+      </template> -->
     </van-nav-bar>
     <div class="msg_center1">
       <img
@@ -119,20 +119,20 @@ export default {
       let [err, data] = await this.capture(this.getHistory);
       console.log(data);
       this.arrlength = data.data;
-      // this.Arrmsg = arr[1].data; //搜索过来的所有的消息列表 每个最多15条消息
-      // if (!arr[1].data) {
-      //   return;
-      // }
+      this.Arrmsg = data.data; //搜索过来的所有的消息列表 每个最多15条消息
+      if (!data.data) {
+        return;
+      }
       data.data.forEach((item) => {
         //最新的一条消息
         // this.arrlength.push(item.msgArr[item.msgArr.length - 1]);
         this.newMsg.push(item.msgArr[item.msgArr.length - 1]); //最新的一条消息
       });
       let count = 0;    //已读未读已咔嚓掉
-      console.log(data.data)
       data.data.forEach((item) => {
         item.msgArr.forEach((i) => {
-          console.log(i.sid)
+          // console.log(i.sid==this.uid)
+          // console.log(i.is_read == 0 || i.audio_isRead == 0)
           if (i.sid==this.uid&&i.is_read == 0 || i.audio_isRead == 0 ) {
             count++;
           }
@@ -152,7 +152,7 @@ export default {
       //与socket.io连接后回调
       console.log("web socket + 连接成功");
     },
-    //>>>>>>>>    待完善
+    //>>>>>>>>   监听发来的消息
     oToMessage(data) {
       this.arrlength.forEach((item, i) => {
         console.log(item);
@@ -160,7 +160,7 @@ export default {
           //如果存在已有的列表即更新对应的最新的消息
           this.arrlength[i].msgArr.push(data);
           data = ""; //将data赋值为空  防止重复添加
-          // this.msginfo[i] += 1;
+           this.msginfo[i] += 1;
           console.log("已知好友列表");
         } else if (data!='') {
           console.log("未知好友列表");
