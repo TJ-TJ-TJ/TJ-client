@@ -493,7 +493,7 @@ export default {
   methods: {
     // 页面跳转
     skipBtn(id){
-      this.$router.push('/details?'+id)
+      this.$router.push('/details?id='+id)
     },
      // 搜索
     onSearch(val) {
