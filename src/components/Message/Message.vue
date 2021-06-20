@@ -123,7 +123,7 @@ let recorder = new Recorder({
   bitRate: 40, //参数采样率
   sampleRate: 10100,
   success: function (v) {
-    this.Audio = true;
+    Audio = true;
     console.log("可以录音");
   },
   error: function (v) {
@@ -273,10 +273,10 @@ export default {
         //对方的头像
         head_img: "http://localhost:9000/images/客服头像.jpg",
         uname: this.uname,
-        is_read: false, // text是否已读
+        is_read: null, // text是否已读
         send_date: this.$getDate(), //当前日期
         send_time: this.$getTime(), //当前时间
-        audio_isRead: true, //语音是否已读
+        audio_isRead: 1, //语音是否已读
         m_id: Date.now(), //当前毫秒值
         be_uname: "无良商家", // 对方的name
         be_head_img: this.be.head_img, // 对方的头像
@@ -284,10 +284,11 @@ export default {
       this.$socket.emit("puoToMessage", sendObj);
       this.text_msg = "";
       this.message.push(sendObj);
-      // this.$axios.post("/updateMsgRead", {  //消息已读未读
-      //   uid: this.msg_info.uid,
-      //   sid: this.msg_info.sid,
-      // });
+      this.$axios.post("http://localhost:9000/updateMsgRead", {
+        //消息已读未读
+        uid: this.msg_info.uid,
+        sid: this.msg_info.sid,
+      });
       this.status = !this.status;
     },
     //更改是否语音输入
@@ -318,7 +319,7 @@ export default {
       });
     }, // 松开事件
     end() {
-       if (Audio == false) {
+      if (Audio == false) {
         this.$toast.fail("您的设别不支持录音功能");
         return;
       }
@@ -338,10 +339,10 @@ export default {
           type: "audio/mp3",
           head_img: "http://localhost:9000/images/客服头像.jpg", //自己的头像
           uname: this.uname, //发送人的名称为
-          is_read: true, // text是否已读
+          is_read: 1, // text是否已读
           send_date: this.$getDate(), //发送日期
           send_time: this.$getTime(), //发送准确时间
-          audio_isRead: false, //语音是否已读
+          audio_isRead: null, //语音是否已读
           m_id: Date.now(), //当前时间
           be_uname: "无良商家", //接收者uname
           be_head_img: this.be.head_img, //接收者头像
@@ -411,7 +412,7 @@ export default {
     },
   },
   async created() {
-    // console.log(this.$store.state.msg_info); 好友列表传过来 消息传参
+    // console.log(this.$store.state.msg_info); 好友列表传过来 消息参数
     let store = this.$store.state.msg_info;
     console.log(store);
     this.message = store.msgArr; //消息列表
@@ -423,9 +424,12 @@ export default {
     this.title = store.be.uname; //根据传过来身份展示标题
   },
   async mounted() {
-    // this.$socket.open(); //主动连接sockte
-    // console.log(obj);
-    // console.log(this.message, this.msg_info, "--------------");
+    console.log(this.uid, this.sid);
+    this.$axios.post("http://localhost:9000/updateMsgRead", {
+      //消息已读未读
+      uid: this.sid,
+      sid: this.uid,
+    });
     window.scrollTo(0, document.body.scrollHeight);
     this.outheight = window.innerHeight + "px";
     let textarea = document.querySelector(".textarea-msg"); //聊天的文本域 滚动条实时底部
@@ -445,21 +449,25 @@ export default {
       console.log("web socket + 连接成功");
     },
     //>>>>>>>>    待完善
-    oToMessage(data) {
+    async oToMessage(data) {
       //接收私发消息
       // console.log(data);
       // 判断是否是当前聊天对象给自己发的消息  是的话就追加记录
       console.log(data, "=--------==", this.be, "------", this.uid);
       console.log(data.uid == this.be.uid && data.sid == this.uid);
       if (
-        data.uid == this.be.uid &&
-        data.sid == this.uid //||
+        data.uid == this.be.uid && //发送过来的 对方消息发送对象的id要等与自己
+        data.sid == this.uid //   发送人的id 等于当前用户聊天的id
         // (data.uid == this.sid && data.uid == this.uid)
       ) {
+       await this.$axios.post("http://localhost:9000/updateMsgRead", {
+          //消息已读未读
+          uid: this.sid,
+          sid: this.uid,
+        });
         this.message.push(data);
       }
-
-      this.status = !this.status;
+      this.status = !this.status; //更新状态
     },
   },
   updated() {},
