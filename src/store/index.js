@@ -22,6 +22,7 @@ export default new Vuex.Store({
     searchData: {},
     priceData: [],
     city: "",
+    night:''
   },
   mutations: {
     change_unread(state,data){ //更改未读消息 条数
@@ -54,6 +55,10 @@ export default new Vuex.Store({
     cityData(state, city) {
       state.city = city;
     },
+    // 共几晚
+    night(state,night){
+      state.night = night
+    }
   },
   actions: {},
   modules: {},

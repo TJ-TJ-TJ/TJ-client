@@ -52,10 +52,11 @@ const routes = [
       import(/* webpackChunkName: "about" */ "../components/Index/user.vue"),
   },
   {
-    path: "/index",
-    name: "index",
+    path: "/hittory",
+    name: "hittory",
+    redirect:'/collect',
     component: () =>
-      import(/* webpackChunkName: "about" */ "../components/Collect/index.vue"),
+      import(/* webpackChunkName: "about" */ "../components/Index/hittory.vue"),
     children: [
       {
         path: "/collects",
