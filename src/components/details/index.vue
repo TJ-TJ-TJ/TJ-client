@@ -38,21 +38,31 @@ export default {
     };
   },
   mounted() {
-    this.axios.get('/details/?rid=60c16569074200005d003199').then(result=>{
+    this.axios.get(`/details/?rid=${this.$route.query.id}`).then(result=>{
       // console.log(result.data.result)
       const data = result.data.result;
       this.allDate = data
       console.log(data)
       this.swiper = data.swiper;
-         const {price,new_price}=data
+         const {price,new_price,owner,r_name,params,}=data
 
       // console.log(price,new_price)
       this.prices = {
         price,
-        new_price
+        new_price,
+        owner,
+        uid: this.$route.query.id,
+        fm: this.swiper[0].url[0],
+        bt: r_name,
+        fbt: params,
+        
+
+
+
+
       }
       // console.log(this.prices)
-
+      // console.log(this.$route)
 
 
 
