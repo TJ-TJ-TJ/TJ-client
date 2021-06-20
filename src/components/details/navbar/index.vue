@@ -1,7 +1,7 @@
 <template>
   <div class="navbar">
     <van-nav-bar title="房屋详情"    placeholder >
-    <span  class="back" slot="left">
+    <span  class="back" slot="left" @click="zhuye">
       <img  src="/icon/mob-TjHeader-header-left.png" alt="">
       <img slot="left" class="last" src="/icon/mob-TjHeader-header-logo.png" alt="">
 
@@ -16,6 +16,17 @@
 
 <script>
 export default {
+  
+
+
+  data() {
+
+  },
+  methods: {
+    zhuye() {
+      console.log("55")
+    }
+  }
   
 }
 </script>
