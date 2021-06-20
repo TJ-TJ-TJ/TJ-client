@@ -224,7 +224,7 @@
 <!--              <span>￥1180</span>-->
 <!--            </div>-->
 <!--          </div>-->
-          <div class="homestay-item" v-for="item in result" :key="item._id">
+          <div class="homestay-item" v-for="item in result" :key="item._id" @click="skipBtn(item._id)">
             <img
               :src="item.swiper"
               alt=""
@@ -352,9 +352,10 @@
       v-show="searchShow"
       show-action
       placeholder="请输入搜索关键词"
+      @search="onSearch"
     >
       <template #action>
-        <div>搜索</div>
+        <div @click="onSearch">搜索</div>
       </template>
       <template #left>
         <div class="bourn">
@@ -490,6 +491,27 @@ export default {
     }
   },
   methods: {
+    // 页面跳转
+    skipBtn(id){
+      this.$router.push('/details?'+id)
+    },
+     // 搜索
+    onSearch(val) {
+      console.log(val);
+      if(val!=''){
+        this.$store.commit('searchData',{
+          "wd":val,
+          "page":1,
+          "count":10,
+          "minPrice":this.$store.state.priceData[0],
+          "maxPrice":this.$store.state.priceData[1],
+          "star":[1,2,3,4]
+        })
+        this.$store.commit('cityData',val)
+        console.log(this.$store.state)
+        this.$router.push('/stay')
+      }
+    },
     // 显示日期选择
     optionDate(){
       this.show = true
@@ -826,6 +848,7 @@ body {
     top: 18vh;
     border-radius: 18px;
     box-shadow: 0px 30px 30px -10px #f0f0f0;
+    overflow: hidden;
     // 关键字搜索样式
     .keywordSearch {
       .van-cell {
@@ -1198,7 +1221,7 @@ body {
   }
 
   .scroball {
-    width: 100%;
+    width: 90%;
     overflow: auto;
     height: 10vh;
     float: left;
@@ -1207,13 +1230,13 @@ body {
     // background-color: red;
     ul {
       white-space: nowrap;
-
       li {
         // float: left;
         display: inline-block;
-        margin-left: 6vw;
+        margin-left: 8vw;
+        text-align: center;
+        
         img {
-          margin-left: 3vw;
           width: 32px;
         }
       }
