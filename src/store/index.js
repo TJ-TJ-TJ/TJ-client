@@ -9,7 +9,7 @@ export default new Vuex.Store({
       be:{
         uid:1234,
         head_img:'http://localhost:9000/images/客服头像.jpg',
-        uname:'阿达萨达三大'
+        uname:'客服'
       },//聊天对方的基本信息 头像 名称 id
       msgArr:[], //携带过去的最新的15条消息 
       sid:'',// 聊天对方的id

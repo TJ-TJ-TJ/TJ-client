@@ -412,7 +412,8 @@ export default {
     },
     //获取消息列表传过来的数据
     async getlist() {
-      let sid = this.$route.params.sid; //  根据路由跳转传过来的 sid  重新获取消息记录渲染  下面的消息列表不执行
+      console.log(this.$route)
+      let sid = this.$route.params; //  根据路由跳转传过来的 sid  重新获取消息记录渲染  下面的消息列表不执行
       let store = ""; //消息的信息
       // console.log(sid==undefined);
       if(sid!=undefined||sid!=null){
@@ -422,8 +423,9 @@ export default {
         );
         console.log(obj.data.data);
         let newarr = obj.data.data.filter((item) => {
-          return item.be.uid == sid;
+          return item.be.uid == sid.uid;
         });
+        console.log(newarr,sid)
         if(newarr.length==0){
           store={
             be:{
@@ -434,11 +436,6 @@ export default {
             uid:this.uid,
             sid:sid.uid
           }
-          //  this.$router.push({name:'/msg', params:{
-          //     uid:'',
-          //     head_img:"",
-          //     uname:""
-          //   }})
         }else{
            store = newarr[0];
         }      

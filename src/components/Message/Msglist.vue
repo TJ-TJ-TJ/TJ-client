@@ -8,12 +8,12 @@
       fixed
       class="head"
     >
-      <!-- <template #right>
-        <div class="head_right" @click="gomsg()">
+      <template #right>
+        <div class="head_right" @click="pushmsg()">
           <van-icon name="service-o" size="20" />
           <div>客服</div>
         </div>
-      </template> -->
+      </template> 
     </van-nav-bar>
     <div class="msg_center1">
       <img
@@ -75,6 +75,17 @@ export default {
     };
   },
   methods: {
+    pushmsg() {
+      this.$router.push({
+        name: "msg",
+        params: {
+          uid: "234",
+          head_img: "123.png",
+          uname: "鱼鱼鱼",
+        },
+      });
+    },
+
     onClickLeft() {
       this.$router.back();
     },
@@ -153,22 +164,22 @@ export default {
     oToMessage(data) {
       // 遍历所有的消息列表
       console.log(data.uid);
-      let flag = false
+      let flag = false;
       this.arrlength.forEach((item, i) => {
         // 如果对方的发来的消息  中的发送者uid = 消息列表其中一条消息的发送者uid 就是已知的好友列表
         if (item.be.uid == data.uid && data != "") {
-          console.log('已知好友列表')
+          console.log("已知好友列表");
           //如果存在已有的列表即更新对应的最新的消息
           this.arrlength[i].msgArr.push(data);
           data = ""; //将data赋值为空  防止重复添加
           this.msginfo[i] += 1; //未读消息列表那一条 ＋1
-          flag=true
+          flag = true;
           let resul_count = this.msginfo.reduce((box, item) => box + item); //未读消息总条数
           this.$store.commit("change_unread", resul_count); //更改未读消息总条数
           // console.log("已知好友列表");
         }
       });
-      if (data != ""&&flag==false) {
+      if (data != "" && flag == false) {
         //否则就是新的好友发的消息  更新消息列表
         console.log("未知好友列表");
         let obj = {
