@@ -135,7 +135,7 @@ export default {
     },
   },
   async created() {
-    sessionStorage.setItem("uid", "1");
+    this.uid=localStorage.getItem('uid')||1;
     this.$socket.open(); //主动连接sockte
     this.updatemsg();
   },
