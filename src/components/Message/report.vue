@@ -111,7 +111,7 @@
               </template>
             </van-field>
             <div class="btnSet">
-              <van-button color="#07C3F2" block @click="submit">提交</van-button>
+              <van-button color="#ff9645" block @click="submit">提交</van-button>
             </div>
         </div>
       </div>

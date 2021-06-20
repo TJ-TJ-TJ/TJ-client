@@ -43,7 +43,7 @@ const routes = [
     path: "/report",
     name: "photo",
     component: () =>
-      import(/* webpackChunkName: "about" */ "../components/Index/report.vue"),
+      import(/* webpackChunkName: "about" */ "../components/Message/report.vue"),
   },
   {
     path: "/user",
