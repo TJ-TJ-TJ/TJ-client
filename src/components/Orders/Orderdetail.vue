@@ -1,6 +1,6 @@
 <template>
   <div class="order_detail">
-    <van-nav-bar title="订单填写" left-text="." left-arrow @click-left="onClickLeft" class="header" />
+    <van-nav-bar title="订单详情" left-text="." left-arrow @click-left="onClickLeft" class="header" />
     <van-notice-bar class="info" color="#ff9645" background="#FFF7E4" :crollable='false' left-icon="info-o">
       温馨提示:请勿脱离平台与房东交易,以免造成财产损失或纠纷
     </van-notice-bar>

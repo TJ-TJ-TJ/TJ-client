@@ -83,7 +83,7 @@
         </div>
       </van-tab>
     </van-tabs>
-<table-bar></table-bar> 
+    <table-bar></table-bar>
   </div>
 </template>
 <script>
@@ -119,9 +119,14 @@ export default {
       //再次购买订单
     },
   },
-  async created(){
-    let obj = this.$axios.get('/order/list?state=-1',{headers:{'token':'eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCJ9.eyJkYXRhIjp7InVpZCI6IjYwYzBmMzIzY2U1NTAwMDA4MDAwNDdiMCIsImlzTG9naW4iOnRydWUsImxvZ2luVHlwZSI6Im1haWwifSwiZXhwIjowLCJpYXQiOjE2MjQxMDU4Mzh9.U2E3KnH1MR8u1wbQvvmGjmB4s7b5ZCZz4J49kw_zr9AIv1p7vyG28nkDeobRPgsMwmiavVe6PrLsooFhETkkbskXwGn-eTHsb_fDJP5izANCXhi-iTy352d1GWNyN-pvLSxPlXE_clW3qFuARyUJFNvJ5V3gtMvhlJeq48cVTGo'}})
-    console.log(obj)
+  async created() {
+    let obj = await this.$axios.get("/order/list?state=-1", {
+      headers: {
+        token:
+          "eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCJ9.eyJkYXRhIjp7InVpZCI6IjYwYzBmMzIzY2U1NTAwMDA4MDAwNDdiMCIsImlzTG9naW4iOnRydWUsImxvZ2luVHlwZSI6Im1haWwifSwiZXhwIjowLCJpYXQiOjE2MjQxMDU4Mzh9.U2E3KnH1MR8u1wbQvvmGjmB4s7b5ZCZz4J49kw_zr9AIv1p7vyG28nkDeobRPgsMwmiavVe6PrLsooFhETkkbskXwGn-eTHsb_fDJP5izANCXhi-iTy352d1GWNyN-pvLSxPlXE_clW3qFuARyUJFNvJ5V3gtMvhlJeq48cVTGo",
+      },
+    });
+    console.log(obj);
   },
   mounted() {
     this.uid = 1; //假设的用户uid
@@ -146,6 +151,13 @@ export default {
         },
       ];
     }
+  },
+  watch: {
+    active(val) {
+      console.log(val); //根据下标请求  相应的订单 重新请求
+      this.orders=this.orders //根据请求过来的数据重新渲染
+      
+    },
   },
 };
 </script>

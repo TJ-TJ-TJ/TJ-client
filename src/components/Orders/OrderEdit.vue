@@ -104,7 +104,7 @@
       <div>
         <div>
           {{'￥'+1172.00.toFixed(2)}}
-          <div>含押金:200</div>
+          <!-- <div>含押金:200</div> -->
         </div><span>明细</span>
       </div>
       <div>
