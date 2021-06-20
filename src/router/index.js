@@ -39,12 +39,12 @@ const routes = [
     component: () =>
       import(/* webpackChunkName: "about" */ "../components/Index/city.vue"),
   },
-  {
-    path: "/report",
-    name: "photo",
-    component: () =>
-      import(/* webpackChunkName: "about" */ "../components/Index/report.vue"),
-  },
+  // {
+  //   path: "/report",
+  //   name: "photo",
+  //   component: () =>
+  //     import(/* webpackChunkName: "about" */ "../components/Index/report.vue"),
+  // },
   {
     path: "/user",
     name: "user",
