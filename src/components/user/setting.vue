@@ -101,6 +101,7 @@ export default {
             window.localStorage.removeItem('uname'),
             window.localStorage.removeItem('phone'),
             window.localStorage.removeItem('headImg')
+            this.$router.replace({path:'/user'})
         }
     }
 }

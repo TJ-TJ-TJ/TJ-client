@@ -225,7 +225,7 @@ export default {
   methods: {
     //后退按钮
     onClickLeft() {
-      this.$router.go(-1)
+      this.$router.push({path:'user'})
     },
 
 
@@ -290,6 +290,10 @@ async loginInfoPush(){
                   if(res.code==403){
                     this.isClickSendCode=false
                     return this.$toast(res.msg)
+                  }
+                  if(res.code!=200){
+                    this.isClickSendCode=false
+                    return this.$toast.fail(res.msg)
                   }
                   
                 this.phoneRuleFinishShow =  true
@@ -417,7 +421,7 @@ async reloadSendPhoneSignUp(){
         window.localStorage.setItem('phone',this.loginPhone)
         window.localStorage.setItem('uname',info.uname || Date.now())
         window.localStorage.setItem('headImg',info.headImg || '/img/defaultHead.png')
-        this.$router.push({path:'/user'})
+        this.$router.replace({path:'/user'})
     }
   },
   watch:{
@@ -557,12 +561,12 @@ input::-webkit-input-placeholder {
 /* 同意条款box */
 .LG-login-finish-agreement{
   width: 100%;
+  height: 40vh;
   font-size: 13px;
   display: flex;
-  align-items: center;
+  align-items: flex-end;
+  padding-bottom: 30px;
   justify-content: center;
-  position: absolute;
-  bottom: 40px;
 }
 /* 同意条款input */
 .van-icon-success{
