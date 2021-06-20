@@ -1,28 +1,40 @@
 <template>
-  <div class="check_person" :style="{height:outheight}">
-    <van-nav-bar title="入住人" left-arrow @click-left="onClickLeft" class="head1" />
-    <div class="head" @click='addperson'>
-      + 添加入住人
-    </div>
-    <div class="person_list" v-for="(item,i) in user_info" :key="i">
+  <div class="check_person" :style="{ height: outheight }">
+    <van-nav-bar
+      title="入住人"
+      left-arrow
+      @click-left="onClickLeft"
+      class="head1"
+    />
+    <div class="head" @click="addperson">+ 添加入住人</div>
+    <div class="person_list" v-for="(item, i) in user_info" :key="i">
       <div>
-        <van-checkbox v-model="item.person_show" @click="change_edit(i)" checked-color="#ff9645"></van-checkbox>
+        <van-checkbox
+          v-model="item.person_show"
+          @click="change_edit(i)"
+          checked-color="#ff9645"
+        ></van-checkbox>
       </div>
       <div>
-        <div><span>{{item.uname}}</span>
+        <div>
+          <span>{{ item.uname }}</span>
           <span class="last">已认证</span>
         </div>
-        <div><span>身份证：&nbsp;</span> <span>{{md(item.user_iden)}}</span></div>
+        <div>
+          <span>身份证：&nbsp;</span> <span>{{ md(item.user_iden) }}</span>
+        </div>
       </div>
       <div>
-        <van-icon name="arrow" @click="go(item.uname,item.user_iden)" />
+        <van-icon name="arrow" @click="go(item.uname, item.user_iden)" />
       </div>
     </div>
     <div class="foot">
       根据公安局酒店经营管理条例，预订经营性质的酒店/民宿，需要提供当前账户的实名身份信息。当前账户的实名身份信息只用于必要的身份核实，途家民宿会为您严格保密。
     </div>
     <div class="bott">
-      <van-button color="#ff9645" size="large" @click="go_order"> 确定</van-button>
+      <van-button color="#ff9645" size="large" @click="go_order">
+        确定</van-button
+      >
     </div>
   </div>
 </template>
@@ -44,22 +56,24 @@ export default {
   methods: {
     change_edit(i) {
       //更改用户选中状态
-      console.log( this.user_info[i].person_show)
-      this.user_info[i].person_show= this.user_info[i].person_show;
+      console.log(this.user_info[i].person_show);
+      this.user_info[i].person_show = this.user_info[i].person_show;
     },
     go_order() {
       //去往订单页
       sessionStorage.setItem("check_person", JSON.stringify(this.user_info));
-      this.$router.push('/order_edit')
+      this.$router.push("/order_edit");
     },
     onClickLeft() {
-      this.$router.push('/order_edit');
+      this.$router.push("/order_edit");
     },
     addperson() {
       this.$router.push("/add_person");
     },
-    go(name,id) {
-      this.$router.push({name:'edit_person',params:{uname:name,user_iden:id}})
+    go(name, id) {
+      // 编辑入住人 信息组件  待开放
+      return;
+      // this.$router.push({name:'edit_person',params:{uname:name,user_iden:id}})
     },
   },
   computed: {
@@ -76,7 +90,7 @@ export default {
 .check_person {
   width: 100%;
   background-color: #f7f9fb;
-  .head1{
+  .head1 {
     .van-icon {
       color: #ff9654 !important;
     }

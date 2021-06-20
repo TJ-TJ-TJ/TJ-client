@@ -363,8 +363,8 @@ export default {
     },
     // 开始播放录音的方法
     start_audio(event, i, uid, sid, m_id) {
-      // console.log(uid, sid, m_id);
-      this.$axios.post("/updateVoiceRead", {
+       console.log(uid, sid, m_id);
+      this.$axios.post("http://localhost:9000/updateVoiceRead", {
         //更改当前语音消息为已读状态
         uid,
         sid,

@@ -21,8 +21,6 @@ Vue.use(List);
 Vue.use(Lazyload);
 axios.defaults.baseURL = "http://tj.testw.top/v1";
 
-// axios.defaults.headers.common["token"] =
-//   "eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCJ9.eyJkYXRhIjp7InVpZCI6IjYwYzBmMzIzY2U1NTAwMDA4MDAwNDdiMCIsImlzTG9naW4iOnRydWUsImxvZ2luVHlwZSI6Im1haWwifSwiZXhwIjowLCJpYXQiOjE2MjQxMDU4Mzh9.U2E3KnH1MR8u1wbQvvmGjmB4s7b5ZCZz4J49kw_zr9AIv1p7vyG28nkDeobRPgsMwmiavVe6PrLsooFhETkkbskXwGn-eTHsb_fDJP5izANCXhi-iTy352d1GWNyN-pvLSxPlXE_clW3qFuARyUJFNvJ5V3gtMvhlJeq48cVTGo";
 Vue.prototype.$axios = axios;
 
 Vue.use(

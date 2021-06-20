@@ -111,7 +111,7 @@ export default {
       //获取消息列表
       // let uid = this.$route.query.uid;
       // sessionStorage.setItem("uid", uid); //这里是模拟用户登录的uid 后期传入登陆者的uid
-      this.uid = sessionStorage.getItem("uid");
+      // this.uid = sessionStorage.getItem("uid");
       // 组件创建完成     获取消息列表
       let [err, data] = await this.capture(this.getHistory);
       // console.log(data);
@@ -152,37 +152,42 @@ export default {
     //>>>>>>>>   监听发来的消息
     oToMessage(data) {
       // 遍历所有的消息列表
+      console.log(data.uid);
+      let flag = false
       this.arrlength.forEach((item, i) => {
         // 如果对方的发来的消息  中的发送者uid = 消息列表其中一条消息的发送者uid 就是已知的好友列表
         if (item.be.uid == data.uid && data != "") {
+          console.log('已知好友列表')
           //如果存在已有的列表即更新对应的最新的消息
           this.arrlength[i].msgArr.push(data);
           data = ""; //将data赋值为空  防止重复添加
           this.msginfo[i] += 1; //未读消息列表那一条 ＋1
+          flag=true
           let resul_count = this.msginfo.reduce((box, item) => box + item); //未读消息总条数
           this.$store.commit("change_unread", resul_count); //更改未读消息总条数
           // console.log("已知好友列表");
-        } else if (data != "") {
-          //否则就是新的好友发的消息  更新消息列表
-          console.log("未知好友列表");
-          let obj = {
-            be: {
-              //对方的基本信息
-              head_img: data.head_img,
-              uid: data.uid,
-              uname: data.uname || 匿名用户,
-            },
-            msgArr: [data], //消息数组
-            sid: data.uid, //发送者的uid
-            uid: data.sid, //我的uid
-          };
-          this.arrlength.push(obj); // 如果是新消息 就追加一条消息列表的消息
-          data = "";
-          this.msginfo[i] += 1; //未读消息列表那一条 ＋1
-          let resul_count = this.msginfo.reduce((box, item) => box + item); //未读消息总条数
-          this.$store.commit("change_unread", resul_count); //更改未读消息总条数
         }
       });
+      if (data != ""&&flag==false) {
+        //否则就是新的好友发的消息  更新消息列表
+        console.log("未知好友列表");
+        let obj = {
+          be: {
+            //对方的基本信息
+            head_img: data.head_img,
+            uid: data.uid,
+            uname: data.uname || 匿名用户,
+          },
+          msgArr: [data], //消息数组
+          sid: data.uid, //发送者的uid
+          uid: data.sid, //我的uid
+        };
+        this.arrlength.push(obj); // 如果是新消息 就追加一条消息列表的消息
+        data = "";
+        this.msginfo.push(1); //新的消息列表 未读数+1
+        let resul_count = this.msginfo.reduce((box, item) => box + item); //未读消息总条数
+        this.$store.commit("change_unread", resul_count); //更改未读消息总条数
+      }
     },
   },
   mounted() {
