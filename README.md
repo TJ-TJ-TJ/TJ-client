@@ -31,3 +31,7 @@ See [Configuration Reference](https://cli.vuejs.org/config/).
 .father > 这样编写。
 
 2、采用 vw 单位。
+### 全局引入了vant
+
+
+### Vuex各个功能分开

@@ -21,6 +21,8 @@ export default new Vuex.Store({
     searchData: {},
     priceData: [],
     city: "",
+    startDate:'',
+    endDate:''
   },
   mutations: {
     update_msginfo(state, data) {
@@ -50,6 +52,12 @@ export default new Vuex.Store({
     cityData(state, city) {
       state.city = city;
     },
+    hotDate(state,startDate){
+      state.startDate = startDate
+    },
+    hotEndDate(state,endDate){
+      state.endDate = endDate
+    }
   },
   actions: {},
   modules: {},

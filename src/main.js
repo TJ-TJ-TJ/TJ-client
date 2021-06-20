@@ -2,8 +2,13 @@ import Vue from 'vue'
 import App from './App.vue'
 import router from './router'
 import store from './store'
-
 import Vant from 'vant';
+import 'vant/lib/index.css';
+
+Vue.prototype.axios= axios
+axios.defaults.baseURL = 'http://tj.testw.top/v1'
+Vue.use(Vant);
+
 import 'vant/lib/index.css';
 import VueSocketIO from 'vue-socket.io'
 import ClientSocketIO from 'socket.io-client'
@@ -40,9 +45,6 @@ Vue.use(new VueSocketIO({
   }), //连接服务端
 
 }))
-
-
-
 
 //获取年月日 格式 ` 2020-01-01`  
 Vue.prototype.$getDate = () => {
