@@ -178,7 +178,7 @@ export default {
           };
           this.arrlength.push(obj); // 如果是新消息 就追加一条消息列表的消息
           data = "";
-          this.msginfo[i] += 1; //未读消息列表那一条 ＋1
+          this.msginfo.push(1); //新的消息列表 未读数+1
           let resul_count = this.msginfo.reduce((box, item) => box + item); //未读消息总条数
           this.$store.commit("change_unread", resul_count); //更改未读消息总条数
         }
