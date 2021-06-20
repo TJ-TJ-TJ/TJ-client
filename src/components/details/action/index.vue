@@ -52,12 +52,13 @@ export default {
   },
   methods: {
     liaotian()  {
+      console.log(this.jiage);
       this.$router.push({
-        name: '/msg',
+        name: 'msg',
         params: {
           uid: this.jiage.uid,
           head_img: this.jiage.owner.img,
-          uname: this.jiage.owner.uanme
+          uname: this.jiage.owner.uname
         }
       })
     },

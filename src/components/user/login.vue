@@ -417,6 +417,7 @@ async reloadSendPhoneSignUp(){
         window.localStorage.setItem('phone',this.loginPhone)
         window.localStorage.setItem('uname',info.uname || Date.now())
         window.localStorage.setItem('headImg',info.headImg || '/img/defaultHead.png')
+        this.$router.push({path:'/user'})
     }
   },
   watch:{
@@ -462,6 +463,9 @@ async reloadSendPhoneSignUp(){
 </script>
 
 <style>
+.LG-box{
+  height: 100vh;
+}
 .van-icon-cross {
   color: black !important;
 }
