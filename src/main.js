@@ -31,13 +31,13 @@ Vue.prototype.$axios=axios
 
 Vue.use(new VueSocketIO({
   debug: true,
-  connection: ClientSocketIO.connect('http://localhost:9000',{
+  connection: ClientSocketIO.connect('http://kiktou.vip:9000',{
     autoConnect: false,
     transports: ['websocket'],
     auth: {
-      imgPath: 1,
-      uid: sessionStorage.getItem('uid') || 1, //用户的uid
-      uname:sessionStorage.getItem('username') ||1
+      imgPath: window.localStorage.getItem('headImg') || 'http://kikyou.vip:9000/images/defaultHead.png',
+      uid: window.localStorage.getItem('uid') || Date.now(), //用户的uid
+      uname:sessionStorage.getItem('username') ||Date.now()
     }
   }), //连接服务端
 

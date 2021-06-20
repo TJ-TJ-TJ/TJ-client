@@ -105,15 +105,16 @@ const router = new VueRouter({
   base: process.env.BASE_URL,
   routes,
 });
+
 router.beforeEach((to, from, next) => {
     console.log(to , from);
-    next()
     if(to.path=='/order_edit' || to.path=='/order_pay'){
      if(!window.localStorage.getItem('token')){
        return router.replace({path:'login'})
      }
     }
   // if (to.name !== 'Login' && !isAuthenticated) next({ name: 'Login' })
-  // else next()
+  // else 
+  next()
 })
 export default router;

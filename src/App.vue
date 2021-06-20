@@ -13,7 +13,16 @@ export default {
     ]; //  假定的 入住人信息
     sessionStorage.setItem("check_person", JSON.stringify(user_info)); //不能直接传递数组或者对象 可以存储字符串
   },
-  mounted() {},
+  mounted() {
+    console.log(this.$socket);
+    if(
+         !!window.localStorage.getItem('token') 
+      || !!window.localStorage.getItem('uid') 
+      
+    ){
+      this.$socket.open()
+    }
+  },
 };
 </script>
 <style lang="scss">

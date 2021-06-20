@@ -145,7 +145,6 @@ export default {
       this.$router.push({path:'login'});
     },
     goEdit(){
-      
       if(!this.userInfo.token){
         return this.$router.push({path:'login'})
       }
