@@ -114,7 +114,7 @@ export default {
           message: "您有一笔订单待支付，确定要离开吗",
         })
         .then(() => {
-          this.$router.go(-1);
+          this.$router.replace('/order');
           //在将这笔订单改为 未支付状态
         })
         .catch(() => {
@@ -128,8 +128,9 @@ export default {
           message: "确定要支付吗",
         })
         .then(() => {
+          //确认支付就改变订单状态
           this.$toast.success("支付成功");
-          this.$router.go("/order");
+          this.$router.replace("/order");
         })
         .catch(() => {
           return;

@@ -66,7 +66,9 @@
         </template>
       </van-tabbar-item>
     </van-tabbar>
+    <router-view></router-view>
   </div>
+
 </template>
 <script>
 
@@ -95,8 +97,9 @@ export default {
       },
     };
   },
-  created() {
-  },
+  mounted(){
+    console.log('tablebar 更新了')
+  }
 };
 </script>
 <style lang="scss" >
@@ -107,7 +110,6 @@ export default {
   // height: 55px;
   // bottom: 0;
   .van-tabbar--fixed{
-    // z-index: -1;
     height: 55px;
     left: 0;
     right: 0;

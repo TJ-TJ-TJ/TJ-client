@@ -15,7 +15,7 @@
         </div>
       </template>
     </van-nav-bar>
-    <div class="msg_center">
+    <div class="msg_center1">
       <img
         src="data:image/png;base64,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"
         alt=""
@@ -33,27 +33,37 @@
         :key="i"
         @click="go_detail(item, i)"
       >
-        <img :src="item.head_img" alt="" />
+        <img :src="item.msgArr[item.msgArr.length - 1].head_img" alt="" />
         <div class="f1">
           <div class="msg_head">
-            <div>{{ item.uname == null ? "匿名用户" : item.uname }}</div>
-            <div>{{ item.send_date }}</div>
+            <div>
+              {{
+                item.be.uname == null
+                  ? "匿名用户"
+                  : item.be.uname
+              }}
+            </div>
+            <div>{{ item.msgArr[item.msgArr.length - 1].send_date }}</div>
           </div>
-          <div class="msg_foot" v-if="item.type == 'text'">
-            <p>{{ item.message }}</p>
-            <!-- <van-badge :content="msginfo[i]" v-if="msginfo[i] != 0" class="hb">
+          <div
+            class="msg_foot"
+            v-if="item.msgArr[item.msgArr.length - 1].type == 'text'"
+          >
+            <p>{{ item.msgArr[item.msgArr.length - 1].message }}</p>
+            <van-badge :content="msginfo[i]" v-if="msginfo[i] != 0" class="hb">
               <div />
-            </van-badge> -->
+            </van-badge> 
           </div>
           <div class="msg_foot" v-else>
             <div style="color: red">[语音]</div>
-            <!-- <van-badge :content="msginfo[i]" v-if="msginfo[i] != 0" class="hb">
+            <van-badge :content="msginfo[i]" v-if="msginfo[i] != 0" class="hb">
               <div />
-            </van-badge> -->
+            </van-badge>
           </div>
         </div>
       </div>
     </div>
+    <van-empty v-show="arrlength == 0" description="暂无消息" />
   </div>
 </template>
 <script>
@@ -63,28 +73,24 @@ export default {
     return {
       innerheight: "",
       uid: 1, // 假设是登录的用户id
-      // 展示的消息列表
-      arrlength: [],
-      msginfo: [], // 已读未读消息
+      arrlength: [], // 整体展示的消息列表
+      msginfo: [], // 已读未读消息  已废弃
       newMsg: [], //携带过去的最新的15条消息
-      Arrmsg: [], //
     };
   },
   methods: {
     onClickLeft() {
-      this.$router.go(-1);
+      this.$router.back();
     },
     ...mapMutations(["update_msginfo"]),
-    go_detail(item, i) {
+    go_detail(item, i) { //去私聊详情页
       console.log(item, i);
-      this.update_msginfo({
-        newarr: this.Arrmsg[i],
-      });
+      this.update_msginfo(item);
       //使所有文本消息都成为已读
-      this.$axios.post("/updateMsgRead", {
-        uid: item.uid,
-        sid: item.sid,
-      });
+      // this.$axios.post("http://localhost:9000/updateMsgRead", {
+      //   uid: item.uid,
+      //   sid: item.sid,
+      // });
       //修改vuex中的数据 跳转到聊天页
       this.$router.push("/msg");
     },
@@ -96,33 +102,38 @@ export default {
     },
     //获取用户消息列表
     getHistory() {
-      return this.$axios.get(`http://localhost:9000/getHistoryMsg?uid=${this.uid}`);
+      return this.$axios.get(
+        `http://localhost:9000/getHistoryMsg?uid=${this.uid}`
+      );
     },
     gomsg(i) {
       /// 假设 这里是去往客服的聊天
-      this.update_msginfo({
-        newarr: this.Arrmsg[i],
-      });
       this.$router.push("/msg");
     },
     async updatemsg() {
-      let uid = this.$route.query.uid;
-      sessionStorage.setItem("uid", uid); //这里是模拟用户登录的uid 后期传入登陆者的uid
+      // let uid = this.$route.query.uid;
+      // sessionStorage.setItem("uid", uid); //这里是模拟用户登录的uid 后期传入登陆者的uid
       this.uid = sessionStorage.getItem("uid");
       // console.log(this.uid);
       // 组件创建完成   获取消息列表
-      let arr = await this.capture(this.getHistory);
-      // console.log(arr);
-      this.Arrmsg = arr[1].data; //搜索过来的所有的消息列表 每个最多15条消息
-      arr[1].data.forEach((item) => {
+      let [err, data] = await this.capture(this.getHistory);
+      console.log(data);
+      this.arrlength = data.data;
+      // this.Arrmsg = arr[1].data; //搜索过来的所有的消息列表 每个最多15条消息
+      if (!data.data) {
+        return;
+      }
+      data.data.forEach((item) => {
         //最新的一条消息
-        this.arrlength.push(item.msgArr[item.msgArr.length - 1]);
-        this.newMsg.push(item.msgArr);
+        // this.arrlength.push(item.msgArr[item.msgArr.length - 1]);
+        this.newMsg.push(item.msgArr[item.msgArr.length - 1]); //最新的一条消息
       });
-      let count = 0;
-      arr[1].data.forEach((item) => {
+      let count = 0;    //已读未读已咔嚓掉
+      console.log(data.data)
+      data.data.forEach((item) => {
         item.msgArr.forEach((i) => {
-          if (i.is_read == 0 || i.audio_isRead == 0) {
+          console.log(i.sid)
+          if (i.sid==this.uid&&i.is_read == 0 || i.audio_isRead == 0 ) {
             count++;
           }
         });
@@ -142,22 +153,45 @@ export default {
       console.log("web socket + 连接成功");
     },
     //>>>>>>>>    待完善
-    async oToMessage(data) {
-      console.log(this.arrlength);
+    oToMessage(data) {
       this.arrlength.forEach((item, i) => {
-        if (item.uid == data.uid) {
-          this.arrlength.splice(i, 1, data);
-          this.msginfo[i] += 1;
+        console.log(item);
+        if (item.be.uid == data.uid && data!='') {
+          //如果存在已有的列表即更新对应的最新的消息
+          this.arrlength[i].msgArr.push(data);
+          data = ""; //将data赋值为空  防止重复添加
+          // this.msginfo[i] += 1;
+          console.log("已知好友列表");
+        } else if (data!='') {
+          console.log("未知好友列表");
+          let obj = {
+            be: {
+              head_img: data.head_img,
+              uid: data.uid,
+              uname: data.uname || 匿名用户,
+            },
+            msgArr: [data],
+            sid: data.uid,
+            uid: data.sid,
+          };
+          this.arrlength.push(obj); // 如果是新消息 就追加一条消息列表的消息
+          data = "";
         }
       });
-      let arr = await this.capture(this.getHistory);
-      // console.log(arr);
-      this.Arrmsg = arr[1].data; //搜索过来的所有的消息列表 每个最多15条消息
     },
   },
   mounted() {
-    this.$socket.open(); //主动连接sockte
+    // this.$socket.open(); //主动连接sockte
     this.innerheight = window.innerHeight + "px";
+  },
+  watch: {
+    $route(to, from) {
+      console.log(to.patn,from.path)
+      //检测路由变化 如果原地刷新就重新连接socket 重新连接socket
+      if (to.path == from.path) {
+        this.$socket.open();
+      }
+    },
   },
 };
 </script>
@@ -185,7 +219,7 @@ export default {
       }
     }
   }
-  .msg_center {
+  .msg_center1 {
     background-color: #fff;
     display: flex;
     align-items: center;
@@ -275,7 +309,7 @@ export default {
             font-size: 12px;
             text-align: right;
             padding-right: 5px;
-             color: #999;
+            color: #999;
           }
         }
         .msg_body {
