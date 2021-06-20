@@ -120,6 +120,7 @@
 </template>
 
 <script>
+import axios from 'axios'
 export default {
   data() {
     return {
@@ -144,6 +145,7 @@ export default {
     };
   },
   created(){
+    axios.defaults.baseURL = 'http://tj.testw.top/'
       this.$axios.get('/json/province.json').then((res)=>{
           console.log(res)
           for(let k of res.data){
@@ -152,6 +154,7 @@ export default {
               this.columns1.push(k.name)
               this.columns2.push(k.name)
           }
+          axios.defaults.baseURL = 'http://tj.testw.top/v1'
       })
   },
   mounted(){

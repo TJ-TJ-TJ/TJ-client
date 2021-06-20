@@ -493,7 +493,7 @@ export default {
   methods: {
     // 页面跳转
     skipBtn(id){
-      this.$router.push('/details?'+id)
+      this.$router.push('/details?id='+id)
     },
      // 搜索
     onSearch(val) {
@@ -518,6 +518,7 @@ export default {
     },
     // 地理位置获取
     getLocation() {
+      this.local = ''
       const self = this;
 
       AMap.plugin("AMap.Geolocation", function () {
@@ -565,7 +566,7 @@ export default {
             // 查询成功，result即为当前所在城市信息
 
             console.log("通过ip获取当前城市：", result);
-
+            that.local = result.city;
             //逆向地理编码
 
             AMap.plugin("AMap.Geocoder", function () {
@@ -581,8 +582,8 @@ export default {
                 if (status === "complete" && data.info === "OK") {
                   // result为对应的地理位置详细信息
                   // this.local=data
-                  console.log(data.regeocode.addressComponent.province);
-                  that.local = data.regeocode.addressComponent.province;
+                  console.log(data);
+                  
                 }
               });
             });

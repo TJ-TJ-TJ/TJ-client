@@ -14,7 +14,7 @@
         <div class="bourn" @click="cityLink">
           <span>目的地</span>
           <br />
-          <span class="city">{{$store.state.city.slice(0,2)}}</span>
+          <span class="city">{{$store.state.city}}</span>
         </div>
         <div class="search-time" @click="searchTimes">
           <span>住{{$store.state.starDate}}</span>
@@ -268,10 +268,11 @@ export default {
     this.starDate = this.$refs.calenderRef.checkDate
     console.log('刷新')
   },
+  
   methods: {
     // 页面跳转
     skipBtn(id){
-      this.$router.push('/details?'+id)
+      this.$router.push('/details?id='+id)
     },
     // 返回
     cancalBtn(){
@@ -395,6 +396,7 @@ export default {
 .homestay-Index .bourn {
   background-color: #f7f8fa;
   margin-right: 1vw;
+  width: 10vw;
 }
 .homestay-Index .bourn span:nth-child(1) {
   font-size: 10px;
@@ -409,6 +411,12 @@ export default {
   color: #333;
   margin-left: 1vw;
   text-align: center;
+  /* . 文本强制不合法，不换行 */
+white-space: nowrap; 
+/* 2. 文本溢出显示省略号 */
+text-overflow:ellipsis;
+/* 3. 溢出部分隐藏 */
+overflow:hidden;
 }
 .homestay-Index .search-time {
   background-color: #f7f8fa;
