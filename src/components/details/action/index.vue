@@ -30,6 +30,7 @@
 </template>
 
 <script>
+import { createLogger } from 'vuex';
 export default {
   props: {
     prices: {
@@ -62,11 +63,37 @@ export default {
         }
       })
     },
-    yuding() {
+    async yuding() {
+        const toast = this.$toast.loading({
+          duration: 0, // 持续展示 toast
+          forbidClick: true,
+          selector: '#custom-selector',
+        });
+       let {data:res} = await  this.$axios.get('/details/is',{params:{
+          start:this.$store.state.dataDate[0],
+          end:this.$store.state.dataDate[1],
+          rid:this.jiage.uid
+        }})
+        if(res.ok==1){
+          this.$store.commit('setOrderCommitIfo',this.jiage)
+          this.$router.replace({path:'/order_edit'})
+          this.$toast.clear()
+        }else {
+          this.$toast.fail(res.msg)
+          this.$toast.clear()
+        } 
+
+
+
+
+
+
+
  
     }
 
   },
+
   // mounted() {
   //   console.log(this.$router.push)
   // }
