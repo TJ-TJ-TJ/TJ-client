@@ -94,11 +94,6 @@ export default {
       //去私聊详情页
       console.log(item, i);
       this.update_msginfo(item);
-      //使所有文本消息都成为已读
-      // this.$axios.post(" http://kikyou.vip:9000/updateMsgRead", {
-      //   uid: item.uid,
-      //   sid: item.sid,
-      // });
       //修改vuex中的数据 跳转到聊天页
       this.$router.push("/msg");
     },
@@ -125,20 +120,21 @@ export default {
       // this.uid = sessionStorage.getItem("uid");
       // 组件创建完成     获取消息列表
       let [err, data] = await this.capture(this.getHistory);
-       console.log(data);
+      console.log(data);
       if (!data.data) {
         //如果请求不到数据 证明无消息
         return;
       }
-            this.arrlength = data.data; //所有的消息列表
+      this.arrlength = data.data; //所有的消息列表
       data.data.forEach((item) => {
         this.newMsg.push(item.msgArr[item.msgArr.length - 1]); //最新的一条消息
       });
       let count = 0; //未读消息条数
+      console.log(data.data)
       data.data.forEach((item) => {
         item.msgArr.forEach((i) => {
           //如果消息数组中的 接受者id等于客户uid 并且有未读消息
-          if ((i.sid == this.uid && i.is_read == 0) || i.audio_isRead == 0) {
+          if (i.sid == this.uid && (i.is_read == 0 || i.audio_isRead == 0)) {
             count++; //未读消息 +1
           }
         });
@@ -148,11 +144,10 @@ export default {
         this.$store.commit("change_unread", resul_count); //更改未读消息总条数
         // console.log( this.$store.state.unread_msg)
       });
-      // console.log(this.arrlength);
-      // console.log(this.msginfo);
     },
   },
   async created() {
+    this.uid=localStorage.getItem('uid')
     this.updatemsg();
   },
   sockets: {

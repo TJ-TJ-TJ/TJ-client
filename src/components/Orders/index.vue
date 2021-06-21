@@ -45,7 +45,7 @@
                       ></path>
                     </svg>
                   </div>
-                  <div>
+                  <div class="text">
                     <p class="p1">{{ getdate(item.end_time) }}</p>
                     <p class="p2">{{ getzhou(item.end_time) }}</p>
                   </div>
@@ -145,9 +145,9 @@ export default {
   },
   async mounted() {},
   watch: {
-    active(val) {
-      console.log(val); //根据下标请求  相应的订单 重新请求
-      this.orders = this.orders; //根据请求过来的数据重新渲染
+    async active(newval,oldval) {
+      let obj = await this.$axios.get(`order/list?state=${newval.toString()}`);
+      this.order=obj.data.result||[]
     },
   },
   computed: {
@@ -227,6 +227,13 @@ export default {
     background-repeat: no-repeat;
     background-size: cover;
     border-radius: 6px;
+    .text {
+      height: 50%;
+      display: flex;
+      display: flex;
+      justify-content: space-between;
+      flex-direction: column;
+    }
     & > div:first-child {
       height: 60px;
       width: 100%;
@@ -249,6 +256,7 @@ export default {
       & > div {
         color: #fff;
         font-size: 14px;
+        height: 50%;
       }
       & > div:last-child {
         & > p:last-child {

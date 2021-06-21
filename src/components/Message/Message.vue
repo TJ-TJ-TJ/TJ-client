@@ -37,7 +37,7 @@
               <div
                 v-else
                 class="dialog"
-                @click="start_audio($event, i, item.uid, item.sid, item.m_id)"
+                @click="start_audio($event, i, uid, be.uid, item.m_id)"
                 :class="{
                   audioPlay: i == active,
                   dian: item.audio_isRead == 0,
@@ -59,7 +59,7 @@
             </div>
             <!-- 头像 -->
             <div class="imgSrc">
-              <img :src="item.uid == uid ? item.head_img : be.head_img" />
+              <img :src="be.uid == uid ? my_headimg : be.head_img" />
             </div>
           </div>
         </div>
@@ -151,6 +151,7 @@ export default {
       kw: "", // 假定的假定页面传参 对话人的id
       outheight: "", //视口高度
       text_msg: "", //文本内容区
+      my_headimg: "",
       emoji: [
         "😊",
         "😂",
@@ -271,7 +272,7 @@ export default {
         message: this.text_msg, //文本消息
         type: "text",
         //对方的头像
-        head_img: '',
+        head_img: "",
         uname: this.uname,
         is_read: null, // text是否已读
         send_date: this.$getDate(), //当前日期
@@ -286,8 +287,8 @@ export default {
       this.message.push(sendObj);
       this.$axios.post("http://kikyou.vip:9000/updateMsgRead", {
         //消息已读未读
-        uid: this.msg_info.uid,
-        sid: this.msg_info.sid,
+        uid: this.be.uid,
+        sid: this.uid,
       });
       this.status = !this.status;
     },
@@ -363,7 +364,7 @@ export default {
     },
     // 开始播放录音的方法
     start_audio(event, i, uid, sid, m_id) {
-       console.log(uid, sid, m_id);
+      console.log(uid, sid, m_id);
       this.$axios.post("http://kikyou.vip:9000/updateVoiceRead", {
         //更改当前语音消息为已读状态
         uid,
@@ -412,33 +413,34 @@ export default {
     },
     //获取消息列表传过来的数据
     async getlist() {
-      console.log(this.$route)
+      console.log(this.$route);
       let sid = this.$route.params; //  根据路由跳转传过来的 sid  重新获取消息记录渲染  下面的消息列表不执行
       let store = ""; //消息的信息
-      console.log(sid==undefined,JSON.stringify(sid)=='{}');
-      if(JSON.stringify(sid)!='{}'){
+      console.log(sid == undefined, JSON.stringify(sid) == "{}");
+      if (JSON.stringify(sid) != "{}") {
         console.log("其他页面 跳转过来的");
         let obj = await this.$axios.get(
           `http://kikyou.vip:9000/getHistoryMsg?uid=${this.uid}`
         );
         console.log(obj.data.data);
-        let newarr = obj.data.data.filter((item) => {
-          return item.be.uid == sid.uid;
-        })||[]
-        console.log(newarr,sid)
-        if(newarr.length==0){
-          store={
-            be:{
-              uid:sid.uid,
-              head_img:sid.head_img,
-              uname:sid.uname
+        let newarr =
+          obj.data.data.filter((item) => {
+            return item.be.uid == sid.uid;
+          }) || [];
+        console.log(newarr, sid);
+        if (newarr.length == 0) {
+          store = {
+            be: {
+              uid: sid.uid,
+              head_img: sid.head_img,
+              uname: sid.uname,
             },
-            uid:this.uid,
-            sid:sid.uid
-          }
-        }else{
-           store = newarr[0];
-        }      
+            uid: this.uid,
+            sid: sid.uid,
+          };
+        } else {
+          store = newarr[0];
+        }
       } else {
         console.log("正常消息列表传过来");
         // console.log(this.$store.state.msg_info); 好友列表传过来 消息参数
@@ -455,16 +457,23 @@ export default {
     },
   },
   async created() {
-    this.uid = 1;
+    this.my_headimg = window.localStorage.getItem("headImg");
+    this.uid = localStorage.getItem("uid") || 1;
     this.getlist();
+    console.log(this.be)
+    this.$axios.post("http://kikyou.vip:9000/updateMsgRead", {
+      //消息已读未读
+      uid: this.be.uid,
+      sid: this.uid,
+    });
   },
   async mounted() {
     // console.log(this.uid, this.sid);
-    this.$axios.post("http://kikyou.vip:9000/updateMsgRead", {
-      //消息已读未读
-      uid: this.sid,
-      sid: this.uid,
-    });
+    // this.$axios.post("http://kikyou.vip:9000/updateMsgRead", {
+    //   //消息已读未读
+    //   uid: this.sid,
+    //   sid: this.uid,
+    // });
     window.scrollTo(0, document.body.scrollHeight);
     this.outheight = window.innerHeight + "px";
     let textarea = document.querySelector(".textarea-msg"); //聊天的文本域 滚动条实时底部
@@ -818,7 +827,7 @@ body {
         font-size: 12px;
       }
       input {
-        width: calc(100% - 30px); 
+        width: calc(100% - 30px);
         margin: 0 0 0 10px;
         line-height: 35px;
         padding-left: 5px;

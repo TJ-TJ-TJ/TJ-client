@@ -13,7 +13,7 @@ export default new Vuex.Store({
       },//聊天对方的基本信息 头像 名称 id
       msgArr:[], //携带过去的最新的15条消息 
       sid:'',// 聊天对方的id
-      uid:localStorage.getItem('token'), //用户的uid
+      uid:localStorage.getItem('uid'), //用户的uid
     },
     my_headimg:localStorage.getItem('headImg'),
     unread_msg:0, //未读消息总条数
