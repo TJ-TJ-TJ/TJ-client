@@ -46,14 +46,14 @@
           <van-cell @click="optionDate">
             <div class="option-dateDiv">
               <span>入住</span>
-              <span class="star-date">{{ starDate }}</span>
+              <span class="star-date">{{ $store.state.starDate }}</span>
             </div>
             <div>
               <span class="allTime">共{{ putDate }}晚</span>
             </div>
             <div>
               <span>离店</span>
-              <span class="end-date">{{ endDate }}</span>
+              <span class="end-date">{{ $store.state.endDate }}</span>
             </div>
           </van-cell>
           <!-- 日期选择 -->
@@ -439,10 +439,13 @@ export default {
   },
   created() {
     let date = new Date();
+    console.log(this.$store.state)
+    if(this.$store.state.starDate=='' && this.$store.state.endDate==''){
     this.starDate = `${date.getMonth() + 1}月${date.getDate()}日`;
     this.endDate = `${date.getMonth() + 1}月${date.getDate() + 1}日`;
     this.$store.commit("hotelStarDate", this.starDate);
     this.$store.commit("hotelEndDate", this.endDate);
+    }
     let that = this;
     this.$nextTick((_) => {
       document.querySelector(".test-scroll-wrap").onscroll = function () {
@@ -481,18 +484,18 @@ export default {
       this.$router.push("/details?id=" + id);
     },
     // 搜索
-    onSearch(val) {
-      console.log(val);
-      if (val != "") {
+    onSearch() {
+      console.log(this.searchValue);
+      if (this.searchValue != "") {
         this.$store.commit("searchData", {
-          wd: val,
+          wd: this.searchValue,
           page: 1,
           count: 10,
           minPrice: this.$store.state.priceData[0],
           maxPrice: this.$store.state.priceData[1],
           star: [1, 2, 3, 4],
         });
-        this.$store.commit("cityData", val);
+        this.$store.commit("cityData", this.searchValue);
         console.log(this.$store.state);
         this.$router.push("/stay");
       }
