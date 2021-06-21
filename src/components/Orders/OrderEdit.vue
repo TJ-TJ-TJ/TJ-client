@@ -17,7 +17,7 @@
         />
         <div>
           <p class="title">{{ order_info.bt }}</p>
-          <span>{{ order_info.fbt.attr }}</span>
+          <span>{{ order_info.fbt.attr+' | '+order_info.fbt.house+' 室'+' | '+order_info.fbt.bed+'厅'+' | '+"最多住"+order_info.fbt.person_count+'人' }}</span>
         </div>
       </div>
       <div class="body">
@@ -101,7 +101,7 @@
             />
           </div>
           <div class="right">
-            17630902513
+              {{phone}}
             <div class="icon"></div>
           </div>
         </footer>
@@ -151,10 +151,11 @@
 export default {
   data() {
     return {
-      user_info: [],
-      result: [],
-      checked: "",
+      user_info: [],//订单信息
+      result: [],//入住人选中
+      checked: "",//是否选中
       order_info: "",
+      phone:''//当前用户的电话号码
     };
   },
   watch: {},
@@ -194,9 +195,25 @@ export default {
       this.$router.push("/check_person");
     },
     async go_pay() {
+      let flag = false;
+      this.result.forEach((item) => {
+        console.log(item,item==true);
+        if (item == 'true') {
+          //如果有入住人被选中 则放行
+          flag = true;
+        }
+      });
+      console.log(flag)
+      if (flag == false) {
+        //如果flag为false 后面不执行 提醒添加入住人信息
+        this.$toast.fail("请添加入住人信息");
+        return;
+      }
       let oid = this.order_info.uid;
-      let oname = this.order_info.fm;
+      let oname = this.order_info.bt;
+      console.log(oname)
       let result = await this.$axios.post("order/reserve", {
+        //判断当前订单是否可以预定
         rid: oid,
         title: oname,
         cover: this.order_info.fm,
@@ -207,42 +224,30 @@ export default {
         name: window.localStorage.getItem("uname"),
         phone: window.localStorage.getItem("phone"),
       });
-      if (result.data.msg == "ok") {
-        this.$store.commit("set0rderFinishBuy", obj);
+      console.log(result)
+      if (result.data.ok == 1) {
+        this.$store.commit("set0rderFinishBuy", result.data);
         this.$router.push("/order_pay");
-      }else{
-        this.$toast.fail('当前订单已被预订')
+      } else {
+        this.$toast.fail("当前订单已被预订");
       }
     },
   },
   created() {
-    this.order_info = this.$store.state.OrderCommitIfo;
+    this.phone=localStorage.getItem('phone')
+    this.order_info = this.$store.state.orderCommitInfo;
     console.log(this.order_info);
   },
   async mounted() {
     let user_info = await this.$axios.get("order/resideInfo"); //获取入住人的信息
-    // let user_info = {
-    //   result: [
-    //     {
-    //       uname: "新的高武杰",
-    //       id: "4115222000100563611",
-    //       iId: "",
-    //     },
-    //     {
-    //       uname: "余成林",
-    //       id: "4115222000100563611",
-    //       iId: "",
-    //     },
-    //   ],
-    // };
-    user_info.result.forEach((item) => {
+    console.log(user_info);
+    user_info.data.result.forEach((item) => {
+      //入住人
       this.result.push("true");
     });
     //await this.$axios.get("order/resideInfo"); //获取入住人的信息
     // console.log(user_info.result);
-    this.user_info = user_info.result; //用户人信息
-    // console.log(user_info.result);
-    this.user_info = user_info.result;
+    this.user_info = user_info.data.result; //用户人信息
   },
 };
 </script>

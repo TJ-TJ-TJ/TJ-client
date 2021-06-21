@@ -65,8 +65,6 @@ export default {
       this.$router.push("/add_person");
     },
     go(name, id) {
-      // 编辑入住人 信息组件  待开放
-      // return;
       this.$router.push({name:'edit_person',params:{uname:name,user_iden:id}})
     },
   },
@@ -80,23 +78,7 @@ export default {
   },
   async created() {
     let user_info = await this.$axios.get("order/resideInfo"); //获取入住人的信息
-    // console.log(user_info.result);
-    // let user_info = {
-    //   result: [
-    //     {
-    //       uname: "新的高武杰",
-    //       id: "4115222000100563611",
-    //       iId: "",
-    //     },
-    //     {
-    //       uname: "余成林",
-    //       id: "4115222000100563611",
-    //       iId: "",
-    //     },
-        
-    //   ],
-    // };
-    this.user_info = user_info.result; //用户人信息
+    this.user_info = user_info.data.result||[]; //用户人信息
     this.outheight = window.outerHeight + "px";
   },
 };
