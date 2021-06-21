@@ -32,7 +32,11 @@
             <!-- 定位按钮 -->
             <div class="currentBtn">
               <div v-if="local">
-                <img width="18px" src="https://pic.tujia.com/upload/festatic/publicImages/icon-weizhi-tujia.png" alt="">
+                <img
+                  width="18px"
+                  src="https://pic.tujia.com/upload/festatic/publicImages/icon-weizhi-tujia.png"
+                  alt=""
+                />
                 <span @click="getLocation()"> 我的位置 </span>
               </div>
               <van-loading v-else size="12px" color="#ff9645" text-color="#666"
@@ -106,14 +110,12 @@
         <div class="dataTag">
           <!-- 搜索按钮 -->
           <van-button
-          color="linear-gradient(to right, #FA8D1E, #FCAF3F)"
-          @click="searchBtn"
-        >
-          开始搜索
-        </van-button>
+            color="linear-gradient(to right, #FA8D1E, #FCAF3F)"
+            @click="searchBtn"
+          >
+            开始搜索
+          </van-button>
         </div>
-        
-        
       </div>
       <!-- 滑动轮播 -->
       <div class="scroball">
@@ -439,13 +441,18 @@ export default {
   },
   created() {
     let date = new Date();
-    console.log(this.$store.state)
-    if(this.$store.state.starDate=='' && this.$store.state.endDate==''){
-    this.starDate = `${date.getMonth() + 1}月${date.getDate()}日`;
-    this.endDate = `${date.getMonth() + 1}月${date.getDate() + 1}日`;
-    this.$store.commit("hotelStarDate", this.starDate);
-    this.$store.commit("hotelEndDate", this.endDate);
+    date.setHours(12);
+    date.setMinutes(0);
+    date.setSeconds(0);
+    let cotin = date.getTime();
+    if (this.$store.state.starDate == "" && this.$store.state.endDate == "") {
+      this.starDate = `${date.getMonth() + 1}月${date.getDate()}日`;
+      this.endDate = `${date.getMonth() + 1}月${date.getDate() + 1}日`;
+      this.$store.commit("hotelStarDate", this.starDate);
+      this.$store.commit("hotelEndDate", this.endDate);
+      this.$store.commit("hotDataDate", [cotin, cotin + 86400000]);
     }
+    console.log(this.$store.state);
     let that = this;
     this.$nextTick((_) => {
       document.querySelector(".test-scroll-wrap").onscroll = function () {
@@ -471,12 +478,12 @@ export default {
       }
       this.tabbar = true;
     },
-    showPrice(val){
+    showPrice(val) {
       if (val == true) {
         return (this.tabbar = false);
       }
       this.tabbar = true;
-    }
+    },
   },
   methods: {
     // 页面跳转
@@ -588,7 +595,7 @@ export default {
       this.putDate =
         parseInt(date[1].getTime() / 1000 / 60 / 60 / 24) -
         parseInt(date[0].getTime() / 1000 / 60 / 60 / 24);
-      this.$store.commit('night',this.putDate)
+      this.$store.commit("night", this.putDate);
       this.show = false;
       this.starDate = this.formatDate(start);
       this.endDate = this.formatDate(end);
