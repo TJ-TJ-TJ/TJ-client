@@ -31,7 +31,7 @@ Vue.prototype.$axios=axios
 
 Vue.use(new VueSocketIO({
   debug: true,
-  connection: ClientSocketIO.connect('http://kikyou.vip:9000',{
+  connection: ClientSocketIO.connect('https://kf.testw.top',{
     autoConnect: false,
     transports: ['websocket'],
     auth: {

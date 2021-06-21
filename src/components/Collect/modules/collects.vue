@@ -1,56 +1,78 @@
 <template>
   <div class="historyIndex">
-    <div class="cotainer">
-      <div class="cotainer-item">
-        <van-image
-            width="90%"
-            radius="10px"
-            lazy-load
-            src="https://pic.tujia.com/upload/landlordunit/day_190227/thumb/201902270010198540_700_467.jpg"
-        >
-          <template #default>
-            <div class="imageMsg">
-              <div class="msg-title">
-                <span class="city">
-                  中国政法大学(昌平校区)，位于北京
-                </span>
-                <span class="message">
-                  整套 · 1居1床2人 · 十三陵/居庸关长城景区
-                </span>
+    <!-- 没有收藏状态 -->
+    <van-empty v-if="result.length==0"
+    description="暂无收藏"
+    image="https://fe.tujiacdn.com/mob/static/img/empty_favorite.44731802.png">
+      <van-button color="#ff9645" round type="danger"  size="normal" @click="$router.push('/')" class="bottom-button">
+        随便去逛逛
+      </van-button>
+    </van-empty>
+    <!-- 有收藏状态 -->
+    <div v-else class="collectBox">
+      <div class="cotainer" v-for="item in result" :key="item.rid">
+        <div class="cotainer-item" @click="$router.push('/details?id='+item.rid)">
+          <van-image
+              width="90%"
+              radius="10px"
+              lazy-load
+              :src="item.img[0]"
+          >
+            <template #default>
+              <div class="imageMsg">
+                <div class="msg-title">
+                  <span class="city">
+                    {{item.title}}
+                  </span>
+                  <span class="message">
+                    {{item.params.attr}} · {{item.params.house}}居{{item.params.bed}}床{{item.params.person_count}}人
+                  </span>
+                </div>
+                <div class="msg-price">
+                    <span class="newprice">{{item.new_price}}</span>
+                    <span class="price">{{item.price}}</span>
+                    <span class="discout"></span>
+                    <span class="discout" v-if="item.con_title!==''">{{item.con_title}}</span>
+                </div>
               </div>
-              <div class="msg-name">
-                <span>拾全小栈</span>
-              </div>
-              <div class="msg-offers">
-                <span>今夜特价减38</span>
-              </div>
-              <div class="msg-price">
-                  <span class="newprice">￥150</span>
-                  <span class="price">￥188</span>
-                  <span class="discout">8.0折,优惠仅限今日</span>
-              </div>
-            </div>
-          </template>
-
-        </van-image>
-<!--        图片内内容-->
-<!--        <div class="position">-->
-<!--          123-->
-<!--        </div>-->
+            </template>
+          </van-image>
+        </div>
       </div>
+      
     </div>
   </div>
 </template>
-
 <script>
 export default {
-
+  data() {
+    return {
+      result: []
+    }
+  },
+  created() {
+    this.collectList()
+  },
+  methods: {
+    async collectList() {
+      const {data: ret} = await this.$axios.get('/profile/collect', {token:window.localStorage.getItem('token')})
+      this.$toast.loading('加载中')
+      if(ret.result.length === 0) {
+        return this.$toast('您还没有任何收藏')
+      }
+      this.result = ret.result
+    }
+  }
 }
 </script>
 
 <style lang="scss">
 .historyIndex{
-.cotainer{
+.bottom-button {
+  width: 30vh;
+}
+.collectBox {
+  .cotainer{
   margin-top: 2vh;
   width: 100%;
   .cotainer-item{
@@ -145,5 +167,11 @@ export default {
   }
 }
 }
-
+}
+.txt {
+  font-size: 11px;
+  color: #999;
+  text-align: center;
+  margin-top: 5vh;
+}
 </style>
