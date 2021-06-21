@@ -47,17 +47,17 @@ export default {
       this.allDate = data
       console.log(data)
       this.swiper = data.swiper;
-         const {price,new_price,owner,r_name,params,}=data
+         const {price,new_price,r_name,params}=data
 
       // console.log(price,new_price)
       this.prices = {
         price,
         new_price,
-        owner,
         uid: this.$route.query.id,
         fm: this.swiper[0].url[0],
         bt: r_name,
-        fbt: params,
+        fbt: params
+
         
 
 
@@ -66,6 +66,7 @@ export default {
       }
       // console.log(this.prices)
       // console.log(this.$route)
+      console.log(this.prices)
 
 
 
