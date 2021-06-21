@@ -34,8 +34,8 @@
         class="headimg"
         :src="userInfo.headImg"
       />
-      <div class="icon">
-        <van-icon @click="goEdit" name="icon/edit.png" size="1.5rem" ref="spanRef"/>
+      <div @click="goEdit" class="icon">
+        <van-icon name="icon/edit.png" size="1.5rem" ref="spanRef"/>
       </div>
       <div class="price">
         <div>
@@ -162,10 +162,6 @@ export default {
   width: 100%;
   height: 100vh;
   background-color: #f1fafc;
-  .headimg img{
-    width: 105%;
-    height: 105%;
-  }
   .title {
     position: relative;
     background-color: #ffffff;
@@ -173,11 +169,10 @@ export default {
     .backImg {
       width: 100%;
       height: 30vh;
-      background-image: url('/img/back.jpg');
+      background-image: url('/img/back.png');
        clip-path: polygon(100% 0%,  0% 0%, 0% 80%, 100% 35%);
       //clip-path: ellipse(90% 16vh at 15% 15%);
     }
-    
     .van-image {
       position: absolute;
       top: 16vh;
@@ -273,5 +268,9 @@ export default {
       font-size: 5px;
     }
   }
+}
+.headimg img{
+  width: 105%;
+  height: 105%;
 }
 </style>

@@ -110,7 +110,12 @@
     }
   
     // 卡片地址
+    .current-location .van-cell__value{
+      overflow:visible !important;
+      display: flex !important;
+    }
     .current-location {
+      
       .current-city {
         width: 70%;
         height: 3vh;
@@ -119,7 +124,7 @@
         float: left;
       }
       .currentBtn {
-        width: 24%;
+        width: 35%;
         margin-left: 5%;
         height: 3vh;
         float: left;
