@@ -17,7 +17,7 @@ export default {
     },
     getHistory() {
       return this.$axios.get(
-        `https://kikyou.vip:9000/getHistoryMsg?uid=${window.localStorage.getItem(
+        `https://kf.testw.top/getHistoryMsg?uid=${window.localStorage.getItem(
           "uid"
         )}`
       );
