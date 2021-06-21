@@ -18,10 +18,6 @@
 export default {
   
 
-
-  data() {
-
-  },
   methods: {
     zhuye() {
       console.log("55")

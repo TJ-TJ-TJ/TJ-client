@@ -9,7 +9,7 @@
         </div>
       </div>
       <div class=".date-item">
-          <span class="day-txt">共1晚</span>
+          <span class="day-txt">共{{night}}晚</span>
       </div>
       <div class="date-item">
           <span class="item-main">{{$store.state.endDate || '06月17日'}}</span>
@@ -36,6 +36,11 @@ export default {
         // this.$refs.dateshow.show=true
        }
 
+   },
+   computed: {
+     night() {
+       return this.$store.state.night
+     }
    }
 }
 </script>
