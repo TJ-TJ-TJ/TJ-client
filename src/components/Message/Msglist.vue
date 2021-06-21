@@ -33,7 +33,7 @@
         :key="i"
         @click="go_detail(item, i)"
       >
-        <img :src="item.msgArr[item.msgArr.length - 1].head_img" alt="" />
+        <img :src="item.be.head_img" alt="" />
         <div class="f1">
           <div class="msg_head">
             <div>

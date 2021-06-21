@@ -468,6 +468,12 @@ export default {
       }
       this.tabbar = true;
     },
+    showPrice(val){
+      if (val == true) {
+        return (this.tabbar = false);
+      }
+      this.tabbar = true;
+    }
   },
   methods: {
     // 页面跳转
@@ -595,6 +601,7 @@ export default {
     // 控制弹出层
     showPopup() {
       this.showPrice = true;
+      // this.show = true;
     },
     // 关闭弹出层
     empty() {
