@@ -18,7 +18,7 @@
         </template>
       </van-count-down>
       <div>Loft复试，温馨装修</div>
-      <div style="color: #999; font-size: 12px">6月15日 -- 6月16日 共1晚</div>
+      <div style="color: #999; font-size: 12px;margin-top:10px">{{starDate}} -- {{endDate}} 共{{night}}晚</div>
     </div>
 
     <!-- 支付方式 -->
@@ -91,14 +91,14 @@
       type="primary"
       color="#ff9645"
       class="submit"
-      @click="orderpay"
-      block
+      block @click="finish_buy"
       >确认支付 ￥ 915.00</van-button
     >
   </div>
 </template>
 
 <script>
+import { mapState } from 'vuex'
 export default {
   data() {
     return {
@@ -122,21 +122,38 @@ export default {
         });
     },
     orderpay() {
-      this.$dialog
-        .confirm({
+      
+    },
+    //提交支付 更改状态为已支付
+    async finish_buy(){
+       
+        this.$dialog.confirm({
           title: "提醒",
           message: "确定要支付吗",
         })
-        .then(() => {
-          //确认支付就改变订单状态
-          this.$toast.success("支付成功");
-          this.$router.replace("/order");
+        .then(async () => {
+            let {data:res} = await this.$axios.post('/order/reserve/pay',{
+              //订单id
+              oid: '1123'//待更改,
+            })
+            if(res.code==200){
+              this.$router.replace({path:'/order'})
+              return this.$toast.success('支付成功')
+            }
+            this.$toast.success('支付失败')
+            this.$router.replace("/order_edit");
         })
         .catch(() => {
           return;
-        });
-    },
+        });   
+    }
   },
+  mounted(){
+    this.$route.params
+  },
+  computed:{
+    ...mapState(['starDate','endDate','night'])
+  }
 };
 </script>
 
