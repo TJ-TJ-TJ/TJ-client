@@ -28,9 +28,17 @@ export default new Vuex.Store({
     priceData: [],
     city: "",
     night:'1', // 每晚
-    orderCommitIfo:{}
+    orderCommitInfo:{},
+    orderFinishBuy:{
+      oname:'',
+      oid:"",
+      date:""
+    },//支付跳转信息
   },
   mutations: {
+    set0rderFinishBuy(state,data){ //支付页面需要存的信息
+      state.orderFinishBuy=data
+    },
     update_msgarr(state,data){ //获取最新的消息列表
       state.msg_arr=data
     },
@@ -68,8 +76,8 @@ export default new Vuex.Store({
     night(state,night){
       state.night = night
     },
-    setOrderCommitIfo(state,OrderCommitIfo) {
-      state.OrderCommitIfo = OrderCommitIfo
+    setOrderCommitIfo(state,OrderCommitInfo) {
+      state.OrderCommitInfo = OrderCommitInfo
 
     }
   },
