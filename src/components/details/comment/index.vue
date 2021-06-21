@@ -26,7 +26,7 @@
                            <div>
                                {{item.uname}}
                            </div>
-                           <div>{{item.order_time}} 入住</div>
+                           <div>{{getdatee}} 入住</div>
                        </div>
                    </div>
                    <div>
@@ -72,19 +72,35 @@ export default {
 
       }
    },
-   filters: {
-      getday (val) {
+   // filters: {
+   //    getday (val) {
 
-         if (typeof val == 'string'){
-             return val.split(/T\s*/)[0];
-         }else if (typeof val == "number") {
-               let a = new Date(val);
+   //       if (typeof val == 'string'){
+   //           return val.split(/T\s*/)[0];
+   //       }else if (typeof val == "number") {
+   //             let a = new Date(val);
 
-               console.log(a)
-         }
+   //             console.log(a)
+   //       }
         
 
+   //    }
+   // },
+   computed: {
+            getdatee() {
+         const times = this.dianping[0].order_time;
+         const tim = new Date(times)
+
+         if(typeof times == "string") {
+            return times.split(/T\s*/)[0];
+         }else if(typeof times == "number") {
+          return   tim.getFullYear() + "-" + (tim.getMonth() + 1) + "-" + tim.getDate();
+         }
+         
+         
+
       }
+
    },
    mounted() {
 
