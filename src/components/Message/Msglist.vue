@@ -46,13 +46,13 @@
             v-if="item.msgArr[item.msgArr.length - 1].type == 'text'"
           >
             <p>{{ item.msgArr[item.msgArr.length - 1].message }}</p>
-            <van-badge :content="msginfo[i]+'+'" v-if="msginfo[i] != 0" class="hb">
+            <van-badge :content="msginfo[i]" v-if="msginfo[i] != 0" class="hb">
               <div />
             </van-badge>
           </div>
           <div class="msg_foot" v-else>
             <div style="color: red">[语音]</div>
-            <van-badge :content="msginfo[i]+'+'" v-if="msginfo[i] != 0" class="hb">
+            <van-badge :content="msginfo[i]" v-if="msginfo[i] != 0" class="hb">
               <div />
             </van-badge>
           </div>
@@ -118,7 +118,10 @@ export default {
       arr.forEach((item) => {
         item.msgArr.forEach((i) => {
           //如果消息数组中的 接受者id等于客户uid 并且有未读消息
-          if (i.sid == window.localStorage.getItem("uid")  && (i.is_read == 0 || i.audio_isRead == 0)) {
+          if (
+            (i.sid == window.localStorage.getItem("uid") && i.is_read == 0) ||
+            (i.audio_isRead == 0 && i.sid == window.localStorage.getItem("uid"))
+          ) {
             count++; //未读消息 +1
             // console.log(i);
           }

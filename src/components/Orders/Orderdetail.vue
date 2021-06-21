@@ -230,7 +230,7 @@ export default {
       this.show_msg = i;
     },
     gomsg(i) {
-      this.$router.push({ name: "msg", params: { uname: i } });
+      this.$router.push({ name: "msg", params: { uname: i,uid:1, } });
     },
      getstore(oid,rid){
       this.$axios.get(`order/detail?oid=${oid}&rid=${rid}`)

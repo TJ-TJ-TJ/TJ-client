@@ -33,7 +33,7 @@
               <div v-if="item.type === 'text'">
                 {{ item.message }}
               </div>
-                  <!-- 音频消息 -->
+              <!-- 音频消息 -->
               <div
                 v-else
                 class="dialog"
@@ -42,7 +42,7 @@
                   audioPlay: i == active,
                   dian: item.audio_isRead == 0,
                 }"
-              > 
+              >
                 <span> {{ item.time }}"&nbsp;</span>
                 <audio :src="item.audio" @ended="isend">
                   <!-- 监视音频播放完毕 触发的事件-->
@@ -282,7 +282,7 @@ export default {
         be_uname: this.be.uname, // 对方的name
         be_head_img: this.be.head_img, // 对方的头像
       };
-        console.log(sendObj)
+      console.log(sendObj);
       this.$socket.emit("puoToMessage", sendObj);
       this.text_msg = "";
       this.message.push(sendObj);
@@ -350,7 +350,7 @@ export default {
           be_head_img: this.be.head_img, //接收者头像
         };
         recorder.stop(); //录音停止
-        console.log(sendObj)
+        console.log(sendObj);
         this.$socket.compress(true).emit("puoToMessage", sendObj); //将数据压缩发到后台
         sendObj.audio = URL.createObjectURL(data);
         this.message.push(sendObj);
@@ -360,7 +360,14 @@ export default {
         this.long = false; //清除状态
       });
     }, //返回按钮
-    onClickLeft() {
+    async onClickLeft() {
+      let [err, data] = await this.capture(this.getHistory);
+      if (!data) {
+        //如果请求不到数据 证明无消息
+        return;
+      } else {
+        this.$store.commit("update_msgarr", data.data);
+      }
       this.$router.back();
     },
     // 开始播放录音的方法
@@ -368,8 +375,8 @@ export default {
       console.log(uid, sid, m_id);
       this.$axios.post("http://kikyou.vip:9000/updateVoiceRead", {
         //更改当前语音消息为已读状态
-        uid,
-        sid,
+        uid:sid,
+        sid:this.uid,
         m_id,
       });
       this.message[i].audio_isRead = 1;
@@ -408,9 +415,22 @@ export default {
     },
     //是否显示下方表情包
     change_emoji() {
-      this.Edit = !this.Edit;
-      this.isemoji = false;
+      this.Edit = true;
       this.isemoji = !this.isemoji;
+
+    },
+    capture(xxx) {
+      //对async错误处理做出一个封装
+      return xxx()
+        .then((val) => [null, val.data])
+        .catch((err) => [err, null]);
+    },
+    getHistory() {
+      return this.$axios.get(
+        `http://kikyou.vip:9000/getHistoryMsg?uid=${window.localStorage.getItem(
+          "uid"
+        )}`
+      );
     },
     //获取消息列表传过来的数据
     async getlist() {
@@ -420,16 +440,14 @@ export default {
       console.log(sid == undefined, JSON.stringify(sid) == "{}");
       if (JSON.stringify(sid) != "{}") {
         console.log("其他页面 跳转过来的");
-        let obj = await this.$axios.get(
-          `http://kikyou.vip:9000/getHistoryMsg?uid=${this.uid}`
-        );
-        console.log(obj.data.data);
+        let [err, obj] = await this.capture(this.getHistory);
+        console.log(obj.data);
         let newarr =
-          obj.data.data.filter((item) => {
+          obj.data.filter((item) => {
             return item.be.uid == sid.uid;
-          }) || [];
+          }) || []; //看看是否有历史消息
         console.log(newarr, sid);
-        if (newarr.length == 0) {
+        if (newarr.length == 0) {//如果没有 手动给他赋值 账号信息
           store = {
             be: {
               uid: sid.uid || this.$store.state.be.uid,
@@ -440,7 +458,7 @@ export default {
             sid: sid.uid,
           };
         } else {
-          store = newarr[0];
+          store = newarr[0];//如果有的话帅选出来
         }
       } else {
         console.log("正常消息列表传过来");
@@ -466,7 +484,7 @@ export default {
     this.$axios.post("http://kikyou.vip:9000/updateMsgRead", {
       //消息已读未读
       uid: this.be.uid,
-      sid: this.uid,
+      sid: window.localStorage.getItem("uid"),
     });
   },
   async mounted() {
