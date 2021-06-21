@@ -224,7 +224,7 @@ export default {
         // console.log(this.message[0]);
         this.pageSize += 1;
         let obj = await this.$axios.get(
-          "https://kikyou.vip:9000/getHistoryPage",
+          "https://kf.testw.top/getHistoryPage",
           {
             params: {
               uid: this.uid,
@@ -286,7 +286,7 @@ export default {
       this.$socket.emit("puoToMessage", sendObj);
       this.text_msg = "";
       this.message.push(sendObj);
-      this.$axios.post("https://kikyou.vip:9000/updateMsgRead", {
+      this.$axios.post("https://kf.testw.top/updateMsgRead", {
         //消息已读未读
         uid: this.be.uid,
         sid: this.uid,
@@ -373,7 +373,7 @@ export default {
     // 开始播放录音的方法
     start_audio(event, i, uid, sid, m_id) {
       console.log(uid, sid, m_id);
-      this.$axios.post("https://kikyou.vip:9000/updateVoiceRead", {
+      this.$axios.post("https://kf.testw.top/updateVoiceRead", {
         //更改当前语音消息为已读状态
         uid:sid,
         sid:this.uid,
@@ -427,7 +427,7 @@ export default {
     },
     getHistory() {
       return this.$axios.get(
-        `https://kikyou.vip:9000/getHistoryMsg?uid=${window.localStorage.getItem(
+        `https://kf.testw.top/getHistoryMsg?uid=${window.localStorage.getItem(
           "uid"
         )}`
       );
@@ -481,7 +481,7 @@ export default {
     this.uname = window.localStorage.getItem("uname") || "用户idQ#vjndaslk";
     this.getlist();
     // console.log(this.be, this.uid, this.my_headimg);
-    this.$axios.post("https://kikyou.vip:9000/updateMsgRead", {
+    this.$axios.post("https://kf.testw.top/updateMsgRead", {
       //消息已读未读
       uid: this.be.uid,
       sid: window.localStorage.getItem("uid"),
@@ -518,7 +518,7 @@ export default {
         data.sid == this.uid //   发送人的id 等于当前用户聊天的id
         // (data.uid == this.sid && data.uid == this.uid)
       ) {
-        await this.$axios.post("https://kikyou.vip:9000/updateMsgRead", {
+        await this.$axios.post("https://kf.testw.top/updateMsgRead", {
           //消息已读未读
           uid: this.sid,
           sid: this.uid,
