@@ -95,7 +95,7 @@ export default {
     //获取用户消息列表
     getHistory() {
       return this.$axios.get(
-        `https://kikyou.vip:9000/getHistoryMsg?uid=${this.uid}`
+        `https://kf.testw.top/getHistoryMsg?uid=${this.uid}`
       );
     },
     gomsg(i) {
