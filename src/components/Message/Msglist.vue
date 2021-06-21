@@ -125,7 +125,7 @@ export default {
       // this.uid = sessionStorage.getItem("uid");
       // 组件创建完成     获取消息列表
       let [err, data] = await this.capture(this.getHistory);
-      //  console.log(data.code=402);
+       console.log(data);
       if (!data.data) {
         //如果请求不到数据 证明无消息
         return;

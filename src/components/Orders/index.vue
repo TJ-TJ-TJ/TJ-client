@@ -8,23 +8,24 @@
             <div class="order_content" @click="go_detail(item.order_id)">
               <div class="detail_head">
                 <p>
-                  {{ item.order_title }}
+                  {{ item.title }}
                 </p>
                 <div>
                   <span>
-                    {{ item.order_status }}
+                    {{ calc(item.state) }}
+                    <!-- 订单状态 0待支付 1已支付 2 已使用 3已超时 -->
                   </span>
                 </div>
               </div>
 
               <div
                 class="detail_body"
-                :style="{ backgroundImage: `url(${item.order_src})` }"
+                :style="{ backgroundImage: `url(${item.cover})` }"
               >
                 <div style="display: flex">
                   <div class="text">
-                    <p>6月8日</p>
-                    <p>周二 14:00</p>
+                    <p>{{ getdate(item.start_time) }}</p>
+                    <p>{{ getzhou(item.start_time) }}</p>
                   </div>
                   <div>
                     <svg
@@ -45,13 +46,13 @@
                     </svg>
                   </div>
                   <div>
-                    <p class="p1">6月9日</p>
-                    <p class="p2">周三 14:00</p>
+                    <p class="p1">{{ getdate(item.end_time) }}</p>
+                    <p class="p2">{{ getzhou(item.end_time) }}</p>
                   </div>
                   <div style="width: 1px; height: 35px; background: #fff"></div>
                   <div>
                     <p class="p1">支付总价</p>
-                    <p class="p2">￥438.00</p>
+                    <p class="p2">￥{{ item.price }}</p>
                   </div>
                 </div>
               </div>
@@ -120,26 +121,24 @@ export default {
     },
   },
   async created() {
-    this.uid = localStorage.getItem("token");
-    console.log(this.uid);
-    let obj = await this.$axios.get(`order/list?state=${this.active}'`)
-    console.log(obj)
-    if (!this.uid) {
+    this.uid = localStorage.getItem("uid");
+    let obj = await this.$axios.get(`order/list?state=${this.active}`);
+    console.log(obj);
+    if (!obj) {
       return;
     } else {
       //后续是向后台获取数据
-
-      this.order = [
+      this.order = obj.data.result || [
         {
-          order_id: "922319772613",
-          order_title:
+          title:
             "紫御长安/直达天安门/故宫/五棵松地铁/301医院/玉泉医院/航天医院/华熙LIVE精装，可住多人",
-          order_status: "待支付",
-          order_src:
+          state: "1",
+          cover:
             "https://pic.tujia.com/upload/landlordunit/day_210529/thumb/202105291655141549_700_467.jpg",
-          order_dateStart: "6月8日 周二 14:00",
-          order_dateEnd: "6月9日 周三 12:00",
-          order_price: "438",
+          start_time: "1623427200000",
+          end_time: "1623600000000",
+          price: "438",
+          oid: "60c2041a130b0000e6007962",
         },
       ];
     }
@@ -149,6 +148,32 @@ export default {
     active(val) {
       console.log(val); //根据下标请求  相应的订单 重新请求
       this.orders = this.orders; //根据请求过来的数据重新渲染
+    },
+  },
+  computed: {
+    //计算订单状态
+    calc(i) {
+      return function (i) {
+        let arr = ["待支付", "已支付", "已使用", "已超时"];
+        let res = arr[i];
+        return res;
+      };
+    },
+    //计算几月几日
+    getdate(i) {
+      return function (i) {
+        let date = new Date(parseInt(i) * 1000);
+        date = `${date.getMonth() + 1}月${date.getDate()}日`;
+        return date;
+      };
+    },
+    //计算周几 几点
+    getzhou(i) {
+      return function (i) {
+        let date = new Date(parseInt(i) * 1000);
+        date = `周${date.getDay()} ${date.getHours()}时${date.getMinutes()}分`;
+        return date;
+      };
     },
   },
 };
