@@ -481,18 +481,18 @@ export default {
       this.$router.push("/details?id=" + id);
     },
     // 搜索
-    onSearch(val) {
-      console.log(val);
-      if (val != "") {
+    onSearch() {
+      console.log(this.searchValue);
+      if (this.searchValue != "") {
         this.$store.commit("searchData", {
-          wd: val,
+          wd: this.searchValue,
           page: 1,
           count: 10,
           minPrice: this.$store.state.priceData[0],
           maxPrice: this.$store.state.priceData[1],
           star: [1, 2, 3, 4],
         });
-        this.$store.commit("cityData", val);
+        this.$store.commit("cityData", this.searchValue);
         console.log(this.$store.state);
         this.$router.push("/stay");
       }
