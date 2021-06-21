@@ -34,6 +34,9 @@ export default {
       sumDate: 0,
       // 离店日期
       leaveDate: "离店日期",
+      dataDate: '',
+      starDate: '',
+      endDate: ''
     };
   },
   created(){
@@ -65,7 +68,11 @@ export default {
       //   // this.$store.commit("hotelStarDate", date[0].getTime());
       //   this.$store.commit("hotelEndDate", this.endDate);
       //   // this.$store.commit("hotelEndDate", date[1].getTime());
-      //   this.$store.commit("hotDataDate", this.dataDate);
+       let data = [];
+       data.unshift(date[1].getTime());
+       data.unshift(date[0].getTime());
+       this.dataDate = data;
+      this.$store.commit("hotDataDate", this.dataDate);
       //   console.log(this.$store.state);
       this.$store.commit('hotelStarDate',this.starDate)
       this.$store.commit('hotelEndDate',this.endDate)

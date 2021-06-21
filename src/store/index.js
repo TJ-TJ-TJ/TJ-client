@@ -17,13 +17,13 @@ export default new Vuex.Store({
     },
     my_headimg:localStorage.getItem('headImg'),
     unread_msg:0, //未读消息总条数
-    starDate: "",
+    starDate: "",  // 
     endDate: "",
-    dataDate: [],
+    dataDate: [], // 开始时间 结束时间 毫秒值
     searchData: {},
     priceData: [],
     city: "",
-    night:''
+    night:'1' // 每晚
   },
   mutations: {
     change_unread(state,data){ //更改未读消息 条数

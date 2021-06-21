@@ -37,6 +37,9 @@ export default {
       prices: undefined,
     };
   },
+  beforeCreate(){
+    console.log(this.$store.state)
+  },
   mounted() {
     this.$axios.get(`/details/?rid=${this.$route.query.id}`).then(result=>{
       // console.log(result.data.result)

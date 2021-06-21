@@ -2,41 +2,68 @@
   <div class="date">
     <div class="date-show" @click="$emit('dateshow',true)">
       <div class="date-item">
-        <span class="item-main">{{$store.state.startDate || '06月16日'}}</span>
+        <span class="item-main">{{$store.state.starDate}}</span>
         <div class="item-main-text">
-          <span class="week-txt">周三 入住</span>
+          <span class="week-txt">{{daystar || "周三"}} 入住</span>
           <img src="icon\arrow_right2x.png" alt="" class="more-icon" />
         </div>
       </div>
       <div class=".date-item">
-          <span class="day-txt">共1晚</span>
+          <span class="day-txt">共{{$store.state.night}}晚</span>
       </div>
       <div class="date-item">
-          <span class="item-main">{{$store.state.endDate || '06月17日'}}</span>
+          <span class="item-main">{{$store.state.endDate}}</span>
           <div class="item-main-text">
-          <span class="week-txt">周四 离开</span>
+          <span class="week-txt">{{dayend || "周六"}} 离开</span>
           <img src="icon\arrow_right2x.png" alt="" class="more-icon" />
         </div>
 
       </div>
     </div>
+    <!-- {{daysart}} -->
   </div>
 </template>
 <script>
 export default {
     data() {
         return {
+          // daystart: this.$store.state.dataDate[0] < this.$store.state.dataDate[1]
 
-        
+          // daysart: Math.max.apply(null,this.$store.state.dataDate)
         };
     },
-   methods: {
-       dateshow() {
-        //    console.log(this.$refs)
-        // this.$refs.dateshow.show=true
-       }
+   mounted() {
+     console.log(this.$store.state.dataDate)
+   },
+   computed: {
+    night () {
+      return this.$store.state.night
+    },
+    stardate() {
+      return this.$store.state.starDate
+    },
+    enddate() {
+      return this.$store.state.endDate
+    },
+    daystar() { 
+         let weekarr = ["周一","周二","周三","周四","周五","周六","周日"]
+        return  weekarr[new Date(Math.min.apply(null,this.$store.state.dataDate)).getDay()]
+    },
+    dayend() {
+       let weekarr = ["周一","周二","周三","周四","周五","周六","周日"]
+      return weekarr[new Date(Math.max.apply(null,this.$store.state.dataDate)).getDay()]
+    }
+  },
+  // filters: {
+  //   getweek(val) {
+  //       let week1 = new Date(val)
+  //        let weekarr = ["1","2","3","4","5","6","7"]
 
-   }
+  //     return weekarr[week1.getDay()]
+
+  //   }
+
+  // },
 }
 </script>
 
