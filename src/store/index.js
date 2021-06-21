@@ -1,9 +1,12 @@
 import Vue from "vue";
 import Vuex from "vuex";
-
+import createPersistedState from 'vuex-persistedstate'
 Vue.use(Vuex);
 
 export default new Vuex.Store({
+  plugins:[createPersistedState({
+    storage:window.sessionStorage
+  })],
   state: {
     msg_arr:[],
     msg_info:{//私聊对象的信息 格式  默认是客服的信息 从消息列表等地方跳转时需重新赋值传参
