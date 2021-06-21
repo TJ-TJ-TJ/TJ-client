@@ -36,8 +36,8 @@ Vue.use(new VueSocketIO({
     transports: ['websocket'],
     auth: {
       imgPath: window.localStorage.getItem('headImg') || 'http://kikyou.vip:9000/images/defaultHead.png',
-      uid: window.localStorage.getItem('uid') || Date.now(), //用户的uid
-      uname:sessionStorage.getItem('username') ||Date.now()
+      uid: window.localStorage.getItem('uid'), //用户的uid
+      uname:sessionStorage.getItem('username')
     }
   }), //连接服务端
 

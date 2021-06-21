@@ -1,10 +1,20 @@
 <template>
   <div class="order_edit">
-    <van-nav-bar title="订单填写" left-text="." left-arrow  @click-left="onClickLeft" class="header" />
+    <van-nav-bar
+      title="订单填写"
+      left-text="."
+      left-arrow
+      @click-left="onClickLeft"
+      class="header"
+    />
     <!-- 头部用户信息 -->
     <div class="order_info">
       <div class="head">
-        <img style="width:60px;height:60px;border-radius:6px;" src="https://pic.tujia.com/upload/qualifiedpics/day_201130/thumb/202011301839083086_700_467.jpg" alt="">
+        <img
+          style="width: 60px; height: 60px; border-radius: 6px"
+          src="https://pic.tujia.com/upload/qualifiedpics/day_201130/thumb/202011301839083086_700_467.jpg"
+          alt=""
+        />
         <div>
           <p class="title">近S1线近商圈温馨私享，悦景湾靠近天街！</p>
           <span>整套出租 | 1室1厅 | 1床 | 最多住3人</span>
@@ -21,21 +31,30 @@
           <p>周三12:00前离开</p>
         </div>
         <div>
-          <span style="font-size:12px;color:#ff9654"> 共一晚<img src="https://pic.tujia.com/upload/festatic/publicImages/form_arrow_right.png" alt=""></span>
+          <span style="font-size: 12px; color: #ff9654">
+            共一晚<img
+              src="https://pic.tujia.com/upload/festatic/publicImages/form_arrow_right.png"
+              alt=""
+          /></span>
         </div>
       </div>
 
       <div class="foot">
         <div>
-          <img src="https://pic.tujia.com/upload/festatic/crn/c_icon_correct.png" alt="">
+          <img
+            src="https://pic.tujia.com/upload/festatic/crn/c_icon_correct.png"
+            alt=""
+          />
           <div>30分钟免费取消 &nbsp;&nbsp;&nbsp;&nbsp;</div>
         </div>
         <div>
-          <img src="https://pic.tujia.com/upload/festatic/crn/c_icon_lightning.png" alt="">
+          <img
+            src="https://pic.tujia.com/upload/festatic/crn/c_icon_lightning.png"
+            alt=""
+          />
           <div>立即确认</div>
         </div>
       </div>
-
     </div>
     <!-- 波浪线部分 -->
     <div class="bottom"></div>
@@ -48,23 +67,28 @@
         <div class="body">
           <div class="top">
             <div>
-              入住人<img style="width:16px;height:16px" src="https://pic.tujia.com/upload/festatic/publicImages/tips_warn.png" alt="">
+              入住人<img
+                style="width: 16px; height: 16px"
+                src="https://pic.tujia.com/upload/festatic/publicImages/tips_warn.png"
+                alt=""
+              />
             </div>
-            <div class="right" @click="gocheck">
-              添加/编辑
-            </div>
+            <div class="right" @click="gocheck">添加/编辑</div>
           </div>
           <div class="bot">
             <!-- 待改善  可遍历形式的按钮就行了 且可更改样式 -->
-            <span v-for="(item,i) in user_info" :key="i">
-              <button v-if="item.person_show" @click="changeedit(i)">{{item.uname}} <van-badge color="#ff9645">
+            <span v-for="(item, i) in user_info" :key="i">
+              <button v-if="item.person_show" @click="changeedit(i)">
+                {{ item.uname }}
+                <van-badge color="#ff9645">
                   <div class="child" />
                   <template #content>
                     <van-icon name="success" />
                   </template>
-                </van-badge></button>
+                </van-badge>
+              </button>
               <button v-else class="fei_show" @click="changeedit(i)">
-                {{item.uname}}
+                {{ item.uname }}
               </button>
             </span>
           </div>
@@ -72,7 +96,11 @@
         <footer class="foot">
           <div class="left">
             联系电话+86
-            <img style="width:6px;height:6px" src="https://pic.tujia.com/upload/festatic/publicImages/jiantou-order.png" alt="">
+            <img
+              style="width: 6px; height: 6px"
+              src="https://pic.tujia.com/upload/festatic/publicImages/jiantou-order.png"
+              alt=""
+            />
           </div>
           <div class="right">
             17630902513
@@ -88,34 +116,38 @@
 
       <div class="footer">
         <div class="title">入住提示</div>
-        <p>房东确认后，可使用在线聊天工具向房东索要入住指南，快速了解入住路线、入住方式等相关事宜。</p>
+        <p>
+          房东确认后，可使用在线聊天工具向房东索要入住指南，快速了解入住路线、入住方式等相关事宜。
+        </p>
         <p>入住期间如有疑问，可随时联系在线客服。</p>
         <p>有未成年人入住时，需要将其监护人的联系方式告知房东。</p>
         <div class="title">费用说明</div>
-        <p><span>加人费：</span>该房源宜住人数为2人，超出宜住人数则需收取加人费¥100.00/人/晚。</p>
+        <p>
+          <span>加人费：</span
+          >该房源宜住人数为2人，超出宜住人数则需收取加人费¥100.00/人/晚。
+        </p>
         <p><span>押金说明：</span>免押入住，订房更轻松</p>
         <p><span>发票：</span>如需房费发票, 请离店后到个人中心开具发票</p>
       </div>
-
     </div>
 
     <!-- 底部固定 -->
     <div class="bot_fixed">
       <div>
         <div>
-          {{'￥'+1172.00.toFixed(2)}}
-          <!-- <div>含押金:200</div> -->
-        </div><span>明细</span>
+          {{ "￥" + (1172.0).toFixed(2) }}
+          <div>免押金入住</div>
+        </div>
+        <span>明细</span>
       </div>
       <div>
-        <p>
-
-        </p>
-        <van-button type="primary" color="#ff9645" size="normal" @click="go_pay">提交订单</van-button>
+        <p></p>
+        <van-button type="primary" color="#ff9645" size="normal" @click="go_pay"
+          >提交订单</van-button
+        >
       </div>
     </div>
   </div>
-
 </template>
 <script>
 export default {
@@ -132,7 +164,7 @@ export default {
           message: "当前订单未完成 确认要离开吗",
         })
         .then(() => {
-          this.$router.push('/order');
+          this.$router.push("/order"); //离开订单的操作
         })
         .catch(() => {
           return;
@@ -144,14 +176,15 @@ export default {
     gocheck() {
       this.$router.push("/check_person");
     },
-    go_pay(){
-      this.$router.push('/order_pay')
-    }
+    go_pay() {
+      this.$router.push("/order_pay");
+    },
   },
-  mounted() {
-    let obj = JSON.parse(sessionStorage.getItem("check_person"));
-    console.log(obj);
-    this.user_info = obj;
+  created() {},
+  async mounted() {
+    let user_info = await this.$axios.get("order/resideInfo"); //获取入住人的信息
+    console.log(user_info.result);
+    this.user_info = user_info.result;
   },
 };
 </script>
@@ -407,7 +440,7 @@ export default {
     padding: 0 15px;
     color: #ff9645;
     & > div:first-child {
-      width: 70%;
+      width: 65%;
       display: flex;
       justify-content: space-between;
       align-items: center;
@@ -432,10 +465,10 @@ export default {
     }
     & > div:last-child {
       display: flex;
-      justify-content: flex-start;
+      justify-content: space-between;
       align-items: center;
-      width: 30%;
-      padding-right: 10px;
+      width: 35%;
+
       p {
         display: inline-block;
         background-image: url(https://fe.tujiacdn.com/mob/static/img/page-unitOrder.7d75bdbc.png);

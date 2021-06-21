@@ -33,7 +33,7 @@
         :key="i"
         @click="go_detail(item, i)"
       >
-        <img :src="item.msgArr[item.msgArr.length - 1].head_img" alt="" />
+        <img :src="item.be.head_img" alt="" />
         <div class="f1">
           <div class="msg_head">
             <div>
@@ -46,13 +46,13 @@
             v-if="item.msgArr[item.msgArr.length - 1].type == 'text'"
           >
             <p>{{ item.msgArr[item.msgArr.length - 1].message }}</p>
-            <van-badge :content="msginfo[i]" v-if="msginfo[i] != 0" class="hb">
+            <van-badge :content="msginfo[i]+'+'" v-if="msginfo[i] != 0" class="hb">
               <div />
             </van-badge>
           </div>
           <div class="msg_foot" v-else>
             <div style="color: red">[语音]</div>
-            <van-badge :content="msginfo[i]" v-if="msginfo[i] != 0" class="hb">
+            <van-badge :content="msginfo[i]+'+'" v-if="msginfo[i] != 0" class="hb">
               <div />
             </van-badge>
           </div>
@@ -75,17 +75,6 @@ export default {
     };
   },
   methods: {
-    // pushmsg() {
-    //   this.$router.push({
-    //     name: "msg",
-    //     params: {
-    //       uid: "234",
-    //       head_img: "123.png",
-    //       uname: "鱼鱼鱼",
-    //     },
-    //   });
-    // },
-
     onClickLeft() {
       this.$router.back();
     },
@@ -94,11 +83,6 @@ export default {
       //去私聊详情页
       console.log(item, i);
       this.update_msginfo(item);
-      //使所有文本消息都成为已读
-      // this.$axios.post(" http://kikyou.vip:9000/updateMsgRead", {
-      //   uid: item.uid,
-      //   sid: item.sid,
-      // });
       //修改vuex中的数据 跳转到聊天页
       this.$router.push("/msg");
     },
@@ -119,27 +103,24 @@ export default {
       this.$router.push("/msg");
     },
     async updatemsg() {
-      //获取消息列表
-      // let uid = this.$route.query.uid;
-      // sessionStorage.setItem("uid", uid); //这里是模拟用户登录的uid 后期传入登陆者的uid
-      // this.uid = sessionStorage.getItem("uid");
-      // 组件创建完成     获取消息列表
-      let [err, data] = await this.capture(this.getHistory);
-      //  console.log(data.code=402);
-      if (!data.data) {
+      let arr = this.$store.state.msg_arr;
+      //  console.log(data);
+      if (!arr) {
         //如果请求不到数据 证明无消息
         return;
       }
-            this.arrlength = data.data; //所有的消息列表
-      data.data.forEach((item) => {
+      this.arrlength = arr; //所有的消息列表
+      arr.forEach((item) => {
         this.newMsg.push(item.msgArr[item.msgArr.length - 1]); //最新的一条消息
       });
       let count = 0; //未读消息条数
-      data.data.forEach((item) => {
+      // console.log(data.data)
+      arr.forEach((item) => {
         item.msgArr.forEach((i) => {
           //如果消息数组中的 接受者id等于客户uid 并且有未读消息
-          if ((i.sid == this.uid && i.is_read == 0) || i.audio_isRead == 0) {
+          if (i.sid == window.localStorage.getItem("uid")  && (i.is_read == 0 || i.audio_isRead == 0)) {
             count++; //未读消息 +1
+            // console.log(i);
           }
         });
         this.msginfo.push(count); //未读消息数组
@@ -148,11 +129,10 @@ export default {
         this.$store.commit("change_unread", resul_count); //更改未读消息总条数
         // console.log( this.$store.state.unread_msg)
       });
-      // console.log(this.arrlength);
-      // console.log(this.msginfo);
     },
   },
   async created() {
+    this.uid = window.localStorage.getItem("uid") || 1;
     this.updatemsg();
   },
   sockets: {
@@ -346,9 +326,9 @@ export default {
           display: flex;
           justify-content: space-between;
           p {
-            word-wrap: normal;
             white-space: nowrap;
-            -o-text-overflow: ellipsis;
+            width: 65%;
+            overflow: hidden;
             text-overflow: ellipsis;
           }
         }

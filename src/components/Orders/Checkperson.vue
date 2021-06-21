@@ -47,12 +47,6 @@ export default {
       user_info: [],
     };
   },
-  mounted() {
-    let obj = JSON.parse(sessionStorage.getItem("check_person"));
-    console.log(obj);
-    this.user_info = obj;
-    this.outheight = window.outerHeight + "px";
-  },
   methods: {
     change_edit(i) {
       //更改用户选中状态
@@ -83,6 +77,12 @@ export default {
         return value.replace(/(?<=\d{3})\d{12}(?=\d{2})/, "************");
       };
     },
+  },
+  async created() {
+    let user_info = await this.$axios.get("order/resideInfo"); //获取入住人的信息
+    // console.log(user_info.result);
+    this.user_info = user_info.result;
+    this.outheight = window.outerHeight + "px";
   },
 };
 </script>
