@@ -76,9 +76,9 @@
 export default {
   data() {
     return {
-      arrlength: [],//消息列表
+      arrlength: [], //消息列表
       active: 3,
-      count: "",//消息总条数
+      count: "", //消息总条数
       uid: 1, ///假设的账号
       icon1: {
         active:
@@ -115,35 +115,36 @@ export default {
     },
     async updatemsg() {
       let [err, data] = await this.capture(this.getHistory);
-      // console.log(data.data);
-      this.arrlength = data.data; //所有的消息列表
+      // this.arrlength = data.data; //所有的消息列表
+      // console.log(null==undefined,data.data)
       if (!data.data) {
         //如果请求不到数据 证明无消息
         return;
-      }
-      let count = 0; //未读消息条数
-      data.data.forEach((item) => {
-        item.msgArr.forEach((i) => {
-          //如果消息数组中的 接受者id等于客户uid 并且有未读消息
-          if (i.sid==this.uid&&i.is_read == 0 || i.audio_isRead == 0) {
-            count++; //未读消息 +1
-          }
+      } else {
+        let count = 0; //未读消息条数
+        data.data.forEach((item) => {
+          item.msgArr.forEach((i) => {
+            //如果消息数组中的 接受者id等于客户uid 并且有未读消息
+            if ((i.sid == this.uid && i.is_read == 0) || i.audio_isRead == 0) {
+              count++; //未读消息 +1
+            }
+          });
+          // console.log("未读消息总数" + count);
+          this.$store.commit("change_unread", count);
         });
-        // console.log("未读消息总数" + count);
-        this.$store.commit("change_unread", count);
-      });
+      }
     },
   },
   async created() {
-    this.uid=localStorage.getItem('uid')||1;
-    this.$socket.open(); //主动连接sockte
+    // this.uid = localStorage.getItem("uid") || 1;
+    // this.$socket.open(); //主动连接sockte
     this.updatemsg();
   },
   sockets: {
     connect: function () {},
     //>>>>>>>>   监听发来的消息
     oToMessage(data) {
-      console.log(data)
+      console.log(data);
       this.updatemsg();
     },
   },

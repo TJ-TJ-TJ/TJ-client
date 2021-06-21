@@ -7,14 +7,15 @@ export default new Vuex.Store({
   state: {
     msg_info:{//私聊对象的信息 格式  默认是客服的信息 从消息列表等地方跳转时需重新赋值传参
       be:{
-        uid:1234,
-        head_img:' http://kikyou.vip:9000/images/客服头像.jpg',
+        uid:'1234567',
+        head_img:'/img/defaultHead.png',
         uname:'客服'
       },//聊天对方的基本信息 头像 名称 id
       msgArr:[], //携带过去的最新的15条消息 
       sid:'',// 聊天对方的id
-      uid:"1", //用户的uid
+      uid:localStorage.getItem('uid'), //用户的uid
     },
+    my_headimg:localStorage.getItem('headImg'),
     unread_msg:0, //未读消息总条数
     starDate: "",
     endDate: "",
