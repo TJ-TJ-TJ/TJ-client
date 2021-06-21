@@ -197,6 +197,7 @@ export default {
       show: false,
       show_msg: "",
       activeNames: [1, 2, 3],
+      oid:"",
       msgdetail: {
         order_status: "已取消", //订单状态
         order_hint: "订单由于超时已自动取消，欢迎再次预定", //订单提醒
@@ -231,9 +232,17 @@ export default {
     gomsg(i) {
       this.$router.push({ name: "msg", params: { uname: i } });
     },
+     getstore(oid,rid){
+      this.$axios.get(`order/detail?oid=${oid}&rid=${rid}`)
+    }
   },
-  created() {
-    console.log(this.$route.query.id); //商品id
+  async created() {
+    console.log(this.$route.params); //商品id
+    this.oid = this.$route.params.oid
+    this.rid=this.$route.params.rid
+    console.log(this.oid,this.rid)
+    let obj =await this.getstore(this.oid,this.rid)
+    console.log(obj)
   },
 };
 </script>

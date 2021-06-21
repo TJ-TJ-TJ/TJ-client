@@ -136,6 +136,7 @@ export default {
           //如果消息数组中的 接受者id等于客户uid 并且有未读消息
           if (i.sid == this.uid && (i.is_read == 0 || i.audio_isRead == 0)) {
             count++; //未读消息 +1
+            console.log(i)
           }
         });
         this.msginfo.push(count); //未读消息数组
@@ -147,7 +148,7 @@ export default {
     },
   },
   async created() {
-    this.uid=localStorage.getItem('uid')
+    this.uid=localStorage.getItem('uid')||1
     this.updatemsg();
   },
   sockets: {

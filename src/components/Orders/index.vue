@@ -5,7 +5,7 @@
       <van-tab v-for="(item, i) of order_type" :key="i" :title="item">
         <div v-if="order.length > 0">
           <div v-for="(item, i) of order" :key="i" class="order_detail">
-            <div class="order_content" @click="go_detail(item.order_id)">
+            <div class="order_content" @click="go_detail(item.oid,item.rid)">
               <div class="detail_head">
                 <p>
                   {{ item.title }}
@@ -93,13 +93,13 @@ export default {
     return {
       uid: "",
       active: 0,
-      order_type: ["全部订单", "待支付", "待确认", "待入住"],
+      order_type: ["全部订单", "待支付", "已支付", "已使用",'已超时'],
       order: [],
     };
   },
   methods: {
-    go_detail(id) {
-      this.$router.push({ path: "/order_detail", query: { id } });
+    go_detail(oid,rid) {
+      this.$router.push({ name: "oder_detail", params: { oid,rid } });
     },
     delete_order() {
       // 删除订单
@@ -122,7 +122,7 @@ export default {
   },
   async created() {
     this.uid = localStorage.getItem("uid");
-    let obj = await this.$axios.get(`order/list?state=${this.active}`);
+    let obj = await this.$axios.get(`order/list?state=${this.active-1}`);
     console.log(obj);
     if (!obj) {
       return;
@@ -139,6 +139,7 @@ export default {
           end_time: "1623600000000",
           price: "438",
           oid: "60c2041a130b0000e6007962",
+          rid:'60c164a7074200005d003192'
         },
       ];
     }
@@ -146,7 +147,7 @@ export default {
   async mounted() {},
   watch: {
     async active(newval,oldval) {
-      let obj = await this.$axios.get(`order/list?state=${newval.toString()}`);
+      let obj = await this.$axios.get(`order/list?state=${newval-1}`);
       this.order=obj.data.result||[]
     },
   },

@@ -33,7 +33,7 @@
               <div v-if="item.type === 'text'">
                 {{ item.message }}
               </div>
-
+                  <!-- 音频消息 -->
               <div
                 v-else
                 class="dialog"
@@ -42,7 +42,7 @@
                   audioPlay: i == active,
                   dian: item.audio_isRead == 0,
                 }"
-              >
+              > 
                 <span> {{ item.time }}"&nbsp;</span>
                 <audio :src="item.audio" @ended="isend">
                   <!-- 监视音频播放完毕 触发的事件-->
@@ -59,7 +59,7 @@
             </div>
             <!-- 头像 -->
             <div class="imgSrc">
-              <img :src="be.uid == uid ? my_headimg : be.head_img" />
+              <img :src="be.uid == item.uid ? be.head_img : my_headimg" />
             </div>
           </div>
         </div>
@@ -274,12 +274,12 @@ export default {
         //对方的头像
         head_img: "",
         uname: this.uname,
-        is_read: null, // text是否已读
+        is_read: false, // text是否已读
         send_date: this.$getDate(), //当前日期
         send_time: this.$getTime(), //当前时间
         audio_isRead: 1, //语音是否已读
         m_id: Date.now(), //当前毫秒值
-        be_uname: "无良商家", // 对方的name
+        be_uname: this.be.uname, // 对方的name
         be_head_img: this.be.head_img, // 对方的头像
       };
       this.$socket.emit("puoToMessage", sendObj);
@@ -343,12 +343,11 @@ export default {
           is_read: 1, // text是否已读
           send_date: this.$getDate(), //发送日期
           send_time: this.$getTime(), //发送准确时间
-          audio_isRead: null, //语音是否已读
+          audio_isRead: false, //语音是否已读
           m_id: Date.now(), //当前时间
           be_uname: "无良商家", //接收者uname
           be_head_img: this.be.head_img, //接收者头像
         };
-
         recorder.stop(); //录音停止
         this.$socket.compress(true).emit("puoToMessage", sendObj); //将数据压缩发到后台
         sendObj.audio = URL.createObjectURL(data);
@@ -431,8 +430,8 @@ export default {
         if (newarr.length == 0) {
           store = {
             be: {
-              uid: sid.uid,
-              head_img: sid.head_img,
+              uid: sid.uid || this.$store.state.be.uid,
+              head_img: sid.head_img || this.$store.state.head_img,
               uname: sid.uname,
             },
             uid: this.uid,
@@ -458,9 +457,10 @@ export default {
   },
   async created() {
     this.my_headimg = window.localStorage.getItem("headImg");
-    this.uid = localStorage.getItem("uid") || 1;
+    this.uid = window.localStorage.getItem("uid") || 1;
+    this.uname = window.localStorage.getItem("uname") || "用户idQ#vjndaslk";
     this.getlist();
-    console.log(this.be)
+    console.log(this.be, this.uid, this.my_headimg);
     this.$axios.post("http://kikyou.vip:9000/updateMsgRead", {
       //消息已读未读
       uid: this.be.uid,

@@ -136,8 +136,8 @@ export default {
     },
   },
   async created() {
-    this.uid = localStorage.getItem("uid") || 1;
-    this.$socket.open(); //主动连接sockte
+    // this.uid = localStorage.getItem("uid") || 1;
+    // this.$socket.open(); //主动连接sockte
     this.updatemsg();
   },
   sockets: {
