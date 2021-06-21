@@ -22,6 +22,13 @@
         placeholder="请填写入住人真实姓名"
         :rules="[{ required: true, message: '请填写用户名' }]"
       />
+      <van-field
+        v-model="iId"
+        name="入住人编号"
+        label="编号"
+        placeholder="请填写入住人编号"
+        :rules="[{ required: true, message: '请填写用户名' }]"
+      />
       <div class="bott">
         <van-button color="#ff9645" size="large" @click="save">
           确定</van-button
@@ -34,6 +41,7 @@
 export default {
   data() {
     return {
+      iId: "",
       user_iden: "",
       username: "",
       reg: /(^\d{15}$)|(^\d{18}$)|(^\d{17}(\d|X|x)$)/,
@@ -41,7 +49,8 @@ export default {
     };
   },
   methods: {
-    md() { //对身份证进行加密
+    md() {
+      //对身份证进行加密
       return function (value) {
         value = String(value);
         return value.replace(/(?<=\d{3})\d{12}(?=\d{2})/, "************");
@@ -55,11 +64,16 @@ export default {
     },
     save() {
       //保存入住人
+      this.axios.put("order/putInfo", {
+        newName: this.username,
+        newId: this.user_iden,
+        iId: this.iId,
+      });
     },
   },
   created() {
     this.user_iden = this.$route.params.user_iden;
-    this.username =this.$route.params.uname ;
+    this.username = this.$route.params.uname;
     this.inerheight = window.innerHeight + "px";
   },
 };

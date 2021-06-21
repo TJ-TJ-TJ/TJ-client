@@ -75,23 +75,22 @@
             </div>
             <div class="right" @click="gocheck">添加/编辑</div>
           </div>
-          <div class="bot">
-            <!-- 待改善  可遍历形式的按钮就行了 且可更改样式 -->
-            <span v-for="(item, i) in user_info" :key="i">
-              <button v-if="item.person_show" @click="changeedit(i)">
-                {{ item.uname }}
-                <van-badge color="#ff9645">
-                  <div class="child" />
-                  <template #content>
-                    <van-icon name="success" />
-                  </template>
-                </van-badge>
-              </button>
-              <button v-else class="fei_show" @click="changeedit(i)">
-                {{ item.uname }}
-              </button>
-            </span>
+          <!-- <van-checkbox-group
+            v-model="result"
+            direction="horizontal"
+            checked-color="#ff9645"
+          > -->
+          <div class="flex_wrap">
+            <van-checkbox
+              checked-color="#ff9645"
+              v-for="(item, i) in user_info"
+              :key="i"
+              v-model="result[i]"
+              @click="changeedit(i)"
+              >{{ item.uname }}</van-checkbox
+            >
           </div>
+
         </div>
         <footer class="foot">
           <div class="left">
@@ -154,7 +153,12 @@ export default {
   data() {
     return {
       user_info: [],
+      result: [],
+      checked: "",
     };
+  },
+  watch: {
+   
   },
   methods: {
     onClickLeft() {
@@ -172,6 +176,7 @@ export default {
     },
     changeedit(i) {
       this.user_info[i].person_show = !this.user_info[i].person_show;
+      // console.log(this.user_info[i].person_show)
     },
     gocheck() {
       this.$router.push("/check_person");
@@ -182,8 +187,29 @@ export default {
   },
   created() {},
   async mounted() {
-    let user_info = await this.$axios.get("order/resideInfo"); //获取入住人的信息
-    console.log(user_info.result);
+    //let user_info = await this.$axios.get("order/resideInfo"); //获取入住人的信息
+    let user_info = {
+      result: [
+        {
+          uname: "新的高武杰",
+          id: "4115222000100563611",
+          iId: "",
+        },
+        {
+          uname: "余成林",
+          id: "4115222000100563611",
+          iId: "",
+        },
+        
+      ],
+    };
+    user_info.result.forEach((item) => {
+      this.result.push('true')
+    });
+    //await this.$axios.get("order/resideInfo"); //获取入住人的信息
+    // console.log(user_info.result);
+    this.user_info = user_info.result; //用户人信息
+    // console.log(user_info.result);
     this.user_info = user_info.result;
   },
 };
@@ -242,6 +268,7 @@ export default {
       display: flex;
       justify-content: space-between;
       padding-bottom: 10px;
+
       div {
         text-align: left;
         div {
@@ -311,6 +338,13 @@ export default {
       .body {
         display: flex;
         flex-direction: column;
+        .flex_wrap {
+          display: flex;
+          flex-wrap: wrap;
+          div{
+            margin: 2px 5px;
+          }
+        }
         .top {
           display: flex;
           justify-content: space-between;
@@ -326,7 +360,10 @@ export default {
           }
         }
         .bot {
+          // position: relative;
+          display: block;
           padding: 15px 5px;
+          box-sizing: border-box;
           border-bottom: 1px solid rgb(240, 240, 240);
           .van-badge--fixed {
             position: absolute;
@@ -336,7 +373,12 @@ export default {
           button {
             width: 73px;
             height: 28px;
+            box-sizing: border-box;
+            padding: 0 10px;
             border-radius: 6px !important;
+            text-overflow: ellipsis;
+            overflow: hidden;
+            white-space: nowrap;
             font-size: 14px;
             margin: 0 5px;
             font-weight: 100;

@@ -224,7 +224,7 @@ export default {
         // console.log(this.message[0]);
         this.pageSize += 1;
         let obj = await this.$axios.get(
-          "http://kikyou.vip:9000/getHistoryPage",
+          "https://kikyou.vip:9000/getHistoryPage",
           {
             params: {
               uid: this.uid,
@@ -286,7 +286,7 @@ export default {
       this.$socket.emit("puoToMessage", sendObj);
       this.text_msg = "";
       this.message.push(sendObj);
-      this.$axios.post("http://kikyou.vip:9000/updateMsgRead", {
+      this.$axios.post("https://kikyou.vip:9000/updateMsgRead", {
         //消息已读未读
         uid: this.be.uid,
         sid: this.uid,
@@ -373,7 +373,7 @@ export default {
     // 开始播放录音的方法
     start_audio(event, i, uid, sid, m_id) {
       console.log(uid, sid, m_id);
-      this.$axios.post("http://kikyou.vip:9000/updateVoiceRead", {
+      this.$axios.post("https://kikyou.vip:9000/updateVoiceRead", {
         //更改当前语音消息为已读状态
         uid:sid,
         sid:this.uid,
@@ -427,7 +427,7 @@ export default {
     },
     getHistory() {
       return this.$axios.get(
-        `http://kikyou.vip:9000/getHistoryMsg?uid=${window.localStorage.getItem(
+        `https://kikyou.vip:9000/getHistoryMsg?uid=${window.localStorage.getItem(
           "uid"
         )}`
       );
@@ -454,7 +454,7 @@ export default {
               head_img: sid.head_img || this.$store.state.head_img,
               uname: sid.uname,
             },
-            uid: this.uid,
+            uid: window.localStorage.getItem('uid'),
             sid: sid.uid,
           };
         } else {
@@ -481,19 +481,13 @@ export default {
     this.uname = window.localStorage.getItem("uname") || "用户idQ#vjndaslk";
     this.getlist();
     // console.log(this.be, this.uid, this.my_headimg);
-    this.$axios.post("http://kikyou.vip:9000/updateMsgRead", {
+    this.$axios.post("https://kikyou.vip:9000/updateMsgRead", {
       //消息已读未读
       uid: this.be.uid,
       sid: window.localStorage.getItem("uid"),
     });
   },
   async mounted() {
-    // console.log(this.uid, this.sid);
-    // this.$axios.post("http://kikyou.vip:9000/updateMsgRead", {
-    //   //消息已读未读
-    //   uid: this.sid,
-    //   sid: this.uid,
-    // });
     window.scrollTo(0, document.body.scrollHeight);
     this.outheight = window.innerHeight + "px";
     let textarea = document.querySelector(".textarea-msg"); //聊天的文本域 滚动条实时底部
@@ -524,7 +518,7 @@ export default {
         data.sid == this.uid //   发送人的id 等于当前用户聊天的id
         // (data.uid == this.sid && data.uid == this.uid)
       ) {
-        await this.$axios.post("http://kikyou.vip:9000/updateMsgRead", {
+        await this.$axios.post("https://kikyou.vip:9000/updateMsgRead", {
           //消息已读未读
           uid: this.sid,
           sid: this.uid,

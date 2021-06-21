@@ -23,7 +23,7 @@ Vue.use(Vant);
 Vue.use(List);
 Vue.use(Lazyload);
 axios.defaults.validateStatus = status=> true
-axios.defaults.baseURL = 'http://tj.testw.top/v1'
+axios.defaults.baseURL = 'https://tj.testw.top/v1'
 Vue.prototype.$axios=axios
 
 
@@ -31,16 +31,15 @@ Vue.prototype.$axios=axios
 
 Vue.use(new VueSocketIO({
   debug: true,
-  connection: ClientSocketIO.connect('http://kikyou.vip:9000',{
+  connection: ClientSocketIO.connect('https://kf.testw.top',{
     autoConnect: false,
     transports: ['websocket'],
     auth: {
-      imgPath: window.localStorage.getItem('headImg') || 'http://kikyou.vip:9000/images/defaultHead.png',
+      imgPath: window.localStorage.getItem('headImg'),
       uid: window.localStorage.getItem('uid'), //用户的uid
       uname:sessionStorage.getItem('username')
     }
   }), //连接服务端
-
 }))
 
 //获取年月日 格式 ` 2020-01-01`  

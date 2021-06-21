@@ -81,7 +81,7 @@ export default {
     onFailed(errorInfo) {
       console.log("failed", errorInfo);
     },
-    save() {
+   async save() {
       if (
         this.username != "" &&
         this.user_iden != "" &&
