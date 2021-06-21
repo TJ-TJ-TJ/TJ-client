@@ -378,6 +378,11 @@ async reloadSendPhoneSignUp(){
   //手机号 验证码提交
     async commitLoginPhoneCode(){
         //登录  输入验证码并验证
+              window.loginBeforeToast = this.$toast.loading({
+                duration: 0, // 持续展示 toast
+                forbidClick: true,
+                message: '验证中...',
+              });
               let {data:res} = await this.$axios.post('/user/login1',{
                   "phone": this.loginPhone,
                   "id": this.ssidRules,
@@ -388,9 +393,10 @@ async reloadSendPhoneSignUp(){
                 this.$toast.success('登录成功')
                 this.loginOrSignInSuccess(res.result)
                 this.$router.replace({path:'user'})
-                console.log(res);
+                this.$toast.clear(loginBeforeToast)
               }else{
                 this.$toast.fail(res.msg)
+                this.$toast.clear(loginBeforeToast)
               }
     },
 //手机号注册 输入验证码完成后调用
@@ -405,7 +411,7 @@ async reloadSendPhoneSignUp(){
               "id": this.ssidRules,
               "newVerify": this.phoneRulesCode
         })
-        if(res.code==1){
+        if(res.ok==1){
             this.loginOrSignInSuccess(res.result)
             this.$router.replace({path:'user'})
             this.$toast.clear(loginBeforeToast)
@@ -420,6 +426,7 @@ async reloadSendPhoneSignUp(){
     loginOrSignInSuccess(info){
         window.localStorage.setItem('token',info.token)
         window.localStorage.setItem('phone',this.loginPhone)
+        window.localStorage.setItem('uid',info.uid)
         window.localStorage.setItem('uname',info.uname || Date.now())
         window.localStorage.setItem('headImg',info.headImg || '/img/defaultHead.png')
         this.$router.replace({path:'/user'})
