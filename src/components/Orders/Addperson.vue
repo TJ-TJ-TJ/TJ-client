@@ -82,18 +82,19 @@ export default {
       console.log("failed", errorInfo);
     },
     save() {
-      if (this.username != "" && this.user_iden != ""&&this.reg.test(this.user_iden)) {
+      if (
+        this.username != "" &&
+        this.user_iden != "" &&
+        this.reg.test(this.user_iden)
+      ) {
         let userinfo = {
           uname: this.username,
-          user_iden: this.user_iden,
+          id: this.user_iden,
         };
-        let obj = JSON.parse(sessionStorage.getItem("check_person"));
-        console.log(obj);
-        obj.push(userinfo);
-        sessionStorage.setItem("check_person", JSON.stringify(obj)); //保存入住人
+        this.$axios.post("order/addInfo", userinfo); //添加入住人
         this.$router.push("/check_person");
-      }else{
-        this.$toast.fail('身份证号码格式不正确 请重新输入')
+      } else {
+        this.$toast.fail("身份证号码格式不正确 请重新输入");
       }
     },
   },

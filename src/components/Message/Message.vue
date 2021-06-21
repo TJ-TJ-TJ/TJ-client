@@ -282,6 +282,7 @@ export default {
         be_uname: this.be.uname, // 对方的name
         be_head_img: this.be.head_img, // 对方的头像
       };
+        console.log(sendObj)
       this.$socket.emit("puoToMessage", sendObj);
       this.text_msg = "";
       this.message.push(sendObj);
@@ -349,6 +350,7 @@ export default {
           be_head_img: this.be.head_img, //接收者头像
         };
         recorder.stop(); //录音停止
+        console.log(sendObj)
         this.$socket.compress(true).emit("puoToMessage", sendObj); //将数据压缩发到后台
         sendObj.audio = URL.createObjectURL(data);
         this.message.push(sendObj);
@@ -460,7 +462,7 @@ export default {
     this.uid = window.localStorage.getItem("uid") || 1;
     this.uname = window.localStorage.getItem("uname") || "用户idQ#vjndaslk";
     this.getlist();
-    console.log(this.be, this.uid, this.my_headimg);
+    // console.log(this.be, this.uid, this.my_headimg);
     this.$axios.post("http://kikyou.vip:9000/updateMsgRead", {
       //消息已读未读
       uid: this.be.uid,

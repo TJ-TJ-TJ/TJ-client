@@ -164,7 +164,7 @@ export default {
           message: "当前订单未完成 确认要离开吗",
         })
         .then(() => {
-          this.$router.push("/order");
+          this.$router.push("/order"); //离开订单的操作
         })
         .catch(() => {
           return;
@@ -181,9 +181,10 @@ export default {
     },
   },
   created() {},
-  mounted() {
-    let obj = JSON.parse(sessionStorage.getItem("check_person")); //默认的入住人信息
-    this.user_info = obj;
+  async mounted() {
+    let user_info = await this.$axios.get("order/resideInfo"); //获取入住人的信息
+    console.log(user_info.result);
+    this.user_info = user_info.result;
   },
 };
 </script>
@@ -464,9 +465,10 @@ export default {
     }
     & > div:last-child {
       display: flex;
-      justify-content: flex-end;
+      justify-content: space-between;
       align-items: center;
       width: 35%;
+
       p {
         display: inline-block;
         background-image: url(https://fe.tujiacdn.com/mob/static/img/page-unitOrder.7d75bdbc.png);
