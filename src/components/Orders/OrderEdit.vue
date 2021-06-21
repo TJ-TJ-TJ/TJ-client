@@ -12,23 +12,23 @@
       <div class="head">
         <img
           style="width: 60px; height: 60px; border-radius: 6px"
-          src="https://pic.tujia.com/upload/qualifiedpics/day_201130/thumb/202011301839083086_700_467.jpg"
+          :src="order_info.fm"
           alt=""
         />
         <div>
-          <p class="title">近S1线近商圈温馨私享，悦景湾靠近天街！</p>
-          <span>整套出租 | 1室1厅 | 1床 | 最多住3人</span>
+          <p class="title">{{ order_info.bt }}</p>
+          <span>{{ order_info.fbt.attr }}</span>
         </div>
       </div>
       <div class="body">
         <div>
-          <div>06月08日</div>
-          <p>周二14:00-24:00</p>
+          <div>{{ $store.state.starDate }}</div>
+          <p>{{ daystar }}入住</p>
         </div>
         <div style="font-weight: 600">-</div>
         <div>
-          <div>06月09日</div>
-          <p>周三12:00前离开</p>
+          <div>{{ $store.state.endDate }}</div>
+          <p>{{ dayend }}前离开</p>
         </div>
         <div>
           <span style="font-size: 12px; color: #ff9654">
@@ -90,7 +90,6 @@
               >{{ item.uname }}</van-checkbox
             >
           </div>
-
         </div>
         <footer class="foot">
           <div class="left">
@@ -134,7 +133,7 @@
     <div class="bot_fixed">
       <div>
         <div>
-          {{ "￥" + (1172.0).toFixed(2) }}
+          {{ "￥" + order_info.new_price.toFixed(2) }}
           <div>免押金入住</div>
         </div>
         <span>明细</span>
@@ -155,10 +154,23 @@ export default {
       user_info: [],
       result: [],
       checked: "",
+      order_info: "",
     };
   },
-  watch: {
-   
+  watch: {},
+  computed: {
+    daystar() {
+      let weekarr = ["周一", "周二", "周三", "周四", "周五", "周六", "周日"];
+      return weekarr[
+        new Date(Math.min.apply(null, this.$store.state.dataDate)).getDay()
+      ];
+    },
+    dayend() {
+      let weekarr = ["周一", "周二", "周三", "周四", "周五", "周六", "周日"];
+      return weekarr[
+        new Date(Math.max.apply(null, this.$store.state.dataDate)).getDay()
+      ];
+    },
   },
   methods: {
     onClickLeft() {
@@ -181,30 +193,50 @@ export default {
     gocheck() {
       this.$router.push("/check_person");
     },
-    go_pay() {
-      this.$router.push("/order_pay");
+    async go_pay() {
+      let oid = this.order_info.uid;
+      let oname = this.order_info.fm;
+      let result = await this.$axios.post("order/reserve", {
+        rid: oid,
+        title: oname,
+        cover: this.order_info.fm,
+        r_params: this.order_info.fbt,
+        start_time: this.$store.state.dataDate[0],
+        end_time: this.$store.state.dataDate[1],
+        price: this.order_info.new_price,
+        name: window.localStorage.getItem("uname"),
+        phone: window.localStorage.getItem("phone"),
+      });
+      if (result.data.msg == "ok") {
+        this.$store.commit("set0rderFinishBuy", obj);
+        this.$router.push("/order_pay");
+      }else{
+        this.$toast.fail('当前订单已被预订')
+      }
     },
   },
-  created() {},
+  created() {
+    this.order_info = this.$store.state.OrderCommitIfo;
+    console.log(this.order_info);
+  },
   async mounted() {
-    //let user_info = await this.$axios.get("order/resideInfo"); //获取入住人的信息
-    let user_info = {
-      result: [
-        {
-          uname: "新的高武杰",
-          id: "4115222000100563611",
-          iId: "",
-        },
-        {
-          uname: "余成林",
-          id: "4115222000100563611",
-          iId: "",
-        },
-        
-      ],
-    };
+    let user_info = await this.$axios.get("order/resideInfo"); //获取入住人的信息
+    // let user_info = {
+    //   result: [
+    //     {
+    //       uname: "新的高武杰",
+    //       id: "4115222000100563611",
+    //       iId: "",
+    //     },
+    //     {
+    //       uname: "余成林",
+    //       id: "4115222000100563611",
+    //       iId: "",
+    //     },
+    //   ],
+    // };
     user_info.result.forEach((item) => {
-      this.result.push('true')
+      this.result.push("true");
     });
     //await this.$axios.get("order/resideInfo"); //获取入住人的信息
     // console.log(user_info.result);
@@ -341,7 +373,7 @@ export default {
         .flex_wrap {
           display: flex;
           flex-wrap: wrap;
-          div{
+          div {
             margin: 2px 5px;
           }
         }

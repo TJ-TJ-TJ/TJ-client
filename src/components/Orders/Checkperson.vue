@@ -79,23 +79,23 @@ export default {
     },
   },
   async created() {
-    //let user_info = await this.$axios.get("order/resideInfo"); //获取入住人的信息
+    let user_info = await this.$axios.get("order/resideInfo"); //获取入住人的信息
     // console.log(user_info.result);
-    let user_info = {
-      result: [
-        {
-          uname: "新的高武杰",
-          id: "4115222000100563611",
-          iId: "",
-        },
-        {
-          uname: "余成林",
-          id: "4115222000100563611",
-          iId: "",
-        },
+    // let user_info = {
+    //   result: [
+    //     {
+    //       uname: "新的高武杰",
+    //       id: "4115222000100563611",
+    //       iId: "",
+    //     },
+    //     {
+    //       uname: "余成林",
+    //       id: "4115222000100563611",
+    //       iId: "",
+    //     },
         
-      ],
-    };
+    //   ],
+    // };
     this.user_info = user_info.result; //用户人信息
     this.outheight = window.outerHeight + "px";
   },
