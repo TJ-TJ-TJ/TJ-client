@@ -77,7 +77,11 @@ export default {
     },
   },
   async created() {
+    this.$toast.loading({
+        forbidClick: true,
+      });
     let user_info = await this.$axios.get("order/resideInfo"); //获取入住人的信息
+    this.$toast.clear()
     this.user_info = user_info.data.result||[]; //用户人信息
     this.outheight = window.outerHeight + "px";
   },
