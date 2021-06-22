@@ -28,7 +28,7 @@ export default new Vuex.Store({
     priceData: [],
     city: "",
     night:'1', // 每晚
-    orderCommitInfo:{},
+    OrderCommitInfo:{},
     orderFinishBuy:{
       oname:'',
       oid:"",

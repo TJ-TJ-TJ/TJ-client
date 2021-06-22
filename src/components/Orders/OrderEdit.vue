@@ -17,7 +17,7 @@
         />
         <div>
           <p class="title">{{ order_info.bt }}</p>
-          <span>{{ order_info.fbt.attr+' | '+order_info.fbt.house+' 室'+' | '+order_info.fbt.bed+'厅'+' | '+"最多住"+order_info.fbt.person_count+'人' }}</span>
+          <span>{{ order_info.fbt.attr+' | '+order_info.fbt.house+' 室'+' | '+order_info.fbt.bed+'厅'+' | '+"最多住"+order_info.fbt.person_count+'人'||'整套 | 实拍' }}</span>
         </div>
       </div>
       <div class="body">
@@ -235,7 +235,8 @@ export default {
   },
   created() {
     this.phone=localStorage.getItem('phone')
-    this.order_info = this.$store.state.orderCommitInfo;
+    this.order_info = this.$store.state.OrderCommitInfo;
+     console.log(this.$store.state.OrderCommitInfo)
     console.log(this.order_info);
   },
   async mounted() {
