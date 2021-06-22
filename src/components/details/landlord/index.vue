@@ -166,6 +166,7 @@ export default {
     color: #ff9645;
     font-size: 14px;
     font-weight: 600;
+    line-height: 40px;
 
     .arrow {
       display: inline-block;
@@ -179,9 +180,6 @@ export default {
       background-repeat: no-repeat;
     }
   }
-  .bianxian {
-    width: 100%;
-    border-bottom: 10px solid #e9e4e4;
-  }
+
 }
 </style>

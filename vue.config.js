@@ -27,7 +27,8 @@ module.exports = {
           'vue-router': 'VueRouter',
           vant: 'Vant',
           axios: 'axios',
-          vuex:'Vuex'
+          vuex:'Vuex',
+          'core-js':'CoreJs'
         })
       }),
       //development：开发模式
@@ -39,7 +40,8 @@ module.exports = {
           'vue-router': 'VueRouter',
           vant: 'vant',
           axios: 'axios',
-          vuex:'Vuex'
+          vuex:'Vuex',
+          'core-js':'CoreJs'
         })
       })
   },

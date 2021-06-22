@@ -29,7 +29,7 @@
 
 <style lang="scss">
 .footer {
-
+  background: #fff;
   .price-instr {
     padding: 16px 12px;
     margin-top: 10px;

@@ -10,9 +10,9 @@ import ClientSocketIO from 'socket.io-client'
 import TableBar from './components/tableBar.vue'  //全局的底部tablebar组件
 
 
-import { Lazyload } from 'vant';
+// import { Lazyload } from 'vant';
 // import { List } from 'vant';
-import { Toast } from 'vant';
+// import { Toast } from 'vant';
 // vue-touch
 import VueTouch from "vue-touch";
 Vue.use(VueTouch, { name: "v-touch" });

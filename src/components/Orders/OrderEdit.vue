@@ -193,7 +193,7 @@ export default {
           message: "当前订单未完成 确认要离开吗",
         })
         .then(() => {
-          this.$router.push("/order"); //离开订单的操作
+          this.$router.replace({path:"/order"}); //离开订单的操作
         })
         .catch(() => {
           return;
@@ -257,8 +257,7 @@ export default {
     console.log(this.order_info);
   },
   async mounted() {
-    let user_info = await this.$axios.get("order/resideInfo"); //获取入住人的信息
-    console.log(user_info);
+    let user_info = await this.$axios.get("/order/resideInfo"); //获取入住人的信息
     user_info.data.result.forEach((item) => {
       //入住人
       this.result.push("true");

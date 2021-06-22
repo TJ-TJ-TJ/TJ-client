@@ -40,8 +40,8 @@ export default {
     console.log(this.$store.state);
   },
   mounted() {
-    this.$axios.get(`/details/?rid=${this.$route.query.id}`).then((result) => {
-      // console.log(result.data.result)
+    this.$axios.get(`/details/?rid=${this.$route.query.id}`).then(result=>{
+      console.log(result.data.result)
       const data = result.data.result;
       this.allDate = data;
       console.log(data);
