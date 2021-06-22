@@ -463,7 +463,8 @@ export default {
         }
       } else {
         console.log("正常消息列表传过来");
-        // console.log(this.$store.state.msg_info); 好友列表传过来 消息参数
+         console.log(this.$store.state.msg_info);
+         // 好友列表传过来 消息参数
         store = this.$store.state.msg_info;
       }
       console.log(store);
@@ -473,7 +474,7 @@ export default {
       this.sid = store.sid; //私发消息对方的id
       // console.log(this.uid);
       // console.log(this.message);
-      this.title = sid.uname; //根据传过来身份展示标题
+      this.title = store.be.uname; //根据传过来身份展示标题
     },
   },
   async created() {
