@@ -76,7 +76,7 @@ export default new Vuex.Store({
     night(state,night){
       state.night = night
     },
-    setOrderCommitIfo(state,OrderCommitInfo) {
+    setOrderCommitInfo(state,OrderCommitInfo) {
       state.OrderCommitInfo = OrderCommitInfo
 
     }

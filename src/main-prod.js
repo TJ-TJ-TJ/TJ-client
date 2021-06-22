@@ -6,7 +6,7 @@ import store from './store'
 import 'vant/lib/index.css';
 import VueSocketIO from 'vue-socket.io'
 import ClientSocketIO from 'socket.io-client'
-import axios from 'axios'
+// import axios from 'axios'
 import TableBar from './components/tableBar.vue'  //全局的底部tablebar组件
 
 
