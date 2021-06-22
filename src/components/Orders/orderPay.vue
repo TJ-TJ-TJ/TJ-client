@@ -10,7 +10,7 @@
 
     <div class="OP-countDownBox">
       <div style="font-size: 24px">支付时间剩余</div>
-      <van-count-down style="margin: 20px 0px" :time="countDownTime">
+      <van-count-down style="margin: 20px 0px" @finish='timeOutFinish' :time="timeOutOrder">
         <template #default="timeData">
           <span class="block">{{ timeData.minutes }}</span>
           <span class="colon">:</span>
@@ -146,14 +146,33 @@ export default {
         .catch(() => {
           return;
         });   
-    }
+    },
+    //订单计时完成触发
+      timeOutFinish(){
+          window.loginBeforeToast = this.$toast.loading({
+            duration: 1, // 持续展示 toast
+            forbidClick: true,
+            message: '验证中...',
+          });
+          
+      }
   },
   mounted(){
-    this.$route.params
+    window.loginBeforeToast = this.$toast.loading({
+            duration: 1, // 持续展示 toast
+            forbidClick: true,
+            message: '验证中...',
+          });
   },
   computed:{
-    ...mapState(['starDate','endDate','night'])
-  }
+    //  引入vuex sate
+    ...mapState(['starDate','endDate','night','orderFinishBuy']),
+    //订单倒计时时间
+    // 计算订单倒计时 时间
+      timeOutOrder(){
+          return Number(this.orderFinishBuy.date)+720000 - new Date().getTime()
+      }
+}
 };
 </script>
 

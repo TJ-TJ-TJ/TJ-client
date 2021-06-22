@@ -1,12 +1,10 @@
-import Vue from "vue";
-import VueRouter from "vue-router";
+// import Vue from "vue";
+// import VueRouter from "vue-router";
 import Order from "./order"; //订单 及 消息模块的路由配置
 import user from "./user"; //用户信息界面(user)
 import details from '@/components/details'  //房屋详情页
 Vue.use(VueRouter);
 
-
-Vue.use(VueRouter)
 const routes = [
   ...Order,
   ...user,

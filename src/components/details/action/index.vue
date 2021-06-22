@@ -76,7 +76,7 @@ export default {
           rid:this.jiage.uid
         }})
         if(res.ok==1){
-          this.$store.commit('setOrderCommitIfo',this.jiage)
+          this.$store.commit('setOrderCommitInfo',this.jiage)
           this.$router.replace({path:'/order_edit'})
           this.$toast.clear()
         }else {

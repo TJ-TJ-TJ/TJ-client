@@ -8,7 +8,7 @@
       <!-- 背景图 -->
       <van-swipe :autoplay="3000" @change="onChange">
         <van-swipe-item v-for="(image, index) in images" :key="index">
-          <img v-lazy="image" />
+          <img :src="image" v-lazy="image" />
         </van-swipe-item>
         <template #indicator>
           <div class="custom-indicator" ref="indecatorRef">
