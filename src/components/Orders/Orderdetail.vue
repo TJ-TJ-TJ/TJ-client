@@ -9,7 +9,7 @@
       <p></p>
       <div>
         <van-button type="default" @click="gomsg(msgdetail.landlord)">联系房东</van-button>
-        <van-button color="rgb(255, 150, 69)">
+        <van-button color="rgb(255, 150, 69)" @click="go_Detail()">
           再次入住
         </van-button>
       </div>
@@ -237,6 +237,9 @@ export default {
     },
   },
   methods: {
+    go_Detail() {
+      this.$router.push("/");
+    },
     onClickLeft() {
       this.$router.go(-1);
     },
@@ -246,7 +249,14 @@ export default {
     },
     gomsg(i) {
       // 去客服
-      this.$router.push({ name: "msg", params: { uname: i, uid: 1 } });
+      this.$router.push({
+        name: "田田的小屋",
+        params: {
+          uname:
+            "https://pic.tujia.com/upload/landlordstorelogo/day_190702/thumb/201907022107568967_90_90.jpg",
+          uid: 763883809,
+        },
+      });
     },
     getstore(oid, rid) {
       return this.$axios.get(`order/detail?oid=${oid}&rid=${rid}`);

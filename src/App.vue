@@ -26,6 +26,7 @@ export default {
       let [err, data] = await this.capture(this.getHistory);
       // this.arrlength = data.data; //所有的消息列表
       // console.log(null==undefined,data.data)
+      console.log(data)
       if (!data) {
         //如果请求不到数据 证明无消息
         return;

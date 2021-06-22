@@ -62,7 +62,7 @@
                   <button type="default" @click.stop="delete_order">
                     删除
                   </button>
-                  <button type="default" @click.stop="go_order">
+                  <button type="default" @click.stop="go_order(item.rid)">
                     再次预定
                   </button>
                 </p>
@@ -115,8 +115,8 @@ export default {
           return;
         });
     },
-    go_order() {
-      this.$router.push("/order_edit");
+    go_order(rid) {
+      this.$router.push(`/details?id=${rid}`);
       //再次购买订单
     },
   },
@@ -196,6 +196,7 @@ export default {
             font-size: 18px;
           }
           p {
+            text-align: left;
             width: 50%;
             height: 27px;
             line-height: 27px;

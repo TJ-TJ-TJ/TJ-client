@@ -19,7 +19,7 @@
           <img :src="props.active ? icon2.active : icon2.inactive" />
         </template>
       </van-tabbar-item>
-      <van-badge :content="`${$store.state.unread_msg}`">
+      <van-badge :content="$store.state.unread_msg==0?'':$store.state.unread_msg">
         <van-tabbar-item to="/msg_list" class="count_msg">
           <span>消息</span>
           <template #icon="props">
