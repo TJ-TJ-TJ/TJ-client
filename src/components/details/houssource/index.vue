@@ -61,7 +61,7 @@
         </van-col> -->
 
             <van-col class="yjg" offset="2" span="4">
-              <s>{{jiage.price}}</s>
+              <s class="xhx">¥{{jiage.price}}</s>
             </van-col>
             <van-col offset="4" span="6">
               <span class="newjg">¥{{jiage.new_price}} </span>/晚
@@ -118,7 +118,7 @@
         </van-col> -->
 
             <van-col class="yjg" offset="2" span="4">
-              <s>¥1000</s>
+              <s class="xhx">¥1000</s>
             </van-col>
             <van-col offset="4" span="6">
               <span class="newjg">¥789 </span>/晚
@@ -173,7 +173,7 @@
         </van-col> -->
 
             <van-col class="yjg" offset="2" span="4">
-              <s>¥1100</s>
+              <s class="xhx">¥1100</s>
             </van-col>
             <van-col offset="4" span="6">
               <span class="newjg">¥989 </span>/晚
@@ -228,7 +228,7 @@
         </van-col> -->
 
             <van-col class="yjg" offset="2" span="4">
-              <s>¥103</s>
+              <s class="xhx">¥103</s>
             </van-col>
             <van-col offset="4" span="6">
               <span class="newjg">¥999 </span>/晚
@@ -333,7 +333,7 @@ export default {
     font-size: 14px;
     color: #333;
     font-weight: 600;
-    // line-height: 16px;
+    line-height: 22px;
     overflow: hidden;
     text-overflow: ellipsis;
     //   .card-arrow {
@@ -391,6 +391,10 @@ export default {
   .yjg {
     text-align: center;
     line-height: 30px;
+    .xhx {
+      font-size: 12px;
+      text-decoration: line-through;
+    }
   }
   .newjg {
     font-size: 14px;

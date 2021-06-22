@@ -101,7 +101,7 @@ export default {
 
   },
   mounted() {
-    window.addEventListener("scroll", this.handleScroll); // 监听滚动事件
+    window.addEventListener("scroll", this.handleScroll,true); // 监听滚动事件
 
     // this.axios.get('/details/?rid=60c164a7074200005d003192').then(result=>{
     //   // console.log(result.data.result)
@@ -219,7 +219,7 @@ export default {
     
   },
   beforeDestroy() { // 在组件生命周期结束的时候销毁。
-    window.removeEventListener('scroll', this.handleScroll)
+    window.removeEventListener('scroll', this.handleScroll,true)
   },
 };
 </script>
