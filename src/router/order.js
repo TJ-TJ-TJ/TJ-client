@@ -6,7 +6,7 @@ var arr =[{
   {
     path: '/order_edit', //订单编辑页
     name: 'oder_edit',
-    component: () => import(/* webpackChunkName: "order_edit" */'../components/Orders/Orderedit.vue')
+    component: () => import(/* webpackChunkName: "order_edit" */'../components/Orders/OrderEdit.vue')
   },
   {
     path: '/order_detail', //订单详情页
@@ -16,7 +16,7 @@ var arr =[{
   {
     path: '/order_pay', //订单支付页
     name: 'oder_pay',
-    component: () => import(/* webpackChunkName: "order" */ '../components/Orders/OrderPay.vue')
+    component: () => import(/* webpackChunkName: "order" */ '../components/Orders/orderPay.vue')
   },
   {
     path: '/check_person', //选择入住人页

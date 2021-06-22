@@ -15,7 +15,7 @@
        <div class="price">￥262 <span id="price2">/晚￥328</span> </div> -->
         <div class="pric">
           <span class="price">￥{{jiage.new_price}}</span>
-          <span class="price2">/晚 <s>￥{{jiage.price}}</s> </span>
+          <span class="price2">/晚 <s class="xhx">￥{{jiage.price}}</s> </span>
         </div>
 
         <van-goods-action-button color="#ff9645" class="btn" @click="yuding">
@@ -130,6 +130,9 @@ export default {
       .price2 {
         font-size: 12px;
         color: #666;
+        .xhx {
+          text-decoration: line-through;
+        } 
       }
     }
 

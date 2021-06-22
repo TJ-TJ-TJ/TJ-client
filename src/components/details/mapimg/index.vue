@@ -104,6 +104,7 @@ export default {
 
 <style lang="scss">
 .map-img {
+  background: #fff;
   .map-title {
     padding: 14px 16px;
     font-size: 20px;

@@ -17,7 +17,19 @@
         />
         <div>
           <p class="title">{{ order_info.bt }}</p>
-          <span>{{ order_info.fbt.attr+' || '+order_info.fbt.house+' 室'+' || '+order_info.fbt.bed+'厅'+' || '+"最多住"+order_info.fbt.person_count+'人' }}</span>
+          <span>{{
+            order_info.fbt.attr +
+              " | " +
+              order_info.fbt.house +
+              " 室" +
+              " | " +
+              order_info.fbt.bed +
+              "厅" +
+              " | " +
+              "最多住" +
+              order_info.fbt.person_count +
+              "人" || "整套 | 实拍"
+          }}</span>
         </div>
       </div>
       <div class="body">
@@ -101,7 +113,7 @@
             />
           </div>
           <div class="right">
-              {{phone}}
+            {{ phone }}
             <div class="icon"></div>
           </div>
         </footer>
@@ -151,11 +163,11 @@
 export default {
   data() {
     return {
-      user_info: [],//订单信息
-      result: [],//入住人选中
-      checked: "",//是否选中
+      user_info: [], //订单信息
+      result: [], //入住人选中
+      checked: "", //是否选中
       order_info: "",
-      phone:''//当前用户的电话号码
+      phone: "", //当前用户的电话号码
     };
   },
   watch: {},
@@ -197,13 +209,13 @@ export default {
     async go_pay() {
       let flag = false;
       this.result.forEach((item) => {
-        console.log(item,item==true);
-        if (item == 'true') {
+        console.log(item, item == true);
+        if (item == "true") {
           //如果有入住人被选中 则放行
           flag = true;
         }
       });
-      console.log(flag)
+      console.log(flag);
       if (flag == false) {
         //如果flag为false 后面不执行 提醒添加入住人信息
         this.$toast.fail("请添加入住人信息");
@@ -211,7 +223,11 @@ export default {
       }
       let oid = this.order_info.uid;
       let oname = this.order_info.bt;
-      console.log(oname)
+      console.log(oname);
+      this.$toast.loading({
+        message: "提交中",
+        forbidClick: true,
+      });
       let result = await this.$axios.post("order/reserve", {
         //判断当前订单是否可以预定
         rid: oid,
@@ -223,19 +239,21 @@ export default {
         price: this.order_info.new_price,
         name: window.localStorage.getItem("uname"),
         phone: window.localStorage.getItem("phone"),
-      });//判断订单是否可以预定
-      console.log(result)
+      }); //判断订单是否可以预定 响应成功后 关闭加载动画
+      this.$toast.clear()
+      console.log(result);
       if (result.data.ok == 1) {
         this.$store.commit("set0rderFinishBuy", result.data);
         this.$router.push("/order_pay");
       } else {
-        this.$toast.fail("当前订单已被预订");
+        this.$toast.fail("预定失败");
       }
     },
   },
   created() {
-    this.phone=localStorage.getItem('phone')
+    this.phone = localStorage.getItem("phone");
     this.order_info = this.$store.state.OrderCommitInfo;
+    console.log(this.$store.state.OrderCommitInfo);
     console.log(this.order_info);
   },
   async mounted() {
