@@ -28,7 +28,7 @@ export default new Vuex.Store({
     priceData: [],
     city: "",
     night:'1', // 每晚
-    orderCommitIfo:{}
+    orderCommitInfo:{}
   },
   mutations: {
     update_msgarr(state,data){ //获取最新的消息列表
