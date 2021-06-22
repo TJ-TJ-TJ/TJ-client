@@ -60,7 +60,7 @@ export default {
         location: "", //：经度和纬度用","分隔 经纬度小数点后不得超过6位
         // zoom: "17", // 地图级别 地图缩放级别:[1,17]
         // markers: '-1',
-        markersUrl: "http://pic.tujia.com/upload/festatic/crn/position2.png", // 标注图片
+        markersUrl: "https://pic.tujia.com/upload/festatic/crn/position2.png", // 标注图片
         // size: "400*400", //图片大小
       },
       locations: this.location,
@@ -94,7 +94,7 @@ export default {
       
      }
     const script =  document.createElement('script')
-    script.src = `http://api.map.baidu.com/geocoding/v3/?address=${val}&output=json&ak=G2KVCcxS91G0ZZ5XiUZxgP3pXaQy2g8v&callback=showLocation`;
+    script.src = `https://api.map.baidu.com/geocoding/v3/?address=${val}&output=json&ak=G2KVCcxS91G0ZZ5XiUZxgP3pXaQy2g8v&callback=showLocation`;
     document.body.appendChild(script)
     },
   },

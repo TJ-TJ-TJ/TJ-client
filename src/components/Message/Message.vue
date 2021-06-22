@@ -473,7 +473,7 @@ export default {
       this.sid = store.sid; //私发消息对方的id
       // console.log(this.uid);
       // console.log(this.message);
-      this.title = sid.uname; //根据传过来身份展示标题
+      this.title = store.be.uname; //根据传过来身份展示标题
     },
   },
   async created() {

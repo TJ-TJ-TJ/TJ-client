@@ -44,7 +44,7 @@
         </div>
         <div>
           <span style="font-size: 12px; color: #ff9654">
-            共{{$store.state.night}}晚<img
+            共{{ $store.state.night }}晚<img
               src="https://pic.tujia.com/upload/festatic/publicImages/form_arrow_right.png"
               alt=""
           /></span>
@@ -193,7 +193,7 @@ export default {
           message: "当前订单未完成 确认要离开吗",
         })
         .then(() => {
-          this.$router.replace({path:"/order"}); //离开订单的操作
+          this.$router.replace({ path: "/order" }); //离开订单的操作
         })
         .catch(() => {
           return;
@@ -240,13 +240,14 @@ export default {
         name: window.localStorage.getItem("uname"),
         phone: window.localStorage.getItem("phone"),
       }); //判断订单是否可以预定 响应成功后 关闭加载动画
-      this.$toast.clear()
-      result.data.rid = oid
+      console.log(result)
+      this.$toast.clear();
       if (result.data.ok == 1) {
+        result.data.rid = oid;
         this.$store.commit("setOrderFinishBuy", result.data);
         this.$router.push("/order_pay");
       } else {
-        this.$toast.fail("预定失败");
+        this.$toast.fail("预定失败"+result.data.msg);
       }
     },
   },

@@ -136,6 +136,8 @@ export default {
           
 
             let {data:res} = await this.$axios.post(`/order/reserve/pay?oid=${this.$store.state.orderFinishBuy.result.oid}`)
+              console.log(res)
+            
             if(res.ok==1){
               this.$router.replace({path:'/order_detail',params:{
                 oid:this.$store.state.orderFinishBuy.result.oid,
@@ -143,6 +145,7 @@ export default {
               }})
               return this.$toast.success('支付成功')
             }
+            console.log(object);
             this.$toast.success('支付失败')
             this.$router.replace("/order_edit");
         })
@@ -155,7 +158,7 @@ export default {
           this.$toast.fail('订单以失效')
       }
   },
-  mounted(){
+  mounted(){ 
          
   },
   computed:{
