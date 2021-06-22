@@ -156,9 +156,9 @@ export default {
         },
         async onClickSava(){
             this.$toast('保存')
-            let {data:res}  = await this.$axios.post('/[待完善]',userConfig)
-            if(res.code!==200) return this.$toast.fail('更新信息失败')
-            this.$toast.success('更新成功')
+            // let {data:res}  = await this.$axios.post('/[待完善]',userConfig)
+            // if(res.code!==200) return this.$toast.fail('更新信息失败')
+            // this.$toast.success('更新成功')
             //需要对本地缓存的个人信息进行更新  [待完善]
         },
         clickEditUname(item){

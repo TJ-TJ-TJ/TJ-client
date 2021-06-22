@@ -42,7 +42,7 @@ export default {
   },
   mounted() {
     this.$axios.get(`/details/?rid=${this.$route.query.id}`).then(result=>{
-      // console.log(result.data.result)
+      console.log(result.data.result)
       const data = result.data.result;
       this.allDate = data
       console.log(data)
