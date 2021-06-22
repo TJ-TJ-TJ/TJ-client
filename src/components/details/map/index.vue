@@ -176,6 +176,7 @@ export default {
 
 <style lang="scss">
 .mapIndex {
+
   .map-title {
     padding: 14px 16px;
     font-size: 20px;
