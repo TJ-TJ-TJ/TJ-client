@@ -208,6 +208,7 @@ export default {
 
 <style lang="scss">
 .notice {
+  background: #fff;
   .title {
     font-size: 20px;
     color: #333;

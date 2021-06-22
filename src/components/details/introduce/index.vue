@@ -330,7 +330,7 @@ export default {
   .xbx {
     height: 5px;
     // background-color: #333;
-    border-bottom: 10px solid rgb(233, 228, 228);
+    border-bottom: 10px solid #f7f9fb;
   }
   // .describe {
   //   font-weight: 700;

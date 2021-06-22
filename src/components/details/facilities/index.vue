@@ -108,9 +108,11 @@
     </div>
     <!-- 底部区域 查看全部 -->
     <div class="DF-lookAll">
-      <font style="padding-right: 16px">查看全部设施></font>
+      <font style="padding-right: 16px">查看全部设施
+        <span class="arrow"></span>
+      </font>
     </div>
-    <div class="bianxian"></div>
+    <div class="bianxian3"></div>
   </div>
 </template>
 
@@ -197,11 +199,15 @@ export default {
 };
 </script>
 
-<style>
+<style scoped>
 /* 房屋设施开始>>>>>>>>>start */
-.bianxian {
+.DF-box {
+  background: #fff;
+  
+}
+.bianxian3 {
   width: 100%;
-  border-bottom: 10px solid #e9e4e4;
+  border-bottom: 10px solid #f7f9fb;
 }
 .DF-title {
   padding: 14px 16px;
@@ -269,7 +275,17 @@ export default {
   font-weight: 600;
   margin-top: 16px;
   padding-bottom: 16px;
+  
 }
+ .arrow {
+      display: inline-block;
+      background-image: url("/icon/tujia_arrow_right.png");
+      width: 10px;
+      background-size: 100% 100%;
+      height: 10px;
+      margin-left: 2px;
+      background-repeat: no-repeat;
+    }
 .DF-content-2-content {
   padding: 10px;
   flex-wrap: wrap;

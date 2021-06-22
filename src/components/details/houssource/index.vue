@@ -333,7 +333,7 @@ export default {
     font-size: 14px;
     color: #333;
     font-weight: 600;
-    line-height: 22px;
+    line-height: 30px;
     overflow: hidden;
     text-overflow: ellipsis;
     //   .card-arrow {
@@ -451,7 +451,7 @@ export default {
 
   .bianxian {
     width: 100%;
-    border-bottom: 10px solid #e9e4e4;
+    border-bottom: 10px solid #f7f9fb;
   }
 }
 </style>

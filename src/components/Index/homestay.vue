@@ -394,7 +394,11 @@ export default {
       this.current = index;
     },
   },
+  beforeDestroy() {
+    window.removeEventListener('scroll', this.handleScroll,true)
+  }
 };
+
 </script>
 
 <style lang="scss" scoped>

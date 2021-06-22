@@ -1,6 +1,6 @@
 <template>
   <div class="DF-box" v-if="dianping">
-    <div class="xiahuaxian" ></div>
+    <div class="xiahuaxian1" ></div>
       <div class="DF-title">
           <div class="DF-title-left">房客点评 </div>
           <div class="DF-title-right">
@@ -30,7 +30,7 @@
                        </div>
                    </div>
                    <div>
-                       <p>{{item.score}}.0</p>
+                       <p>{{item.score.toFixed(1)}}</p>
                        <van-rate v-model="item.score" :size="8" allow-half readonly void-icon="star" void-color="#eee" />
                    </div>
                </div>
@@ -43,7 +43,8 @@
      <!--    end -->
      
       <div class="DF-bottom-lookAllComments">
-          <font style="padding-right:16px">查看全部99条评价></font>
+          <font style="padding-right:16px">查看全部99条评价 <span class="arrow"></span></font>
+           
       </div>
       <div class="xiahuaxian"></div>
   </div>
@@ -95,13 +96,13 @@ export default {
 }
 </script>
 
-<style>
-
-  .xiahuaxian {
+<style scoped>
+  .xiahuaxian1 {
     width: 100%;
-    border-bottom: 10px solid #e9e4e4;
-    margin-top: 15px;
+    border-bottom: 10px solid #f7f9fb;
+    /* margin-top: 15px; */
   }
+
 /* 房客点评开始>>>>>>>>>>>>>start  */
 p{
    margin: 0;
@@ -181,4 +182,18 @@ p{
    padding-bottom: 16px;
 }
 /* 房客点评结束>>>>>>>>>>>>>end  */
+.arrow {
+      display: inline-block;
+      background-image: url("/icon/tujia_arrow_right.png");
+      width: 10px;
+      background-size: 100% 100%;
+      height: 10px;
+      margin-left: 2px;
+      background-repeat: no-repeat;
+    }
+  .xiahuaxian {
+    width: 100%;
+    border-bottom: 10px solid #f7f9fb;
+    /* margin-top: 15px; */
+  }
 </style>
