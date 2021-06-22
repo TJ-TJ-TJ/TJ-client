@@ -5,8 +5,8 @@
       温馨提示:请勿脱离平台与房东交易,以免造成财产损失或纠纷
     </van-notice-bar>
     <div class="order_status">
-      <h1>{{msgdetail.order_status}}</h1>
-      <p>{{msgdetail.order_hint}}</p>
+      <h1>{{$route.params.state}}</h1>
+      <p></p>
       <div>
         <van-button type="default" @click="gomsg(msgdetail.landlord)">联系房东</van-button>
         <van-button color="rgb(255, 150, 69)">
@@ -16,16 +16,16 @@
     </div>
     <!-- 卡片一 -->
     <div class="card_box">
-      <p><span>入离时期</span><span>{{msgdetail.start_time}}至{{msgdetail.end_time}}</span> </p>
+      <p><span>入离时期</span><span>{{$route.params.start_time}}至{{$route.params.end_time}}</span> </p>
       <div>
         <div>
-          <span>支付金额</span><span>￥{{msgdetail.order_money+'.00'}}</span>
+          <span>支付金额</span><span>￥{{$route.params.price+'.00'}}</span>
         </div>
         <van-icon name="arrow" @click="showPopup('money')" />
       </div>
       <div>
         <div>
-          <span>退订规则</span><span>订单已取消，查看订单取消和变更规则</span>
+          <span>退订规则</span><span>订单取消，查看订单取消和变更规则</span>
         </div>
         <van-icon name="arrow" @click="showPopup('tj')" />
       </div>
@@ -138,17 +138,17 @@
       <div class="hd">房屋信息</div>
       <div class="house_info">
         <div>
-          <img :src="msgdetail.order_srcimg" alt="">
+          <img :src="msgdetail.detailInfo.cover" alt="">
           <div>
             <div>
-              <span>{{msgdetail.order_home}}</span>
+              <span>{{msgdetail.detailInfo.r_name}}</span>
             </div>
-            <p>{{msgdetail.order_size}}</p>
+            <p>{{msgdetail.detailInfo.params.attr || '实拍整套'}}</p>
           </div>
         </div>
         <van-icon name="arrow" />
       </div>
-      <div class="foot">{{msgdetail.order_local}}</div>
+      <div class="foot">{{msgdetail.detailInfo.location}}</div>
     </div>
 
     <div class="user_info">
@@ -157,23 +157,23 @@
       </div>
       <div class="list">
         <p class="title">订单号</p>
-        <p class="content">{{msgdetail.order_rule}}</p>
+        <p class="content">{{$route.params.oid}}</p>
       </div>
       <div class="list">
         <p class="title">入住人</p>
-        <p class="content">{{msgdetail.uname}}</p>
+        <p class="content">{{msgdetail.userInfo.name}}</p>
       </div>
       <div class="list">
         <p class="title">联系电话</p>
-        <p class="content">{{msgdetail.uphone}}</p>
+        <p class="content">{{msgdetail.userInfo.phone}}</p>
       </div>
       <div class="list">
         <p class="title">支付方式</p>
-        <p class="content">{{msgdetail.order_type}}</p>
+        <p class="content">网络交易</p>
       </div>
       <div class="list">
         <p class="title">下单时间</p>
-        <p class="content">{{msgdetail.order_place}}</p>
+        <p class="content">{{getdate(msgdetail.userInfo.date)}}</p>
       </div>
     </div>
 
@@ -197,29 +197,44 @@ export default {
       show: false,
       show_msg: "",
       activeNames: [1, 2, 3],
-      oid:"",
+      oid: "",
       msgdetail: {
-        order_status: "已取消", //订单状态
-        order_hint: "订单由于超时已自动取消，欢迎再次预定", //订单提醒
-        start_time: "06月14日(14:00)", //开始入住的时间
-        end_time: "06月15日(12:00)", //离开的时间
-        order_money: "438", //支付金额
-        order_srcimg:
-          "https://pic.tujia.com/upload/landlordunit/day_210529/thumb/202105291655141549_700_467.jpg",
-        order_home:
-          "紫御长安/直达天安门/故宫/五棵松地铁/301医院/玉泉医院/航天医院/华熙LIVE精装，可住多人", //房屋信息 房屋的标题
-        order_size: "整套出租·3室2厅2卫·3床·宜住6人", //房屋的规格
-        order_local: "北京石景山区紫御长安-1号楼", //房屋的地理位置
-        order_rule: "922319772613", //订单编号
-        order_type: "在线支付", //支付类型
-        uname: "余成林", // 入住人姓名
-        uphone: "17630902513", //入住人电话号码
-        uavatar:
-          "https://pic.tujia.com/upload/landlordstorelogo/day_191027/thumb/201910270252191736_150_150.jpg",
-        order_place: "2021-06-14 18:49", //下单时间
-        landlord: "无良奸商",
+        detailInfo: {
+          r_name: "天安门西客站万寿路五棵松301温大3居室",
+          params: {
+            house: 3,
+            bed: 3,
+            person_count: 6,
+            area: 128,
+            attr: "单间",
+          },
+          location: "丰台区, 北京丰台区京铁家园1区2号楼(整租3居室)",
+          location_x: "",
+          location_y: "",
+          service_id: "",
+          owner: {
+            uname: "五棵松温馨民宿",
+            img: "https://pic.tujia.com/upload/landlordstorelogo/day_190503/thumb/201905031855393546_90_90.jpg",
+          },
+          cover:
+            "https://pic.tujia.com/upload/landlordunit/day_190414/thumb/201904141311141456_700_467.jpg",
+        },
+        userInfo: {
+          name: "嘿嘿嘿",
+          phone: "1753859032302",
+          date: 1623948305041,
+        },
       },
     };
+  },
+  computed: {
+    getdate(i) {
+      return function (i) {
+        let date = new Date(parseInt(i) * 1000);
+        date = `${date.getMonth() + 1}月${date.getDate()}日`;
+        return date;
+      };
+    },
   },
   methods: {
     onClickLeft() {
@@ -230,19 +245,19 @@ export default {
       this.show_msg = i;
     },
     gomsg(i) {
-      this.$router.push({ name: "msg", params: { uname: i,uid:1, } });
+      // 去客服
+      this.$router.push({ name: "msg", params: { uname: i, uid: 1 } });
     },
-     getstore(oid,rid){
-      this.$axios.get(`order/detail?oid=${oid}&rid=${rid}`)
-    }
+    getstore(oid, rid) {
+      return this.$axios.get(`order/detail?oid=${oid}&rid=${rid}`);
+    },
   },
   async created() {
-    console.log(this.$route.params); //商品id
-    this.oid = this.$route.params.oid
-    this.rid=this.$route.params.rid
-    console.log(this.oid,this.rid)
-    let obj =await this.getstore(this.oid,this.rid) //查询订单详情
-    console.log(obj)
+    this.oid = this.$route.params.oid;
+    this.rid = this.$route.params.rid;
+    let obj = await this.getstore(this.oid, this.rid); //查询订单详情
+    this.msgdetail = obj.data.result;
+    console.log(this.msgdetail);
   },
 };
 </script>

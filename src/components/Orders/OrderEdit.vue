@@ -223,7 +223,7 @@ export default {
         price: this.order_info.new_price,
         name: window.localStorage.getItem("uname"),
         phone: window.localStorage.getItem("phone"),
-      });
+      });//判断订单是否可以预定
       console.log(result)
       if (result.data.ok == 1) {
         this.$store.commit("set0rderFinishBuy", result.data);
