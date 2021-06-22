@@ -6,9 +6,10 @@
           class="kefu"
           icon="chat-o"
           text="聊天"
-          badge="5"
+          :badge="$store.state.unread_msg"
           @click="liaotian"
         />
+        <!-- 实时的未读消息 -->
         <van-goods-action-icon class="phone" icon="phone-o" text="电话" /><span class="shux">|</span>
         <!-- <span class="shux">|</span>
        <div class="price">￥262 <span id="price2">/晚￥328</span> </div> -->
@@ -57,7 +58,7 @@ export default {
       this.$router.push({
         name: 'msg',
         params: {
-          uid: this.jiage.uid,
+          uid: this.jiage.owner.sid,
           head_img: this.jiage.owner.img,
           uname: this.jiage.owner.uname
         }

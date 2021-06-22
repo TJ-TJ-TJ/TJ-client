@@ -116,6 +116,7 @@ export default {
         .then(() => {
           this.$router.replace('/order');
           //在将这笔订单改为 未支付状态
+
         })
         .catch(() => {
           return;
@@ -158,8 +159,8 @@ export default {
       }
   },
   mounted(){
-    window.loginBeforeToast = this.$toast.loading({
-            duration: 1, // 持续展示 toast
+         this.$toast.loading({
+            duration: 0, // 持续展示 toast
             forbidClick: true,
             message: '验证中...',
           });
@@ -170,7 +171,7 @@ export default {
     //订单倒计时时间
     // 计算订单倒计时 时间
       timeOutOrder(){
-          return Number(this.orderFinishBuy.date)+720000 - new Date().getTime()
+          return Number(this.orderFinishBuy.result.date)+720000 - new Date().getTime()
       }
 }
 };
