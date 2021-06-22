@@ -1,6 +1,13 @@
 <template>
     <div>
-        <van-nav-bar fixed placeholder safe-area-inset-top>
+        <van-nav-bar
+        fixed
+        placeholder
+        safe-area-inset-top
+        left-arrow
+        left-text="返回"
+        class="navBar"
+        @click-left="goBack">
             <template #title>
                 <div class="titleRouter">
                     <van-button :class="route==='/collects'?'bg':''" @click="collects('/collects')" to="/collects" type="default" size="small">我的收藏</van-button>
@@ -26,10 +33,21 @@ export default {
         collects(route) {
             this.route = route
         },
+        goBack() {
+            this.$router.push('/user')
+        }
     },
 }
 </script>
-<style lang="scss" scoped>
+<style lang="scss">
+    .navBar {
+        .van-icon {
+            color: #ff9645 !important;
+        }
+        .van-nav-bar__text {
+            color: #ff9645;
+        }
+    }
     .titleRouter {
         border: 0.1vh solid #e3e3e3;
         border-radius: 0.4vh;

@@ -272,7 +272,7 @@ export default {
         message: this.text_msg, //文本消息
         type: "text",
         //对方的头像
-        head_img: "",
+        head_img: window.localStorage.getItem('headImg'),
         uname: this.uname,
         is_read: false, // text是否已读
         send_date: this.$getDate(), //当前日期
@@ -339,7 +339,7 @@ export default {
           audio: data, //语音消息,
           message: "", //文本消息
           type: "audio/mp3",
-          head_img: "", //自己的头像
+          head_img: window.localStorage.getItem('headImg'), //自己的头像
           uname: this.uname, //发送人的名称为
           is_read: 1, // text是否已读
           send_date: this.$getDate(), //发送日期

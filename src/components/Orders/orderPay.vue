@@ -150,12 +150,7 @@ export default {
     },
     //订单计时完成触发
       timeOutFinish(){
-          window.loginBeforeToast = this.$toast.loading({
-            duration: 1, // 持续展示 toast
-            forbidClick: true,
-            message: '验证中...',
-          });
-          
+          this.$toast.fail('订单以失效')
       }
   },
   mounted(){

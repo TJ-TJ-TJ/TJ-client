@@ -8,7 +8,7 @@ Vue.use(VueRouter);
 const routes = [
   ...Order,
   ...user,
-  { path: "/index", redirect: "/collects" },
+  // { path: "/index", redirect: "/collects" },
   {
     path: "/",
     name: "index",
@@ -61,11 +61,11 @@ const routes = [
       import(/* webpackChunkName: "about" */ "../components/Index/user.vue"),
   },
   {
-    path: "/hittory",
-    name: "hittory",
-    redirect:'/collect',
+    path: "/collect",
+    name: "collect",
+    redirect:'/collects',
     component: () =>
-      import(/* webpackChunkName: "about" */ "../components/Index/hittory.vue"),
+      import(/* webpackChunkName: "about" */ "../components/Collect/index.vue"),
     children: [
       {
         path: "/collects",

@@ -72,8 +72,22 @@ export default {
 
       }
    },
-    computed: {
-      getdatee() {
+   // filters: {
+   //    getday (val) {
+
+   //       if (typeof val == 'string'){
+   //           return val.split(/T\s*/)[0];
+   //       }else if (typeof val == "number") {
+   //             let a = new Date(val);
+
+   //             console.log(a)
+   //       }
+        
+
+   //    }
+   // },
+   computed: {
+            getdatee() {
          const times = this.dianping[0].order_time;
          const tim = new Date(times)
 

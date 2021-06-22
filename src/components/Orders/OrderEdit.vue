@@ -32,7 +32,7 @@
         </div>
         <div>
           <span style="font-size: 12px; color: #ff9654">
-            共一晚<img
+            共{{$store.state.night}}晚<img
               src="https://pic.tujia.com/upload/festatic/publicImages/form_arrow_right.png"
               alt=""
           /></span>
@@ -323,6 +323,7 @@ export default {
         width: 100%;
         height: 20px;
         font-size: 11px;
+        padding-top: 4px;
         color: #999;
         overflow: hidden;
         white-space: nowrap;

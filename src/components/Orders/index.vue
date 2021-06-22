@@ -196,6 +196,7 @@ export default {
             font-size: 18px;
           }
           p {
+            text-align: left;
             width: 50%;
             height: 27px;
             line-height: 27px;
