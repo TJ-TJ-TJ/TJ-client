@@ -17,7 +17,7 @@
         />
         <div>
           <p class="title">{{ order_info.bt }}</p>
-          <span>{{ order_info.fbt.attr+' | '+order_info.fbt.house+' 室'+' | '+order_info.fbt.bed+'厅'+' | '+"最多住"+order_info.fbt.person_count+'人' }}</span>
+          <span>{{ order_info.fbt.attr+' || '+order_info.fbt.house+' 室'+' || '+order_info.fbt.bed+'厅'+' || '+"最多住"+order_info.fbt.person_count+'人' }}</span>
         </div>
       </div>
       <div class="body">
@@ -181,7 +181,7 @@ export default {
           message: "当前订单未完成 确认要离开吗",
         })
         .then(() => {
-          this.$router.push("/order"); //离开订单的操作
+          this.$router.replace({path:"/order"}); //离开订单的操作
         })
         .catch(() => {
           return;
@@ -223,7 +223,7 @@ export default {
         price: this.order_info.new_price,
         name: window.localStorage.getItem("uname"),
         phone: window.localStorage.getItem("phone"),
-      });
+      });//判断订单是否可以预定
       console.log(result)
       if (result.data.ok == 1) {
         this.$store.commit("set0rderFinishBuy", result.data);
@@ -235,12 +235,11 @@ export default {
   },
   created() {
     this.phone=localStorage.getItem('phone')
-    this.order_info = this.$store.state.orderCommitInfo;
+    this.order_info = this.$store.state.OrderCommitInfo;
     console.log(this.order_info);
   },
   async mounted() {
-    let user_info = await this.$axios.get("order/resideInfo"); //获取入住人的信息
-    console.log(user_info);
+    let user_info = await this.$axios.get("/order/resideInfo"); //获取入住人的信息
     user_info.data.result.forEach((item) => {
       //入住人
       this.result.push("true");

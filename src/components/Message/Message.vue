@@ -282,7 +282,7 @@ export default {
         be_uname: this.be.uname, // 对方的name
         be_head_img: this.be.head_img, // 对方的头像
       };
-      console.log(sendObj);
+      console.log(sendObj,this.message);
       this.$socket.emit("puoToMessage", sendObj);
       this.text_msg = "";
       this.message.push(sendObj);
@@ -456,6 +456,7 @@ export default {
             },
             uid: window.localStorage.getItem('uid'),
             sid: sid.uid,
+            msgArr:[]
           };
         } else {
           store = newarr[0];//如果有的话帅选出来
