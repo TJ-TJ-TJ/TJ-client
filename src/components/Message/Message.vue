@@ -463,7 +463,8 @@ export default {
         }
       } else {
         console.log("正常消息列表传过来");
-        // console.log(this.$store.state.msg_info); 好友列表传过来 消息参数
+         console.log(this.$store.state.msg_info);
+         // 好友列表传过来 消息参数
         store = this.$store.state.msg_info;
       }
       console.log(store);

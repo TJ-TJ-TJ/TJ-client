@@ -36,7 +36,7 @@ export default {
         data.data.forEach((item) => {
           item.msgArr.forEach((i) => {
             //如果消息数组中的 接受者id等于客户uid 并且有未读消息
-            console.log(i)
+            // console.log(i)
             if (
               (i.sid == window.localStorage.getItem("uid") && i.is_read == 0) ||
               (i.audio_isRead == 0 &&
@@ -83,7 +83,7 @@ export default {
           }
         });
         console.log("未读消息总数" + count);
-        this.$store.commit("change_unread", count ); //因为新消息并没有push 所有这里未读消息+1
+        this.$store.commit("change_unread", count+1 ); //因为新消息并没有push 所有这里未读消息+1
       });
     },
   },
