@@ -127,18 +127,20 @@ export default {
     },
     //提交支付 更改状态为已支付
     async finish_buy(){
-       
+        console.log( this.$store.state.orderFinishBuy);
         this.$dialog.confirm({
           title: "提醒",
           message: "确定要支付吗",
         })
         .then(async () => {
-            let {data:res} = await this.$axios.post('/order/reserve/pay',{
-              //订单id
-              oid: '1123'//待更改,
-            })
-            if(res.code==200){
-              this.$router.replace({path:'/order'})
+          
+
+            let {data:res} = await this.$axios.post(`/order/reserve/pay?oid=${this.$store.state.orderFinishBuy.result.oid}`)
+            if(res.ok==1){
+              this.$router.replace({path:'/order_detail',params:{
+                oid:this.$store.state.orderFinishBuy.result.oid,
+                rid:this.$store.state.orderFinishBuy.rid,
+              }})
               return this.$toast.success('支付成功')
             }
             this.$toast.success('支付失败')
@@ -154,16 +156,12 @@ export default {
       }
   },
   mounted(){
-         this.$toast.loading({
-            duration: 0, // 持续展示 toast
-            forbidClick: true,
-            message: '验证中...',
-          });
+         
   },
   computed:{
     //  引入vuex sate
     ...mapState(['starDate','endDate','night','orderFinishBuy']),
-    //订单倒计时时间
+    //订单倒计时时间f
     // 计算订单倒计时 时间
       timeOutOrder(){
           return Number(this.orderFinishBuy.result.date)+720000 - new Date().getTime()

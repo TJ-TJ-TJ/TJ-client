@@ -5,7 +5,7 @@
       温馨提示:请勿脱离平台与房东交易,以免造成财产损失或纠纷
     </van-notice-bar>
     <div class="order_status">
-      <h1>{{$route.params.state}}</h1>
+      <!-- <h1>{{$route.params.state}}</h1> 接口无数据-->
       <p></p>
       <div>
         <van-button type="default" @click="gomsg(msgdetail.landlord)">联系房东</van-button>
@@ -16,7 +16,7 @@
     </div>
     <!-- 卡片一 -->
     <div class="card_box">
-      <p><span>入离时期</span><span>{{$route.params.start_time}}至{{$route.params.end_time}}</span> </p>
+      <!--接口无数据 <p><span>入离时期</span><span>{{$route.params.start_time}}至{{$route.params.end_time}}</span> </p> -->
       <div>
         <div>
           <span>支付金额</span><span>￥{{$route.params.price+'.00'}}</span>
@@ -173,7 +173,7 @@
       </div>
       <div class="list">
         <p class="title">下单时间</p>
-        <p class="content">{{getdate(msgdetail.userInfo.date)}}</p>
+        <p class="content">{{getdate(msgdetail.userInfo.date)}}{{getzhou(nsgdetail.userInfo.date)}}</p>
       </div>
     </div>
 
@@ -228,10 +228,27 @@ export default {
     };
   },
   computed: {
+    //计算订单状态
+    calc(i) {
+      return function (i) {
+        let arr = ["待支付", "已支付", "已使用", "已超时"];
+        let res = arr[i];
+        return res;
+      };
+    },
+    //计算几月几日
     getdate(i) {
       return function (i) {
         let date = new Date(parseInt(i) * 1000);
         date = `${date.getMonth() + 1}月${date.getDate()}日`;
+        return date;
+      };
+    },
+    //计算周几 几点
+    getzhou(i) {
+      return function (i) {
+        let date = new Date(parseInt(i) * 1000);
+        date = `周${date.getDay()} ${date.getHours()}时${date.getMinutes()}分`;
         return date;
       };
     },
@@ -258,16 +275,25 @@ export default {
         },
       });
     },
-    getstore(oid, rid) {
-      return this.$axios.get(`order/detail?oid=${oid}&rid=${rid}`);
+    async getstore(oid, rid) {
+      let {data:res} = await this.$axios.get(`/order/detail?oid=${oid}&rid=${rid}`);
+      console.log(res);
+      return 
     },
   },
   async created() {
-    this.oid = this.$route.params.oid;
-    this.rid = this.$route.params.rid;
+    console.log(this.$route.params);
+    if(!this.$route.params.oid || !this.$route.params.rid){
+      this.oid = window.sessionStorage.getItem('oid');
+      this.rid = window.sessionStorage.getItem('rid');
+    }else{
+      window.sessionStorage.setItem('oid',this.$route.params.oid)
+      window.sessionStorage.setItem('rid',this.$route.params.rid)
+      this.oid = this.$route.params.oid;
+      this.rid = this.$route.params.rid;
+    }
     let obj = await this.getstore(this.oid, this.rid); //查询订单详情
     this.msgdetail = obj.data.result;
-    console.log(this.msgdetail);
   },
 };
 </script>

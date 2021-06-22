@@ -32,7 +32,8 @@ export default new Vuex.Store({
     orderFinishBuy:{
       oname:'',
       oid:"",
-      date:""
+      date:"",
+      rid:''
     },//支付跳转信息
   },
   mutations: {
