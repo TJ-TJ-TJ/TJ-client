@@ -128,20 +128,21 @@ export default {
       return;
     } else {
       //后续是向后台获取数据
-      this.order = obj.data.result || [
-        {
-          title:
-            "紫御长安/直达天安门/故宫/五棵松地铁/301医院/玉泉医院/航天医院/华熙LIVE精装，可住多人",
-          state: "1",
-          cover:
-            "https://pic.tujia.com/upload/landlordunit/day_210529/thumb/202105291655141549_700_467.jpg",
-          start_time: "1623427200000",
-          end_time: "1623600000000",
-          price: "438",
-          oid: "60c2041a130b0000e6007962",
-          rid:'60c164a7074200005d003192'
-        },
-      ];
+      this.order = obj.data.result ||[]
+      // || [
+      //   {
+      //     title:
+      //       "紫御长安/直达天安门/故宫/五棵松地铁/301医院/玉泉医院/航天医院/华熙LIVE精装，可住多人",
+      //     state: "1",
+      //     cover:
+      //       "https://pic.tujia.com/upload/landlordunit/day_210529/thumb/202105291655141549_700_467.jpg",
+      //     start_time: "1623427200000",
+      //     end_time: "1623600000000",
+      //     price: "438",
+      //     oid: "60c2041a130b0000e6007962",
+      //     rid:'60c164a7074200005d003192'
+      //   },
+      // ];
     }
   },
   async mounted() {},

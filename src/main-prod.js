@@ -1,17 +1,17 @@
-import Vue from 'vue'
+// import Vue from 'vue'
 import App from './App.vue'
 import router from './router'
 import store from './store'
-import Vant from 'vant';
+// import Vant from 'vant';
 import 'vant/lib/index.css';
 import VueSocketIO from 'vue-socket.io'
 import ClientSocketIO from 'socket.io-client'
-import axios from 'axios'
+// import axios from 'axios'
 import TableBar from './components/tableBar.vue'  //全局的底部tablebar组件
 
 
 import { Lazyload } from 'vant';
-import { List } from 'vant';
+// import { List } from 'vant';
 import { Toast } from 'vant';
 // vue-touch
 import VueTouch from "vue-touch";
@@ -19,9 +19,9 @@ Vue.use(VueTouch, { name: "v-touch" });
 
 Vue.component("table-bar", TableBar); // 直接使用即可 <table-bar></table-bar>
 
-Vue.use(Vant);
-Vue.use(List);
-Vue.use(Lazyload);
+// Vue.use(Vant);
+// Vue.use(List);
+// Vue.use(Lazyload);
 axios.defaults.validateStatus = status=> true
 axios.defaults.baseURL = 'https://tj.testw.top/v1'
 Vue.prototype.$axios=axios

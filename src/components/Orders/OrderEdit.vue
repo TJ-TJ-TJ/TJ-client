@@ -12,23 +12,23 @@
       <div class="head">
         <img
           style="width: 60px; height: 60px; border-radius: 6px"
-          src="https://pic.tujia.com/upload/qualifiedpics/day_201130/thumb/202011301839083086_700_467.jpg"
+          :src="order_info.fm"
           alt=""
         />
         <div>
-          <p class="title">近S1线近商圈温馨私享，悦景湾靠近天街！</p>
-          <span>整套出租 | 1室1厅 | 1床 | 最多住3人</span>
+          <p class="title">{{ order_info.bt }}</p>
+          <span>{{ order_info.fbt.attr+' | '+order_info.fbt.house+' 室'+' | '+order_info.fbt.bed+'厅'+' | '+"最多住"+order_info.fbt.person_count+'人' }}</span>
         </div>
       </div>
       <div class="body">
         <div>
-          <div>06月08日</div>
-          <p>周二14:00-24:00</p>
+          <div>{{ $store.state.starDate }}</div>
+          <p>{{ daystar }}入住</p>
         </div>
         <div style="font-weight: 600">-</div>
         <div>
-          <div>06月09日</div>
-          <p>周三12:00前离开</p>
+          <div>{{ $store.state.endDate }}</div>
+          <p>{{ dayend }}前离开</p>
         </div>
         <div>
           <span style="font-size: 12px; color: #ff9654">
@@ -90,7 +90,6 @@
               >{{ item.uname }}</van-checkbox
             >
           </div>
-
         </div>
         <footer class="foot">
           <div class="left">
@@ -102,7 +101,7 @@
             />
           </div>
           <div class="right">
-            17630902513
+              {{phone}}
             <div class="icon"></div>
           </div>
         </footer>
@@ -134,7 +133,7 @@
     <div class="bot_fixed">
       <div>
         <div>
-          {{ "￥" + (1172.0).toFixed(2) }}
+          {{ "￥" + order_info.new_price.toFixed(2) }}
           <div>免押金入住</div>
         </div>
         <span>明细</span>
@@ -152,13 +151,27 @@
 export default {
   data() {
     return {
-      user_info: [],
-      result: [],
-      checked: "",
+      user_info: [],//订单信息
+      result: [],//入住人选中
+      checked: "",//是否选中
+      order_info: "",
+      phone:''//当前用户的电话号码
     };
   },
-  watch: {
-   
+  watch: {},
+  computed: {
+    daystar() {
+      let weekarr = ["周一", "周二", "周三", "周四", "周五", "周六", "周日"];
+      return weekarr[
+        new Date(Math.min.apply(null, this.$store.state.dataDate)).getDay()
+      ];
+    },
+    dayend() {
+      let weekarr = ["周一", "周二", "周三", "周四", "周五", "周六", "周日"];
+      return weekarr[
+        new Date(Math.max.apply(null, this.$store.state.dataDate)).getDay()
+      ];
+    },
   },
   methods: {
     onClickLeft() {
@@ -181,36 +194,60 @@ export default {
     gocheck() {
       this.$router.push("/check_person");
     },
-    go_pay() {
-      this.$router.push("/order_pay");
+    async go_pay() {
+      let flag = false;
+      this.result.forEach((item) => {
+        console.log(item,item==true);
+        if (item == 'true') {
+          //如果有入住人被选中 则放行
+          flag = true;
+        }
+      });
+      console.log(flag)
+      if (flag == false) {
+        //如果flag为false 后面不执行 提醒添加入住人信息
+        this.$toast.fail("请添加入住人信息");
+        return;
+      }
+      let oid = this.order_info.uid;
+      let oname = this.order_info.bt;
+      console.log(oname)
+      let result = await this.$axios.post("order/reserve", {
+        //判断当前订单是否可以预定
+        rid: oid,
+        title: oname,
+        cover: this.order_info.fm,
+        r_params: this.order_info.fbt,
+        start_time: this.$store.state.dataDate[0],
+        end_time: this.$store.state.dataDate[1],
+        price: this.order_info.new_price,
+        name: window.localStorage.getItem("uname"),
+        phone: window.localStorage.getItem("phone"),
+      });
+      console.log(result)
+      if (result.data.ok == 1) {
+        this.$store.commit("set0rderFinishBuy", result.data);
+        this.$router.push("/order_pay");
+      } else {
+        this.$toast.fail("当前订单已被预订");
+      }
     },
   },
-  created() {},
+  created() {
+    this.phone=localStorage.getItem('phone')
+    this.order_info = this.$store.state.orderCommitInfo;
+    console.log(this.order_info);
+  },
   async mounted() {
-    //let user_info = await this.$axios.get("order/resideInfo"); //获取入住人的信息
-    let user_info = {
-      result: [
-        {
-          uname: "新的高武杰",
-          id: "4115222000100563611",
-          iId: "",
-        },
-        {
-          uname: "余成林",
-          id: "4115222000100563611",
-          iId: "",
-        },
-        
-      ],
-    };
-    user_info.result.forEach((item) => {
-      this.result.push('true')
+    let user_info = await this.$axios.get("order/resideInfo"); //获取入住人的信息
+    console.log(user_info);
+    user_info.data.result.forEach((item) => {
+      //入住人
+      this.result.push("true");
     });
     //await this.$axios.get("order/resideInfo"); //获取入住人的信息
     // console.log(user_info.result);
-    this.user_info = user_info.result; //用户人信息
-    // console.log(user_info.result);
-    this.user_info = user_info.result;
+    this.user_info = user_info.data.result; //用户人信息
   },
 };
 </script>
@@ -341,7 +378,7 @@ export default {
         .flex_wrap {
           display: flex;
           flex-wrap: wrap;
-          div{
+          div {
             margin: 2px 5px;
           }
         }

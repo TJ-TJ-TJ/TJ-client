@@ -57,21 +57,25 @@ export default {
       };
     },
     onClickLeft() {
-      this.$router.back();
+      this.$router.back();//返回
     },
-    set_person() {
-      // 编辑入住人的操作  接口
-    },
-    save() {
+    async save() {
       //保存入住人
-      this.axios.put("order/putInfo", {
+      let res = await this.axios.put("order/putInfo", {
         newName: this.username,
         newId: this.user_iden,
         iId: this.iId,
       });
+      if(res.data.ok==1){
+        this.$toast.success('添加成功')
+        this.$router.back()
+      }else{
+        this.$toast.fail('网络繁忙请稍后重试')
+      }
     },
   },
   created() {
+    console.log(this.$route.params);
     this.user_iden = this.$route.params.user_iden;
     this.username = this.$route.params.uname;
     this.inerheight = window.innerHeight + "px";

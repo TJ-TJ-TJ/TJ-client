@@ -241,7 +241,7 @@ export default {
     this.oid = this.$route.params.oid
     this.rid=this.$route.params.rid
     console.log(this.oid,this.rid)
-    let obj =await this.getstore(this.oid,this.rid)
+    let obj =await this.getstore(this.oid,this.rid) //查询订单详情
     console.log(obj)
   },
 };

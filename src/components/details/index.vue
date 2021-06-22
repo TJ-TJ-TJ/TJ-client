@@ -57,13 +57,7 @@ export default {
         fm: this.swiper[0].url[0],
         bt: r_name,
         fbt: params,
-        owner
-
-        
-
-
-
-
+        owner:owner
       }
       // console.log(this.prices)
       // console.log(this.$route)
