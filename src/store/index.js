@@ -35,7 +35,7 @@ export default new Vuex.Store({
       date:"",
       rid:''
     },//支付跳转信息
-    reserve: '' //是否可以预定
+    // reserve: '' //是否可以预定
   },
   mutations: {
     setOrderFinishBuy(state,data){ //支付页面需要存的信息
@@ -82,10 +82,10 @@ export default new Vuex.Store({
       state.OrderCommitInfo = OrderCommitInfo
 
     },
-    setIsReserve(state,reserve) {
-      state.reserve = reserve
+    // setIsReserve(state,reserve) {
+    //   state.reserve = reserve
 
-    }
+    // }
   },
   actions: {},
   modules: {},

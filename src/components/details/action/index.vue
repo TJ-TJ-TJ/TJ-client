@@ -68,25 +68,25 @@ export default {
         }
       })
     },
-    yuding() {
-        // const toast = this.$toast.loading({
-        //   duration: 0, // 持续展示 toast
-        //   forbidClick: true,
-        //   selector: '#custom-selector',
-        // });
-      //  let {data:res} = await  this.$axios.get('/details/is',{params:{
-      //     start:this.$store.state.dataDate[0],
-      //     end:this.$store.state.dataDate[1],
-      //     rid:this.jiage.uid
-      //   }})
-        // if(res.ok==1){
+     async yuding() {
+        const toast = this.$toast.loading({
+          duration: 0, // 持续展示 toast
+          forbidClick: true,
+          selector: '#custom-selector',
+        });
+       let {data:res} = await this.$axios.get('/details/is',{params:{
+          start:this.$store.state.dataDate[0],
+          end:this.$store.state.dataDate[1],
+          rid:this.jiage.uid
+        }})
+        if(res.ok==1){
           this.$store.commit('setOrderCommitInfo',this.jiage)
           this.$router.replace({path:'/order_edit'})
-          // this.$toast.clear()
-        // }else {
-        //   this.$toast.fail(res.msg)
-        //   this.$toast.clear()
-        // } 
+          this.$toast.clear()
+        }else {
+          this.$toast.fail(res.msg)
+          this.$toast.clear()
+        } 
 
 
 
@@ -99,18 +99,34 @@ export default {
 
   },
 
-  mounted() {
+  created() {
+    // console.log('---------xxxxxxxxxx-----------');
     // console.log(this.$router.push)
     // console.log(this.$store.state.nigh)
     // console.log(this.$store.state.night)
-  
-  console.log(this.$store.state.reserve)
-  console.log(this.$refs.btndisable)
-
-    if(this.$store.state.reserve == 1){
+      const startdate = Math.min.apply(null,this.$store.state.dataDate)
+      const enddate = Math.max.apply(null,this.$store.state.dataDate)
+      this.$axios.get(`/details/is?start=${startdate}&end=${enddate}&rid=${this.$route.query.id}`).then(result=>{
+      // this.$store.commit("setIsReserve",result.data.ok)
+      console.log(result.data.ok)
+      // console.log('------------------------------------')
+       this.$nextTick(()=>{
+        
+          if(this.$store.state.reserve != 1){
+            
+          console.log(this.$refs.btndisable)
+          this.$refs.btndisable.disabled = true
+          this.$refs.btndisable.color = '#a9a9a9'
 
 
     }
+      }) 
+    })
+  
+  // console.log(this.$store.state.reserve)
+     
+
+  
   }
   
 }
