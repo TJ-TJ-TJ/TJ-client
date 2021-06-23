@@ -223,17 +223,14 @@ export default {
       setTimeout(async () => {
         // console.log(this.message[0]);
         this.pageSize += 1;
-        let obj = await this.$axios.get(
-          "https://kf.testw.top/getHistoryPage",
-          {
-            params: {
-              uid: this.uid,
-              sid: this.be.uid,
-              m_id: this.message[0].m_id,
-              pageSize: this.pageSize,
-            },
-          }
-        );
+        let obj = await this.$axios.get("https://kf.testw.top/getHistoryPage", {
+          params: {
+            uid: this.uid,
+            sid: this.be.uid,
+            m_id: this.message[0].m_id,
+            pageSize: this.pageSize,
+          },
+        });
         // console.log(obj);
         if (obj.data.data.length == 0) {
           this.$toast.fail("暂无更多数据");
@@ -272,9 +269,9 @@ export default {
         message: this.text_msg, //文本消息
         type: "text",
         //对方的头像
-        head_img: window.localStorage.getItem('headImg'),
+        head_img: window.localStorage.getItem("headImg"),
         uname: this.uname,
-        is_read: false, // text是否已读
+        is_read: 0, // text是否已读
         send_date: this.$getDate(), //当前日期
         send_time: this.$getTime(), //当前时间
         audio_isRead: 1, //语音是否已读
@@ -339,12 +336,12 @@ export default {
           audio: data, //语音消息,
           message: "", //文本消息
           type: "audio/mp3",
-          head_img: window.localStorage.getItem('headImg'), //自己的头像
+          head_img: window.localStorage.getItem("headImg"), //自己的头像
           uname: this.uname, //发送人的名称为
           is_read: 1, // text是否已读
           send_date: this.$getDate(), //发送日期
           send_time: this.$getTime(), //发送准确时间
-          audio_isRead: false, //语音是否已读
+          audio_isRead: 0, //语音是否已读
           m_id: Date.now(), //当前时间
           be_uname: this.be.uname, //接收者uname
           be_head_img: this.be.head_img, //接收者头像
@@ -361,6 +358,7 @@ export default {
       });
     }, //返回按钮
     async onClickLeft() {
+      this.$router.back();
       let [err, data] = await this.capture(this.getHistory);
       if (!data) {
         //如果请求不到数据 证明无消息
@@ -368,15 +366,14 @@ export default {
       } else {
         this.$store.commit("update_msgarr", data.data);
       }
-      this.$router.back();
     },
     // 开始播放录音的方法
     start_audio(event, i, uid, sid, m_id) {
       console.log(uid, sid, m_id);
       this.$axios.post("https://kf.testw.top/updateVoiceRead", {
         //更改当前语音消息为已读状态
-        uid:sid,
-        sid:this.uid,
+        uid: sid,
+        sid: this.uid,
         m_id,
       });
       this.message[i].audio_isRead = 1;
@@ -417,7 +414,6 @@ export default {
     change_emoji() {
       this.Edit = true;
       this.isemoji = !this.isemoji;
-
     },
     capture(xxx) {
       //对async错误处理做出一个封装
@@ -446,25 +442,26 @@ export default {
           obj.data.filter((item) => {
             return item.be.uid == sid.uid;
           }) || []; //看看是否有历史消息
-        console.log(newarr, sid);
-        if (newarr.length == 0) {//如果没有 手动给他赋值 账号信息
+        console.log(newarr, sid.i);
+        if (newarr.length == 0) {
+          //如果没有 手动给他赋值 账号信息
           store = {
             be: {
               uid: sid.uid || this.$store.state.be.uid,
               head_img: sid.head_img || this.$store.state.head_img,
               uname: sid.uname,
             },
-            uid: window.localStorage.getItem('uid'),
+            uid: window.localStorage.getItem("uid"),
             sid: sid.uid,
-            msgArr:[]
+            msgArr: [],
           };
         } else {
-          store = newarr[0];//如果有的话帅选出来
+          store = newarr[0]; //如果有的话帅选出来
         }
       } else {
         console.log("正常消息列表传过来");
-         console.log(this.$store.state.msg_info);
-         // 好友列表传过来 消息参数
+        console.log(this.$store.state.msg_info);
+        // 好友列表传过来 消息参数
         store = this.$store.state.msg_info;
       }
       console.log(store);

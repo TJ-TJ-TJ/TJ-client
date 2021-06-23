@@ -289,12 +289,13 @@ export default {
     },
     gomsg(i) {
       console.log(i);
-      i.uid = i.sid;
       // 去客服
       this.$router.push({
         name: "msg",
         params: {
-          sid: i,
+          uid: i.sid,
+          head_img: i.img,
+          uname: i.uname,
         },
       });
     },
@@ -322,7 +323,7 @@ export default {
 <style lang="scss">
 .order_detail {
   background-color: #eff1f3;
-  padding-bottom: 50px;
+  padding-bottom: 4vw;
   .info {
     height: 20px !important;
   }
@@ -590,6 +591,8 @@ export default {
   }
   .footer {
     margin: 0 16px 12px;
+    padding: 3vw 2vw;
+    border-radius: 2vw;
     font-family: PingFangSC-Regular;
     font-size: 12px;
     color: #999;

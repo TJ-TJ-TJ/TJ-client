@@ -44,7 +44,7 @@
         </div>
         <div>
           <span style="font-size: 12px; color: #ff9654">
-            共{{ $store.state.night}}晚<img
+            共{{ $store.state.night }}晚<img
               src="https://pic.tujia.com/upload/festatic/publicImages/form_arrow_right.png"
               alt=""
           /></span>
@@ -145,7 +145,7 @@
     <div class="bot_fixed">
       <div>
         <div>
-          {{ "￥" + order_info.new_price.toFixed(2) }}
+          {{ "￥" + (order_info.new_price * $store.state.night).toFixed(2) }}
           <div>免押金入住</div>
         </div>
         <span>明细</span>
@@ -235,16 +235,18 @@ export default {
         r_params: this.order_info.fbt,
         start_time: this.$store.state.dataDate[0],
         end_time: this.$store.state.dataDate[1],
-        price: this.order_info.new_price,
+        price: this.order_info.new_price * this.$store.state.night,
         name: window.localStorage.getItem("uname"),
         phone: window.localStorage.getItem("phone"),
       }); //判断订单是否可以预定 响应成功后 关闭加载动画
       console.log(result);
       this.$toast.clear();
       if (result.data.ok == 1) {
-        result.data.rid = oid;
         this.$store.commit("setOrderFinishBuy", result.data);
-        this.$router.push("/order_pay");
+        this.$router.replace({name:'oder_pay',params:{
+          rid:oid,
+          oid:result.data.result.oid
+        }});
       } else {
         this.$toast.fail("预定失败" + result.data.msg);
       }
@@ -255,7 +257,11 @@ export default {
     this.order_info = this.$store.state.OrderCommitInfo;
     console.log(this.$store.state.OrderCommitInfo);
     console.log(this.order_info);
+    this.$toast.loading({
+      message:"加载中"
+    })
     let user_info = await this.$axios.get("/order/resideInfo"); //获取入住人的信息
+    this.$toast.clear()
     user_info.data.result.forEach((item) => {
       //入住人
       this.result.push("true");
@@ -482,12 +488,17 @@ export default {
       background-color: #fff;
       margin-top: 15px;
       padding: 15px 10px;
+      border-radius: 1vw;
       & > div:first-child {
-        width: 50px;
+        width: 15vw;
         height: 15px;
         font-size: 12px;
         border: 1px solid #ff9645;
         color: #ff9645;
+        overflow: hidden;
+        -o-text-overflow: ellipsis;
+        text-overflow: ellipsis;
+        white-space: nowrap;
       }
       & > div:last-child {
         display: flex;
@@ -503,6 +514,8 @@ export default {
     }
     .footer {
       margin-top: 16px;
+      padding: 2vw 2vw;
+      border-radius: 1vw;
       .title {
         font-size: 13px;
         font-weight: 900;
@@ -517,6 +530,7 @@ export default {
       }
       p {
         font-size: 11px;
+        margin: 1vw 0;
         line-height: 16px;
         color: #666;
       }
@@ -530,7 +544,7 @@ export default {
     display: flex;
     align-items: center;
     justify-content: space-between;
-    height: 60px;
+    height: 15vw;
     padding: 0 15px;
     color: #ff9645;
     & > div:first-child {
@@ -541,7 +555,7 @@ export default {
       padding: 0 10px;
       box-sizing: border-box;
       div {
-        font-size: 18px;
+        font-size: 6vw;
         div {
           display: block;
           font-size: 11px;
@@ -562,7 +576,6 @@ export default {
       justify-content: space-between;
       align-items: center;
       width: 35%;
-
       p {
         display: inline-block;
         background-image: url(https://fe.tujiacdn.com/mob/static/img/page-unitOrder.7d75bdbc.png);
@@ -573,6 +586,7 @@ export default {
         margin-right: 5px;
       }
       button {
+        height: 10vw !important;
         border-radius: 5px !important;
       }
     }

@@ -5,15 +5,7 @@
       <van-tab v-for="(item, i) of order_type" :key="i" :title="item">
         <div v-if="order.length > 0">
           <div v-for="(item, i) of order" :key="i" class="order_detail">
-            <div
-              class="order_content"
-              @click="
-                go_detail(
-                  item.oid,
-                  item.rid
-                )
-              "
-            >
+            <div class="order_content" @click="go_detail(item.oid, item.rid)">
               <div class="detail_head">
                 <p>
                   {{ item.title }}
@@ -73,8 +65,15 @@
                   >
                     删除
                   </button>
-                  <button type="default" @click.stop="go_order(item.rid)">
+                  <button
+                    v-if="item.state != '0'"
+                    type="default"
+                    @click.stop="go_order(item.rid)"
+                  >
                     再次预定
+                  </button>
+                  <button v-else @click.stop="go_pay(item.oid, item.rid)">
+                    去支付
                   </button>
                 </p>
               </div>
@@ -109,13 +108,25 @@ export default {
     };
   },
   methods: {
+    go_pay(oid, rid) {
+      console.log(oid, rid);
+      //去支付订单
+      let obj = {};
+      obj.rid = rid;
+      obj.result = {};
+      obj.result.oid = oid;
+      this.$store.commit("setOrderFinishBuy", obj);
+      this.$router.push("/order_pay");
+    },
     go_detail(oid, rid) {
+      //详情页
       this.$router.push({
         name: "oder_detail",
-        params: { oid, rid},
+        params: { oid, rid },
       });
     },
     delete_order(oid, i) {
+      //删除订单
       // 删除订单
       this.$dialog
         .confirm({
@@ -123,17 +134,21 @@ export default {
           message: "您确定要删除订单吗",
         })
         .then(async () => {
-          let obj =await this.$axios.delete("order/delete",{data:{oid }});
-          console.log(obj)
-          if (obj.data.ok == 1) {
-            this.order.splice(i, 1);
+          this.$toast.loading({
+            message: "删除中",
+          });
+          let obj = await this.$axios.delete("order/delete", { data: { oid } });
+          console.log(obj.data);
+          if (obj.data.ok == "1") {
             this.$toast.succes("删除成功");
-          }else{
-            this.$toast.fail('网络繁忙 请稍后重试')
+            this.order.splice(i, 1);
+          } else {
+            this.$toast.fail("网络繁忙 请稍后重试");
           }
+          this.$toast.clear();
         })
         .catch(() => {
-          return
+          return;
         });
     },
     go_order(rid) {
@@ -152,7 +167,6 @@ export default {
       this.order = obj.data.result || [];
     }
   },
-  async mounted() {},
   watch: {
     async active(newval, oldval) {
       let obj = await this.$axios.get(`order/list?state=${newval - 1}`);
@@ -169,7 +183,7 @@ export default {
       };
     },
     //计算几月几日
-   getDate(i) {
+    getDate(i) {
       return function (i) {
         let now = new Date(i);
         let y = now.getFullYear();
@@ -218,11 +232,13 @@ export default {
           width: 100%;
           display: flex;
           justify-content: space-between;
-          padding: 18px 0;
+          padding: 3vw 0;
           div {
             text-align: right;
             color: #ff9645;
             font-size: 18px;
+            display: flex;
+            align-items: center;
           }
           p {
             text-align: left;
@@ -240,7 +256,7 @@ export default {
   }
   .detail_body {
     width: 100%;
-    height: 223px;
+    height: 50vw;
     position: relative;
     background-repeat: no-repeat;
     background-size: cover;
@@ -253,7 +269,7 @@ export default {
       flex-direction: column;
     }
     & > div:first-child {
-      height: 60px;
+      height: 15vw;
       width: 100%;
       box-sizing: border-box;
       padding: 0 15px;
@@ -278,6 +294,7 @@ export default {
       }
       & > div:last-child {
         & > p:last-child {
+          margin-top: 1vw;
           color: #ff9645;
           font-size: 20px;
         }
@@ -298,13 +315,13 @@ export default {
       display: flex;
       justify-content: space-between;
       button {
-        width: 73px;
+        width: 45%;
         height: 28px;
         margin-top: 15px;
         border-radius: 6px !important;
         border: 1px solid #e9e9e9;
         background-color: #fff;
-        font-size: 14px;
+        font-size: 3vw;
         font-weight: 100;
       }
       & > button:last-child {
