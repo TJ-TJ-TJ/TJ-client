@@ -25,7 +25,7 @@
         }}</span>
         <span v-for="k in miaoshu.play" :key="k" class="lablelist2">{{ k }}</span>
       </div>
-      <div class="listinfo">
+      <div class="listinfo" @click="other">
         <span class="pingfen">4.9</span>
         <span class=".zan">超赞</span>
         <span class="pingyu">"房东超赞"</span>
@@ -46,7 +46,7 @@
         
       </div> -->
 
-      <div class="ditu">
+      <div class="ditu" @click="other">
       <div class="ditu-cont">
         <div class="ditu-left">
           <div class="dizhi">{{biaoti.location}}</div>
@@ -140,7 +140,14 @@ export default {
     // console.log(this.title.label.base)
     // console.log(this.lable)
   },
-  methods: {},
+  methods: {
+      other() {
+      this.$toast({
+        message: "功能待开发",
+        icon: "smile",
+      });
+    },
+  },
   // watch: {
   //   title(newval,oldval) {
   //     this.titles = newval

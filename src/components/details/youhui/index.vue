@@ -42,8 +42,8 @@
                 <span class="val-date">有效期：2021-06-04至2021-07-31</span>
               </div>
             </div>
-            <div class="item-info-btn">
-              <div class="operate-txt">立即领取</div>
+            <div class="item-info-btn" ref="rece">
+              <button class="operate-txt" @click="receive" >立即领取</button>
             </div>
           </div>
           <div class="item-desc" @click="showitem">
@@ -86,6 +86,14 @@ export default {
     showitem() {
       this.showtxt = !this.showtxt;
     },
+    receive() {
+      console.log(this.$refs.rece)
+        this.$refs.rece.firstChild.disabled = true
+        this.$toast('领取成功')
+        this.$refs.rece.classList.add('rece-rmo')
+        this.$refs.rece.firstChild.innerHTML="已领取"
+
+    }
   },
 };
 </script>
@@ -262,11 +270,19 @@ export default {
           background: #ff9645;
           border-radius: 12px;
           padding: 0 10px;
-
           .operate-txt {
             font-size: 12px;
             color: #fff;
+            background: #ff9645;
+           border: none;
           }
+        }
+        .rece-rmo {
+        background: #dadada;
+        .operate-txt {
+          border: none;
+           background: #dadada;
+        }
         }
       }
 
