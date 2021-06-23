@@ -139,15 +139,18 @@ export default {
               console.log(res)
             
             if(res.ok==1){
+              this.$toast.success('支付成功')
               this.$router.replace({path:'/order_detail',params:{
                 oid:this.$store.state.orderFinishBuy.result.oid,
                 rid:this.$store.state.orderFinishBuy.rid,
               }})
-              return this.$toast.success('支付成功')
-            }
-            console.log(object);
+              return 
+            }else{
+               console.log(object);
             this.$toast.success('支付失败')
             this.$router.replace("/order_edit");
+            }
+           
         })
         .catch(() => {
           return;

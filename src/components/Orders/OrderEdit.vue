@@ -44,7 +44,7 @@
         </div>
         <div>
           <span style="font-size: 12px; color: #ff9654">
-            共{{ $store.state.night }}晚<img
+            共{{ $store.state.night}}晚<img
               src="https://pic.tujia.com/upload/festatic/publicImages/form_arrow_right.png"
               alt=""
           /></span>

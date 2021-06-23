@@ -123,14 +123,17 @@ export default {
           message: "您确定要删除订单吗",
         })
         .then(async () => {
-          let obj = this.$axios.delete("order/delete", { oid });
+          let obj =await this.$axios.delete("order/delete",{data:{oid }});
+          console.log(obj)
           if (obj.data.ok == 1) {
             this.order.splice(i, 1);
             this.$toast.succes("删除成功");
+          }else{
+            this.$toast.fail('网络繁忙 请稍后重试')
           }
         })
         .catch(() => {
-          this.$toast.fail('网络繁忙 请稍后重试')
+          return
         });
     },
     go_order(rid) {

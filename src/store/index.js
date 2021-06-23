@@ -37,7 +37,7 @@ export default new Vuex.Store({
     },//支付跳转信息
   },
   mutations: {
-    set0rderFinishBuy(state,data){ //支付页面需要存的信息
+    setOrderFinishBuy(state,data){ //支付页面需要存的信息
       state.orderFinishBuy=data
     },
     update_msgarr(state,data){ //获取最新的消息列表
