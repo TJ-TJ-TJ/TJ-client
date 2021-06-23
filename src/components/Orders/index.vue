@@ -32,8 +32,8 @@
               >
                 <div style="display: flex">
                   <div class="text">
-                    <p>{{ getdate(item.start_time) }}</p>
-                    <p>{{ getzhou(item.start_time) }}</p>
+                    <p>{{ getDate(item.start_time) }}日</p>
+                    <p>{{ getTime(item.start_time) }}分</p>
                   </div>
                   <div>
                     <svg
@@ -54,8 +54,8 @@
                     </svg>
                   </div>
                   <div class="text">
-                    <p class="p1">{{ getdate(item.end_time) }}</p>
-                    <p class="p2">{{ getzhou(item.end_time) }}</p>
+                    <p class="p1">{{ getDate(item.end_time) }}日</p>
+                    <p class="p2">{{ getTime(item.end_time) }}分</p>
                   </div>
                   <div style="width: 1px; height: 35px; background: #fff"></div>
                   <div>
@@ -169,19 +169,27 @@ export default {
       };
     },
     //计算几月几日
-    getdate(i) {
+   getDate(i) {
       return function (i) {
-        let date = new Date(parseInt(i) * 1000);
-        date = `${date.getMonth() + 1}月${date.getDate()}日`;
-        return date;
+        let now = new Date(i);
+        let y = now.getFullYear();
+        let m = now.getMonth() + 1;
+        let d = now.getDate();
+        m >= 10 ? "" : (m = "0" + (now.getMonth() + 1));
+        d >= 10 ? "" : (d = "0" + now.getDate());
+        return `${y}-${m}-${d}`;
       };
     },
-    //计算周几 几点
-    getzhou(i) {
+    //获取时间    格式 ` 00:00`
+    getTime(i) {
       return function (i) {
-        let date = new Date(parseInt(i) * 1000);
-        date = `周${date.getDay()} ${date.getHours()}时${date.getMinutes()}分`;
-        return date;
+        let now = new Date(i);
+        let hh = now.getHours();
+        let mm = now.getMinutes();
+        // hh == 00 ? hh = 24 : ''
+        hh >= 10 ? "" : (hh = "0" + hh);
+        mm >= 10 ? "" : (mm = "0" + mm);
+        return `${hh}:${mm}`;
       };
     },
   },
