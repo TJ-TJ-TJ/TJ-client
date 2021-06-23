@@ -242,9 +242,11 @@ export default {
       console.log(result);
       this.$toast.clear();
       if (result.data.ok == 1) {
-        result.data.rid = oid;
         this.$store.commit("setOrderFinishBuy", result.data);
-        this.$router.push("/order_pay");
+        this.$router.replace({name:'oder_pay',params:{
+          rid:oid,
+          oid:result.data.result.oid
+        }});
       } else {
         this.$toast.fail("预定失败" + result.data.msg);
       }

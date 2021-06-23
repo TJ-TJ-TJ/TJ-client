@@ -4,7 +4,7 @@
 <head>
   <meta charset="utf-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
-  <meta name="viewport" content="width=device-width,initial-scale=1.0">
+  <meta name="viewport" content="width=device-width,initial-scale=1.0,user-scalable=no">
   <link rel="icon" href="<%= BASE_URL %>favicon.ico">
   <title>
     <%= htmlWebpackPlugin.options.title %>
@@ -45,4 +45,10 @@
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/vant@2.12/lib/index.css" />
     <!-- 引入core-js -->
   <script src="https://cdn.bootcdn.net/ajax/libs/core-js/3.6.5/minified.min.js"></script>
+
+  <script>
+    document.addEventListener('gesturestart',function(e){
+      e.preventDefault()
+    })
+  </script>
 </body>
