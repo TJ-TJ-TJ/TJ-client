@@ -10,7 +10,11 @@
 
     <div class="OP-countDownBox">
       <div style="font-size: 24px">支付时间剩余</div>
-      <van-count-down style="margin: 20px 0px" @finish='timeOutFinish' :time="timeOutOrder">
+      <van-count-down
+        style="margin: 20px 0px"
+        @finish="timeOutFinish"
+        :time="timeOutOrder"
+      >
         <template #default="timeData">
           <span class="block">{{ timeData.minutes }}</span>
           <span class="colon">:</span>
@@ -18,7 +22,9 @@
         </template>
       </van-count-down>
       <div>Loft复试，温馨装修</div>
-      <div style="color: #999; font-size: 12px;margin-top:10px">{{starDate}} -- {{endDate}} 共{{night}}晚</div>
+      <div style="color: #999; font-size: 12px; margin-top: 10px">
+        {{ starDate }} -- {{ endDate }} 共{{ night }}晚
+      </div>
     </div>
 
     <!-- 支付方式 -->
@@ -91,14 +97,15 @@
       type="primary"
       color="#ff9645"
       class="submit"
-      block @click="finish_buy"
-      >确认支付 ￥ 915.00</van-button
+      block
+      @click="finish_buy"
+      >确认支付 </van-button
     >
   </div>
 </template>
 
 <script>
-import { mapState } from 'vuex'
+import { mapState } from "vuex";
 export default {
   data() {
     return {
@@ -114,65 +121,67 @@ export default {
           message: "您有一笔订单待支付，确定要离开吗",
         })
         .then(() => {
-          this.$router.replace('/order');
+          this.$router.replace("/order");
           //在将这笔订单改为 未支付状态
-
         })
         .catch(() => {
           return;
         });
     },
-    orderpay() {
-      
-    },
+    orderpay() {},
     //提交支付 更改状态为已支付
-    async finish_buy(){
-        console.log( this.$store.state.orderFinishBuy);
-        this.$dialog.confirm({
+    async finish_buy() {
+      console.log(this.$store.state.orderFinishBuy);
+      this.$dialog
+        .confirm({
           title: "提醒",
           message: "确定要支付吗",
         })
         .then(async () => {
-          
+          let { data: res } = await this.$axios.post(
+            `/order/reserve/pay?oid=${this.$store.state.orderFinishBuy.result.oid}`
+          );
+          console.log(res);
 
-            let {data:res} = await this.$axios.post(`/order/reserve/pay?oid=${this.$store.state.orderFinishBuy.result.oid}`)
-              console.log(res)
-            
-            if(res.ok==1){
-              this.$toast.success('支付成功')
-              this.$router.replace({path:'/order_detail',params:{
-                oid:this.$store.state.orderFinishBuy.result.oid,
-                rid:this.$store.state.orderFinishBuy.rid,
-              }})
-              return 
-            }else{
-               console.log(object);
-            this.$toast.success('支付失败')
+          if (res.ok == 1) {
+            this.$toast.success("支付成功");
+            this.$router.replace({
+              path: "/order_detail",
+              params: {
+                oid: this.$store.state.orderFinishBuy.result.oid,
+                rid: this.$store.state.orderFinishBuy.rid,
+              },
+            });
+            window.sessionStorage.setItem("oid", this.$store.state.orderFinishBuy.result.oid);
+            window.sessionStorage.setItem("rid", this.$store.state.orderFinishBuy.rid);
+            return;
+          } else {
+            console.log(object);
+            this.$toast.success("支付失败");
             this.$router.replace("/order_edit");
-            }
-           
+          }
         })
         .catch(() => {
           return;
-        });   
+        });
     },
     //订单计时完成触发
-      timeOutFinish(){
-          this.$toast.fail('订单以失效')
-      }
+    timeOutFinish() {
+      this.$toast.fail("订单以失效");
+    },
   },
-  mounted(){ 
-         
-  },
-  computed:{
+  mounted() {},
+  computed: {
     //  引入vuex sate
-    ...mapState(['starDate','endDate','night','orderFinishBuy']),
+    ...mapState(["starDate", "endDate", "night", "orderFinishBuy"]),
     //订单倒计时时间f
     // 计算订单倒计时 时间
-      timeOutOrder(){
-          return Number(this.orderFinishBuy.result.date)+720000 - new Date().getTime()
-      }
-}
+    timeOutOrder() {
+      return (
+        Number(this.orderFinishBuy.result.date) + 720000 - new Date().getTime()
+      );
+    },
+  },
 };
 </script>
 

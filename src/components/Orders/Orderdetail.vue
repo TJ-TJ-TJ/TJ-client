@@ -289,12 +289,13 @@ export default {
     },
     gomsg(i) {
       console.log(i);
-      i.uid = i.sid;
       // 去客服
       this.$router.push({
         name: "msg",
         params: {
-          sid: i,
+          uid: i.sid,
+          head_img: i.img,
+          uname: i.uname,
         },
       });
     },

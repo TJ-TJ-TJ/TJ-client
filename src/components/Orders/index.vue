@@ -5,15 +5,7 @@
       <van-tab v-for="(item, i) of order_type" :key="i" :title="item">
         <div v-if="order.length > 0">
           <div v-for="(item, i) of order" :key="i" class="order_detail">
-            <div
-              class="order_content"
-              @click="
-                go_detail(
-                  item.oid,
-                  item.rid
-                )
-              "
-            >
+            <div class="order_content" @click="go_detail(item.oid, item.rid)">
               <div class="detail_head">
                 <p>
                   {{ item.title }}
@@ -73,8 +65,15 @@
                   >
                     删除
                   </button>
-                  <button type="default" @click.stop="go_order(item.rid)">
+                  <button
+                    v-if="item.state != '0'"
+                    type="default"
+                    @click.stop="go_order(item.rid)"
+                  >
                     再次预定
+                  </button>
+                  <button v-else @click.stop="go_pay(item.oid, item.rid)">
+                    去支付
                   </button>
                 </p>
               </div>
@@ -109,13 +108,25 @@ export default {
     };
   },
   methods: {
+    go_pay(oid, rid) {
+      console.log(oid, rid);
+      //去支付订单
+      let obj = {};
+      obj.rid = rid;
+      obj.result = {};
+      obj.result.oid = oid;
+      this.$store.commit("setOrderFinishBuy", obj);
+      this.$router.push("/order_pay");
+    },
     go_detail(oid, rid) {
+      //详情页
       this.$router.push({
         name: "oder_detail",
-        params: { oid, rid},
+        params: { oid, rid },
       });
     },
     delete_order(oid, i) {
+      //删除订单
       // 删除订单
       this.$dialog
         .confirm({
@@ -123,17 +134,17 @@ export default {
           message: "您确定要删除订单吗",
         })
         .then(async () => {
-          let obj =await this.$axios.delete("order/delete",{data:{oid }});
-          console.log(obj)
+          let obj = await this.$axios.delete("order/delete", { data: { oid } });
+          console.log(obj);
           if (obj.data.ok == 1) {
-            this.order.splice(i, 1);
             this.$toast.succes("删除成功");
-          }else{
-            this.$toast.fail('网络繁忙 请稍后重试')
+            this.order.splice(i, 1);
+          } else {
+            this.$toast.fail("网络繁忙 请稍后重试");
           }
         })
         .catch(() => {
-          return
+          return;
         });
     },
     go_order(rid) {
@@ -169,7 +180,7 @@ export default {
       };
     },
     //计算几月几日
-   getDate(i) {
+    getDate(i) {
       return function (i) {
         let now = new Date(i);
         let y = now.getFullYear();
