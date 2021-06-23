@@ -145,7 +145,7 @@
     <div class="bot_fixed">
       <div>
         <div>
-          {{ "￥" + order_info.new_price.toFixed(2) }}
+          {{ "￥" + (order_info.new_price*$store.state.night).toFixed(2) }}
           <div>免押金入住</div>
         </div>
         <span>明细</span>
@@ -235,7 +235,7 @@ export default {
         r_params: this.order_info.fbt,
         start_time: this.$store.state.dataDate[0],
         end_time: this.$store.state.dataDate[1],
-        price: this.order_info.new_price,
+        price: this.order_info.new_price*this.store.state.night,
         name: window.localStorage.getItem("uname"),
         phone: window.localStorage.getItem("phone"),
       }); //判断订单是否可以预定 响应成功后 关闭加载动画
