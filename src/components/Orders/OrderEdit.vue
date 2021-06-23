@@ -239,15 +239,17 @@ export default {
         name: window.localStorage.getItem("uname"),
         phone: window.localStorage.getItem("phone"),
       }); //判断订单是否可以预定 响应成功后 关闭加载动画
-      this.$toast.clear();
       if (result.data.ok == 1) {
+        result.data.rid = oid
         this.$store.commit("setOrderFinishBuy", result.data);
         this.$router.replace({name:'oder_pay',params:{
           rid:oid,
           oid:result.data.result.oid
         }});
+        this.$toast.clear();
       } else {
         this.$toast.fail("预定失败" + result.data.msg);
+        this.$router.replace({path:'/order'})
       }
     },
   },
