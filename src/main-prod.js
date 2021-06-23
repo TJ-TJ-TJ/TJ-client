@@ -26,8 +26,6 @@ axios.defaults.validateStatus = status=> true
 axios.defaults.baseURL = 'https://tj.testw.top/v1'
 Vue.prototype.$axios=axios
 
-
-
 Vue.use(new VueSocketIO({
   debug: true,
   connection: ClientSocketIO.connect('https://kf.testw.top',{
