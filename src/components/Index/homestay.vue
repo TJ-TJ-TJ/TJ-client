@@ -396,7 +396,11 @@ export default {
       console.log(index)
     },
   },
+  beforeDestroy() {
+    window.removeEventListener('scroll', this.handleScroll,true)
+  }
 };
+
 </script>
 
 <style lang="scss" scoped>

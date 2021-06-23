@@ -13,7 +13,7 @@ export default new Vuex.Store({
       be:{
         uid:'1',
         head_img:'/img/defaultHead.png',
-        uname:'客服1'
+        uname:'客服'
       },//聊天对方的基本信息 头像 名称 id
       msgArr:[], //携带过去的最新的15条消息 
       sid:'',// 聊天对方的id
@@ -28,9 +28,18 @@ export default new Vuex.Store({
     priceData: [],
     city: "",
     night:'1', // 每晚
-    orderCommitIfo:{}
+    OrderCommitInfo:{},
+    orderFinishBuy:{
+      oname:'',
+      oid:"",
+      date:"",
+      rid:''
+    },//支付跳转信息
   },
   mutations: {
+    setOrderFinishBuy(state,data){ //支付页面需要存的信息
+      state.orderFinishBuy=data
+    },
     update_msgarr(state,data){ //获取最新的消息列表
       state.msg_arr=data
     },
@@ -68,8 +77,8 @@ export default new Vuex.Store({
     night(state,night){
       state.night = night
     },
-    setOrderCommitIfo(state,OrderCommitIfo) {
-      state.OrderCommitIfo = OrderCommitIfo
+    setOrderCommitInfo(state,OrderCommitInfo) {
+      state.OrderCommitInfo = OrderCommitInfo
 
     }
   },

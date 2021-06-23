@@ -77,7 +77,7 @@
             src="icon/history.png"
           />
           <br />
-          <span class="fontTitle" @click="$router.push('/hittory')">
+          <span class="fontTitle" @click="$router.push('/collect')">
             浏览历史
           </span>
           <br />

@@ -12,27 +12,39 @@
       <div class="head">
         <img
           style="width: 60px; height: 60px; border-radius: 6px"
-          src="https://pic.tujia.com/upload/qualifiedpics/day_201130/thumb/202011301839083086_700_467.jpg"
+          :src="order_info.fm"
           alt=""
         />
         <div>
-          <p class="title">近S1线近商圈温馨私享，悦景湾靠近天街！</p>
-          <span>整套出租 | 1室1厅 | 1床 | 最多住3人</span>
+          <p class="title">{{ order_info.bt }}</p>
+          <span>{{
+            order_info.fbt.attr +
+              " | " +
+              order_info.fbt.house +
+              " 室" +
+              " | " +
+              order_info.fbt.bed +
+              "厅" +
+              " | " +
+              "最多住" +
+              order_info.fbt.person_count +
+              "人" || "整套 | 实拍"
+          }}</span>
         </div>
       </div>
       <div class="body">
         <div>
-          <div>06月08日</div>
-          <p>周二14:00-24:00</p>
+          <div>{{ $store.state.starDate }}</div>
+          <p>{{ daystar }}入住</p>
         </div>
         <div style="font-weight: 600">-</div>
         <div>
-          <div>06月09日</div>
-          <p>周三12:00前离开</p>
+          <div>{{ $store.state.endDate }}</div>
+          <p>{{ dayend }}前离开</p>
         </div>
         <div>
           <span style="font-size: 12px; color: #ff9654">
-            共一晚<img
+            共{{ $store.state.night }}晚<img
               src="https://pic.tujia.com/upload/festatic/publicImages/form_arrow_right.png"
               alt=""
           /></span>
@@ -90,7 +102,6 @@
               >{{ item.uname }}</van-checkbox
             >
           </div>
-
         </div>
         <footer class="foot">
           <div class="left">
@@ -102,7 +113,7 @@
             />
           </div>
           <div class="right">
-            17630902513
+            {{ phone }}
             <div class="icon"></div>
           </div>
         </footer>
@@ -134,7 +145,7 @@
     <div class="bot_fixed">
       <div>
         <div>
-          {{ "￥" + (1172.0).toFixed(2) }}
+          {{ "￥" + (order_info.new_price * $store.state.night).toFixed(2) }}
           <div>免押金入住</div>
         </div>
         <span>明细</span>
@@ -152,13 +163,27 @@
 export default {
   data() {
     return {
-      user_info: [],
-      result: [],
-      checked: "",
+      user_info: [], //订单信息
+      result: [], //入住人选中
+      checked: "", //是否选中
+      order_info: "",
+      phone: "", //当前用户的电话号码
     };
   },
-  watch: {
-   
+  watch: {},
+  computed: {
+    daystar() {
+      let weekarr = ["周一", "周二", "周三", "周四", "周五", "周六", "周日"];
+      return weekarr[
+        new Date(Math.min.apply(null, this.$store.state.dataDate)).getDay()
+      ];
+    },
+    dayend() {
+      let weekarr = ["周一", "周二", "周三", "周四", "周五", "周六", "周日"];
+      return weekarr[
+        new Date(Math.max.apply(null, this.$store.state.dataDate)).getDay()
+      ];
+    },
   },
   methods: {
     onClickLeft() {
@@ -168,7 +193,7 @@ export default {
           message: "当前订单未完成 确认要离开吗",
         })
         .then(() => {
-          this.$router.push("/order"); //离开订单的操作
+          this.$router.replace({ path: "/order" }); //离开订单的操作
         })
         .catch(() => {
           return;
@@ -181,37 +206,69 @@ export default {
     gocheck() {
       this.$router.push("/check_person");
     },
-    go_pay() {
-      this.$router.push("/order_pay");
+    async go_pay() {
+      let flag = false;
+      this.result.forEach((item) => {
+        console.log(item, item == true);
+        if (item == "true") {
+          //如果有入住人被选中 则放行
+          flag = true;
+        }
+      });
+      console.log(flag);
+      if (flag == false) {
+        //如果flag为false 后面不执行 提醒添加入住人信息
+        this.$toast.fail("请添加入住人信息");
+        return;
+      }
+      let oid = this.order_info.uid;
+      let oname = this.order_info.bt;
+      this.$toast.loading({
+        message: "提交中",
+        forbidClick: true,
+      });
+      let result = await this.$axios.post("order/reserve", {
+        //判断当前订单是否可以预定
+        rid: oid,
+        title: oname,
+        cover: this.order_info.fm,
+        r_params: this.order_info.fbt,
+        start_time: this.$store.state.dataDate[0],
+        end_time: this.$store.state.dataDate[1],
+        price: this.order_info.new_price * this.$store.state.night,
+        name: window.localStorage.getItem("uname"),
+        phone: window.localStorage.getItem("phone"),
+      }); //判断订单是否可以预定 响应成功后 关闭加载动画
+      console.log(result);
+      this.$toast.clear();
+      if (result.data.ok == 1) {
+        this.$store.commit("setOrderFinishBuy", result.data);
+        this.$router.replace({name:'oder_pay',params:{
+          rid:oid,
+          oid:result.data.result.oid
+        }});
+      } else {
+        this.$toast.fail("预定失败" + result.data.msg);
+      }
     },
   },
-  created() {},
-  async mounted() {
-    //let user_info = await this.$axios.get("order/resideInfo"); //获取入住人的信息
-    let user_info = {
-      result: [
-        {
-          uname: "新的高武杰",
-          id: "4115222000100563611",
-          iId: "",
-        },
-        {
-          uname: "余成林",
-          id: "4115222000100563611",
-          iId: "",
-        },
-        
-      ],
-    };
-    user_info.result.forEach((item) => {
-      this.result.push('true')
+  async created() {
+    this.phone = localStorage.getItem("phone");
+    this.order_info = this.$store.state.OrderCommitInfo;
+    console.log(this.$store.state.OrderCommitInfo);
+    console.log(this.order_info);
+    this.$toast.loading({
+      message:"加载中"
+    })
+    let user_info = await this.$axios.get("/order/resideInfo"); //获取入住人的信息
+    this.$toast.clear()
+    user_info.data.result.forEach((item) => {
+      //入住人
+      this.result.push("true");
     });
-    //await this.$axios.get("order/resideInfo"); //获取入住人的信息
-    // console.log(user_info.result);
-    this.user_info = user_info.result; //用户人信息
-    // console.log(user_info.result);
-    this.user_info = user_info.result;
+    this.user_info = user_info.data.result; //用户人信息
   },
+  async mounted() {},
 };
 </script>
 <style lang="scss">
@@ -287,6 +344,7 @@ export default {
         width: 100%;
         height: 20px;
         font-size: 11px;
+        padding-top: 4px;
         color: #999;
         overflow: hidden;
         white-space: nowrap;
@@ -341,7 +399,7 @@ export default {
         .flex_wrap {
           display: flex;
           flex-wrap: wrap;
-          div{
+          div {
             margin: 2px 5px;
           }
         }
@@ -430,12 +488,17 @@ export default {
       background-color: #fff;
       margin-top: 15px;
       padding: 15px 10px;
+      border-radius: 1vw;
       & > div:first-child {
-        width: 50px;
+        width: 15vw;
         height: 15px;
         font-size: 12px;
         border: 1px solid #ff9645;
         color: #ff9645;
+        overflow: hidden;
+        -o-text-overflow: ellipsis;
+        text-overflow: ellipsis;
+        white-space: nowrap;
       }
       & > div:last-child {
         display: flex;
@@ -451,6 +514,8 @@ export default {
     }
     .footer {
       margin-top: 16px;
+      padding: 2vw 2vw;
+      border-radius: 1vw;
       .title {
         font-size: 13px;
         font-weight: 900;
@@ -465,6 +530,7 @@ export default {
       }
       p {
         font-size: 11px;
+        margin: 1vw 0;
         line-height: 16px;
         color: #666;
       }
@@ -478,7 +544,7 @@ export default {
     display: flex;
     align-items: center;
     justify-content: space-between;
-    height: 60px;
+    height: 15vw;
     padding: 0 15px;
     color: #ff9645;
     & > div:first-child {
@@ -489,7 +555,7 @@ export default {
       padding: 0 10px;
       box-sizing: border-box;
       div {
-        font-size: 18px;
+        font-size: 6vw;
         div {
           display: block;
           font-size: 11px;
@@ -510,7 +576,6 @@ export default {
       justify-content: space-between;
       align-items: center;
       width: 35%;
-
       p {
         display: inline-block;
         background-image: url(https://fe.tujiacdn.com/mob/static/img/page-unitOrder.7d75bdbc.png);
@@ -521,6 +586,7 @@ export default {
         margin-right: 5px;
       }
       button {
+        height: 10vw !important;
         border-radius: 5px !important;
       }
     }

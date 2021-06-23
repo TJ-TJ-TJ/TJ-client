@@ -5,7 +5,7 @@
       <van-tab v-for="(item, i) of order_type" :key="i" :title="item">
         <div v-if="order.length > 0">
           <div v-for="(item, i) of order" :key="i" class="order_detail">
-            <div class="order_content" @click="go_detail(item.oid,item.rid)">
+            <div class="order_content" @click="go_detail(item.oid, item.rid)">
               <div class="detail_head">
                 <p>
                   {{ item.title }}
@@ -24,8 +24,8 @@
               >
                 <div style="display: flex">
                   <div class="text">
-                    <p>{{ getdate(item.start_time) }}</p>
-                    <p>{{ getzhou(item.start_time) }}</p>
+                    <p>{{ getDate(item.start_time) }}日</p>
+                    <p>{{ getTime(item.start_time) }}分</p>
                   </div>
                   <div>
                     <svg
@@ -46,8 +46,8 @@
                     </svg>
                   </div>
                   <div class="text">
-                    <p class="p1">{{ getdate(item.end_time) }}</p>
-                    <p class="p2">{{ getzhou(item.end_time) }}</p>
+                    <p class="p1">{{ getDate(item.end_time) }}日</p>
+                    <p class="p2">{{ getTime(item.end_time) }}分</p>
                   </div>
                   <div style="width: 1px; height: 35px; background: #fff"></div>
                   <div>
@@ -59,11 +59,21 @@
 
               <div class="detail_foot">
                 <p>
-                  <button type="default" @click.stop="delete_order">
+                  <button
+                    type="default"
+                    @click.stop="delete_order(item.oid, i)"
+                  >
                     删除
                   </button>
-                  <button type="default" @click.stop="go_order">
+                  <button
+                    v-if="item.state != '0'"
+                    type="default"
+                    @click.stop="go_order(item.rid)"
+                  >
                     再次预定
+                  </button>
+                  <button v-else @click.stop="go_pay(item.oid, item.rid)">
+                    去支付
                   </button>
                 </p>
               </div>
@@ -93,62 +103,74 @@ export default {
     return {
       uid: "",
       active: 0,
-      order_type: ["全部订单", "待支付", "已支付", "已使用",'已超时'],
+      order_type: ["全部订单", "待支付", "已支付", "已使用", "已超时"],
       order: [],
     };
   },
   methods: {
-    go_detail(oid,rid) {
-      this.$router.push({ name: "oder_detail", params: { oid,rid } });
+    go_pay(oid, rid) {
+      console.log(oid, rid);
+      //去支付订单
+      let obj = {};
+      obj.rid = rid;
+      obj.result = {};
+      obj.result.oid = oid;
+      this.$store.commit("setOrderFinishBuy", obj);
+      this.$router.push("/order_pay");
     },
-    delete_order() {
+    go_detail(oid, rid) {
+      //详情页
+      this.$router.push({
+        name: "oder_detail",
+        params: { oid, rid },
+      });
+    },
+    delete_order(oid, i) {
+      //删除订单
       // 删除订单
       this.$dialog
         .confirm({
           title: "提示",
           message: "您确定要删除订单吗",
         })
-        .then(() => {
-          // 删除接口
+        .then(async () => {
+          this.$toast.loading({
+            message: "删除中",
+          });
+          let obj = await this.$axios.delete("order/delete", { data: { oid } });
+          console.log(obj.data);
+          if (obj.data.ok == "1") {
+            this.$toast.succes("删除成功");
+            this.order.splice(i, 1);
+          } else {
+            this.$toast.fail("网络繁忙 请稍后重试");
+          }
+          this.$toast.clear();
         })
         .catch(() => {
           return;
         });
     },
-    go_order() {
-      this.$router.push("/order_edit");
+    go_order(rid) {
+      this.$router.push(`/details?id=${rid}`);
       //再次购买订单
     },
   },
   async created() {
     this.uid = localStorage.getItem("uid");
-    let obj = await this.$axios.get(`order/list?state=${this.active-1}`);
+    let obj = await this.$axios.get(`order/list?state=${this.active - 1}`);
     console.log(obj);
     if (!obj) {
       return;
     } else {
       //后续是向后台获取数据
-      this.order = obj.data.result || [
-        {
-          title:
-            "紫御长安/直达天安门/故宫/五棵松地铁/301医院/玉泉医院/航天医院/华熙LIVE精装，可住多人",
-          state: "1",
-          cover:
-            "https://pic.tujia.com/upload/landlordunit/day_210529/thumb/202105291655141549_700_467.jpg",
-          start_time: "1623427200000",
-          end_time: "1623600000000",
-          price: "438",
-          oid: "60c2041a130b0000e6007962",
-          rid:'60c164a7074200005d003192'
-        },
-      ];
+      this.order = obj.data.result || [];
     }
   },
-  async mounted() {},
   watch: {
-    async active(newval,oldval) {
-      let obj = await this.$axios.get(`order/list?state=${newval-1}`);
-      this.order=obj.data.result||[]
+    async active(newval, oldval) {
+      let obj = await this.$axios.get(`order/list?state=${newval - 1}`);
+      this.order = obj.data.result || [];
     },
   },
   computed: {
@@ -161,19 +183,27 @@ export default {
       };
     },
     //计算几月几日
-    getdate(i) {
+    getDate(i) {
       return function (i) {
-        let date = new Date(parseInt(i) * 1000);
-        date = `${date.getMonth() + 1}月${date.getDate()}日`;
-        return date;
+        let now = new Date(i);
+        let y = now.getFullYear();
+        let m = now.getMonth() + 1;
+        let d = now.getDate();
+        m >= 10 ? "" : (m = "0" + (now.getMonth() + 1));
+        d >= 10 ? "" : (d = "0" + now.getDate());
+        return `${y}-${m}-${d}`;
       };
     },
-    //计算周几 几点
-    getzhou(i) {
+    //获取时间    格式 ` 00:00`
+    getTime(i) {
       return function (i) {
-        let date = new Date(parseInt(i) * 1000);
-        date = `周${date.getDay()} ${date.getHours()}时${date.getMinutes()}分`;
-        return date;
+        let now = new Date(i);
+        let hh = now.getHours();
+        let mm = now.getMinutes();
+        // hh == 00 ? hh = 24 : ''
+        hh >= 10 ? "" : (hh = "0" + hh);
+        mm >= 10 ? "" : (mm = "0" + mm);
+        return `${hh}:${mm}`;
       };
     },
   },
@@ -202,13 +232,16 @@ export default {
           width: 100%;
           display: flex;
           justify-content: space-between;
-          padding: 18px 0;
+          padding: 3vw 0;
           div {
             text-align: right;
             color: #ff9645;
             font-size: 18px;
+            display: flex;
+            align-items: center;
           }
           p {
+            text-align: left;
             width: 50%;
             height: 27px;
             line-height: 27px;
@@ -223,7 +256,7 @@ export default {
   }
   .detail_body {
     width: 100%;
-    height: 223px;
+    height: 50vw;
     position: relative;
     background-repeat: no-repeat;
     background-size: cover;
@@ -236,7 +269,7 @@ export default {
       flex-direction: column;
     }
     & > div:first-child {
-      height: 60px;
+      height: 15vw;
       width: 100%;
       box-sizing: border-box;
       padding: 0 15px;
@@ -261,6 +294,7 @@ export default {
       }
       & > div:last-child {
         & > p:last-child {
+          margin-top: 1vw;
           color: #ff9645;
           font-size: 20px;
         }
@@ -281,13 +315,13 @@ export default {
       display: flex;
       justify-content: space-between;
       button {
-        width: 73px;
+        width: 45%;
         height: 28px;
         margin-top: 15px;
         border-radius: 6px !important;
         border: 1px solid #e9e9e9;
         background-color: #fff;
-        font-size: 14px;
+        font-size: 3vw;
         font-weight: 100;
       }
       & > button:last-child {

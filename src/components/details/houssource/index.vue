@@ -23,16 +23,14 @@
 
     <van-card>
       <template #thumb>
-        <van-image
-          width="82"
-          height="104"
-          :src="swiper[0].url[0]"
-        />
+        <van-image width="82" height="104" :src="swiper[0].url[0]" />
         <span class="card-img-text">当前房源</span>
       </template>
       <template #title>
         <div class="card-title">
-          {{params.attr}}·{{params.house}}居{{params.bed}}床{{params.person_count}}人·{{params.area}}㎡
+          {{ params.attr }}·{{ params.house }}居{{ params.bed }}床{{
+            params.person_count
+          }}人·{{ params.area }}㎡
           <!-- <div class="card-arrow"><img src="/icon/aggregation-right-black.png" alt=""></div> -->
         </div>
       </template>
@@ -61,16 +59,17 @@
         </van-col> -->
 
             <van-col class="yjg" offset="2" span="4">
-              <s>{{jiage.price}}</s>
+              <s class="xhx">¥{{ jiage.price }}</s>
             </van-col>
             <van-col offset="4" span="6">
-              <span class="newjg">¥{{jiage.new_price}} </span>/晚
+              <span class="newjg">¥{{ jiage.new_price }} </span>/晚
             </van-col>
             <van-col offset="3" span="4">
               <van-button
                 class="button"
                 size="small"
                 color="linear-gradient(90deg,#fa8c1d,#fcaf3f)"
+                @click="yuyue"
                 >预定</van-button
               >
             </van-col>
@@ -118,7 +117,7 @@
         </van-col> -->
 
             <van-col class="yjg" offset="2" span="4">
-              <s>¥1000</s>
+              <s class="xhx">¥1000</s>
             </van-col>
             <van-col offset="4" span="6">
               <span class="newjg">¥789 </span>/晚
@@ -128,6 +127,7 @@
                 class="button"
                 size="small"
                 color="linear-gradient(90deg,#fa8c1d,#fcaf3f)"
+                @click="yuyue"
                 >预定</van-button
               >
             </van-col>
@@ -173,7 +173,7 @@
         </van-col> -->
 
             <van-col class="yjg" offset="2" span="4">
-              <s>¥1100</s>
+              <s class="xhx">¥1100</s>
             </van-col>
             <van-col offset="4" span="6">
               <span class="newjg">¥989 </span>/晚
@@ -183,6 +183,7 @@
                 class="button"
                 size="small"
                 color="linear-gradient(90deg,#fa8c1d,#fcaf3f)"
+                @click="yuyue"
                 >预定</van-button
               >
             </van-col>
@@ -201,7 +202,11 @@
         <!-- <span class="card-img-text">当前房源</span> -->
       </template>
       <template #title>
-        <div class="card-title">{{params.attr}}·{{params.house}}居{{params.bed}}床{{params.person_count}}人·{{params.area}}㎡</div>
+        <div class="card-title">
+          {{ params.attr }}·{{ params.house }}居{{ params.bed }}床{{
+            params.person_count
+          }}人·{{ params.area }}㎡
+        </div>
       </template>
       <template #desc>
         <div class="card-desc">英国风情观景大床房 （车接车送）</div>
@@ -228,7 +233,7 @@
         </van-col> -->
 
             <van-col class="yjg" offset="2" span="4">
-              <s>¥103</s>
+              <s class="xhx">¥103</s>
             </van-col>
             <van-col offset="4" span="6">
               <span class="newjg">¥999 </span>/晚
@@ -238,6 +243,7 @@
                 class="button"
                 size="small"
                 color="linear-gradient(90deg,#fa8c1d,#fcaf3f)"
+                @click="yuyue"
                 >预定</van-button
               >
             </van-col>
@@ -245,7 +251,6 @@
         </div>
       </template>
     </van-card>
-
     <div class="bianxian"></div>
   </div>
 </template>
@@ -254,35 +259,50 @@ export default {
   props: {
     params: {
       type: Number | String,
-      require: true
+      require: true,
+      default: ()=> {
+        return {};
+      }
     },
     swiper: {
       type: Object | Array | String,
       require: true,
-      default: function(){return [
-        {
-          class_name: '',
-          type: '',
-          url: ['']
-        }
-      ]}
+      default: function () {
+        return [
+          {
+            class_name: "",
+            type: "",
+            url: [""],
+          },
+        ];
+      },
     },
     jiage: {
       type: Object | Number,
       require: true,
-      default: function() {
+      default: function () {
         return {
-          price:"",
-          new_price:""
-        }
-      }
-    }
+          price: "",
+          new_price: "",
+          r_name:'',
+        };
+      },
+    },
   },
   // props: ['params','swiper'],
   data() {
     return {
       show: false,
       // houses: 'https://pic.tujia.com/upload/landlordunit/day_190414/thumb/201904141312288527_700_467.jpg',
+      // yuyued: {
+      //   price: this.jiage.price,
+      //   new_price: this.jiage.new_price,
+      //   uid: this.$route.query.id,
+      //   fm: this.swiper[0].url[0],
+      //   bt: this.jiage.r_name,
+      //   fbt: this.params,
+
+      // }
     };
   },
 
@@ -290,31 +310,78 @@ export default {
     showPopup() {
       this.show = true;
     },
-    getContainer() {
-      return document.querySelector(".houssource");
+    // yuyuel() {
+    //   console.log({
+    //     price: this.jiage.price,
+    //     new_price: this.jiage.new_price,
+    //     uid: this.$route.query.id,
+    //     fm: this.swiper[0].url[0],
+    //     bt: this.jiage.r_name,
+    //     fbt: this.params,
+
+    //   })
+    // },
+    async yuyue() {
+      const toast = this.$toast.loading({
+        duration: 0, // 持续展示 toast
+        forbidClick: true,
+        selector: "#custom-selector",
+      });
+      let { data: res } = await this.$axios.get("/details/is", {
+        params: {
+          start: this.$store.state.dataDate[0],
+          end: this.$store.state.dataDate[1],
+          rid: this.$route.query.id,
+        },
+      });
+      if (res.ok == 1) {
+        this.$store.commit("setOrderCommitInfo", {
+        price: this.jiage.price,
+        new_price: this.jiage.new_price,
+        uid: this.$route.query.id,
+        fm: this.swiper[0].url[0],
+        bt: this.jiage.r_name,
+        fbt: this.params,
+
+      });
+        this.$router.replace({ path: "/order_edit" });
+        this.$toast.clear();
+      } else {
+        this.$toast.fail(res.msg);
+        this.$toast.clear();
+      }
     },
   },
-  beforeCreate() {
-    
-  },
-  created(){
+  beforeCreate() {},
+  created() {
     // console.log(this.$props.swiper, '------->>>>>');
   },
-  watch:{
-
-  },
+  // watch: {
+  //   params(val) {
+  //     this.desc = val
+  //   }
+  // },
   mounted() {
     // this.houses = this.$props.swiper[0].url[0]
     // console.log(this.params)
-  
+    // console.log(this.swiper)
     // console.log(this.house)
+    // console.log(this.$route.query.id)
+    // console.log( {
+    //     price: this.jiage.price,
+    //     new_price: this.jiage.new_price,
+    //     uid: this.$route.query.id,
+    //     fm: this.swiper[0].url[0],
+    //     bt: this.jiage.r_name,
+    //     fbt: this.params,
+
+    //   })
   },
   watch: {
     // swiper(newval,oldval) {
     //     this.houses = newval
     // }
-  }
- 
+  },
 };
 </script>
 
@@ -333,7 +400,7 @@ export default {
     font-size: 14px;
     color: #333;
     font-weight: 600;
-    // line-height: 16px;
+    line-height: 30px;
     overflow: hidden;
     text-overflow: ellipsis;
     //   .card-arrow {
@@ -391,6 +458,10 @@ export default {
   .yjg {
     text-align: center;
     line-height: 30px;
+    .xhx {
+      font-size: 12px;
+      text-decoration: line-through;
+    }
   }
   .newjg {
     font-size: 14px;
@@ -405,8 +476,6 @@ export default {
   //   clear: both;
   //   visibility: hidden;
   // }
-
-  
 
   .card-img-text {
     position: absolute;
@@ -447,7 +516,7 @@ export default {
 
   .bianxian {
     width: 100%;
-    border-bottom: 10px solid #e9e4e4;
+    border-bottom: 10px solid #f7f9fb;
   }
 }
 </style>

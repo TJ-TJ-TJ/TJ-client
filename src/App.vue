@@ -26,6 +26,7 @@ export default {
       let [err, data] = await this.capture(this.getHistory);
       // this.arrlength = data.data; //所有的消息列表
       // console.log(null==undefined,data.data)
+      console.log(data);
       if (!data) {
         //如果请求不到数据 证明无消息
         return;
@@ -35,6 +36,7 @@ export default {
         data.data.forEach((item) => {
           item.msgArr.forEach((i) => {
             //如果消息数组中的 接受者id等于客户uid 并且有未读消息
+            // console.log(i)
             if (
               (i.sid == window.localStorage.getItem("uid") && i.is_read == 0) ||
               (i.audio_isRead == 0 &&
@@ -63,7 +65,9 @@ export default {
     }
   },
   sockets: {
-    connect: function () {},
+    connect: function () {
+      console.log("web socket 连接成功");
+    },
     //>>>>>>>>   监听发来的消息
     oToMessage(data) {
       console.log(data);
@@ -71,7 +75,7 @@ export default {
       let count = 0;
       arr.forEach((item) => {
         item.msgArr.forEach((i) => {
-          console.log(item);
+          // console.log(item);
           //如果消息数组中的 接受者id等于客户uid 并且有未读消息
           if (
             (i.sid == window.localStorage.getItem("uid") && i.is_read == 0) ||

@@ -1,16 +1,14 @@
-import Vue from "vue";
-import VueRouter from "vue-router";
+// import Vue from "vue";
+// import VueRouter from "vue-router";
 import Order from "./order"; //订单 及 消息模块的路由配置
 import user from "./user"; //用户信息界面(user)
 import details from '@/components/details'  //房屋详情页
 Vue.use(VueRouter);
 
-
-Vue.use(VueRouter)
 const routes = [
   ...Order,
   ...user,
-  { path: "/index", redirect: "/collects" },
+  // { path: "/index", redirect: "/collects" },
   {
     path: "/",
     name: "index",
@@ -63,11 +61,11 @@ const routes = [
       import(/* webpackChunkName: "about" */ "../components/Index/user.vue"),
   },
   {
-    path: "/hittory",
-    name: "hittory",
-    redirect:'/collect',
+    path: "/collect",
+    name: "collect",
+    redirect:'/collects',
     component: () =>
-      import(/* webpackChunkName: "about" */ "../components/Index/hittory.vue"),
+      import(/* webpackChunkName: "about" */ "../components/Collect/index.vue"),
     children: [
       {
         path: "/collects",
@@ -99,7 +97,7 @@ const router = new VueRouter({
 
 router.beforeEach((to, from, next) => {
     console.log(to , from);
-    if(to.path=='/order_edit' || to.path=='/order_pay'){
+    if(to.path=='/order_edit' || to.path=='/order_pay' || to.path=='/msg'){
      if(!window.localStorage.getItem('token')){
        return router.replace({path:'login'})
      }

@@ -33,7 +33,7 @@ export default {
         };
     },
    mounted() {
-     console.log(this.$store.state.dataDate)
+    //  console.log(this.$store.state.night)
    },
    computed: {
     night () {

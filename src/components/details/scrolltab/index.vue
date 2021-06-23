@@ -72,7 +72,7 @@ export default {
       swiper: undefined,
       title:'',
       label: undefined,
-      params:'',
+      params: undefined,
       jiage: '',
       facility: undefined,
       owner:'',
@@ -101,7 +101,7 @@ export default {
 
   },
   mounted() {
-    window.addEventListener("scroll", this.handleScroll); // 监听滚动事件
+    window.addEventListener("scroll", this.handleScroll,true); // 监听滚动事件
 
     // this.axios.get('/details/?rid=60c164a7074200005d003192').then(result=>{
     //   // console.log(result.data.result)
@@ -174,7 +174,9 @@ export default {
       this.swiper = swiper;
       this.jiage = {
         price,
-        new_price
+        new_price,
+        r_name:name
+
       };
 
       this.facility = facility;
@@ -184,7 +186,7 @@ export default {
       this.circum = circum;
       this.location = location;
 
-      // console.log(this.location)
+      // console.log(this.params)
 
     }
     
@@ -219,7 +221,7 @@ export default {
     
   },
   beforeDestroy() { // 在组件生命周期结束的时候销毁。
-    window.removeEventListener('scroll', this.handleScroll)
+    window.removeEventListener('scroll', this.handleScroll,true)
   },
 };
 </script>

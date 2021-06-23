@@ -140,6 +140,7 @@ export default {
 
 <style lang="scss">
 .maptabs {
+  background: #fff;
   // padding: 0  12px;
   .van-tabs__nav--card {
     border: none;

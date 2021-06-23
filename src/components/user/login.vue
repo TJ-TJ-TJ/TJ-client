@@ -424,11 +424,12 @@ async reloadSendPhoneSignUp(){
 
     //登录成功 和 注册成功 接收传入的用户信息对象，并且保存本地
     loginOrSignInSuccess(info){
+        console.log(info);
         window.localStorage.setItem('token',info.token)
         window.localStorage.setItem('phone',this.loginPhone)
         window.localStorage.setItem('uid',info.uid)
         window.localStorage.setItem('uname',info.uname || Date.now())
-        window.localStorage.setItem('headImg',info.headImg || '/img/defaultHead.png')
+        window.localStorage.setItem('headImg',info.avatar || 'https://z3.ax1x.com/2021/06/22/RZOHpR.png')
         this.$router.replace({path:'/user'})
         this.$socket.open()
     }

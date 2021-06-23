@@ -1,9 +1,9 @@
 <template>
   <div class="details">
-       <!-- <button @click="qingq">请求</button> -->
+    <!-- <button @click="qingq">请求</button> -->
     <nav-bar></nav-bar>
-     <sw-ipe  :swiper="swiper"></sw-ipe>
-     <scroll-tab :allDate="allDate"></scroll-tab>
+    <sw-ipe :swiper="swiper"></sw-ipe>
+    <scroll-tab :allDate="allDate"></scroll-tab>
 
     <!-- <intro-duce></intro-duce>
     <hous-scource></hous-scource>
@@ -11,9 +11,8 @@
     <land-lord></land-lord>
     <com-ment></com-ment>
     <not-ice></not-ice> -->
-    <foo-ter></foo-ter> 
+    <foo-ter></foo-ter>
     <act-ion :prices="prices"></act-ion>
- 
   </div>
 </template>
 
@@ -32,22 +31,22 @@ import FooTer from "@/components/details/footer";
 export default {
   data() {
     return {
-      swiper: '',
-      allDate:undefined,
+      swiper: "",
+      allDate: undefined,
       prices: undefined,
     };
   },
-  beforeCreate(){
-    console.log(this.$store.state)
+  beforeCreate() {
+    console.log(this.$store.state);
   },
   mounted() {
     this.$axios.get(`/details/?rid=${this.$route.query.id}`).then(result=>{
-      // console.log(result.data.result)
+      console.log(result.data.result)
       const data = result.data.result;
-      this.allDate = data
-      console.log(data)
+      this.allDate = data;
+      console.log(data);
       this.swiper = data.swiper;
-         const {price,new_price,r_name,params}=data
+      const { price, new_price, r_name, params, owner } = data;
 
       // console.log(price,new_price)
       this.prices = {
@@ -56,26 +55,13 @@ export default {
         uid: this.$route.query.id,
         fm: this.swiper[0].url[0],
         bt: r_name,
-        fbt: params
-
-        
-
-
-
-
-      }
+        fbt: params,
+        owner: owner,
+      };
       // console.log(this.prices)
       // console.log(this.$route)
-      console.log(this.prices)
-
-
-
-  
-
-
-
-    })
-
+      console.log(this.prices);
+    });
   },
   components: {
     "nav-bar": navbar,

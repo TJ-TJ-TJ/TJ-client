@@ -30,6 +30,11 @@
 <style lang="scss">
 .footer {
 
+  .bianxian {
+    width: 100%;
+    border: 10px solid #f7f9fb;
+  }
+  background: #fff;
   .price-instr {
     padding: 16px 12px;
     margin-top: 10px;
