@@ -76,6 +76,7 @@ export default {
       //   console.log(this.$store.state);
       this.$store.commit('hotelStarDate',this.starDate)
       this.$store.commit('hotelEndDate',this.endDate)
+      this.$store.commit('night',this.sumDate)
     },
     // 页面选择时间
     onCalfirm(date) {

@@ -166,13 +166,15 @@ export default {
           this.oid=window.sessionStorage.getItem('oid');
           this.rid=window.sessionStorage.getItem('rid');
         }else{
-          this.oid=window.sessionStorage.setItem('oid');
-          this.rid=window.sessionStorage.setItem('rid');
-        }else{
+          window.sessionStorage.setItem('oid');
+          window.sessionStorage.setItem('rid');
+          this.oid=this.$route.params.oid
+          this.rid=this.$route.params.rid
         }
-        let {data:res} = await this.$axios.get('/order/detail',{params:{
-            oid:this.$route.params.oid,
-            rid:this.$route.params.rid
+
+        let res = await this.$axios.get('/order/detail',{params:{
+            oid:this.oid,
+            rid:this.rid
         }})
         console.log(res);
         if(res.ok!=1) return this.$toast.fail('查询订单失败')

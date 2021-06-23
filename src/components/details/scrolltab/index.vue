@@ -72,7 +72,7 @@ export default {
       swiper: undefined,
       title:'',
       label: undefined,
-      params:'',
+      params: undefined,
       jiage: '',
       facility: undefined,
       owner:'',
@@ -174,7 +174,9 @@ export default {
       this.swiper = swiper;
       this.jiage = {
         price,
-        new_price
+        new_price,
+        r_name:name
+
       };
 
       this.facility = facility;
@@ -184,7 +186,7 @@ export default {
       this.circum = circum;
       this.location = location;
 
-      // console.log(this.location)
+      // console.log(this.params)
 
     }
     
