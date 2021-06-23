@@ -239,7 +239,6 @@ export default {
         name: window.localStorage.getItem("uname"),
         phone: window.localStorage.getItem("phone"),
       }); //判断订单是否可以预定 响应成功后 关闭加载动画
-      console.log(result);
       this.$toast.clear();
       if (result.data.ok == 1) {
         this.$store.commit("setOrderFinishBuy", result.data);
