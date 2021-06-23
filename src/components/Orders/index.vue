@@ -141,7 +141,7 @@ export default {
           console.log(obj.data);
           if (obj.data.ok == "1") {
             this.$toast.succes("删除成功");
-            this.order.splice(i, 1);
+            this.get_list();
           } else {
             this.$toast.fail("网络繁忙 请稍后重试");
           }
@@ -155,17 +155,20 @@ export default {
       this.$router.push(`/details?id=${rid}`);
       //再次购买订单
     },
+    async get_list() {
+      let obj = await this.$axios.get(`order/list?state=${this.active - 1}`);
+      console.log(obj);
+      if (!obj) {
+        return;
+      } else {
+        //后续是向后台获取数据
+        this.order = obj.data.result || [];
+      }
+    },
   },
   async created() {
     this.uid = localStorage.getItem("uid");
-    let obj = await this.$axios.get(`order/list?state=${this.active - 1}`);
-    console.log(obj);
-    if (!obj) {
-      return;
-    } else {
-      //后续是向后台获取数据
-      this.order = obj.data.result || [];
-    }
+    this.get_list();
   },
   watch: {
     async active(newval, oldval) {
