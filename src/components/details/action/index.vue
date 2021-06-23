@@ -70,7 +70,7 @@ export default {
           forbidClick: true,
           selector: '#custom-selector',
         });
-       let {data:res} = await  this.$axios.get('/details/is',{params:{
+        let {data:res} = await  this.$axios.get('/details/is',{params:{
           start:this.$store.state.dataDate[0],
           end:this.$store.state.dataDate[1],
           rid:this.jiage.uid
