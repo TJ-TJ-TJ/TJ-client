@@ -5,10 +5,10 @@
       温馨提示:请勿脱离平台与房东交易,以免造成财产损失或纠纷
     </van-notice-bar>
     <div class="order_status">
-      <!-- <h1>{{$route.params.state}}</h1> 接口无数据-->
+       <h1>{{calc(msgdetail.userInfo.state)}}</h1> 
       <p></p>
       <div>
-        <van-button type="default" @click="gomsg(msgdetail.landlord)">联系房东</van-button>
+        <van-button type="default" @click="gomsg(msgdetail.detailInfo.owner)">联系房东</van-button>
         <van-button color="rgb(255, 150, 69)" @click="go_Detail()">
           再次入住
         </van-button>
@@ -16,10 +16,10 @@
     </div>
     <!-- 卡片一 -->
     <div class="card_box">
-      <!--接口无数据 <p><span>入离时期</span><span>{{$route.params.start_time}}至{{$route.params.end_time}}</span> </p> -->
+ <p><span>入离时期</span><span>{{getDate(msgdetail.userInfo.start_time)}}至{{getDate(msgdetail.userInfo.end_time)}}</span> </p> 
       <div>
         <div>
-          <span>支付金额</span><span>￥{{$route.params.price+'.00'}}</span>
+          <span>支付金额</span><span>￥{{msgdetail.detailInfo.new_price+'.00'}}</span>
         </div>
         <van-icon name="arrow" @click="showPopup('money')" />
       </div>
@@ -106,16 +106,16 @@
         <div class="hd">
           <h2>
             <p>{{msgdetail.order_type}}</p>
-            <div>￥{{msgdetail.order_money+'.00'}}</div>
+            <div>￥{{msgdetail.detailInfo.new_price+'.00'}}</div>
           </h2>
           <van-divider />
           <div class="d1">
             <p>房费</p>
-            <p>￥{{msgdetail.order_money+'.00'}}</p>
+            <p>￥{{msgdetail.detailInfo.new_price+'.00'}}</p>
           </div>
           <div class="d2">
             <p>{{msgdetail.order_place}}</p>
-            <p>￥{{msgdetail.order_money+'.00'}}x一套</p>
+            <p>￥{{msgdetail.detailInfo.new_price+'.00'}}x一套</p>
           </div>
         </div>
       </div>
@@ -143,7 +143,7 @@
             <div>
               <span>{{msgdetail.detailInfo.r_name}}</span>
             </div>
-            <p>{{msgdetail.detailInfo.params.attr || '实拍整套'}}</p>
+            <p style="text-align:left">{{msgdetail.detailInfo.params.attr+'|'+msgdetail.detailInfo.params.house+"室 |"+msgdetail.detailInfo.params.bed+'厅 |' || '实拍整套'}}</p>
           </div>
         </div>
         <van-icon name="arrow" />
@@ -157,7 +157,7 @@
       </div>
       <div class="list">
         <p class="title">订单号</p>
-        <p class="content">{{$route.params.oid}}</p>
+        <p class="content">{{msgdetail.userInfo.oid}}</p>
       </div>
       <div class="list">
         <p class="title">入住人</p>
@@ -173,7 +173,7 @@
       </div>
       <div class="list">
         <p class="title">下单时间</p>
-        <p class="content">{{getdate(msgdetail.userInfo.date)}}{{getzhou(nsgdetail.userInfo.date)}}</p>
+        <p class="content">{{getDate(msgdetail.userInfo.date)}}日&nbsp;{{getTime(msgdetail.userInfo.date)}}分</p>
       </div>
     </div>
 
@@ -228,6 +228,29 @@ export default {
     };
   },
   computed: {
+    getDate(i) {
+      return function (i) {
+        let now = new Date(i);
+        let y = now.getFullYear();
+        let m = now.getMonth() + 1;
+        let d = now.getDate();
+        m >= 10 ? "" : (m = "0" + (now.getMonth() + 1));
+        d >= 10 ? "" : (d = "0" + now.getDate());
+        return `${y}-${m}-${d}`;
+      };
+    },
+    //获取时间    格式 ` 00:00`
+    getTime(i) {
+      return function (i) {
+        let now = new Date(i);
+        let hh = now.getHours();
+        let mm = now.getMinutes();
+        // hh == 00 ? hh = 24 : ''
+        hh >= 10 ? "" : (hh = "0" + hh);
+        mm >= 10 ? "" : (mm = "0" + mm);
+        return `${hh}:${mm}`;
+      };
+    },
     //计算订单状态
     calc(i) {
       return function (i) {
@@ -258,41 +281,40 @@ export default {
       this.$router.push("/");
     },
     onClickLeft() {
-      this.$router.go(-1);
+      this.$router.push("/order");
     },
     showPopup(i) {
       this.show = !this.show;
       this.show_msg = i;
     },
     gomsg(i) {
+      console.log(i);
+      i.uid = i.sid;
       // 去客服
       this.$router.push({
-        name: "田田的小屋",
+        name: "msg",
         params: {
-          uname:
-            "https://pic.tujia.com/upload/landlordstorelogo/day_190702/thumb/201907022107568967_90_90.jpg",
-          uid: 763883809,
+          sid: i,
         },
       });
     },
-    async getstore(oid, rid) {
-      let {data:res} = await this.$axios.get(`/order/detail?oid=${oid}&rid=${rid}`);
-      console.log(res);
-      return 
+    getstore(oid, rid) {
+      return this.$axios.get(`/order/detail?oid=${oid}&rid=${rid}`);
     },
   },
   async created() {
     console.log(this.$route.params);
-    if(!this.$route.params.oid || !this.$route.params.rid){
-      this.oid = window.sessionStorage.getItem('oid');
-      this.rid = window.sessionStorage.getItem('rid');
-    }else{
-      window.sessionStorage.setItem('oid',this.$route.params.oid)
-      window.sessionStorage.setItem('rid',this.$route.params.rid)
+    if (!this.$route.params.oid || !this.$route.params.rid) {
+      this.oid = window.sessionStorage.getItem("oid");
+      this.rid = window.sessionStorage.getItem("rid");
+    } else {
+      window.sessionStorage.setItem("oid", this.$route.params.oid);
+      window.sessionStorage.setItem("rid", this.$route.params.rid);
       this.oid = this.$route.params.oid;
       this.rid = this.$route.params.rid;
     }
     let obj = await this.getstore(this.oid, this.rid); //查询订单详情
+    console.log(obj);
     this.msgdetail = obj.data.result;
   },
 };
@@ -521,6 +543,7 @@ export default {
 
           p {
             font-family: PingFang-SC-Regular;
+            width: 100%;
             font-size: 10px;
             line-height: 14px;
             color: #666;

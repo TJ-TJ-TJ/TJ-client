@@ -26,7 +26,7 @@ export default {
       let [err, data] = await this.capture(this.getHistory);
       // this.arrlength = data.data; //所有的消息列表
       // console.log(null==undefined,data.data)
-      console.log(data)
+      console.log(data);
       if (!data) {
         //如果请求不到数据 证明无消息
         return;
@@ -65,7 +65,9 @@ export default {
     }
   },
   sockets: {
-    connect: function () {},
+    connect: function () {
+      console.log("web socket 连接成功");
+    },
     //>>>>>>>>   监听发来的消息
     oToMessage(data) {
       console.log(data);
@@ -73,7 +75,7 @@ export default {
       let count = 0;
       arr.forEach((item) => {
         item.msgArr.forEach((i) => {
-          console.log(item);
+          // console.log(item);
           //如果消息数组中的 接受者id等于客户uid 并且有未读消息
           if (
             (i.sid == window.localStorage.getItem("uid") && i.is_read == 0) ||
@@ -83,7 +85,7 @@ export default {
           }
         });
         console.log("未读消息总数" + count);
-        this.$store.commit("change_unread", count+1 ); //因为新消息并没有push 所有这里未读消息+1
+        this.$store.commit("change_unread", count + 1); //因为新消息并没有push 所有这里未读消息+1
       });
     },
   },

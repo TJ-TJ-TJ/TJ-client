@@ -282,7 +282,7 @@ export default {
         be_uname: this.be.uname, // 对方的name
         be_head_img: this.be.head_img, // 对方的头像
       };
-      console.log(sendObj,this.message);
+      console.log(sendObj);
       this.$socket.emit("puoToMessage", sendObj);
       this.text_msg = "";
       this.message.push(sendObj);
@@ -346,7 +346,7 @@ export default {
           send_time: this.$getTime(), //发送准确时间
           audio_isRead: false, //语音是否已读
           m_id: Date.now(), //当前时间
-          be_uname: "无良商家", //接收者uname
+          be_uname: this.be.uname, //接收者uname
           be_head_img: this.be.head_img, //接收者头像
         };
         recorder.stop(); //录音停止
@@ -533,9 +533,9 @@ export default {
   updated() {},
   watch: {
     status() {
-      console.log("触发了");
+      // console.log("触发了");
       setTimeout(() => {
-        console.log("底部滚动条定时器");
+        // console.log("底部滚动条定时器");
         window.scrollTo(0, document.body.scrollHeight);
       }, 200);
     },
