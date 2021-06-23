@@ -282,7 +282,7 @@ export default {
         be_uname: this.be.uname, // 对方的name
         be_head_img: this.be.head_img, // 对方的头像
       };
-      console.log(sendObj,this.message);
+      console.log(sendObj);
       this.$socket.emit("puoToMessage", sendObj);
       this.text_msg = "";
       this.message.push(sendObj);
@@ -533,9 +533,9 @@ export default {
   updated() {},
   watch: {
     status() {
-      console.log("触发了");
+      // console.log("触发了");
       setTimeout(() => {
-        console.log("底部滚动条定时器");
+        // console.log("底部滚动条定时器");
         window.scrollTo(0, document.body.scrollHeight);
       }, 200);
     },

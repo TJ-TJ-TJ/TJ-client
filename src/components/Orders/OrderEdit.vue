@@ -223,7 +223,6 @@ export default {
       }
       let oid = this.order_info.uid;
       let oname = this.order_info.bt;
-      console.log(oname);
       this.$toast.loading({
         message: "提交中",
         forbidClick: true,
@@ -240,33 +239,30 @@ export default {
         name: window.localStorage.getItem("uname"),
         phone: window.localStorage.getItem("phone"),
       }); //判断订单是否可以预定 响应成功后 关闭加载动画
-      console.log(result)
+      console.log(result);
       this.$toast.clear();
       if (result.data.ok == 1) {
         result.data.rid = oid;
         this.$store.commit("setOrderFinishBuy", result.data);
         this.$router.push("/order_pay");
       } else {
-        this.$toast.fail("预定失败"+result.data.msg);
+        this.$toast.fail("预定失败" + result.data.msg);
       }
     },
   },
-  created() {
+  async created() {
     this.phone = localStorage.getItem("phone");
     this.order_info = this.$store.state.OrderCommitInfo;
     console.log(this.$store.state.OrderCommitInfo);
     console.log(this.order_info);
-  },
-  async mounted() {
     let user_info = await this.$axios.get("/order/resideInfo"); //获取入住人的信息
     user_info.data.result.forEach((item) => {
       //入住人
       this.result.push("true");
     });
-    //await this.$axios.get("order/resideInfo"); //获取入住人的信息
-    // console.log(user_info.result);
     this.user_info = user_info.data.result; //用户人信息
   },
+  async mounted() {},
 };
 </script>
 <style lang="scss">

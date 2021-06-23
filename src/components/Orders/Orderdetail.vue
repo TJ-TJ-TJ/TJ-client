@@ -8,7 +8,7 @@
       <!-- <h1>{{$route.params.state}}</h1> 接口无数据-->
       <p></p>
       <div>
-        <van-button type="default" @click="gomsg(msgdetail.landlord)">联系房东</van-button>
+        <van-button type="default" @click="gomsg(msgdetail.detailInfo.owner)">联系房东</van-button>
         <van-button color="rgb(255, 150, 69)" @click="go_Detail()">
           再次入住
         </van-button>
@@ -16,10 +16,10 @@
     </div>
     <!-- 卡片一 -->
     <div class="card_box">
-      <!--接口无数据 <p><span>入离时期</span><span>{{$route.params.start_time}}至{{$route.params.end_time}}</span> </p> -->
+ <p><span>入离时期</span><span>{{getdate(msgdetail.userInfo.start_time)}}至{{getzhou(msgdetail.userInfo.end_time)}}</span> </p> 
       <div>
         <div>
-          <span>支付金额</span><span>￥{{$route.params.price+'.00'}}</span>
+          <span>支付金额</span><span>￥{{msgdetail.detailInfo.new_price+'.00'}}</span>
         </div>
         <van-icon name="arrow" @click="showPopup('money')" />
       </div>
@@ -143,7 +143,7 @@
             <div>
               <span>{{msgdetail.detailInfo.r_name}}</span>
             </div>
-            <p>{{msgdetail.detailInfo.params.attr || '实拍整套'}}</p>
+            <p>{{msgdetail.detailInfo.params.attr+'|'+msgdetail.detailInfo.house+"室 |"+msgdetail.detailInfo.bed+'厅 |' || '实拍整套'}}</p>
           </div>
         </div>
         <van-icon name="arrow" />
@@ -157,7 +157,7 @@
       </div>
       <div class="list">
         <p class="title">订单号</p>
-        <p class="content">{{$route.params.oid}}</p>
+        <p class="content">{{msgdetail.userInfo.oid}}</p>
       </div>
       <div class="list">
         <p class="title">入住人</p>
@@ -173,7 +173,7 @@
       </div>
       <div class="list">
         <p class="title">下单时间</p>
-        <p class="content">{{getdate(msgdetail.userInfo.date)}}{{getzhou(nsgdetail.userInfo.date)}}</p>
+        <p class="content">{{getdate(msgdetail.userInfo.date)}}{{getzhou(msgdetail.userInfo.date)}}</p>
       </div>
     </div>
 
@@ -265,35 +265,33 @@ export default {
       this.show_msg = i;
     },
     gomsg(i) {
+      console.log(i);
+      i.uid = i.sid;
       // 去客服
       this.$router.push({
-        name: "田田的小屋",
+        name: "msg",
         params: {
-          uname:
-            "https://pic.tujia.com/upload/landlordstorelogo/day_190702/thumb/201907022107568967_90_90.jpg",
-          uid: 763883809,
+          sid: i,
         },
       });
     },
-    async getstore(oid, rid) {
-      let {data:res} = await this.$axios.get(`/order/detail?oid=${oid}&rid=${rid}`);
-      console.log(res);
-      return 
+   getstore(oid, rid) {
+      return this.$axios.get(`/order/detail?oid=${oid}&rid=${rid}`);
     },
   },
   async created() {
     console.log(this.$route.params);
-    if(!this.$route.params.oid || !this.$route.params.rid){
-      this.oid = window.sessionStorage.getItem('oid');
-      this.rid = window.sessionStorage.getItem('rid');
-    }else{
-      window.sessionStorage.setItem('oid',this.$route.params.oid)
-      window.sessionStorage.setItem('rid',this.$route.params.rid)
+    if (!this.$route.params.oid || !this.$route.params.rid) {
+      this.oid = window.sessionStorage.getItem("oid");
+      this.rid = window.sessionStorage.getItem("rid");
+    } else {
+      window.sessionStorage.setItem("oid", this.$route.params.oid);
+      window.sessionStorage.setItem("rid", this.$route.params.rid);
       this.oid = this.$route.params.oid;
       this.rid = this.$route.params.rid;
     }
     let obj = await this.getstore(this.oid, this.rid); //查询订单详情
-    this.msgdetail = obj.data.result;
+    this.msgdetail = obj.data.data.result;
   },
 };
 </script>

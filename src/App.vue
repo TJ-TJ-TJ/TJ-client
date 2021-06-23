@@ -68,12 +68,12 @@ export default {
     connect: function () {},
     //>>>>>>>>   监听发来的消息
     oToMessage(data) {
-      console.log(data);
+      console.log(data)
       let arr = this.$store.state.msg_arr;
       let count = 0;
       arr.forEach((item) => {
         item.msgArr.forEach((i) => {
-          console.log(item);
+          // console.log(item);
           //如果消息数组中的 接受者id等于客户uid 并且有未读消息
           if (
             (i.sid == window.localStorage.getItem("uid") && i.is_read == 0) ||

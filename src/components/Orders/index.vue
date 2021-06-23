@@ -5,7 +5,15 @@
       <van-tab v-for="(item, i) of order_type" :key="i" :title="item">
         <div v-if="order.length > 0">
           <div v-for="(item, i) of order" :key="i" class="order_detail">
-            <div class="order_content" @click="go_detail(item.oid,item.rid,item.price,calc(item.state),getdate(item.start_time),getdate(item.end_time))">
+            <div
+              class="order_content"
+              @click="
+                go_detail(
+                  item.oid,
+                  item.rid
+                )
+              "
+            >
               <div class="detail_head">
                 <p>
                   {{ item.title }}
@@ -59,7 +67,10 @@
 
               <div class="detail_foot">
                 <p>
-                  <button type="default" @click.stop="delete_order">
+                  <button
+                    type="default"
+                    @click.stop="delete_order(item.oid, i)"
+                  >
                     删除
                   </button>
                   <button type="default" @click.stop="go_order(item.rid)">
@@ -93,26 +104,33 @@ export default {
     return {
       uid: "",
       active: 0,
-      order_type: ["全部订单", "待支付", "已支付", "已使用",'已超时'],
+      order_type: ["全部订单", "待支付", "已支付", "已使用", "已超时"],
       order: [],
     };
   },
   methods: {
-    go_detail(oid,rid,price,state,start_time,end_time) {
-      this.$router.push({ name: "oder_detail", params: { oid,rid,price,state,start_time,end_time } });
+    go_detail(oid, rid) {
+      this.$router.push({
+        name: "oder_detail",
+        params: { oid, rid},
+      });
     },
-    delete_order() {
+    delete_order(oid, i) {
       // 删除订单
       this.$dialog
         .confirm({
           title: "提示",
           message: "您确定要删除订单吗",
         })
-        .then(() => {
-          // 删除接口
+        .then(async () => {
+          let obj = this.$axios.delete("order/delete", { oid });
+          if (obj.data.ok == 1) {
+            this.order.splice(i, 1);
+            this.$toast.succes("删除成功");
+          }
         })
         .catch(() => {
-          return;
+          this.$toast.fail('网络繁忙 请稍后重试')
         });
     },
     go_order(rid) {
@@ -122,20 +140,20 @@ export default {
   },
   async created() {
     this.uid = localStorage.getItem("uid");
-    let obj = await this.$axios.get(`order/list?state=${this.active-1}`);
+    let obj = await this.$axios.get(`order/list?state=${this.active - 1}`);
     console.log(obj);
     if (!obj) {
       return;
     } else {
       //后续是向后台获取数据
-      this.order = obj.data.result ||[]
+      this.order = obj.data.result || [];
     }
   },
   async mounted() {},
   watch: {
-    async active(newval,oldval) {
-      let obj = await this.$axios.get(`order/list?state=${newval-1}`);
-      this.order=obj.data.result||[]
+    async active(newval, oldval) {
+      let obj = await this.$axios.get(`order/list?state=${newval - 1}`);
+      this.order = obj.data.result || [];
     },
   },
   computed: {
