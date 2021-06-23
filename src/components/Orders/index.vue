@@ -134,14 +134,18 @@ export default {
           message: "您确定要删除订单吗",
         })
         .then(async () => {
+          this.$toast.loading({
+            message: "删除中",
+          });
           let obj = await this.$axios.delete("order/delete", { data: { oid } });
-          console.log(obj);
-          if (obj.data.ok == 1) {
+          console.log(obj.data);
+          if (obj.data.ok == "1") {
             this.$toast.succes("删除成功");
             this.order.splice(i, 1);
           } else {
             this.$toast.fail("网络繁忙 请稍后重试");
           }
+          this.$toast.clear();
         })
         .catch(() => {
           return;
@@ -163,7 +167,6 @@ export default {
       this.order = obj.data.result || [];
     }
   },
-  async mounted() {},
   watch: {
     async active(newval, oldval) {
       let obj = await this.$axios.get(`order/list?state=${newval - 1}`);
@@ -229,11 +232,13 @@ export default {
           width: 100%;
           display: flex;
           justify-content: space-between;
-          padding: 18px 0;
+          padding: 3vw 0;
           div {
             text-align: right;
             color: #ff9645;
             font-size: 18px;
+            display: flex;
+            align-items: center;
           }
           p {
             text-align: left;
@@ -251,7 +256,7 @@ export default {
   }
   .detail_body {
     width: 100%;
-    height: 223px;
+    height: 50vw;
     position: relative;
     background-repeat: no-repeat;
     background-size: cover;
@@ -264,7 +269,7 @@ export default {
       flex-direction: column;
     }
     & > div:first-child {
-      height: 60px;
+      height: 15vw;
       width: 100%;
       box-sizing: border-box;
       padding: 0 15px;
@@ -289,6 +294,7 @@ export default {
       }
       & > div:last-child {
         & > p:last-child {
+          margin-top: 1vw;
           color: #ff9645;
           font-size: 20px;
         }
@@ -309,13 +315,13 @@ export default {
       display: flex;
       justify-content: space-between;
       button {
-        width: 73px;
+        width: 45%;
         height: 28px;
         margin-top: 15px;
         border-radius: 6px !important;
         border: 1px solid #e9e9e9;
         background-color: #fff;
-        font-size: 14px;
+        font-size: 3vw;
         font-weight: 100;
       }
       & > button:last-child {
