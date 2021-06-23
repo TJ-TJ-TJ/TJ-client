@@ -166,7 +166,7 @@ export default {
   .title {
     position: relative;
     background-color: #ffffff;
-    height: 35vh;
+    height: 30vh;
     .backImg {
       width: 100%;
       height: 30vh;

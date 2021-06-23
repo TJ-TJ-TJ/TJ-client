@@ -200,6 +200,7 @@
         </ul>
       </div>
       <!-- 瀑布流民宿数据 -->
+      <keep-alive>
       <div class="waterfall">
         <van-list
           v-model="loading"
@@ -233,6 +234,7 @@
           </div>
         </van-list>
       </div>
+      </keep-alive>
       <!-- 价格弹出层 -->
       <van-popup
         v-model="showPrice"
