@@ -9,9 +9,11 @@
         @cancel="onCancel"
       /> -->
     <!-- </form> -->
-    <van-index-bar v-for="(i, index) of indexList" :key="index" z-index="0">
+    <van-index-bar z-index="0">
+      <div v-for="(i, index) of indexList" :key="index">
       <van-index-anchor :index="i.initial" />
       <van-cell v-for="(item, code) of i.list" :key="code" :title="item.name" @click="city(item.name)"/>
+      </div>
     </van-index-bar>
   </div>
 </template>
@@ -33,11 +35,11 @@ export default {
   },
   methods: {
     cityJSON() {
-      axios.defaults.baseURL = 'http://tj.testw.top/'
+      axios.defaults.baseURL = 'https://tj.testw.top/'
       this.$axios.get("public/city.json").then((res) => {
         console.log(res);
         this.indexList = res.data.city;
-        axios.defaults.baseURL = 'http://tj.testw.top/v1'
+        axios.defaults.baseURL = 'https://tj.testw.top/v1'
       });
     },
     city(name){
