@@ -507,22 +507,18 @@ export default {
     },
     //>>>>>>>>    待完善
     async oToMessage(data) {
-      //接收私发消息
-      // console.log(data);
-      // 判断是否是当前聊天对象给自己发的消息  是的话就追加记录
-      // console.log(data, "=--------==", this.be, "------", this.uid);
-      // console.log(data.uid == this.be.uid && data.sid == this.uid);
       if (
         data.uid == this.be.uid && //发送过来的 对方消息发送对象的id要等与自己
         data.sid == this.uid //   发送人的id 等于当前用户聊天的id
         // (data.uid == this.sid && data.uid == this.uid)
       ) {
-        await this.$axios.post("https://kf.testw.top/updateMsgRead", {
-          //消息已读未读
-          uid: this.sid,
-          sid: this.uid,
-        });
         this.message.push(data);
+        this.$axios.post("https://kf.testw.top/updateMsgRead", {
+          //消息已读未读
+          uid: this.be.uid,
+          sid: window.localStorage.getItem("uid"),
+        });
+        // this.$store.commit("update_msgarr", [this.message]);
       }
       this.status = !this.status; //更新状态
     },

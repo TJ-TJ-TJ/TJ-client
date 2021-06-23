@@ -103,6 +103,15 @@ export default {
       this.$router.push("/msg");
     },
     async updatemsg() {
+      let [err, data] = await this.capture(this.getHistory);
+      console.log(data);
+      if (!data) {
+        //如果请求不到数据 证明无消息
+        return;
+      } else {
+        let count = 0; //未读消息条数
+        this.$store.commit("update_msgarr", data.data);
+      }
       let arr = this.$store.state.msg_arr;
       //  console.log(data);
       if (!arr) {
