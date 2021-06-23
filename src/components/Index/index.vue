@@ -21,17 +21,17 @@
       </van-swipe>
       <!-- 搜索订单卡片 -->
       <div class="cardSearch">
-        <van-cell-group>
+        <div>
           <van-cell class="current-location">
             <div class="current-city">
               <!-- 定位地点 -->
-              <span>
+              <span style="font-weight: bold">
                 {{ local }}
               </span>
             </div>
             <!-- 定位按钮 -->
             <div class="currentBtn">
-              <div v-if="local">
+              <div v-if="local!='定位中...'">
                 <img
                   width="18px"
                   src="https://pic.tujia.com/upload/festatic/publicImages/icon-weizhi-tujia.png"
@@ -44,19 +44,19 @@
               >
             </div>
           </van-cell>
-        </van-cell-group>
+        </div>
         <!-- 选择日期 -->
-        <van-cell-group class="option-date">
+        <div class="option-date">
           <van-cell @click="optionDate">
             <div class="option-dateDiv">
-              <span>入住</span>
+              <span style="font-size: 10px;color: #A4A4A4">入住</span>
               <span class="star-date">{{ $store.state.starDate }}</span>
             </div>
             <div>
-              <span class="allTime">共{{ putDate }}晚</span>
+              <span class="allTime">{{ $store.state.night }}晚</span>
             </div>
             <div>
-              <span>离店</span>
+              <span style="font-size: 10px;color: #A4A4A4">离店</span>
               <span class="end-date">{{ $store.state.endDate }}</span>
             </div>
           </van-cell>
@@ -79,14 +79,15 @@
               </div>
             </template>
           </van-calendar>
-        </van-cell-group>
+        </div>
         <!-- 选择价格人数 -->
-        <van-cell-group class="price-person">
+        <div class="price-person">
           <van-row>
             <van-col span="16">
               <van-cell @click="showPopup">
                 <div>
-                  <span>{{ priceSum }}</span>
+                  <span v-if="$store.state.priceData.length>1">{{ $store.state.priceData[0]+'-'+$store.state.priceData[1] }}</span>
+                  <span v-else>{{ priceSum }}</span>
                 </div>
               </van-cell>
             </van-col>
@@ -98,16 +99,16 @@
               </van-cell>
             </van-col>
           </van-row>
-        </van-cell-group>
+        </div>
         <!-- 搜索关键字 -->
-        <van-cell-group class="keywordSearch" @click="keyword">
+        <div class="keywordSearch" @click="keyword">
           <van-cell>
             <span v-if="$store.state.searchData != ''">关键字/位置/民宿名</span>
             <span v-else>{{ store.state.searchData }}</span>
           </van-cell>
-        </van-cell-group>
+        </div>
         <!-- 关键地点搜索 -->
-        <div class="dataTag">
+        <div class="dataTag" style="border: 0">
           <!-- 搜索按钮 -->
           <van-button
             color="linear-gradient(to right, #FA8D1E, #FCAF3F)"
@@ -115,6 +116,12 @@
           >
             开始搜索
           </van-button>
+        </div>
+<!--        -->
+        <div class="complain" style="border: 0">
+          <span>
+            全国旅游投诉平台 www.12301.cn
+          </span>
         </div>
       </div>
       <!-- 滑动轮播 -->
@@ -152,7 +159,7 @@
             <img
               src="https://pic.tujia.com/upload/resourcespic/day_201124/202011241610475893.png"
               alt=""
-            /><br />
+            /><br /> 
             <span>整套出租</span>
           </li>
           <li>
@@ -209,7 +216,7 @@
               <img :src="item.swiper" alt="" />
               <van-tag round class="preference">{{ item.con_title }}</van-tag>
               <div class="text-introduce">
-                <span class="city">{{ item.location.slice(4, 10) }}</span>
+                <span class="city"><img src="icon/local.png" alt="">{{ item.location.slice(4, 10) }}</span>
                 <p>{{ item.r_name }}</p>
                 <span class="class"
                   >{{ item.params.attr }} · {{ item.params.house }}居{{
@@ -217,8 +224,8 @@
                   }}床{{ item.params.person_count }}人</span
                 ><br />
                 <span class="price"> ¥{{ item.new_price }} </span>
-                <span class="originalPrice"> ¥{{ item.price }} </span>
-                <van-tag round type="danger"
+                <span class="originalPrice" v-if="item.price!==item.new_price"> ¥{{ item.price }} </span>
+                <van-tag class="itemPrice" round type="danger" v-if="item.price!==item.new_price"
                   >已减¥{{ item.price - item.new_price }}</van-tag
                 >
               </div>
@@ -363,10 +370,10 @@ export default {
     return {
       // 轮播图
       images: [
-        "https://pic.tujia.com/upload/resourcespic/day_210609/202106091432152901.jpg",
-        "https://pic.tujia.com/upload/resourcespic/day_210521/202105212103212518.jpg",
-        "https://pic.tujia.com/upload/resourcespic/day_210521/202105212103212518.jpg",
-        "https://pic.tujia.com/upload/resourcespic/day_210521/202105212103212518.jpg",
+        "https://ss0.bdstatic.com/70cFvHSh_Q1YnxGkpoWK1HF6hhy/it/u=2866633669,1185368921&fm=26&gp=0.jpg",
+        "https://ss2.bdstatic.com/70cFvnSh_Q1YnxGkpoWK1HF6hhy/it/u=1701582115,3312973355&fm=26&gp=0.jpg",
+        "https://ss0.bdstatic.com/70cFvHSh_Q1YnxGkpoWK1HF6hhy/it/u=1956544682,1629609850&fm=26&gp=0.jpg",
+        "https://ss2.bdstatic.com/70cFvnSh_Q1YnxGkpoWK1HF6hhy/it/u=1386903577,550083901&fm=26&gp=0.jpg",
       ],
       // 时间弹出层
       show: false,
@@ -513,7 +520,7 @@ export default {
     },
     // 地理位置获取
     getLocation() {
-      this.local = "";
+      this.local = "定位中...";
       const self = this;
       AMap.plugin("AMap.Geolocation", function () {
         var geolocation = new AMap.Geolocation({
@@ -666,7 +673,11 @@ export default {
     affirmBtn() {
       this.priceSum = `￥${this.minPrice}- ${this.maxPrice}`;
       this.showPrice = false;
+      if(this.maxPrice!='不限'){
       this.$store.commit("priceData", [this.minPrice, this.maxPrice]);
+      }else{
+         this.$store.commit("priceData", [this.minPrice, 2000]);
+      }
       console.log(this.$store.state);
     },
     // 选择人数

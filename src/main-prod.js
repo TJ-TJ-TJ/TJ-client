@@ -25,7 +25,7 @@ Vue.component("table-bar", TableBar); // 直接使用即可 <table-bar></table-b
 axios.defaults.validateStatus = status=> true
 axios.defaults.baseURL = 'https://tj.testw.top/v1'
 Vue.prototype.$axios=axios
-
+Vue.forceUpdate()
 
 
 

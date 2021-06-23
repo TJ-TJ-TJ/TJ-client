@@ -15,8 +15,8 @@
         <span class="radio" @click="radioBtn">{{radioStatus}}</span>
       </div>
       <div class="search-continer" style="overflow: hidden;" ref="continerRef">
-        <van-tag v-for="(item,index) in result" :key="index" v-if="index<3" class="hot">{{item}}<van-icon name="fire" color="red"/></van-tag>
-        <van-tag v-else>{{item}}</van-tag>
+        <van-tag v-for="(item,index) in result" :key="index" v-if="index<3" class="hot" @click="search(item)">{{item}}<van-icon name="fire" color="red"/></van-tag>
+        <van-tag v-else @click="search(item)">{{item}}</van-tag>
       </div>
     </div>
   </div>
@@ -75,8 +75,22 @@ export default {
         this.radioStatus = '展开'
         }
         
-    }
+    },
+    search(item){
+    this.$store.commit('searchData',{
+          "wd":item,
+          "page":1,
+          "count":10,
+          "minPrice":this.$store.state.priceData[0],
+          "maxPrice":this.$store.state.priceData[1],
+          "star":[1,2,3,4]
+        })
+        this.$store.commit('cityData',item)
+        console.log(this.$store.state)
+        this.$router.push('/stay')
+  }
   },
+  
 };
 </script>
 

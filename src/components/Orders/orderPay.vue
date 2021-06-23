@@ -133,7 +133,7 @@ export default {
           message: "确定要支付吗",
         })
         .then(async () => {
-      
+            
             let {data:res} = await this.$axios.post(`/order/reserve/pay?oid=${this.$store.state.orderFinishBuy.result.oid}`)
               console.log(res)
             if(res.ok==1){
