@@ -17,7 +17,7 @@
           <span class="block">{{ timeData.seconds }}</span>
         </template>
       </van-count-down>
-      <div>Loft复试，温馨装修</div>
+      <div>{{orderInfo.detailInfo.r_name}}</div>
       <div style="color: #999; font-size: 12px;margin-top:10px">{{starDate}} -- {{endDate}} 共{{night}}晚</div>
     </div>
 
@@ -92,7 +92,7 @@
       color="#ff9645"
       class="submit"
       block @click="finish_buy"
-      >确认支付 ￥ 915.00</van-button
+      >确认支付 ￥ {{detailInfo.new_price}}</van-button
     >
   </div>
 </template>
@@ -102,8 +102,10 @@ import { mapState } from 'vuex'
 export default {
   data() {
     return {
-      countDownTime: 200311,
       selectPayWay: "1",
+      orderInfo:{},
+      oid:'',
+      rid:''
     };
   },
   methods: {
@@ -116,39 +118,33 @@ export default {
         .then(() => {
           this.$router.replace('/order');
           //在将这笔订单改为 未支付状态
-
         })
         .catch(() => {
           return;
         });
     },
-    orderpay() {
-      
-    },
+  
     //提交支付 更改状态为已支付
     async finish_buy(){
-        console.log( this.$store.state.orderFinishBuy);
         this.$dialog.confirm({
           title: "提醒",
           message: "确定要支付吗",
         })
         .then(async () => {
-          
-
+      
             let {data:res} = await this.$axios.post(`/order/reserve/pay?oid=${this.$store.state.orderFinishBuy.result.oid}`)
               console.log(res)
-            
             if(res.ok==1){
               this.$toast.success('支付成功')
-              this.$router.replace({path:'/order_detail',params:{
-                oid:this.$store.state.orderFinishBuy.result.oid,
-                rid:this.$store.state.orderFinishBuy.rid,
-              }})
-              return 
+              setTimeout(_=>{
+                return this.$router.replace({name:'oder_detail',params:{
+                  oid:this.$store.state.orderFinishBuy.result.oid,
+                  rid:this.$store.state.orderFinishBuy.rid,
+                }})
+              },1000)
             }else{
-               console.log(object);
-            this.$toast.success('支付失败')
-            this.$router.replace("/order_edit");
+              this.$toast.success('支付失败')
+              this.$router.replace({path:"/order_edit"});
             }
            
         })
@@ -159,10 +155,28 @@ export default {
     //订单计时完成触发
       timeOutFinish(){
           this.$toast.fail('订单以失效')
+          this.$router.replace({path:'order'})
       }
   },
-  mounted(){ 
-         
+  created() {
+      console.log(this.$route.params);
+  },
+  async mounted(){ 
+        if(!this.$route.params.oid || !this.$route.params.rid){
+          this.oid=window.sessionStorage.getItem('oid');
+          this.rid=window.sessionStorage.getItem('rid');
+        }else{
+          this.oid=window.sessionStorage.setItem('oid');
+          this.rid=window.sessionStorage.setItem('rid');
+        }else{
+        }
+        let {data:res} = await this.$axios.get('/order/detail',{params:{
+            oid:this.$route.params.oid,
+            rid:this.$route.params.rid
+        }})
+        console.log(res);
+        if(res.ok!=1) return this.$toast.fail('查询订单失败')
+        this.orderInfo = res.result
   },
   computed:{
     //  引入vuex sate
@@ -170,7 +184,7 @@ export default {
     //订单倒计时时间f
     // 计算订单倒计时 时间
       timeOutOrder(){
-          return Number(this.orderFinishBuy.result.date)+720000 - new Date().getTime()
+          return Number(this.orderInfo.userInfo.date)+720000 - new Date().getTime()
       }
 }
 };
