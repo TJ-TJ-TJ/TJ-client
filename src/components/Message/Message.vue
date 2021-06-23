@@ -346,7 +346,7 @@ export default {
           send_time: this.$getTime(), //发送准确时间
           audio_isRead: false, //语音是否已读
           m_id: Date.now(), //当前时间
-          be_uname: "无良商家", //接收者uname
+          be_uname: this.be.uname, //接收者uname
           be_head_img: this.be.head_img, //接收者头像
         };
         recorder.stop(); //录音停止
