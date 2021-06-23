@@ -145,14 +145,16 @@
     <div class="header-continer">
       <div class="header-stay" v-for="item in result" :key="item._id" @click="skipBtn(item._id)">
         <van-swipe :autoplay="0" @change="carRoll">
-          <van-swipe-item v-for="(image, index) in item.swiper" :key="index">
-            <img v-lazy="image" />
-          </van-swipe-item>
-          <template #indicator>
-            <div class="custom-indicator">
+<!--          <div v-for="(image, index) in item.swiper" :key="index">-->
+            <van-swipe-item v-for="(image, index) in item.swiper" :key="index">
+              <img :src="image" />
+            </van-swipe-item>
+            <template #indicator>
+              <div class="custom-indicator">
               {{ current + 1 }}/{{ item.swiper.length }}
-            </div>
+              </div>
           </template>
+<!--          </div>-->
         </van-swipe>
         <!-- <div class="header-comment"> -->
           <!-- <strong class="comment-grade">4.5分</strong> -->
@@ -193,7 +195,7 @@
               <span class="price">￥{{item.new_price}}</span>
               <span class="price-unit">/晚</span>
               <span class="price-original" v-if="item.price!=item.new_price">￥{{item.price}}</span>
-              <van-tag round color="#FD5858" v-if="item.price!=item.new_price">{{parseInt(item.price/(item.price-item.new_price))}}.0折，连住优惠</van-tag>
+              <van-tag round color="#FD5858" v-if="item.price!=item.new_price" style="line-height: initial;">{{parseInt(item.price/(item.price-item.new_price))}}.0折，连住优惠</van-tag>
             </div>
           </div>
         </div>
