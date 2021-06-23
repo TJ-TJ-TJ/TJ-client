@@ -18,7 +18,11 @@
           <span class="price2">/晚 <s class="xhx">￥{{jiage.price}}</s> </span>
         </div>
 
-        <van-goods-action-button color="#ff9645" class="btn" @click="yuding">
+        <van-goods-action-button color="#ff9645" 
+        class="btn"
+         @click="yuding"
+         ref="btndisable"
+         >
           <img src="/icon/detailv2_shand.png" alt="" />
           立即预定
         </van-goods-action-button>
@@ -64,25 +68,25 @@ export default {
         }
       })
     },
-    async yuding() {
-        const toast = this.$toast.loading({
-          duration: 0, // 持续展示 toast
-          forbidClick: true,
-          selector: '#custom-selector',
-        });
-       let {data:res} = await  this.$axios.get('/details/is',{params:{
-          start:this.$store.state.dataDate[0],
-          end:this.$store.state.dataDate[1],
-          rid:this.jiage.uid
-        }})
-        if(res.ok==1){
+    yuding() {
+        // const toast = this.$toast.loading({
+        //   duration: 0, // 持续展示 toast
+        //   forbidClick: true,
+        //   selector: '#custom-selector',
+        // });
+      //  let {data:res} = await  this.$axios.get('/details/is',{params:{
+      //     start:this.$store.state.dataDate[0],
+      //     end:this.$store.state.dataDate[1],
+      //     rid:this.jiage.uid
+      //   }})
+        // if(res.ok==1){
           this.$store.commit('setOrderCommitInfo',this.jiage)
           this.$router.replace({path:'/order_edit'})
-          this.$toast.clear()
-        }else {
-          this.$toast.fail(res.msg)
-          this.$toast.clear()
-        } 
+          // this.$toast.clear()
+        // }else {
+        //   this.$toast.fail(res.msg)
+        //   this.$toast.clear()
+        // } 
 
 
 
@@ -95,9 +99,19 @@ export default {
 
   },
 
-  // mounted() {
-  //   console.log(this.$router.push)
-  // }
+  mounted() {
+    // console.log(this.$router.push)
+    // console.log(this.$store.state.nigh)
+    // console.log(this.$store.state.night)
+  
+  console.log(this.$store.state.reserve)
+  console.log(this.$refs.btndisable)
+
+    if(this.$store.state.reserve == 1){
+
+
+    }
+  }
   
 }
 </script>

@@ -23,7 +23,9 @@
       </div>
 
       <van-button class="button" color="linear-gradient(90deg,#fa8c1d,#fcaf3f)"
-        >联系房东</van-button
+      @click="lianxi"
+      >
+        联系房东</van-button
       >
     </div>
     <div class="dp-info">
@@ -43,7 +45,7 @@
         <div>下单立即确认</div>
       </div>
     </div>
-    <div class="zhuye">查看房东主页 <span class="arrow"></span></div>
+    <div class="zhuye" @click="other">查看房东主页 <span class="arrow"></span></div>
   </div>
 </template>
 
@@ -64,6 +66,26 @@ export default {
   mounted() {
 
     // console.log(this.fowner)
+
+  },
+  methods: {
+    lianxi() {
+      this.$router.push({
+        name: 'msg',
+        params: {
+          uid: this.land.sid,
+          head_img: this.land.img,
+          uname: this.land.uname
+        }
+      })
+
+    },
+     other() {
+      this.$toast({
+        message: "功能待开发",
+        icon: "smile",
+      });
+    },
 
   },
   watch: {

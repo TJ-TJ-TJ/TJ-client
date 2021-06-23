@@ -40,8 +40,12 @@ export default {
     console.log(this.$store.state);
   },
   mounted() {
+      const startdate = Math.min.apply(null,this.$store.state.dataDate)
+      const enddate = Math.max.apply(null,this.$store.state.dataDate)
+      this.$axios.get(`/details/is?start=${startdate}&end=${enddate}&rid=${this.$route.query.id}`).then(result=>{
+      this.$store.commit("setIsReserve",result.data.ok)
+    })
     this.$axios.get(`/details/?rid=${this.$route.query.id}`).then(result=>{
-      console.log(result.data.result)
       const data = result.data.result;
       this.allDate = data;
       console.log(data);
@@ -60,7 +64,7 @@ export default {
       };
       // console.log(this.prices)
       // console.log(this.$route)
-      console.log(this.prices);
+      // console.log(this.prices);
     });
   },
   components: {
