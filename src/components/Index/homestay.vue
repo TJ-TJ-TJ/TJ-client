@@ -26,7 +26,7 @@
     <!-- 条件查询栏 -->
     <div class="dropdown" id="dropDownRef" ref="dropDownRef">
       <van-dropdown-menu>
-        <van-dropdown-item title="价格/钻级">
+        <van-dropdown-item title="价格/钻级" ref="priceRefs">
           <!-- 价格筛选 -->
           <div class="price-section">
             <!-- 价格筛选标题 -->
@@ -113,7 +113,7 @@
               </div>
             </div>
             <div class="foot-base">
-              <van-button round color="#F3F4F6" class="empty">清空</van-button>
+              <van-button round color="#F3F4F6" class="empty" @click="emptyBtn">清空</van-button>
               <van-button round color="#FF9645" class="examine"
                 @click="selectHouse">查看房源</van-button
               >
@@ -280,6 +280,8 @@ export default {
         "star": [1,2,3,4],
       })
       this.result=res.result
+      this.$refs.priceRefs.toggle()
+      // this.switch1 = false
   },
     // 页面跳转
     skipBtn(id){
@@ -295,8 +297,8 @@ export default {
         "wd":this.$store.state.city.slice(0,1),
         "page": 1,
         "count": 100,
-        "minPrice": this.$store.state.searchData.minPrice || 0,
-        "maxPrice": this.$store.state.searchData.maxPrice || 2000,
+        "minPrice": this.$store.state.priceData.length>1?this.$store.state.priceData[0]:0,
+        "maxPrice": this.$store.state.priceData.length>1?this.$store.state.priceData[1]:2000,
         "star": [1,2,3,4],
       })
       this.result=res.result
@@ -378,9 +380,8 @@ export default {
     },
     // 清空按钮
     emptyBtn() {
-      this.value = [0, 1050];
-      this.minPrice = 0;
-      this.maxPrice = "不限";
+      this.getStayList()
+      this.$refs.priceRefs.toggle()
     },
     // touch上滑和下滑事件
     // upTouch() {
@@ -392,6 +393,7 @@ export default {
     // 轮播图指示器
     carRoll(index) {
       this.current = index;
+      console.log(index)
     },
   },
 };

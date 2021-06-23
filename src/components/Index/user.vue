@@ -54,16 +54,13 @@
           <span class="price-span">￥0</span>
         </div>
       </div>
-      <div class="my-order">
-        <span class="myOrder">我的订单</span>
-        <span>查看全部</span>
-      </div>
     </div>
     <div class="head">
       <div class="container">
         <div class="head-item">
           <van-image
-            
+            width="1rem"
+            height="1rem"
             src="icon/bill.png"
           />
           <br />
@@ -75,7 +72,8 @@
         </div>
         <div class="head-item">
           <van-image
-            
+            width="1rem"
+            height="1rem"
             src="icon/history.png"
           />
           <br />
@@ -87,7 +85,8 @@
         </div>
         <div class="head-item">
           <van-image
-            
+            width="1rem"
+            height="1rem"
             src="icon/msg.png"
           />
           <br />
@@ -99,7 +98,8 @@
         </div>
         <div class="head-item">
           <van-image
-            
+            width="1rem"
+            height="1rem"
             src="icon/me.png"
           />
           <br />
@@ -111,7 +111,8 @@
         </div>
         <div class="head-item">
           <van-image
-            
+            width="1rem"
+            height="1rem"
             src="icon/idea.png"
           />
           <br />
@@ -165,7 +166,7 @@ export default {
   .title {
     position: relative;
     background-color: #ffffff;
-    height: 38vh;
+    height: 35vh;
     .backImg {
       width: 100%;
       height: 30vh;
@@ -178,6 +179,7 @@ export default {
       top: 16vh;
       left: 6vw;
       box-shadow: 5px 5px 10px #888888;
+      
     }
     .icon{
       height: 3rem;
@@ -186,13 +188,11 @@ export default {
       position: absolute;
       display: flex;
       justify-content: center;
+      align-items: center;
       top: 10vh;
       right: 10vw;
       border-radius: 50%;
-      padding: 7px;
       box-shadow: 1px 1px 7px black;
-      text-align: center;
-      line-height: 2.8rem;
     }
     .price {
       // height: 5rem;
@@ -206,21 +206,16 @@ export default {
       top: 20vh;
       .price-span {
         font-weight: bold;
-        font-size: 18px;
+        font-size: 16px;
       }
     }
     .my-order {
       margin: 0 auto;
       margin-top: 4vh;
       width: 90%;
-      display: flex;
-      justify-content: space-between;
       line-height: 22px;
-      
-      .myOrder {
-        font-size: 22px;
-        font-weight: bold;
-      }
+      display: flex;
+      justify-content: flex-end;
     }
   }
   .head {
@@ -239,22 +234,29 @@ export default {
         margin: 0 0 0 0;
         margin-left: 10vw;
         margin-top: 4vh;
+        .van-image{
+          margin-bottom: 10px;
+        }
       }
     }
   }
   .fontTitle{
-    font-weight: bold;
+    // font-weight: bold;
+    font-weight: 400;
+    font-size: 14px;
   }
   .fontMsg{
     color: #B9B9B8;
-    font-size: 12px;
+    font-size: 10px;
     font-weight: 500;
   }
   .price-title{
     color:#9F9A98;
+    font-size: 12px;
+    margin-bottom: 5px;
   }
   .uname-container{
-    color: #000;
+    color: #fff;
     float: left;
     margin-top: 3vh;
     margin-left: 8vw;
