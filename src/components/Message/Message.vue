@@ -271,7 +271,7 @@ export default {
         //对方的头像
         head_img: window.localStorage.getItem("headImg"),
         uname: this.uname,
-        is_read: false, // text是否已读
+        is_read: 0, // text是否已读
         send_date: this.$getDate(), //当前日期
         send_time: this.$getTime(), //当前时间
         audio_isRead: 1, //语音是否已读
@@ -341,7 +341,7 @@ export default {
           is_read: 1, // text是否已读
           send_date: this.$getDate(), //发送日期
           send_time: this.$getTime(), //发送准确时间
-          audio_isRead: false, //语音是否已读
+          audio_isRead: 0, //语音是否已读
           m_id: Date.now(), //当前时间
           be_uname: this.be.uname, //接收者uname
           be_head_img: this.be.head_img, //接收者头像

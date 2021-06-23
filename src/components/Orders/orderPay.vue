@@ -10,7 +10,7 @@
 
     <div class="OP-countDownBox">
       <div style="font-size: 24px">支付时间剩余</div>
-      <van-count-down style="margin: 20px 0px" @finish='timeOutFinish' :time="timeOutOrder">
+      <van-count-down style="margin: 20px 0px" @finish='timeOutFinish' :time="formateDate()">
         <template #default="timeData">
           <span class="block">{{ timeData.minutes }}</span>
           <span class="colon">:</span>
@@ -92,7 +92,7 @@
       color="#ff9645"
       class="submit"
       block @click="finish_buy"
-      >确认支付 ￥ {{detailInfo.new_price}}</van-button
+      >确认支付 ￥ {{orderInfo.userInfo.price || '00,00' }}</van-button
     >
   </div>
 </template>
@@ -104,9 +104,11 @@ export default {
     return {
       selectPayWay: "1",
       orderInfo:{},
-      oid:'',
-      rid:''
     };
+  },
+   
+  created() {
+       this.getOrderInfo()
   },
   methods: {
     onClickLeft() {
@@ -152,43 +154,31 @@ export default {
           return;
         });   
     },
-    //订单计时完成触发
-      timeOutFinish(){
-          this.$toast.fail('订单以失效')
-          this.$router.replace({path:'order'})
-      }
-  },
-  created() {
-      console.log(this.$route.params);
-  },
-  async mounted(){ 
-        if(!this.$route.params.oid || !this.$route.params.rid){
-          this.oid=window.sessionStorage.getItem('oid');
-          this.rid=window.sessionStorage.getItem('rid');
-        }else{
-          window.sessionStorage.setItem('oid');
-          window.sessionStorage.setItem('rid');
-          this.oid=this.$route.params.oid
-          this.rid=this.$route.params.rid
-        }
-
-        let res = await this.$axios.get('/order/detail',{params:{
-            oid:this.oid,
-            rid:this.rid
+  //订单计时完成触发
+    timeOutFinish(){
+        this.$toast.fail('订单以失效')
+        this.$router.replace({path:'order'})
+    },
+    async getOrderInfo(){
+        let {data:res} = await this.$axios.get('/order/detail',{params:{
+            oid:this.orderFinishBuy.result.oid,
+            rid:this.orderFinishBuy.rid
         }})
-        console.log(res);
         if(res.ok!=1) return this.$toast.fail('查询订单失败')
+        console.log(res);
         this.orderInfo = res.result
+    },
+    formateDate(){
+        return Number(this.orderInfo.userInfo.date)+720000 - new Date().getTime()
+    }
   },
+
   computed:{
-    //  引入vuex sate
-    ...mapState(['starDate','endDate','night','orderFinishBuy']),
-    //订单倒计时时间f
-    // 计算订单倒计时 时间
-      timeOutOrder(){
-          return Number(this.orderInfo.userInfo.date)+720000 - new Date().getTime()
-      }
-}
+      //  引入vuex sate
+      ...mapState(['starDate','endDate','night','orderFinishBuy']),
+      //订单倒计时时间f
+  },
+  
 };
 </script>
 

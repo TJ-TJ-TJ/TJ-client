@@ -235,16 +235,18 @@ export default {
         r_params: this.order_info.fbt,
         start_time: this.$store.state.dataDate[0],
         end_time: this.$store.state.dataDate[1],
-        price: this.order_info.new_price*this.store.state.night,
+        price: this.order_info.new_price*this.$store.state.night,
         name: window.localStorage.getItem("uname"),
         phone: window.localStorage.getItem("phone"),
       }); //判断订单是否可以预定 响应成功后 关闭加载动画
       console.log(result);
       this.$toast.clear();
       if (result.data.ok == 1) {
-        result.data.rid = oid;
         this.$store.commit("setOrderFinishBuy", result.data);
-        this.$router.push("/order_pay");
+        this.$router.replace({name:'oder_pay',params:{
+          rid:oid,
+          oid:result.data.result.oid
+        }});
       } else {
         this.$toast.fail("预定失败" + result.data.msg);
       }
