@@ -126,13 +126,12 @@ export default {
         return {
             dialogShow:false,
             currentDialogOption:'',
-            headImgBlob:'',
             userConfig:{
                 avatar:'',
                 nickname:'',
                 uname:'', //真实姓名
-                sex:'',  //性别
-                age:'', //年龄
+                sex:'',   //性别
+                age:'',   //年龄
                 currentCity:'', //当前城市
             },
             areaList,
@@ -161,15 +160,13 @@ export default {
             this.$router.go(-1)
         },
         async onClickSava(){
-            this.$toast('保存')
-            let data = new FormData()
-            data.append('avatar',this.headImgBlob.file)
-            data.append('nickname',this.userConfig.nickname)
-            data.append('uname',this.userConfig.uname)
-            data.append('sex',this.userConfig.sex)
-            data.append('age',this.userConfig.age)
-            data.append('currentCity',this.userConfig.currentCity)
-            let {data:res}  = await this.$axios.post('/profile/info',data)
+            let {data:res}  = await this.$axios.put('/profile/info',{
+                'nickname':this.userConfig.nickname,
+                'uname':this.userConfig.uname,
+                'sex':this.userConfig.sex,
+                'age':this.userConfig.age,
+                'currentCity':this.userConfig.currentCity
+            })
             if(res.ok!==1) return this.$toast.fail('更新信息失败')
             this.$toast.success('更新成功')
             //对缓存中的
@@ -247,11 +244,15 @@ export default {
         locationCancel(){
             this.locationShow = false;
         },
-        //上传图片之前,获取file对象
+        //上传图片之前,获取file对象 发送请求并修改
         async afterUploadHeadImg(file){
             this.userConfig.avatar = URL.createObjectURL(file.file)
-            this.headImgBlob = file
-
+            let formdata = new FormData()
+            formdata.append('avatar',file.file)
+            let {data:res} = await this.$axios.put('/profile/avatar',formdata)
+            if(res.ok!==1) return this.$toast.fail(res.msg)
+            this.$toast.success(res.msg)
+            this.$router.replace({path:'/setting'})
         }
     },
     computed:{

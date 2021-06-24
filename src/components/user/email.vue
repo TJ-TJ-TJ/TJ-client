@@ -6,7 +6,7 @@
                 @click-left="onClickLeft"
             >
             <template #title>
-                <div style="font-size:16px;color:#333">手机号</div>
+                <div style="font-size:16px;color:#333">邮箱</div>
             </template>
             <template #left>
                 <van-icon name="arrow-left" size="25" />
