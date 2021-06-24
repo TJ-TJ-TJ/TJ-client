@@ -141,7 +141,7 @@ export default {
           console.log(obj.data);
           if (obj.data.ok == "1") {
             this.get_list();
-            this.$toast.succes("删除成功");
+            this.$toast.clear();
           } else {
             this.$toast.fail("网络繁忙 请稍后重试");
           }
@@ -177,7 +177,7 @@ export default {
   computed: {
     //计算订单状态
     calc(i) {
-      return function (i) {
+      return function(i) {
         let arr = ["待支付", "已支付", "已使用", "已超时"];
         let res = arr[i];
         return res;
@@ -185,7 +185,7 @@ export default {
     },
     //计算几月几日
     getDate(i) {
-      return function (i) {
+      return function(i) {
         let now = new Date(i);
         let y = now.getFullYear();
         let m = now.getMonth() + 1;
@@ -197,7 +197,7 @@ export default {
     },
     //获取时间    格式 ` 00:00`
     getTime(i) {
-      return function (i) {
+      return function(i) {
         let now = new Date(i);
         let hh = now.getHours();
         let mm = now.getMinutes();

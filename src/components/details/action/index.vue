@@ -18,7 +18,11 @@
           <span class="price2">/晚 <s class="xhx">￥{{jiage.price}}</s> </span>
         </div>
 
-        <van-goods-action-button color="#ff9645" class="btn" @click="yuding">
+        <van-goods-action-button color="#ff9645" 
+        class="btn"
+         @click="yuding"
+         ref="btndisable"
+         >
           <img src="/icon/detailv2_shand.png" alt="" />
           立即预定
         </van-goods-action-button>
@@ -64,13 +68,13 @@ export default {
         }
       })
     },
-    async yuding() {
+     async yuding() {
         const toast = this.$toast.loading({
           duration: 0, // 持续展示 toast
           forbidClick: true,
           selector: '#custom-selector',
         });
-       let {data:res} = await  this.$axios.get('/details/is',{params:{
+        let {data:res} = await  this.$axios.get('/details/is',{params:{
           start:this.$store.state.dataDate[0],
           end:this.$store.state.dataDate[1],
           rid:this.jiage.uid
@@ -95,9 +99,35 @@ export default {
 
   },
 
-  // mounted() {
-  //   console.log(this.$router.push)
-  // }
+  created() {
+    // console.log('---------xxxxxxxxxx-----------');
+    // console.log(this.$router.push)
+    // console.log(this.$store.state.nigh)
+    // console.log(this.$store.state.night)
+      const startdate = Math.min.apply(null,this.$store.state.dataDate)
+      const enddate = Math.max.apply(null,this.$store.state.dataDate)
+      this.$axios.get(`/details/is?start=${startdate}&end=${enddate}&rid=${this.$route.query.id}`).then(result=>{
+      // this.$store.commit("setIsReserve",result.data.ok)
+      console.log(result.data.ok)
+      // console.log('------------------------------------')
+       this.$nextTick(()=>{
+        
+          if(this.$store.state.reserve != 1){
+            
+          console.log(this.$refs.btndisable)
+          this.$refs.btndisable.disabled = true
+          this.$refs.btndisable.color = '#a9a9a9'
+
+
+    }
+      }) 
+    })
+  
+  // console.log(this.$store.state.reserve)
+     
+
+  
+  }
   
 }
 </script>

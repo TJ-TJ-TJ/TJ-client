@@ -97,11 +97,9 @@ export default {
 
         //退出登录
         exitLogin(){
-            window.localStorage.removeItem('token'),
-            window.localStorage.removeItem('uname'),
-            window.localStorage.removeItem('phone'),
-            window.localStorage.removeItem('headImg')
-            this.$router.replace({path:'/user'})
+            window.localStorage.clear()
+            window.sessionStorage.clear()
+            this.$router.replace({path:'/user'}) 
         }
     }
 }

@@ -18,13 +18,9 @@
         </div>
         <div class="DF-content-2">
           <div class="DF-content-2-content">
-            <div v-for="item,index in shebei.base" :key="index">
-              <img
-                height="12px"
-                :src="item.support? src1 : src2"
-                alt=""
-              />
-              <div>{{item.name}}</div>
+            <div v-for="(item, index) in shebei.base" :key="index">
+              <img height="12px" :src="item.support ? src1 : src2" alt="" />
+              <div>{{ item.name }}</div>
             </div>
             <!-- <div>
               <img
@@ -67,15 +63,10 @@
         </div>
         <div class="DF-content-2">
           <div class="DF-content-2-content">
-            <div v-for="item,index in shebei.bath" :key="index">
-              <img
-                height="12px"
-                :src="item.support? src1 : src2"
-                alt=""
-              />
-              <div>{{item.name}}</div>
+            <div v-for="(item, index) in shebei.bath" :key="index">
+              <img height="12px" :src="item.support ? src1 : src2" alt="" />
+              <div>{{ item.name }}</div>
             </div>
-
           </div>
         </div>
       </div>
@@ -93,22 +84,18 @@
         </div>
         <div class="DF-content-2">
           <div class="DF-content-2-content">
-            <div v-for="item,index in shebei.kitchen" :key="index">
-              <img
-                height="12px"
-                :src="item.support? src1 : src2"
-                alt=""
-              />
-              <div>{{item.name}}</div>
+            <div v-for="(item, index) in shebei.kitchen" :key="index">
+              <img height="12px" :src="item.support ? src1 : src2" alt="" />
+              <div>{{ item.name }}</div>
             </div>
-      
           </div>
         </div>
       </div>
     </div>
     <!-- 底部区域 查看全部 -->
-    <div class="DF-lookAll">
-      <font style="padding-right: 16px">查看全部设施
+    <div class="DF-lookAll" @click="other">
+      <font style="padding-right: 16px"
+        >查看全部设施
         <span class="arrow"></span>
       </font>
     </div>
@@ -143,16 +130,16 @@ export default {
   data() {
     return {
       shebei: this.facility,
-      src1: 'https://pic.tujia.com/upload/festatic/mp/check_green.png',
-      src2: 'https://pic.tujia.com/upload/festatic/mp/error_red.png',
+      src1: "https://pic.tujia.com/upload/festatic/mp/check_green.png",
+      src2: "https://pic.tujia.com/upload/festatic/mp/error_red.png",
       base1: false,
     };
   },
   watch: {
     facility(val) {
-    //   console.log(val);
+      //   console.log(val);
       this.shebei = val;
-    //   console.log(this.shebei);
+      //   console.log(this.shebei);
     },
   },
   computed: {
@@ -163,12 +150,12 @@ export default {
     base() {
       return this.shebei.hasOwnProperty("base") ? "基础设施" : false;
 
-            // if(this.shebei.hasOwnProperty("base"))  {
-            //     return "基础设施"
-            // }else {
-            //     this.base=fasle
-            //     return ""
-            // }
+      // if(this.shebei.hasOwnProperty("base"))  {
+      //     return "基础设施"
+      // }else {
+      //     this.base=fasle
+      //     return ""
+      // }
     },
     bath() {
       return this.shebei.hasOwnProperty("bath") ? "卫浴设施" : false;
@@ -185,11 +172,17 @@ export default {
     secure() {
       return this.shebei.hasOwnProperty("secure") ? "安全服务" : false;
     },
-  }, 
-
+  },
+  methods: {
+    other() {
+      this.$toast({
+        message: "功能待开发",
+        icon: "smile",
+      });
+    },
+  },
   mounted() {
     // console.log(this.shebei);
-
     // let basearr = this.$props.facility.map((item) => {
     //   return item.base;
     // });
@@ -203,7 +196,6 @@ export default {
 /* 房屋设施开始>>>>>>>>>start */
 .DF-box {
   background: #fff;
-  
 }
 .bianxian3 {
   width: 100%;
@@ -275,17 +267,16 @@ export default {
   font-weight: 600;
   margin-top: 16px;
   padding-bottom: 16px;
-  
 }
- .arrow {
-      display: inline-block;
-      background-image: url("/icon/tujia_arrow_right.png");
-      width: 10px;
-      background-size: 100% 100%;
-      height: 10px;
-      margin-left: 2px;
-      background-repeat: no-repeat;
-    }
+.arrow {
+  display: inline-block;
+  background-image: url("/icon/tujia_arrow_right.png");
+  width: 10px;
+  background-size: 100% 100%;
+  height: 10px;
+  margin-left: 2px;
+  background-repeat: no-repeat;
+}
 .DF-content-2-content {
   padding: 10px;
   flex-wrap: wrap;

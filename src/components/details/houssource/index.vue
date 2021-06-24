@@ -127,7 +127,7 @@
                 class="button"
                 size="small"
                 color="linear-gradient(90deg,#fa8c1d,#fcaf3f)"
-                @click="yuyue"
+                @click="otherYuyue"
                 >预定</van-button
               >
             </van-col>
@@ -183,7 +183,7 @@
                 class="button"
                 size="small"
                 color="linear-gradient(90deg,#fa8c1d,#fcaf3f)"
-                @click="yuyue"
+                @click="otherYuyue"
                 >预定</van-button
               >
             </van-col>
@@ -243,7 +243,7 @@
                 class="button"
                 size="small"
                 color="linear-gradient(90deg,#fa8c1d,#fcaf3f)"
-                @click="yuyue"
+                @click="otherYuyue"
                 >预定</van-button
               >
             </van-col>
@@ -321,20 +321,27 @@ export default {
 
     //   })
     // },
-    async yuyue() {
-      const toast = this.$toast.loading({
-        duration: 0, // 持续展示 toast
-        forbidClick: true,
-        selector: "#custom-selector",
-      });
-      let { data: res } = await this.$axios.get("/details/is", {
-        params: {
-          start: this.$store.state.dataDate[0],
-          end: this.$store.state.dataDate[1],
-          rid: this.$route.query.id,
-        },
-      });
-      if (res.ok == 1) {
+    otherYuyue() {
+      this.$toast({
+        message: '功能待开发',
+        icon: 'smile',
+      })
+
+    },
+     yuyue() {
+      // const toast = this.$toast.loading({
+      //   duration: 0, // 持续展示 toast
+      //   forbidClick: true,
+      //   selector: "#custom-selector",
+      // });
+      // let { data: res } = await this.$axios.get("/details/is", {
+      //   params: {
+      //     start: this.$store.state.dataDate[0],
+      //     end: this.$store.state.dataDate[1],
+      //     rid: this.$route.query.id,
+      //   },
+      // });
+      // if (res.ok == 1) {
         this.$store.commit("setOrderCommitInfo", {
         price: this.jiage.price,
         new_price: this.jiage.new_price,
@@ -345,11 +352,11 @@ export default {
 
       });
         this.$router.replace({ path: "/order_edit" });
-        this.$toast.clear();
-      } else {
-        this.$toast.fail(res.msg);
-        this.$toast.clear();
-      }
+      //   this.$toast.clear();
+      // } else {
+      //   this.$toast.fail(res.msg);
+      //   this.$toast.clear();
+      // }
     },
   },
   beforeCreate() {},

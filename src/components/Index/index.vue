@@ -25,8 +25,8 @@
           <van-cell class="current-location">
             <div class="current-city">
               <!-- 定位地点 -->
-              <span style="font-weight: bold">
-                {{ local }}
+              <span style="font-weight: bold" @click="SearchCity">
+                {{ $store.state.city }}
               </span>
             </div>
             <!-- 定位按钮 -->
@@ -36,6 +36,8 @@
                   width="18px"
                   src="https://pic.tujia.com/upload/festatic/publicImages/icon-weizhi-tujia.png"
                   alt=""
+                  style="margin-top: -3px;
+    height: auto;"
                 />
                 <span @click="getLocation()"> 我的位置 </span>
               </div>
@@ -200,6 +202,7 @@
         </ul>
       </div>
       <!-- 瀑布流民宿数据 -->
+      <keep-alive>
       <div class="waterfall">
         <van-list
           v-model="loading"
@@ -233,6 +236,7 @@
           </div>
         </van-list>
       </div>
+      </keep-alive>
       <!-- 价格弹出层 -->
       <van-popup
         v-model="showPrice"
@@ -472,7 +476,11 @@ export default {
       };
     });
     this.getIndexList();
-    this.getLocation();
+    if(this.$store.state.city==''){
+      console.log('目前还是空')
+      this.getLocation();
+    }
+
   },
   watch: {
     local(val) {
@@ -493,6 +501,10 @@ export default {
     },
   },
   methods: {
+    // 跳转到选择城市
+    SearchCity(){
+      this.$router.push('/city')
+    },
     // 页面跳转
     skipBtn(id) {
       this.$router.push("/details?id=" + id);
