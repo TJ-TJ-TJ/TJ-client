@@ -1,0 +1,11 @@
+:root {
+  --tjc-theme: #ff9645;
+  --tjc-theme-price: #ff9645;
+  --tjc-theme-assistant: #44d39f;
+  --tjc-theme-assistant-green: #17d2bc;
+  --tjc-theme-background: #fff0e3;
+  --tjc-theme-linear-gradient: linear-gradient(90deg,#fa8c1d,#fcaf3f);
+  --tjc-theme-linear-gradient-2: var(--tjc-theme-linear-gradient);
+  --tjc-theme-linear-gradient-3: var(--tjc-theme-linear-gradient);
+  --tjc-theme-alarm: #f66;
+}
