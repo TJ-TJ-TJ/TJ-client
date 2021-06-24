@@ -70,14 +70,14 @@
           <br />
           <span class="fontMsg">历史发票</span>
         </div>
-        <div class="head-item">
+        <div class="head-item" @click="$router.push('/collect')">
           <van-image
             width="1rem"
             height="1rem"
             src="icon/history.png"
           />
           <br />
-          <span class="fontTitle" @click="$router.push('/collect')">
+          <span class="fontTitle">
             浏览历史
           </span>
           <br />
@@ -137,7 +137,8 @@ export default {
           phone:window.localStorage.getItem('phone'),
           uname:window.localStorage.getItem('uname'),
           headImg:window.localStorage.getItem('headImg'),
-        }
+        },
+      data:''
     }
   },
   methods:{
@@ -151,6 +152,7 @@ export default {
       }
       this.$router.push({path:'setting'})
     },
+
   },
 
   mounted(){
@@ -192,7 +194,7 @@ export default {
       top: 10vh;
       right: 10vw;
       border-radius: 50%;
-      box-shadow: 1px 1px 7px black;
+      box-shadow: 0px 0px 5px 1.5px rgb(0 0 0 / 15%);
     }
     .price {
       // height: 5rem;

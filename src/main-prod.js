@@ -60,7 +60,7 @@ Vue.prototype.$getTime = () => {
   mm >= 10 ? "" : (mm = "0" + mm);
   return `${hh}:${mm}`;
 };
-
+Vue.prototype.$bus = new Vue()
 
 // 请求拦截器
 axios.interceptors.request.use(function(config){

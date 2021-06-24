@@ -548,7 +548,7 @@ export default {
           // data是具体的定位信息
           console.log("定位成功信息：", data);
           console.log(data);
-          self.local = data.addressComponent.district;
+          self.local = data.addressComponent.district?data.addressComponent.district:data.addressComponent.province;
         }
         function onError(data) {
           // 定位出错
