@@ -20,7 +20,7 @@
         <!-- 个人资料------end -->
 
         <!-- 用户名------start -->
-         <div class="US-box-item">
+         <div @click="goUserName" class="US-box-item">
             <div> 用户名 </div>
             <van-icon name="arrow" size="25" />
         </div>
@@ -31,7 +31,7 @@
         </div>
 
           <!-- 手机号------start -->
-         <div class="US-box-item">
+         <div @click="goPhone" class="US-box-item">
             <div> 手机号 </div>
             <div class="US-box-item-right">
               
@@ -42,7 +42,7 @@
         <!-- 手机号------end -->
 
         <!-- 邮箱------start -->
-         <div class="US-box-item">
+         <div @click="goEmail" class="US-box-item">
             <div> 邮箱 </div>
             <div class="US-box-item-right">
                 
@@ -57,7 +57,7 @@
         </div>
 
          <!-- 登陆密码------start -->
-         <div class="US-box-item">
+         <div @click="upadatePasswordClcik" class="US-box-item">
             <div> 登陆密码 </div>
             <div class="US-box-item-right">
                 <font style="font-weight:600;color:#454545">修改</font>
@@ -93,8 +93,22 @@ export default {
         goSelfData(){
             this.$router.push({path:'editSelfData'})
         },
-        
-
+        //修改用户名
+        goUserName(){
+             this.$router.push({path:'/userName'})
+        },
+        //修改密码
+        upadatePasswordClcik(){
+            this.$router.push({path:'/password'})
+        },
+        //修改手机号
+        goPhone(){
+             this.$router.push({path:'/phone'})
+        },
+        //修改邮箱
+        goEmail(){
+             this.$router.push({path:'/email'})
+        },
         //退出登录
         exitLogin(){
             window.localStorage.clear()

@@ -1,6 +1,8 @@
 <template>
   <div id="app">
-    <router-view></router-view>
+     <transition mode="e">
+      <router-view></router-view>
+    </transition>
   </div>
 </template>
 <script>
@@ -84,4 +86,13 @@ export default {
   width: 100%;
   height: 100%;
 }
+        .v-enter,
+        .v-leave-to {
+            opacity: 0;
+        }
+        
+        .v-enter-active,
+        .v-leave-active {
+            transition: all .18s ease-in;
+        }
 </style>
