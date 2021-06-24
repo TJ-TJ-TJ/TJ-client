@@ -81,7 +81,7 @@ export default {
     onFailed(errorInfo) {
       console.log("failed", errorInfo);
     },
-   async save() {
+    async save() {
       if (
         this.username != "" &&
         this.user_iden != "" &&
@@ -91,7 +91,11 @@ export default {
           uname: this.username,
           id: this.user_iden,
         };
-        this.$axios.post("order/addInfo", userinfo); //添加入住人
+        this.$toast.loading({
+          message: "加载中",
+        });
+        await this.$axios.post("order/addInfo", userinfo); //添加入住人
+        this.$toast.clear()
         this.$router.push("/check_person");
       } else {
         this.$toast.fail("身份证号码格式不正确 请重新输入");
@@ -100,11 +104,6 @@ export default {
   },
   mounted() {
     this.outheight = window.innerHeight + "px";
-    if (this.$route.query.go == "edit") {
-      this.titles = "编辑入住人";
-    } else {
-      this.titles = "添加入住人";
-    }
   },
 };
 </script>

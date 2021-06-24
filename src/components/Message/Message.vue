@@ -303,10 +303,6 @@ export default {
       }
       clearTimeout(this.loop); //再次清空定时器，防止重复注册定时器
       this.loop = setTimeout(() => {
-        /* if (isAudio == false) {
-          this.$toast.fail("您的设备不支持录音");
-          return;
-        } */
         recorder.start(); //开始录音
         this.long = true; //800后将他赋值 开始录音 不到300hm 则清空定时器不开始录音
       }, 400);
@@ -433,7 +429,6 @@ export default {
       console.log(this.$route);
       let sid = this.$route.params; //  根据路由跳转传过来的 sid  重新获取消息记录渲染  下面的消息列表不执行
       let store = ""; //消息的信息
-      console.log(sid == undefined, JSON.stringify(sid) == "{}");
       if (JSON.stringify(sid) != "{}") {
         console.log("其他页面 跳转过来的");
         let [err, obj] = await this.capture(this.getHistory);
@@ -442,7 +437,7 @@ export default {
           obj.data.filter((item) => {
             return item.be.uid == sid.uid;
           }) || []; //看看是否有历史消息
-        console.log(newarr, sid.i);
+        console.log(newarr, sid);
         if (newarr.length == 0) {
           //如果没有 手动给他赋值 账号信息
           store = {
@@ -479,7 +474,6 @@ export default {
     this.uid = window.localStorage.getItem("uid") || 1;
     this.uname = window.localStorage.getItem("uname") || "用户idQ#vjndaslk";
     this.getlist();
-    // console.log(this.be, this.uid, this.my_headimg);
     this.$axios.post("https://kf.testw.top/updateMsgRead", {
       //消息已读未读
       uid: this.be.uid,
@@ -523,7 +517,6 @@ export default {
       this.status = !this.status; //更新状态
     },
   },
-  updated() {},
   watch: {
     status() {
       // console.log("触发了");
@@ -548,6 +541,11 @@ body {
   height: 100%;
   .van-icon {
     color: #333;
+  }
+  .van-nav-bar__left {
+    i {
+      color: #ff9645;
+    }
   }
   .empty {
     height: 56px;

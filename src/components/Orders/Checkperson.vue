@@ -25,7 +25,7 @@
         </div>
       </div>
       <div>
-        <van-icon name="arrow" @click="go(item.uname, item.id)" />
+        <van-icon name="arrow" @click="go(item.uname, item.id, item.iid)" />
       </div>
     </div>
     <div class="foot">
@@ -64,8 +64,11 @@ export default {
     addperson() {
       this.$router.push("/add_person");
     },
-    go(name, id) {
-      this.$router.push({name:'edit_person',params:{uname:name,user_iden:id}})
+    go(name, id, iId) {
+      this.$router.push({
+        name: "edit_person",
+        params: { uname: name, user_iden: id, iId:iId },
+      });
     },
   },
   computed: {
@@ -78,11 +81,11 @@ export default {
   },
   async created() {
     this.$toast.loading({
-        forbidClick: true,
-      });
+      forbidClick: true,
+    });
     let user_info = await this.$axios.get("order/resideInfo"); //获取入住人的信息
-    this.$toast.clear()
-    this.user_info = user_info.data.result||[]; //用户人信息
+    this.user_info = user_info.data.result || []; //用户人信息
+    this.$toast.clear();
     this.outheight = window.outerHeight + "px";
   },
 };
