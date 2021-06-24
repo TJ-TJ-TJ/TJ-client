@@ -109,7 +109,6 @@ export default {
         //如果请求不到数据 证明无消息
         return;
       } else {
-        let count = 0; //未读消息条数
         this.$store.commit("update_msgarr", data.data);
       }
       let arr = this.$store.state.msg_arr;
@@ -137,10 +136,10 @@ export default {
         });
         this.msginfo.push(count); //未读消息数组
         count = 0;
-        let resul_count = this.msginfo.reduce((box, item) => box + item); //未读消息总条数
-        this.$store.commit("change_unread", resul_count); //更改未读消息总条数
-        // console.log( this.$store.state.unread_msg)
       });
+      let resul_count = this.msginfo.reduce((box, item) => box + item); //未读消息总条数
+      this.$store.commit("change_unread", resul_count); //更改未读消息总条数
+      // console.log( this.$store.state.unread_msg)
     },
   },
   async created() {
