@@ -83,7 +83,7 @@
 1、线下支付的押金：请您离店时与房东沟通押金返还事宜；
 2、线上支付的押金：如您已正常入住，会在订单已离店状态的次日18点自动退款，可在“订单信息”中关注退款进度；
 3、押金宝二维码支付押金：在离店日20:00自动返还；
-               押金到账时间为1-5个工作日，请注意查收~</pre>
+押金到账时间为1-5个工作日，请注意查收~</pre>
               </p>
             </section>
             <section>
@@ -314,9 +314,11 @@ export default {
       this.oid = this.$route.params.oid;
       this.rid = this.$route.params.rid;
     }
+    this.$toast.loading({ message: "加载中" });
     let obj = await this.getstore(this.oid, this.rid); //查询订单详情
     console.log(obj);
     this.msgdetail = obj.data.result;
+    this.$toast.clear();
   },
 };
 </script>
