@@ -29,10 +29,5 @@ var arr = [
         name:'phone',
         component: () => import(/* webpackChunkName: "user_edit" */ '../components/user/phone.vue')
     },
-    {
-        path:'/userName',
-        name:'userName',
-        component: () => import(/* webpackChunkName: "user_edit" */ '../components/user/userName.vue')
-    },
 ]
 export default arr

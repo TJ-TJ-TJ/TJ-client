@@ -17,7 +17,16 @@
 
 <script>
 export default {
-
+    data() {
+        return {
+            
+        }
+    },
+    methods: {
+        onClickLeft(){
+            this.$router.go(-1)
+        }
+    },
 }
 </script>
 

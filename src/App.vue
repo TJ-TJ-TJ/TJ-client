@@ -93,6 +93,6 @@ export default {
         
         .v-enter-active,
         .v-leave-active {
-            transition: all .18s ease-in;
+            transition: all .18s linear;
         }
 </style>

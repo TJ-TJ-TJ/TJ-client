@@ -66,6 +66,12 @@
         </div>
         <!-- 登陆密码------end -->
 
+
+
+        <!-- 用户名修改弹出dialog -->
+
+
+
         <div @click="exitLogin" class="US-box-signOut">
             <div>退出登录</div>
         </div>
@@ -95,7 +101,7 @@ export default {
         },
         //修改用户名
         goUserName(){
-             this.$router.push({path:'/userName'})
+             
         },
         //修改密码
         upadatePasswordClcik(){

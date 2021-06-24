@@ -1,5 +1,5 @@
 <template>
-           <div v-if="show">
+           <div style="position:absolute;top:0px;right:0;width:100vw;height:100vh">
                <van-nav-bar
                         left-text="返回"
                         left-arrow
@@ -12,13 +12,6 @@
                         <van-icon name="arrow-left" size="25" />
                     </template>
                 </van-nav-bar>
-                <div>修改密码</div>
-                <div>修改密码</div>
-                <div>修改密码</div>
-                <div>修改密码</div>
-                <div>修改密码</div>
-                <div>修改密码</div>
-                <div>修改密码</div>
            </div>
 </template>
 
@@ -31,7 +24,6 @@ export default {
     },
     methods: {
         onClickLeft(){
-           
             this.$router.push({path:'/setting'})
         },
     },
