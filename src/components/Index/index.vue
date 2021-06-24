@@ -209,7 +209,7 @@
           :finished="finished"
           finished-text="没有更多了"
         >
-          <div class="homestay">
+          <div v-show="!skeShow" class="homestay">
             <div
               class="homestay-item"
               v-for="item in result"
@@ -234,6 +234,7 @@
               </div>
             </div>
           </div>
+          <list-ske class="homestay ske" :show="skeShow"></list-ske>
         </van-list>
       </div>
       </keep-alive>
@@ -369,7 +370,11 @@
 </template>
 
 <script>
+import listSke from '../homeListSke.vue'
 export default {
+  components:{
+    listSke
+  },
   data() {
     return {
       // 轮播图
@@ -448,6 +453,7 @@ export default {
       result: {},
       //  地址
       local: "",
+      skeShow:true
     };
   },
   created() {
@@ -591,8 +597,9 @@ export default {
       const { data: res } = await this.$axios.get(
         "index/list?page=1&count=100"
       );
+      this.skeShow=false
       this.result = res.result;
-      console.log(this.result);
+      
     },
     // 轮播图
     onChange(index) {
@@ -729,4 +736,14 @@ export default {
 
 <style lang="scss">
 @import "public/scss/index.scss";
+.ske{
+  padding: 0px 15px;
+  align-items: center;
+  display: inline-block !important;
+  text-align: center;
+  z-index:1;
+}
+.van-search--show-action{
+  z-index: 1024;
+}
 </style>

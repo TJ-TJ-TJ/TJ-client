@@ -69,11 +69,11 @@ axios.interceptors.request.use(function(config){
 },function(err){
     console.log(err)
 })
-Vue.prototype.$loading = (label='验证中')=>{
+Vue.prototype.$loading = (label)=>{
   Toast.loading({
     duration: 0, // 持续展示 toast
     forbidClick: true,
-    message: '倒计时 3 秒',
+    message: label,
   });
 }
 // 响应拦截器
