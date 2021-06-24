@@ -278,7 +278,7 @@ export default {
         "page": 1,
         "count": 100,
         "minPrice": this.minPrice,
-        "maxPrice": this.maxPrice,
+        "maxPrice": this.$store.state.priceData.length>1?this.$store.state.priceData[1]:2000,
         "star": [1,2,3,4],
       })
       this.result=res.result

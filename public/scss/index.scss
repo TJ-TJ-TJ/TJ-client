@@ -142,8 +142,9 @@
         width: 35%;
         margin-left: 5%;
         height: 3vh;
-        float: left;
-  
+        display: flex;
+        align-items: center;
+        justify-content: flex-end;
         div{
           float: right;
           .van-icon{

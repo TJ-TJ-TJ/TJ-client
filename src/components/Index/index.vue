@@ -36,6 +36,8 @@
                   width="18px"
                   src="https://pic.tujia.com/upload/festatic/publicImages/icon-weizhi-tujia.png"
                   alt=""
+                  style="margin-top: -3px;
+    height: auto;"
                 />
                 <span @click="getLocation()"> 我的位置 </span>
               </div>
