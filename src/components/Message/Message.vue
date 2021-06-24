@@ -804,9 +804,12 @@ body {
     bottom: 0;
     textarea {
       width: calc(100% - 20px); //意思是父级元素减去30px的宽度
-      margin: 0 0 0 10px;
-      max-height: 100px;
-      min-height: 30px;
+      margin: 0 0 0 5px;
+      max-height: 80px;
+      min-height: 25px;
+
+      // padding: 9px 0 2px 0;
+      // line-height: 15px;
       border: 0.5px solid #dadada;
       -webkit-border-radius: 2px;
       border-radius: 2px;
@@ -847,6 +850,7 @@ body {
       }
 
       button {
+        white-space: nowrap;
         margin-left: 1vw;
       }
     }
