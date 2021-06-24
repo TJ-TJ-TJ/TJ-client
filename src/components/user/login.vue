@@ -284,7 +284,8 @@ async loginInfoPush(){
                   }})
                   //账号存在， 可以登录
                   if(res.code==200){
-                    this.ssidRules = res.id
+                    console.log(res);
+                    this.ssidRules = res.result.id
                     this.isClickSendCode=false
                   }
                  //不能登录，未注册 
@@ -313,7 +314,7 @@ async reloadSendPhoneSignUp(){
         }})
         console.log(res);
         if(res.ok==1){
-          this.ssidRules = res.id
+          this.ssidRules = res.result.id
           this.isClickSendCode=false
         }else{
           this.isClickSendCode=false
@@ -378,7 +379,7 @@ async reloadSendPhoneSignUp(){
   //手机号 验证码提交
     async commitLoginPhoneCode(){
         //登录  输入验证码并验证
-              window.loginBeforeToast = this.$toast.loading({
+              const toast = this.$toast.loading({
                 duration: 0, // 持续展示 toast
                 forbidClick: true,
                 message: '验证中...',
@@ -393,7 +394,8 @@ async reloadSendPhoneSignUp(){
                 this.$toast.success('登录成功')
                 this.loginOrSignInSuccess(res.result)
                 this.$router.replace({path:'user'})
-                this.$toast.clear(loginBeforeToast)
+                this.$toast.clear()
+
               }else{
                 this.$toast.fail(res.msg)
                 this.$toast.clear(loginBeforeToast)

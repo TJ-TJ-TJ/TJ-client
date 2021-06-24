@@ -155,18 +155,21 @@ export default {
       //再次购买订单
     },
     async get_list() {
+      this.$toast.loading({
+        message: "加载中",
+      });
       let obj = await this.$axios.get(`order/list?state=${this.active - 1}`);
-      console.log(obj);
       if (!obj) {
         return;
       } else {
-        //后续是向后台获取数据
         this.order = obj.data.result || [];
+        this.$toast.clear();
       }
     },
   },
   async created() {
     this.uid = localStorage.getItem("uid");
+
     this.get_list();
   },
   watch: {
@@ -178,7 +181,7 @@ export default {
   computed: {
     //计算订单状态
     calc(i) {
-      return function(i) {
+      return function (i) {
         let arr = ["待支付", "已支付", "已使用", "已超时"];
         let res = arr[i];
         return res;
@@ -186,7 +189,7 @@ export default {
     },
     //计算几月几日
     getDate(i) {
-      return function(i) {
+      return function (i) {
         let now = new Date(i);
         let y = now.getFullYear();
         let m = now.getMonth() + 1;
@@ -198,7 +201,7 @@ export default {
     },
     //获取时间    格式 ` 00:00`
     getTime(i) {
-      return function(i) {
+      return function (i) {
         let now = new Date(i);
         let hh = now.getHours();
         let mm = now.getMinutes();

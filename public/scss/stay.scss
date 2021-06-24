@@ -229,9 +229,11 @@
     border: 1px solid rgba(0, 0, 0, 0);
     display: inline-block;
     margin-right: 10px;
-    padding: 0 12px;
-    height: 4vh;
-    line-height: 3vh;
+    //padding: 0 12px;
+    //height: 4vh;
+    //line-height: 4vh;
+    padding: 8px;
+    box-sizing: border-box;
     background: #fff;
     box-shadow: 0 2px 14px 0 rgba(0, 2, 4, 0.08);
     border-radius: 13px;
@@ -241,22 +243,32 @@
     width: 100%;
     float:left;
     margin-top: 20vh;
-    background-color: #F2F5F7;
+    background-color: #eeeded;
   }
   .homestay-Index .header-continer .header-stay {
-    margin-bottom: 50px;
+    margin-top: 30px;
     width: 90%;
     margin-left: 5%;
     position: relative;
     z-index: 0;
+    background-color: #FFFFFF;
+    border-radius: 10px 10px 10px 10px;
+    box-shadow: 0px 0px 5px 1.5px rgb(0 0 0 / 15%);
   
   }
   .homestay-Index .header-continer .header-stay .van-swipe {
-    height: 34vh;
+    //height: 34vh;
     max-height: 85vh;
+    background-color: #EEEDED;
+    border-radius: 10px 10px 0px 0px;
   }
+.homestay-Index .header-continer .header-stay .van-swipe .van-swipe-item{
+  //border-radius: 10px 10px 0px 0px;
+  //display: none;
+}
   .homestay-Index .header-continer .header-stay .van-swipe .van-swipe-item img {
     width: 100%;
+    border-radius: 10px 10px 0px 0px;
   }
   .homestay-Index .header-continer .header-stay .header-comment {
     display: flex;
@@ -342,13 +354,16 @@
   
   .homestay-Index .foot-comment {
     width: 100%;
-    height: 15vh;
-    margin-top: 1px;
+    //height: 15vh;
+    //margin-top: 1px;
+    //float: left;
+    padding: 10px;
   }
   
   .homestay-Index .foot-title {
     width: 100%;
     height: 18px;
+    //border: 1px solid bla;
   /*. 文本强制不合法，不换行*/
   white-space: nowrap;
     /*2. 文本溢出显示省略号*/
@@ -378,13 +393,19 @@
     width: 100%;
     overflow: hidden;
     line-height: 22px;
-    font-size: 18px;
+    font-size: 16px;
     margin-top: 8px;
     display: -webkit-box;
     -webkit-line-clamp: 2;
     -webkit-box-orient: vertical;
     font-family: PingFangSC-Medium, Helvetica Neue, Arial, sans-serif;
     font-weight: 500;
+    //. 文本强制不合法，不换行
+    white-space: nowrap;
+    //2. 文本溢出显示省略号
+    text-overflow:ellipsis;
+    //3. 溢出部分隐藏
+    overflow:hidden;
   }
   
   .homestay-Index .foot-tag {
