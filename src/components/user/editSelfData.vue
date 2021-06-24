@@ -63,8 +63,8 @@
         </div>
         <div @click="locaitonClick" class="ES-box-item-content">
             <div>所在城市</div>
-            <div v-if="!userConfig.currentCity" class="ES-box-item-right-position">选择你当前的城市地区</div>
-            <div v-else class="ES-box-item-right-position">{{userConfig.currentCity}}</div>
+            <div v-if="!userConfig.city" class="ES-box-item-right-position">选择你当前的城市地区</div>
+            <div v-else class="ES-box-item-right-position">{{userConfig.city}}</div>
             <van-icon name="arrow" size="25" />
         </div>
 
@@ -126,14 +126,13 @@ export default {
         return {
             dialogShow:false,
             currentDialogOption:'',
-            headImgBlob:'',
             userConfig:{
                 avatar:'',
                 nickname:'',
                 uname:'', //真实姓名
-                sex:'',  //性别
-                age:'', //年龄
-                currentCity:'', //当前城市
+                sex:'',   //性别
+                age:'',   //年龄
+                city:'', //当前城市
             },
             areaList,
             //选择性别数据
@@ -152,30 +151,28 @@ export default {
         }
     },
     async created() {
-        // let {data:res} = await this.$axios.get('/profile/info')
-        // if(res.ok!==1)return this.$toast.fail('获取失败')
-        // this.userConfig = res.result
+        let {data:res} = await this.$axios.get('/profile/info')
+        if(res.ok!==1)return this.$toast.fail('获取失败')
+        console.log(res);
+        this.userConfig = res.result
     },
     methods:{
         onClickLeft(){
             this.$router.go(-1)
         },
         async onClickSava(){
-            this.$toast('保存')
-            let data = new FormData()
-            data.append('avatar',this.headImgBlob.file)
-            data.append('nickname',this.userConfig.nickname)
-            data.append('uname',this.userConfig.uname)
-            data.append('sex',this.userConfig.sex)
-            data.append('age',this.userConfig.age)
-            data.append('currentCity',this.userConfig.currentCity)
-            let {data:res}  = await this.$axios.post('/profile/info',data)
-            if(res.ok!==1) return this.$toast.fail('更新信息失败')
+            let {data:res}  = await this.$axios.put('/profile/info',{
+                'nickname':this.userConfig.nickname,
+                'uname':this.userConfig.uname,
+                'sex':this.userConfig.sex,
+                'age':this.userConfig.age,
+                'city':this.userConfig.city
+            })
+            if(res.ok!==1) return this.$toast.fail(res.msg)
             this.$toast.success('更新成功')
             //对缓存中的
             window.localStorage.setItem('headImg',res.result.avatar)
             window.localStorage.setItem('uname',this.userConfig.nickname)
-            window.localStorage.setItem('headImg',res.result.avatar)
         },
         clickEditUname(item){
             this.currentDialogOption = item
@@ -240,18 +237,23 @@ export default {
             value.forEach(e => {
                 arr.push(e.name)
             });
-            this.userConfig.currentCity=arr.join('/')
+            this.userConfig.city=arr.join('/')
             this.locationShow=false
         },
         //
         locationCancel(){
             this.locationShow = false;
         },
-        //上传图片之前,获取file对象
+        //上传图片之前,获取file对象 发送请求并修改
         async afterUploadHeadImg(file){
             this.userConfig.avatar = URL.createObjectURL(file.file)
-            this.headImgBlob = file
-
+            let formdata = new FormData()
+            formdata.append('avatar',file.file)
+            let {data:res} = await this.$axios.put('/profile/avatar',formdata)
+            if(res.ok!==1) return this.$toast.fail(res.msg)
+            this.$toast.success(res.msg)
+            window.localStorage.setItem('headImg',res.result.avatar)
+            this.$router.replace({path:'/setting'})
         }
     },
     computed:{

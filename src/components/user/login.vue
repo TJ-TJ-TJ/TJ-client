@@ -379,7 +379,7 @@ async reloadSendPhoneSignUp(){
   //手机号 验证码提交
     async commitLoginPhoneCode(){
         //登录  输入验证码并验证
-              window.loginBeforeToast = this.$toast.loading({
+              const toast = this.$toast.loading({
                 duration: 0, // 持续展示 toast
                 forbidClick: true,
                 message: '验证中...',
@@ -394,7 +394,8 @@ async reloadSendPhoneSignUp(){
                 this.$toast.success('登录成功')
                 this.loginOrSignInSuccess(res.result)
                 this.$router.replace({path:'user'})
-                this.$toast.clear(loginBeforeToast)
+                this.$toast.clear()
+
               }else{
                 this.$toast.fail(res.msg)
                 this.$toast.clear(loginBeforeToast)

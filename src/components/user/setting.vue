@@ -45,7 +45,6 @@
          <div @click="goEmail" class="US-box-item">
             <div> 邮箱 </div>
             <div class="US-box-item-right">
-                
                 <font style="font-weight:600;color:#454545"></font>
             </div>
             <van-icon name="arrow" size="25" />
@@ -69,6 +68,7 @@
 
 
         <!-- 用户名修改弹出dialog -->
+
 
 
 
@@ -98,7 +98,7 @@ export default {
   },
   methods:{
         onClickLeft() {
-            this.$router.go(-1)
+            this.$router.push({path:'/user'})
         },
 
         //点击 进入个人资料页面
@@ -123,9 +123,19 @@ export default {
         },
         //退出登录
         exitLogin(){
-            window.localStorage.clear()
-            window.sessionStorage.clear()
-            this.$router.replace({path:'/user'}) 
+            this.$dialog.confirm({
+                title: '警告',
+                message: '确认退出登录吗?',
+            })
+            .then(() => {
+                window.localStorage.clear()
+                window.sessionStorage.clear()
+                this.$router.replace({path:'/user'}) 
+            })
+            .catch(() => {
+                // on cancel
+            });
+            
         }
     }
 }

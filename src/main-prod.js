@@ -82,7 +82,7 @@ axios.interceptors.response.use(function(res){
     }
     return res
 },function(err){
-
+  return
 })
 
 Vue.config.productionTip = false

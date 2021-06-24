@@ -86,6 +86,9 @@ export default {
   width: 100%;
   height: 100%;
 }
+.van-icon-arrow-left{
+  color: black !important;
+}
         .v-enter,
         .v-leave-to {
             opacity: 0;
@@ -95,4 +98,5 @@ export default {
         .v-leave-active {
             transition: all .18s linear;
         }
+
 </style>
