@@ -41,13 +41,24 @@ export default {
         onClickLeft(){
             this.$router.go(-1)
         },
+
       async submitEmail(){
         let reg = /^[A-Za-z\d]+([-_.][A-Za-z\d]+)*@([A-Za-z\d]+[-.])+[A-Za-z\d]{2,4}$/;
         if(!reg.test(this.email)){
           return this.$toast.fail('邮箱不合法,请重新输入')
         }
         const {data:res} = await this.$axios.get('profile/sendEmail?email='+this.email)
-        console.log(res)
+       console.log((res))
+        // if(res.ok!==1){
+        //   return this.$toast.fail('发送失败')
+        // }
+        // let token = window.localStorage.getItem('token')
+        // const {data:result} = await this.$axios.get('http://127.0.0.1/v1/profile/emailUpdate?token='+token,{
+        //   "newEmail": this.email,
+        //     "id": "<06456c42-80c6-684e-33b9-12e57c2d23bf@163.com>",
+        //     "verify": "57824",
+        // })
+        this.$toast.success('请进入邮箱')
         this.$router.go(-1)
       },
     },

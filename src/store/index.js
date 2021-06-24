@@ -20,7 +20,7 @@ export default new Vuex.Store({
       uid:localStorage.getItem('uid'), //用户的uid
     },
     my_headimg:localStorage.getItem('headImg'),
-    unread_msg:0, //未读消息总条数
+    unread_msg: 0, //未读消息总条数
     starDate: "",  // 
     endDate: "",
     dataDate: [], // 开始时间 结束时间 毫秒值

@@ -263,7 +263,7 @@ export default {
   },
   created() {
     this.getStayList()
-    this.collectList()
+    // this.collectList()
   },
   updated(){
     this.starDate = this.$refs.calenderRef.checkDate
@@ -272,30 +272,30 @@ export default {
   
    methods: {
     // 点击收藏
-     async collectList(){
-       const {data:res} = await this.$axios.get('profile/collect')
-       console.log(res)
-       this.request = res
-
-     },
-     async collect(id,image,name,params,star,price,newPrice){
-      const {data:res} = await this.$axios.post('profile/collect',{
-        "rid":id,
-        "imgList":image,
-        "title":name,
-        "params":params,
-        "score":star,
-        "score_count":star,
-        "con_title": "天天特惠",
-        "price": price,
-        "new_price": newPrice
-      })
-       console.log(res)
-       if(res.ok==1){
-         console.log(this.$refs.iconRefs)
-         return this.iconColor = "#DC2513"
-       }
-    },
+    //  async collectList(){
+    //    const {data:res} = await this.$axios.get('profile/collect')
+    //    console.log(res)
+    //    this.request = res
+    //
+    //  },
+    //  async collect(id,image,name,params,star,price,newPrice){
+    //   const {data:res} = await this.$axios.post('profile/collect',{
+    //     "rid":id,
+    //     "imgList":image,
+    //     "title":name,
+    //     "params":params,
+    //     "score":star,
+    //     "score_count":star,
+    //     "con_title": "天天特惠",
+    //     "price": price,
+    //     "new_price": newPrice
+    //   })
+    //    console.log(res)
+    //    if(res.ok==1){
+    //      console.log(this.$refs.iconRefs)
+    //      return this.iconColor = "#DC2513"
+    //    }
+    // },
     // 获取列表
     async selectHouse(){
     const {data:res} = await this.$axios.post('search/find',{

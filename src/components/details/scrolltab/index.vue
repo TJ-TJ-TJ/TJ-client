@@ -80,6 +80,7 @@ export default {
       notice: undefined,
       circum: undefined,
       location:"",
+      // collHistory: undefined
 
     };
   },
@@ -154,9 +155,11 @@ export default {
 
   },
   watch:{
-    allDate(val) {
+    allDate:{ 
+      deep: true,
+     handler:function (val) {
       // console.log(val)
-        let  {r_name:name,star,location,nearby,label,params,swiper, price, new_price,facility,owner,discuss,notice,circum,} =val;
+        let  {r_name:name,star,location,nearby,label,params,swiper, price, new_price,facility,owner,discuss,notice,circum} =val;
         this.title = {
         name,
         star,
@@ -178,6 +181,25 @@ export default {
         r_name:name
 
       };
+    //   let imglist = swiper.map((item) => {
+    //   return item.url[0];
+    // });
+
+    //    let collectionHistory = {
+    //   rid: this.$route.query.id,
+    //   imgList: imglist,
+    //   title: name,
+    //   params: params,
+    //   score_count: discuss.length + 1,
+    //   con_title: con_title,
+    //   price: price,
+    //   new_price: new_price,
+    // }
+
+    // this.collHistory = collectionHistory
+
+
+        // console.log(this.collHistory)
 
       this.facility = facility;
       this.owner = owner;
@@ -186,8 +208,11 @@ export default {
       this.circum = circum;
       this.location = location;
 
-      // console.log(this.params)
 
+      // console.log(this.params)
+      // console.log(this.iscollect)
+
+     }
     }
     
   },

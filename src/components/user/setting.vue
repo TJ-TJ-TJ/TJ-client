@@ -107,7 +107,13 @@ export default {
             updateUnameDialog:false,
         }
     },
-    methods:{
+  watch:{},
+  created() {
+
+  },
+  mounted() {
+  },
+  methods:{
         onClickLeft() {
             this.$router.push({path:'/user'})
         },
