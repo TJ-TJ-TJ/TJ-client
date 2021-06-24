@@ -140,12 +140,11 @@ export default {
           let obj = await this.$axios.delete("order/delete", { data: { oid } });
           console.log(obj.data);
           if (obj.data.ok == "1") {
-            this.$toast.succes("删除成功");
             this.get_list();
+            this.$toast.succes("删除成功");
           } else {
             this.$toast.fail("网络繁忙 请稍后重试");
           }
-          this.$toast.clear();
         })
         .catch(() => {
           return;
@@ -161,7 +160,6 @@ export default {
       if (!obj) {
         return;
       } else {
-        //后续是向后台获取数据
         this.order = obj.data.result || [];
       }
     },
