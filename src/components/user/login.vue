@@ -284,7 +284,8 @@ async loginInfoPush(){
                   }})
                   //账号存在， 可以登录
                   if(res.code==200){
-                    this.ssidRules = res.id
+                    console.log(res);
+                    this.ssidRules = res.result.id
                     this.isClickSendCode=false
                   }
                  //不能登录，未注册 
@@ -313,7 +314,7 @@ async reloadSendPhoneSignUp(){
         }})
         console.log(res);
         if(res.ok==1){
-          this.ssidRules = res.id
+          this.ssidRules = res.result.id
           this.isClickSendCode=false
         }else{
           this.isClickSendCode=false

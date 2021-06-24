@@ -21,13 +21,13 @@
             <van-uploader :after-read="afterUploadHeadImg">
                 <div class="ES-item-head-photo">
                     
-                        <img class="ES-item-head-img" height="100%" src="https://pic.tujia.com/upload/resourcespic/day_200903/202009031819461069.jpg" alt="">
+                        <img class="ES-item-head-img" height="100%" :src="this.userConfig.avatar|| 'https://pic.tujia.com/upload/resourcespic/day_200903/202009031819461069.jpg'" alt="">
                 
                 </div>
              </van-uploader>
             <div class="ES-item-uname"> 
                 <van-cell-group>
-                    <van-field v-model="userConfig.nickname" placeholder="请输入用户名" />
+                    <van-field v-model="userConfig.nickname" placeholder="请输入昵称" />
                 </van-cell-group>    
             </div>
         </div>
@@ -43,7 +43,7 @@
 
         <div @click="clickEditUname" class="ES-box-item-content">
             <div>姓名</div>
-            <div v-if="!userConfig.uname" class="ES-box-item-right-position">请选择你的姓名</div>
+            <div v-if="!userConfig.uname" class="ES-box-item-right-position">请填写你的姓名</div>
             <div v-else class="ES-box-item-right-position">{{userConfig.uname}}</div>
             <van-icon name="arrow" size="25" />
         </div>
@@ -128,7 +128,8 @@ export default {
             currentDialogOption:'',
             headImgBlob:'',
             userConfig:{
-                nickname:window.localStorage.getItem('uname'),
+                avatar:'',
+                nickname:'',
                 uname:'', //真实姓名
                 sex:'',  //性别
                 age:'', //年龄
@@ -136,7 +137,7 @@ export default {
             },
             areaList,
             //选择性别数据
-                selectSex:['男','女'],
+                selectSex:['女','男'],
             //选择性别控制dialog显示隐藏
                 sexShow: false,
             //选择年龄控制dialog显示隐藏
@@ -150,16 +151,31 @@ export default {
             locationShow:false
         }
     },
+    async created() {
+        // let {data:res} = await this.$axios.get('/profile/info')
+        // if(res.ok!==1)return this.$toast.fail('获取失败')
+        // this.userConfig = res.result
+    },
     methods:{
         onClickLeft(){
             this.$router.go(-1)
         },
         async onClickSava(){
             this.$toast('保存')
-            // let {data:res}  = await this.$axios.post('/[待完善]',userConfig)
-            // if(res.code!==200) return this.$toast.fail('更新信息失败')
-            // this.$toast.success('更新成功')
-            //需要对本地缓存的个人信息进行更新  [待完善]
+            let data = new FormData()
+            data.append('avatar',this.headImgBlob.file)
+            data.append('nickname',this.userConfig.nickname)
+            data.append('uname',this.userConfig.uname)
+            data.append('sex',this.userConfig.sex)
+            data.append('age',this.userConfig.age)
+            data.append('currentCity',this.userConfig.currentCity)
+            let {data:res}  = await this.$axios.post('/profile/info',data)
+            if(res.ok!==1) return this.$toast.fail('更新信息失败')
+            this.$toast.success('更新成功')
+            //对缓存中的
+            window.localStorage.setItem('headImg',res.result.avatar)
+            window.localStorage.setItem('uname',this.userConfig.nickname)
+            window.localStorage.setItem('headImg',res.result.avatar)
         },
         clickEditUname(item){
             this.currentDialogOption = item
@@ -233,18 +249,16 @@ export default {
         },
         //上传图片之前,获取file对象
         async afterUploadHeadImg(file){
-            console.log(file);
-            let formDate = new FormData()
-            formDate.append('file',file.file)
-            let {data:res} = await this.$axios.post('/[待完善]',formDate)
-            if(res.code!=200)return this.$toast.fail('更新头像失败')
+            this.userConfig.avatar = URL.createObjectURL(file.file)
+            this.headImgBlob = file
+
         }
     },
     computed:{
         //过滤性别
         filterSex(){
             var sex = ''
-           this.userConfig.sex.length==0?sex='请选择你的性别':this.userConfig.sex==1?sex='女': this.userConfig.sex==0?sex='男':''
+           this.userConfig.sex.length==0?sex='请选择你的性别':this.userConfig.sex==1?sex='男': this.userConfig.sex==0?sex='女':''
             return sex
         },
     }

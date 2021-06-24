@@ -13,6 +13,21 @@ var arr = [
         path:'/editSelfData',
         name:'editSelfData',
         component: () => import(/* webpackChunkName: "user_edit" */ '../components/user/editSelfData.vue')
-    }
+    },
+    {
+        path:'/password',
+        name:'password',
+        component: () => import(/* webpackChunkName: "user_edit" */ '../components/user/password.vue')
+    },
+    {
+        path:'/email',
+        name:'email',
+        component: () => import(/* webpackChunkName: "user_edit" */ '../components/user/email.vue')
+    },
+    {
+        path:'/phone',
+        name:'phone',
+        component: () => import(/* webpackChunkName: "user_edit" */ '../components/user/phone.vue')
+    },
 ]
 export default arr
