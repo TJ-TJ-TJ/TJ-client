@@ -30,8 +30,8 @@
                             style="width:76px;height:32px"
                             color="linear-gradient(90deg,#fa8c1d,#fcaf3f)"
                         >
-                            <p v-if="!sendBtnShow">发送验证码</p>
-                            <p v-if="sendBtnShow">{{countTime}}s</p>
+                            <p v-if="!sendBtnShow" style="font-size:12px">发送验证码</p>
+                            <p v-if="sendBtnShow" style="font-size:12px">{{countTime}}s</p>
                         </van-button>
                     </template>
                 </van-field>

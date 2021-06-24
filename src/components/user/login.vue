@@ -365,13 +365,16 @@ async reloadSendPhoneSignUp(){
     //校验是否同意协议， 并发送请求
     async onClickAccountLoginBtn(){
        if(this.agreeAgreement==false)return this.$toast('请同意服务协议')
-      //   let {data:res} = await this.$socket.post('[account登录接口]',{
-      //     phone:this.phone,
-      //     password:this.password
-      //   })
-      //  if(res.code!=403){
-      //    this.$toast.fail('')
-      //  }
+        let {data:res} = await this.$axios.post('/user/login',{
+          uname:this.phone,
+          upwd:this.password
+        })
+       if(res.ok!=1)return this.$toast.fail(res.msg)
+       this.loginOrSignInSuccess(res.result)
+       this.$toast.success(res.msg)
+       setTimeout(()=>{
+         this.$router.replace({path:'user'})
+       },1000)
     },
 //账号密码登录开始----------------------end
 
@@ -432,6 +435,7 @@ async reloadSendPhoneSignUp(){
         window.localStorage.setItem('uid',info.uid)
         window.localStorage.setItem('uname',info.uname || Date.now())
         window.localStorage.setItem('headImg',info.avatar || 'https://z3.ax1x.com/2021/06/22/RZOHpR.png')
+        window.localStorage.setItem('avatar',info.avatar)
         this.$router.replace({path:'/user'})
         this.$socket.open()
     }
@@ -452,16 +456,16 @@ async reloadSendPhoneSignUp(){
     },
     //验证登录手机号
       phone(val) {
-        let phone = /^1[3|4|5|7|8][0-9]{9}$/;
-        let res = phone.test(val);
-        if (res && this.password.length>0) {
+        // let phone = /^1[3|4|5|7|8][0-9]{9}$/;
+        // let res = phone.test(val);
+        if (val.length>0 && this.password.length>0) {
           this.state = false;
         }else{
           this.state = true
         }
       },
       password(val){
-        if(this.password.length>0 && /^1[3|4|5|7|8][0-9]{9}$/.test(this.phone)){
+        if(this.password.length>0 && val.length>0){
             this.state = false
         }else{
             this.state = true

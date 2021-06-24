@@ -209,7 +209,8 @@
           :finished="finished"
           finished-text="没有更多了"
         >
-          <div v-show="!skeShow" class="homestay">
+          <div class="homestay">
+              <list-ske class="homestay ske" :show="skeShow"></list-ske>
             <div
               class="homestay-item"
               v-for="item in result"
@@ -234,7 +235,6 @@
               </div>
             </div>
           </div>
-          <list-ske class="homestay ske" :show="skeShow"></list-ske>
         </van-list>
       </div>
       </keep-alive>

@@ -1,5 +1,5 @@
 <template>
-  <div v-show="show" >
+  <div v-if="show">
         <div id="grad1" v-for="item in 8" :key="item">
             <div class="Ske-head">
                 <div></div>
@@ -24,7 +24,6 @@ export default {
     props:{
         show:{
             type:Boolean,
-            default:false
         }
     }
 }

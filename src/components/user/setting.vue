@@ -48,7 +48,7 @@
          <div @click="goEmail" class="US-box-item">
             <div> 邮箱 </div>
             <div class="US-box-item-right">
-                <font style="font-weight:600;color:#454545"></font>
+                <font style="font-weight:600;color:#454545">{{userEmail}}</font>
             </div>
             <van-icon name="arrow" size="25" />
         </div>
@@ -101,6 +101,7 @@ export default {
                 uname:window.localStorage.getItem('uname'),
                 headImg:window.localStorage.getItem('headImg'),
             },
+            userEmail:'',
             userName:'',
             userNameInput:'',
             //用户名修改弹出显示隐藏 show
@@ -121,6 +122,7 @@ export default {
         async getUserInfo(){
             let {data:res} = await this.$axios.get('/profile/safeInfo')
             this.userName=res.result.uname
+            this.userEmail=res.result.email
         },
         //点击 进入个人资料页面
         goSelfData(){
