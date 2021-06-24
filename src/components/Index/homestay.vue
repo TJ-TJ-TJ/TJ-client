@@ -149,11 +149,6 @@
             <van-swipe-item v-for="(image, index) in item.swiper" :key="index">
               <img :src="image" />
             </van-swipe-item>
-            <template #indicator>
-              <div class="custom-indicator">
-              {{ current + 1 }}/{{ item.swiper.length }}
-              </div>
-          </template>
 <!--          </div>-->
         </van-swipe>
         <!-- <div class="header-comment"> -->
@@ -170,7 +165,7 @@
             height="2rem"
             src="https://pic.tujia.com/upload/customeravatar/day_190818/thumb/201908182139522553_90_90.jpg"
           />
-          <van-icon name="like" color="#FFFFFF" size="1.5rem">
+          <van-icon name="like" :color="iconColor" ref="iconRefs" size="1.5rem" @click.stop="collect(item._id,item.swiper[0],item.r_name,item.params,item.star,item.price,item.new_price)">
             <span>111</span>
           </van-icon>
           <van-icon name="chat" color="#FFFFFF" size="1.5rem">
@@ -253,7 +248,10 @@ export default {
       // starDate:'',
       // 离店
       // endDate:''
-      result:{}
+      result:{},
+      request:[],
+      // 图标颜色
+      iconColor:'#FFFFFF'
     };
   },
   components:{
@@ -265,13 +263,40 @@ export default {
   },
   created() {
     this.getStayList()
+    this.collectList()
   },
   updated(){
     this.starDate = this.$refs.calenderRef.checkDate
     console.log('刷新')
   },
   
-  methods: {
+   methods: {
+    // 点击收藏
+     async collectList(){
+       const {data:res} = await this.$axios.get('profile/collect')
+       console.log(res)
+       this.request = res
+
+     },
+     async collect(id,image,name,params,star,price,newPrice){
+      const {data:res} = await this.$axios.post('profile/collect',{
+        "rid":id,
+        "imgList":image,
+        "title":name,
+        "params":params,
+        "score":star,
+        "score_count":star,
+        "con_title": "天天特惠",
+        "price": price,
+        "new_price": newPrice
+      })
+       console.log(res)
+       if(res.ok==1){
+         console.log(this.$refs.iconRefs)
+         return this.iconColor = "#DC2513"
+       }
+    },
+    // 获取列表
     async selectHouse(){
     const {data:res} = await this.$axios.post('search/find',{
         "wd":this.$store.state.city.slice(0,1),
@@ -283,6 +308,7 @@ export default {
       })
       this.result=res.result
       this.$refs.priceRefs.toggle()
+      console.log(res.result)
       // this.switch1 = false
   },
     // 页面跳转
