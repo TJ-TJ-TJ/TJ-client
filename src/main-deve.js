@@ -69,6 +69,13 @@ axios.interceptors.request.use(function(config){
 },function(err){
     console.log(err)
 })
+Vue.prototype.$loading = (label='验证中')=>{
+  Toast.loading({
+    duration: 0, // 持续展示 toast
+    forbidClick: true,
+    message: '倒计时 3 秒',
+  });
+}
 // 响应拦截器
 axios.interceptors.response.use(function(res){
   

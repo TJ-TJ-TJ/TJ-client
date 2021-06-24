@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="">
         <van-nav-bar
                 left-text="返回"
                 left-arrow
@@ -19,13 +19,13 @@
 export default {
     data() {
         return {
-            
+
         }
     },
     methods: {
         onClickLeft(){
             this.$router.go(-1)
-        }
+        },
     },
 }
 </script>
