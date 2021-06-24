@@ -19,14 +19,14 @@
 <script>
 export default {
   mounted() {
-    
+    var self = this
     AMap.plugin('AMap.Geocoder', function() {
   var geocoder = new AMap.Geocoder({
     // city 指定进行编码查询的城市，支持传入城市名、adcode 和 citycode
     city: '010'
   })
 
-  geocoder.getLocation('北京市海淀区万寿路达内教育', function(status, result) {
+  geocoder.getLocation(self.$route.query.city, function(status, result) {
     if (status === 'complete' && result.info === 'OK') {
       // result中对应详细地理坐标信息
       console.log(result)
@@ -36,7 +36,7 @@ export default {
 
     var map = new AMap.Map("container", {
       zoom: 18, //设置地图的缩放级别
-      center: [116.294366, 39.909236],
+      center: [this.$route.query.ln, this.$route.query.lr],
     });
 
     // 同时引入工具条插件，比例尺插件和鹰眼插件
@@ -63,8 +63,8 @@ AMap.plugin([
 
     // 创建一个 Marker 实例：
     var marker = new AMap.Marker({
-      position: new AMap.LngLat(116.294366, 39.909236), // 经纬度对象，也可以是经纬度构成的一维数组[116.39, 39.9]
-      icon: '//vdata.amap.com/icons/b18/1/2.png',
+      position: new AMap.LngLat(this.$route.query.ln, this.$route.query.lr), // 经纬度对象，也可以是经纬度构成的一维数组[116.39, 39.9]
+      // icon: '//vdata.amap.com/icons/b18/1/2.png',
     });
 
     // 将创建的点标记添加到已有的地图实例：
@@ -82,10 +82,10 @@ AMap.plugin([
           infoWindow.open(map);
           var infoWindow = new AMap.InfoWindow({
             anchor: "bottom-center",
-            content: `房屋位置:<br/>北京海淀区达内`,
+            content: `房屋位置:<br/>${this.$route.query.city}`,
           });
 
-          infoWindow.open(map, [116.294366, 39.909236]);
+          infoWindow.open(map, [this.$route.query.ln, this.$route.query.lr]);
   },
   methods: {
     goBack() {
