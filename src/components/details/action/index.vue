@@ -10,19 +10,25 @@
           @click="liaotian"
         />
         <!-- 实时的未读消息 -->
-        <van-goods-action-icon class="phone" icon="phone-o" text="电话" /><span class="shux">|</span>
+        <van-goods-action-icon class="phone" icon="phone-o" text="电话" /><span
+          class="shux"
+          >|</span
+        >
         <!-- <span class="shux">|</span>
        <div class="price">￥262 <span id="price2">/晚￥328</span> </div> -->
         <div class="pric">
-          <span class="price">￥{{jiage.new_price}}</span>
-          <span class="price2">/晚 <s class="xhx">￥{{jiage.price}}</s> </span>
+          <span class="price">￥{{ jiage.new_price }}</span>
+          <span class="price2"
+            >/晚 <s class="xhx">￥{{ jiage.price }}</s>
+          </span>
         </div>
 
-        <van-goods-action-button color="#ff9645" 
-        class="btn"
-         @click="yuding"
-         ref="btndisable"
-         >
+        <van-goods-action-button
+          color="#ff9645"
+          class="btn"
+          @click="yuding"
+          ref="btndisable"
+        >
           <img src="/icon/detailv2_shand.png" alt="" />
           立即预定
         </van-goods-action-button>
@@ -35,68 +41,60 @@
 </template>
 
 <script>
-import { createLogger } from 'vuex';
 export default {
   props: {
     prices: {
       type: Object,
       require: true,
-      default: ()=> {
+      default: () => {
         return {};
-      }
-    }
+      },
+    },
   },
   data() {
     return {
-      jiage: this.prices
+      jiage: this.prices,
     };
   },
   watch: {
     prices(val) {
-      this.jiage = val
-    } 
+      this.jiage = val;
+    },
   },
   methods: {
-    liaotian()  {
+    liaotian() {
       console.log(this.jiage);
       this.$router.push({
-        name: 'msg',
+        name: "msg",
         params: {
           uid: this.jiage.owner.sid,
           head_img: this.jiage.owner.img,
-          uname: this.jiage.owner.uname
-        }
-      })
+          uname: this.jiage.owner.uname,
+        },
+      });
     },
-     async yuding() {
-        const toast = this.$toast.loading({
-          duration: 0, // 持续展示 toast
-          forbidClick: true,
-          selector: '#custom-selector',
-        });
-        let {data:res} = await  this.$axios.get('/details/is',{params:{
-          start:this.$store.state.dataDate[0],
-          end:this.$store.state.dataDate[1],
-          rid:this.jiage.uid
-        }})
-        if(res.ok==1){
-          this.$store.commit('setOrderCommitInfo',this.jiage)
-          this.$router.replace({path:'/order_edit'})
-          this.$toast.clear()
-        }else {
-          this.$toast.fail(res.msg)
-          this.$toast.clear()
-        } 
-
-
-
-
-
-
-
- 
-    }
-
+    async yuding() {
+      const toast = this.$toast.loading({
+        duration: 0, // 持续展示 toast
+        forbidClick: true,
+        selector: "#custom-selector",
+      });
+      let { data: res } = await this.$axios.get("/details/is", {
+        params: {
+          start: this.$store.state.dataDate[0],
+          end: this.$store.state.dataDate[1],
+          rid: this.jiage.uid,
+        },
+      });
+      if (res.ok == 1) {
+        this.$store.commit("setOrderCommitInfo", this.jiage);
+        this.$router.replace({ path: "/order_edit" });
+        this.$toast.clear();
+      } else {
+        this.$toast.fail(res.msg);
+        this.$toast.clear();
+      }
+    },
   },
 
   created() {
@@ -104,32 +102,31 @@ export default {
     // console.log(this.$router.push)
     // console.log(this.$store.state.nigh)
     // console.log(this.$store.state.night)
-      const startdate = Math.min.apply(null,this.$store.state.dataDate)
-      const enddate = Math.max.apply(null,this.$store.state.dataDate)
-      this.$axios.get(`/details/is?start=${startdate}&end=${enddate}&rid=${this.$route.query.id}`).then(result=>{
-      // this.$store.commit("setIsReserve",result.data.ok)
-      console.log(result.data.ok)
-      // console.log('------------------------------------')
-       this.$nextTick(()=>{
-        
-          if(this.$store.state.reserve != 1){
-            
-          console.log(this.$refs.btndisable)
-          this.$refs.btndisable.disabled = true
-          this.$refs.btndisable.color = '#a9a9a9'
 
+    // this.$store.commit("setIsReserve",result.data.ok)
 
-    }
-      }) 
-    })
-  
-  // console.log(this.$store.state.reserve)
-     
+    // console.log('------------------------------------')
+    // this.$nextTick(()=> {
+    const startdate = Math.min.apply(null, this.$store.state.dataDate);
+    const enddate = Math.max.apply(null, this.$store.state.dataDate);
+    this.$axios
+      .get(
+        `/details/is?start=${startdate}&end=${enddate}&rid=${this.$route.query.id}`
+      )
+      .then((result) => {
+        this.$nextTick(() => {
+          if (result.data.ok !== 1) {
+            this.$refs.btndisable.disabled = true;
+            this.$refs.btndisable.color = "#a9a9a9";
+          }
+        });
+      });
 
-  
-  }
-  
-}
+    // })
+
+    // console.log(this.$store.state.reserve)
+  },
+};
 </script>
 
 <style lang="scss">
@@ -140,17 +137,13 @@ export default {
     // }
     .phone {
       margin-right: 10px;
-      
     }
 
     .shux {
       color: rgb(226, 220, 220);
       margin-right: 5px;
-
     }
     .pric {
-
-
       margin-right: 30px;
       .price {
         color: #ff9645;
@@ -162,7 +155,7 @@ export default {
         color: #666;
         .xhx {
           text-decoration: line-through;
-        } 
+        }
       }
     }
 
@@ -172,8 +165,6 @@ export default {
       img {
         width: 14px;
         height: 17px;
-     
-    
       }
     }
     .van-goods-action-button--last {
