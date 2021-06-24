@@ -49,11 +49,16 @@ export default {
         }
         const {data:res} = await this.$axios.get('profile/sendEmail?email='+this.email)
        console.log((res))
-        if(res.ok!==1){
-          return this.$toast.fail('发送失败')
-        }
-        let token = window.localStorage.getItem('token')
-        const {data:result} = await this.$axios.get('http://127.0.0.1/v1/profile/emailUpdate?token='+token)
+        // if(res.ok!==1){
+        //   return this.$toast.fail('发送失败')
+        // }
+        // let token = window.localStorage.getItem('token')
+        // const {data:result} = await this.$axios.get('http://127.0.0.1/v1/profile/emailUpdate?token='+token,{
+        //   "newEmail": this.email,
+        //     "id": "<06456c42-80c6-684e-33b9-12e57c2d23bf@163.com>",
+        //     "verify": "57824",
+        // })
+        this.$toast.success('请进入邮箱')
         this.$router.go(-1)
       },
     },
