@@ -70,6 +70,8 @@
                 size="small"
                 color="linear-gradient(90deg,#fa8c1d,#fcaf3f)"
                 @click="yuyue"
+                
+                ref="disable"
                 >预定</van-button
               >
             </van-col>
@@ -305,6 +307,32 @@ export default {
       // }
     };
   },
+  created() {
+     const startdate = Math.min.apply(null, this.$store.state.dataDate);
+    const enddate = Math.max.apply(null, this.$store.state.dataDate);
+    console.log(startdate,enddate)
+    this.$axios
+      .get(`/details/is?start=${startdate}&end=${enddate}&rid=${this.$route.query.id}`)
+      .then((result) => {
+        console.log(result.data)
+        this.$nextTick(() => {
+          console.log(this.$refs.disable)
+          if (result.data.ok == -1) {
+            // this.$refs.btndisable.disable = true;
+            // this.$refs.btndisable.color = "#a9a9a9";
+            // console.log(this.$refs.disable.disabled)
+            this.$refs.disable.disabled = true
+            // console.log(this.$refs.disable.style)
+            // const style = getComputedStyle(this.$refs.disable)
+            // // this.$refs.disable.style.backgroundColor = "#fff"
+            // console.log(style.background)
+            // this.$refs.disable.classList.add('dbtn')
+            this.$refs.disable.style.background = 'linear-gradient(270deg,#d4d4d4,#a9a9a9)'
+          }
+        });
+      });
+
+  },
 
   methods: {
     showPopup() {
@@ -328,20 +356,22 @@ export default {
       })
 
     },
-     yuyue() {
-      // const toast = this.$toast.loading({
-      //   duration: 0, // 持续展示 toast
-      //   forbidClick: true,
-      //   selector: "#custom-selector",
-      // });
-      // let { data: res } = await this.$axios.get("/details/is", {
-      //   params: {
-      //     start: this.$store.state.dataDate[0],
-      //     end: this.$store.state.dataDate[1],
-      //     rid: this.$route.query.id,
-      //   },
-      // });
-      // if (res.ok == 1) {
+     async yuyue() {
+
+
+      const toast = this.$toast.loading({
+        duration: 0, // 持续展示 toast
+        forbidClick: true,
+        selector: "#custom-selector",
+      });
+      let { data: res } = await this.$axios.get("/details/is", {
+        params: {
+          start: this.$store.state.dataDate[0],
+          end: this.$store.state.dataDate[1],
+          rid: this.$route.query.id,
+        },
+      });
+      if (res.ok == 1) {
         this.$store.commit("setOrderCommitInfo", {
         price: this.jiage.price,
         new_price: this.jiage.new_price,
@@ -352,43 +382,14 @@ export default {
 
       });
         this.$router.replace({ path: "/order_edit" });
-      //   this.$toast.clear();
-      // } else {
-      //   this.$toast.fail(res.msg);
-      //   this.$toast.clear();
-      // }
+        this.$toast.clear();
+      } else {
+        this.$toast.fail(res.msg);
+        this.$toast.clear();
+      }
     },
   },
-  beforeCreate() {},
-  created() {
-    // console.log(this.$props.swiper, '------->>>>>');
-  },
-  // watch: {
-  //   params(val) {
-  //     this.desc = val
-  //   }
-  // },
-  mounted() {
-    // this.houses = this.$props.swiper[0].url[0]
-    // console.log(this.params)
-    // console.log(this.swiper)
-    // console.log(this.house)
-    // console.log(this.$route.query.id)
-    // console.log( {
-    //     price: this.jiage.price,
-    //     new_price: this.jiage.new_price,
-    //     uid: this.$route.query.id,
-    //     fm: this.swiper[0].url[0],
-    //     bt: this.jiage.r_name,
-    //     fbt: this.params,
 
-    //   })
-  },
-  watch: {
-    // swiper(newval,oldval) {
-    //     this.houses = newval
-    // }
-  },
 };
 </script>
 
@@ -461,6 +462,9 @@ export default {
     width: 53px;
     height: 28px;
     font-weight: 600;
+  }
+  .dbtn {
+    background: red;
   }
   .yjg {
     text-align: center;

@@ -87,10 +87,16 @@ export default {
                 phone:window.localStorage.getItem('phone'),
                 uname:window.localStorage.getItem('uname'),
                 headImg:window.localStorage.getItem('headImg'),
-            }
+            },
         }
     },
-    methods:{
+  watch:{},
+  created() {
+
+  },
+  mounted() {
+  },
+  methods:{
         onClickLeft() {
             this.$router.push({path:'/user'})
         },

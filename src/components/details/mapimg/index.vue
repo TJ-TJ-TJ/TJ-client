@@ -1,11 +1,11 @@
 <template>
   <div class="map-img">
     <div class="map-title">位置周边</div>
-    <div class="map-cont">
+    <div class="map-cont" @click="gomap">
       <div class="map-local">
         <!-- https://restapi.amap.com/v3/staticmap?markers=-1,${map.markersUrl},0:${map.location}&size=307*137&key=${map.key} -->
         <img
-          :src="`https://api.map.baidu.com/staticimage/v2?zoom=17&dpiType=ph&ak=${map.bkey}&height=246&width=686&center=${map.location}&markers=${map.location}&coordtype=bd09ll&markerStyles=-1,${map.markersUrl}`"
+          :src="`https://api.map.baidu.com/staticimage/v2?zoom=17&dpiType=ph&ak=${map.bkey}&height=246&width=686&center=${map.location}&markers=${map.location}&coordtype=bd09ll&markerStyles=-1,https://pic.tujia.com/upload/festatic/crn/position2.png`"
           alt=""
         />
         <div class="map-top-tit">
@@ -23,7 +23,7 @@
               src="https://pic.tujia.com/upload/festatic/mp/nedit_division.png"
               alt=""
             />
-            <div @click="copytext">复制</div>
+            <div @click.stop="copytext">复制</div>
           </div>
           <div class="bottom-arrow"></div>
         </div>
@@ -60,13 +60,21 @@ export default {
         location: "", //：经度和纬度用","分隔 经纬度小数点后不得超过6位
         // zoom: "17", // 地图级别 地图缩放级别:[1,17]
         // markers: '-1',
-        markersUrl: "https://pic.tujia.com/upload/festatic/crn/position2.png", // 标注图片
+        // markersUrl: "https://pic.tujia.com/upload/festatic/crn/position2.png", // 标注图片
         // size: "400*400", //图片大小
       },
       locations: this.location,
+      maplocation:''
     };
   },
+  created(){
+    console.log(this.map)
+  },
   methods: {
+    gomap() {
+       this.$router.replace(`/mapIndex?rid=${this.$route.query.id}&city=${this.locations}&ln=${this.maplocation[0]}&lr=${this.maplocation[1]}`)
+    },
+
     copytext() {
       // var val = document.getElementById('copy');//此处为需要复制文本的包裹元素
       // window.getSelection().selectAllChildren(val);
@@ -89,6 +97,7 @@ export default {
       window.showLocation = (res)=>{
       
       let r =[res.result.location.lng,res.result.location.lat]
+      this.maplocation = r;
       let loca = r.toString()
       this.map.location = loca
       
