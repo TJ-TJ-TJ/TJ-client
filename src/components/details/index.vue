@@ -2,17 +2,20 @@
   <div class="details">
     <!-- <button @click="qingq">请求</button> -->
     <nav-bar></nav-bar>
-    <sw-ipe ref="cs" :swiper="swiper" :collhistory="collhistory" ></sw-ipe>
-    <scroll-tab :allDate="allDate"></scroll-tab>
+    <detail-ske :skeShow="skeShow"></detail-ske>
+    <div v-show="!skeShow">
+          <sw-ipe ref="cs" :swiper="swiper" :collhistory="collhistory" ></sw-ipe>
+          <scroll-tab :allDate="allDate"></scroll-tab>
 
-    <!-- <intro-duce></intro-duce>
-    <hous-scource></hous-scource>
-    <facil-ities></facil-ities>
-    <land-lord></land-lord>
-    <com-ment></com-ment>
-    <not-ice></not-ice> -->
-    <foo-ter></foo-ter>
-    <act-ion :prices="prices"></act-ion>
+          <!-- <intro-duce></intro-duce>
+          <hous-scource></hous-scource>
+          <facil-ities></facil-ities>
+          <land-lord></land-lord>
+          <com-ment></com-ment>
+          <not-ice></not-ice> -->
+          <foo-ter></foo-ter>
+          <act-ion :prices="prices"></act-ion>
+    </div>
   </div>
 </template>
 
@@ -28,6 +31,7 @@ import swipe from "@/components/details/swipe";
 // import notIce from "@/components/details/notice";
 import action from "@/components/details/action";
 import FooTer from "@/components/details/footer";
+import detailSke from '@/components/detailListSke'
 export default {
   data() {
     return {
@@ -35,8 +39,11 @@ export default {
       allDate: undefined,
       prices: undefined,
       collhistory: undefined,
-      vuex:''
+      vuex:'',
       // iscollect: undefined,
+
+      //骨架屏
+      skeShow:true
     };
   },
   beforeCreate() {
@@ -132,7 +139,7 @@ export default {
       )
       this.$store.commit('getReserve',result.ok)
       // console.log(this.$store.state.isReserve)
-
+      this.skeShow=false
 
 
     // console.log(res)
@@ -170,6 +177,7 @@ export default {
     "nav-bar": navbar,
     "scroll-tab": scrolltab,
     "sw-ipe": swipe,
+    detailSke,
     // "intro-duce": introduce,
     // HousScource,
     // FacilIties,
