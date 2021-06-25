@@ -97,36 +97,63 @@ export default {
       }
     },
   },
+  created(){
+  
+        //  console.log(yd)
+    // if(yd == -1){
+    //   console.log('不能预定')
+    //   this.$nextTick(()=> {
+    //     console.log(this.$refs.btndisable)
+    //   this.$refs.btndisable.disabled = true;
+    //   this.$refs.btndisable.color = "#a9a9a9";
+    //   console.log('--------------------------d')
+    //   });
 
-  created() {
-    // console.log('---------xxxxxxxxxx-----------');
-    // console.log(this.$router.push)
-    // console.log(this.$store.state.nigh)
-    // console.log(this.$store.state.night)
+     this.$nextTick(()=> {
+        this.$nextTick(()=> {
+           let yd = this.$store.state.isReserve;
+        if(yd == -1){
+               this.$refs.btndisable.disabled = true;
+      this.$refs.btndisable.color = "#a9a9a9";
+        }
+        })
+      })
+ 
+         
+ 
+    // }
 
-    // this.$store.commit("setIsReserve",result.data.ok)
+},
+  // async created() {
+  //   // console.log('---------xxxxxxxxxx-----------');
+  //   // console.log(this.$router.push)
+  //   // console.log(this.$store.state.nigh)
+  //   // console.log(this.$store.state.night)
 
-    // console.log('------------------------------------')
-    // this.$nextTick(()=> {
-    const startdate = Math.min.apply(null, this.$store.state.dataDate);
-    const enddate = Math.max.apply(null, this.$store.state.dataDate);
-    this.$axios
-      .get(
-        `/details/is?start=${startdate}&end=${enddate}&rid=${this.$route.query.id}`
-      )
-      .then((result) => {
-        this.$nextTick(() => {
-          if (result.data.ok !== 1) {
-            this.$refs.btndisable.disabled = true;
-            this.$refs.btndisable.color = "#a9a9a9";
-          }
-        });
-      });
+  //   // this.$store.commit("setIsReserve",result.data.ok)
 
-    // })
+  //   // console.log('------------------------------------')
+  //   // this.$nextTick(()=> {
+  //   // const startdate = Math.min.apply(null, this.$store.state.dataDate);
+  //   // const enddate = Math.max.apply(null, this.$store.state.dataDate);
+  //   // let {data: res} = await this.$axios
+  //   //   .get(
+  //   //     `/details/is?start=${startdate}&end=${enddate}&rid=${this.$route.query.id}`
+  //   //   )
+  //   //   this.$store.commit('getReserve',res.ok)
+  //       // console.log(this.$store.state)
+  //       // this.$nextTick(() => {
+  //       //   if (result.data.ok !== 1) {
+  //       //     this.$refs.btndisable.disabled = true;
+  //       //     this.$refs.btndisable.color = "#a9a9a9";
+  //       //   }
+  //       // });
+  
 
-    // console.log(this.$store.state.reserve)
-  },
+  //   // })
+
+  //   // console.log(this.$store.state.reserve)
+  // },
 };
 </script>
 

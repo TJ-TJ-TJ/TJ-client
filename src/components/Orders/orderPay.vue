@@ -129,8 +129,8 @@ export default {
     //提交支付 更改状态为已支付
     async finish_buy(){
         this.$dialog.confirm({
-          title: "提醒",
-          message: "确定要支付吗",
+          title: "扫码支付",
+          message: `<img style="height: 30vh" src="img/code.jpg" alt=""/>`,
         })
         .then(async () => {
             

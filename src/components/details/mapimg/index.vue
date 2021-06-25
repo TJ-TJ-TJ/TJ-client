@@ -15,7 +15,7 @@
               alt=""
             />
             <div class="address-desc-text" id="copy">
-              {{ locations }}
+              {{ $store.state.coordinate }}
             </div>
           </div>
           <div class="address-copy">
@@ -34,15 +34,15 @@
 
 <script>
 export default {
-  props: {
-    location: {
-      type: String,
-      require: true,
-      default: function () {
-        return "ss";
-      },
-    },
-  },
+  // props: {
+  //   location: {
+  //     type: String,
+  //     require: true,
+  //     default: function () {
+  //       return "ss";
+  //     },
+  //   },
+  // },
   data() {
     return {
       //https://api.map.baidu.com/staticimage/v2?
@@ -63,16 +63,44 @@ export default {
         // markersUrl: "https://pic.tujia.com/upload/festatic/crn/position2.png", // 标注图片
         // size: "400*400", //图片大小
       },
-      locations: this.location,
-      maplocation:''
+      // locations: this.location,
     };
   },
-  created(){
-    console.log(this.map)
+  // created(){
+  //   console.log(this.map)
+  // },
+  created() {
+    console.log(this.$route)
+     window.showLocation = (res)=>{
+      
+      let r =[res.result.location.lng,res.result.location.lat]
+      this.$store.commit('getAddress',r)
+      let loca = r.toString()
+      this.map.location = loca
+      
+     }
+     this.$nextTick()
+     const script =  document.createElement('script')
+    script.src = `https://api.map.baidu.com/geocoding/v3/?address=${this.$store.state.coordinate}&output=json&ak=G2KVCcxS91G0ZZ5XiUZxgP3pXaQy2g8v&callback=showLocation`;
+    document.body.appendChild(script)
+    console.log(this.$store.state)
   },
   methods: {
     gomap() {
-       this.$router.replace(`/mapIndex?rid=${this.$route.query.id}&city=${this.locations}&ln=${this.maplocation[0]}&lr=${this.maplocation[1]}`)
+      //rid=${this.$route.query.id}&city=${this.$store.state.coordinate}&ln=${this.$store.state.address[0]}&lr=${this.$store.state.address[1]}`
+      //  rid: this.$store.state.coordinate,
+       //  ln: this.$store.state.address[0],
+         //lr: this.$store.state.address[1]
+       this.$router.replace({
+         name: 'mapIndex',
+         params: {
+            rid: this.$route.query.id,
+            ln: this.$store.state.address[0],
+            lr: this.$store.state.address[1],
+            city: this.$store.state.coordinate
+         }
+       
+       })
     },
 
     copytext() {
@@ -90,23 +118,23 @@ export default {
       this.$toast("复制成功");
     },
   },
-  watch: {
-    location(val) {
-      this.locations = val;
+  // watch: {
+  //   location(val) {
+  //     this.locations = val;
 
-      window.showLocation = (res)=>{
+  //     window.showLocation = (res)=>{
       
-      let r =[res.result.location.lng,res.result.location.lat]
-      this.maplocation = r;
-      let loca = r.toString()
-      this.map.location = loca
+  //     let r =[res.result.location.lng,res.result.location.lat]
+  //     this.maplocation = r;
+  //     let loca = r.toString()
+  //     this.map.location = loca
       
-     }
-    const script =  document.createElement('script')
-    script.src = `https://api.map.baidu.com/geocoding/v3/?address=${val}&output=json&ak=G2KVCcxS91G0ZZ5XiUZxgP3pXaQy2g8v&callback=showLocation`;
-    document.body.appendChild(script)
-    },
-  },
+  //    }
+  //   const script =  document.createElement('script')
+  //   script.src = `https://api.map.baidu.com/geocoding/v3/?address=${val}&output=json&ak=G2KVCcxS91G0ZZ5XiUZxgP3pXaQy2g8v&callback=showLocation`;
+  //   document.body.appendChild(script)
+  //   },
+  // },
 
 };
 </script>

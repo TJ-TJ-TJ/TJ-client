@@ -67,7 +67,6 @@ export default {
 
   async created() {
 
-    console.log('----------------------- detail');
     let { data: data } = await this.$axios.get(
       `/details/?rid=${this.$route.query.id}`
     );
@@ -90,29 +89,45 @@ export default {
       fbt: params,
       owner: owner,
     };
-    let imgurl = data.result.swiper;
+    let imgurl = dataes.swiper;
 
-    let collectionHistory = {
+ 
+    
+    this.iscollect = isCollect
+    console.log(this.iscollect)
+
+
+
+    let imglist = imgurl.map((item) => {
+      return item.url[0];
+    });
+
+      let collectionHistory = {
       rid: this.$route.query.id,
       imgList: imglist,
       title: r_name,
       params: params,
+      score: discuss[0].score,
       score_count: discuss.length + 1,
       con_title: con_title,
       price: price,
       new_price: new_price,
     }
     this.collhistory = collectionHistory
-    this.iscollect = isCollect
-
-
-
-  console.log(this.iscollect)
-    let imglist = imgurl.map((item) => {
-      return item.url[0];
-    });
-
+    // console.log(collectionHistory)
     let { data: res } = await this.$axios.post("/profile/history",collectionHistory);
+
+    const startdate = Math.min.apply(null, this.$store.state.dataDate);
+    const enddate = Math.max.apply(null, this.$store.state.dataDate);
+    let {data: result} = await this.$axios
+      .get(
+        `/details/is?start=${startdate}&end=${enddate}&rid=${this.$route.query.id}`
+      )
+      this.$store.commit('getReserve',result.ok)
+      // console.log(this.$store.state.isReserve)
+
+
+
     // console.log(res)
 
     //  let imglist=[];

@@ -308,16 +308,16 @@ export default {
     };
   },
   created() {
-     const startdate = Math.min.apply(null, this.$store.state.dataDate);
-    const enddate = Math.max.apply(null, this.$store.state.dataDate);
-    console.log(startdate,enddate)
-    this.$axios
-      .get(`/details/is?start=${startdate}&end=${enddate}&rid=${this.$route.query.id}`)
-      .then((result) => {
-        console.log(result.data)
+    //  const startdate = Math.min.apply(null, this.$store.state.dataDate);
+    // const enddate = Math.max.apply(null, this.$store.state.dataDate);
+    // console.log(startdate,enddate)
+    // this.$axios
+    //   .get(`/details/is?start=${startdate}&end=${enddate}&rid=${this.$route.query.id}`)
+    //   .then((result) => {
+    //     console.log(result.data)
         this.$nextTick(() => {
           console.log(this.$refs.disable)
-          if (result.data.ok == -1) {
+          if (this.$store.state.isReserve == -1) {
             // this.$refs.btndisable.disable = true;
             // this.$refs.btndisable.color = "#a9a9a9";
             // console.log(this.$refs.disable.disabled)
@@ -330,7 +330,7 @@ export default {
             this.$refs.disable.style.background = 'linear-gradient(270deg,#d4d4d4,#a9a9a9)'
           }
         });
-      });
+      // });
 
   },
 

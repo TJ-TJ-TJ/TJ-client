@@ -29,13 +29,15 @@ export default new Vuex.Store({
     city: "",
     night:'1', // 每晚
     OrderCommitInfo:{},
+    address: '', // 当前地址
+    coordinate: [], // 当前坐标
+    isReserve: 1, // 是否预定
     orderFinishBuy:{
       oname:'',
       oid:"",
       date:"",
       rid:''
     },//支付跳转信息
-    // reserve: '' //是否可以预定
   },
   mutations: {
     setOrderFinishBuy(state,data){ //支付页面需要存的信息
@@ -82,10 +84,18 @@ export default new Vuex.Store({
       state.OrderCommitInfo = OrderCommitInfo
 
     },
-    // setIsReserve(state,reserve) {
-    //   state.reserve = reserve
+    getAddress(state,address) {
+      state.address = address 
+      
 
-    // }
+    },
+    getCoordinate(state,coordinate) {
+      state.coordinate = coordinate
+
+    },
+    getReserve(state,isReserve) {
+      state.isReserve = isReserve
+    }
   },
   actions: {},
   modules: {},

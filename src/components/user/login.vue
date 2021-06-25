@@ -64,8 +64,13 @@
 
       </div>
 
-      <div v-show="loginOrSignin" @click="onClickSelectAccountLogin" class="LG-select-account-login">
-        账号密码登录
+      <div class="LG-select-account-login">
+          <input type="file" accept="image/*" capture="user" ref="loginInput" @change="submitLoginFace" style="display:none;">
+          <input type="file" accept="image/*" capture="user" ref="siginInput" @change="submitSiginFace" style="display:none;">
+          <span v-show="loginOrSignin" style="float:left;" @click="onClickSelectAccountLogin">账号密码登录</span>
+          <span v-show="loginOrSignin" style="float:right;" @click="$refs.loginInput.click()">人脸登录</span>
+
+          <span v-show="!loginOrSignin" style="align-items:center;" @click="$refs.siginInput.click()">人脸注册</span>
       </div>
     </div>
     
@@ -224,6 +229,75 @@ export default {
   },
   
   methods: {
+
+    // 登录  上传人脸
+    async submitLoginFace(e) {
+      const formData = new FormData()
+      formData.set('face', e.target.files[0])
+      this.$toast.loading({
+        message: '登录中',
+        duration: 0
+      })
+      const { data: res } = await this.$axios.post('/user/login2', formData)
+
+      // 登录成功
+      if (res.ok === 1) {
+        this.$toast({
+          duration: 600,
+          message: '登录成功',
+          onClose: _ => {
+            this.$router.replace({path:'/user'})
+          }
+        })
+        this.loginOrSignInSuccess(res.result)
+        return
+      }
+      
+      // 验证失败
+      this.$toast({
+        duration: 2000,
+        message: /[a-z]/i.test(res.msg) ? '图片格式或大小不匹配' : res.msg,
+        onClose() {
+        }
+      }) 
+    },
+    
+    // 注册 上传人脸
+    async submitSiginFace(e) {
+      const formData = new FormData()
+      formData.append('face', e.target.files[0])
+      this.$toast.loading({
+        message:'注册中',
+        duration: 0,
+        onClose() {
+          this.$toast('注册失败,请重试')
+        }
+      })
+      const { data: res } = await this.$axios.post('/user/sigin3', formData)
+
+      if (res.ok === 1) {
+        this.$toast({
+          duration: 600,
+          message: '注册成功',
+          onClose: _ => {
+            this.$router.replace({path:'/user'})
+          }
+        })
+        this.loginOrSignInSuccess(res.result)
+        return
+      }
+      
+      // 验证失败
+      this.$toast({
+        duration: 1000,
+        message: /[a-z]/i.test(res.msg) ? '注册失败,请重试' : res.msg,
+        onClose: _ => {
+          this.$router.replace({path: '/login'})
+        }
+      })
+    },
+
+
     //后退按钮
     onClickLeft() {
       this.$router.push({path:'user'})

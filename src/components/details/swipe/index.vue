@@ -151,15 +151,12 @@ export default {
      this.$refs.likes.classList.toggle('likes')
       this.likedate = !this.likedate;
      if(this.likedate) {
-       console.log("a")
-       this.$axios.post('/profile/collect',this.likelist).then(result=>console.log(result))
+       this.$axios.post('/profile/collect',this.likelist)
 
      }else {
-       console.log("s")
-       console.log(this.$route.query.id)
       this.$axios.delete('/profile/collect',{
         data: {rid: this.$route.query.id}
-      }).then(result => console.log(result))
+      })
 
 
      }
