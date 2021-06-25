@@ -262,7 +262,7 @@ export default {
     this.$toast.clear()
     user_info.data.result.forEach((item) => {
       //入住人
-      item.person_show='true'
+      item.person_show=true
     });
     this.user_info = user_info.data.result; //用户人信息
     console.log(this.user_info,this.result)
