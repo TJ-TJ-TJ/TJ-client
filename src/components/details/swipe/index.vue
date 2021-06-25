@@ -20,9 +20,10 @@
    <!-- <button @click="showarr">点击</button> -->
     <van-icon name="like-o" 
     class="like "
-    @click="like"
-    ref="likes"
-    :class="{'van-icon-like': islike,'likes': islike }"
+    @click="colaction"
+    ref="collection"
+    
+   
      />
   </div>
 </template>
@@ -39,30 +40,20 @@ export default {
      type: Object,
      require: true
    },
-   iscollect: {
-     type: Boolean,
-     require: true
-   }
+  //  iscollect: {
+  //    type: Boolean,
+  //    require: true
+  //  }
 
  },
   data() {
     return {
-      // current: [this.swiper[0].class_name,this.swiper[1].class_name, this.swiper[2].class_name, this.swiper[3].class_name, this.swiper[4].class_name,this.swiper[5].class_name],
-      // current:['封面','厨房','客厅','洗手间','卧室'],
       lei: "封面",
-      likedate: false,
       likelist: this.collhistory,
       swipers: this.swiper,
-      islike: true
-      // images: [
-      //   "https://pic.tujia.com/upload/landlordunit/day_190414/thumb/201904141312248918_700_467.jpg",
-			// 	"https://pic.tujia.com/upload/landlordunit/day_190414/thumb/201904141312248918_700_467.jpg",
-			// 	"https://pic.tujia.com/upload/landlordunit/day_190414/thumb/201904141312248918_700_467.jpg",
-			// 	"https://pic.tujia.com/upload/landlordunit/day_190414/thumb/201904141312248918_700_467.jpg",
-			// 	"https://pic.tujia.com/upload/landlordunit/day_190414/thumb/201904141312248918_700_467.jpg",
-      // ],
-      //  images: '',
-      //  swiper: ''
+      ylikesate: '',
+      cs:''
+      // state: !this.iscollect
     };
   },
   watch: {
@@ -84,80 +75,71 @@ export default {
       }
 
     },
-    iscollect: {
-      handler(nval) {
-        this.islike = nval
-      }
-    }
-  },
-  mounted() {
-    // console.log(this.collHistory)
-
-    //   this.axios.get('/details/?rid=60c164a7074200005d003192').then(result=>{
-    //   const data = result.data.result;
-    //   this.swiper = data.swiper[0].url[0];
-    //   // console.log(data.swiper)
-    //   // console.log(this.swiper)
-    //   this.swiper = data.swiper
-
-
-
-
-
-  
-
-
-
-    // })
-    // console.log(this.swiper)
-    // this.swiper.forEach(ele => {
-    //   // console.log(ele.url)
-    //   this.images = ele.url[0]
-      
-    // });
-    // let tp;
-    // for(let i in this.swiper) {
-    //   // console.log(this.swiper[i].url[0])
-    //   tp = this.swiper[i].url[0]
-     
+    // iscollect: {
+    //   handler(nval) {
+    //     this.ylikesate = nval
+    //   }
     // }
-    //  console.log(tp)
-    // for(let i =0; i< this.swiper.length; i++) {
-    //   console.log(this.swiper[i])
-    // }
-
-    // this.swiper.forEach(ele => {
-    //   this.images=ele
-    
-    // });
-    // console.log(this.images)
   },
-  // watch: {
-  //   swiper(val){
-  //     this.swiper = val
-  //   }
-
-  // },
-  methods: {
+  updated(){
+    // console.log('我更新了')
+    console.log(this.cs)
+    if(this.cs) {
+     this.$refs.collection.classList.toggle('van-icon-like')
+     this.$refs.collection.classList.toggle('likes')
+    console.log(this.$refs.collection.classList)
+    //  this.state = true
+  } 
+  },
+// created() {
+// console.log(this.ylikesate)
+// },
+mounted() {
+  // console.log(`后台vuex传递后${this.$store.state.isCollection.issc}`)
+  // console.log(this.$store.state.isCollection)
+  // if(this.iscollect) {
+  //    this.$refs.collection.classList.toggle('van-icon-like')
+  //   console.log(this.$refs.collection.classList)
+  //   //  this.state = true
+  // } 
+},
+methods: {
     onChange(index) {
       let mx=this.swipers.map(item=> {
        return item.class_name
       })
       this.lei = mx[index];
     },
-   like() {
-     console.log(this.$refs.likes)
-     this.$refs.likes.classList.toggle('van-icon-like')
-     this.$refs.likes.classList.toggle('likes')
+    // colaction() {
+    //   // console.log('----后台数据'+this.ylikesate)
+    //   // console.log('---------状态'+ this.state)
+    //   // console.log(this.$refs.collection)
+    //   // this.state = true
+    //   // if(this.ylikesate) {
+    //   //   console.log('---------状态'+ this.state)
+    //   //   this.$refs.collection.classList.toggle('likes')
+    //   //   this.state = false
+    //   //   console.log('---------状态'+ this.state)
+    //   // }
+
+    // }
+   colaction() {
+     console.log(this.$refs.collection)
+     this.$refs.collection.classList.toggle('van-icon-like')
+     this.$refs.collection.classList.toggle('likes')
       this.likedate = !this.likedate;
      if(this.likedate) {
-       this.$axios.post('/profile/collect',this.likelist)
+      //  this.likelist =false
+
+     this.$axios.post('/profile/collect',this.likelist)
+       
 
      }else {
-      this.$axios.delete('/profile/collect',{
+     
+        
+          this.$axios.delete('/profile/collect',{
         data: {rid: this.$route.query.id}
       })
-
 
      }
 

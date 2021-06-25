@@ -54,6 +54,7 @@ export default {
   data() {
     return {
       jiage: this.prices,
+      yd:''
     };
   },
   watch: {
@@ -61,6 +62,28 @@ export default {
       this.jiage = val;
     },
   },
+   created(){
+    this.yd=this.$store.state.isReserve;
+         console.log(this.yd)
+    // if(yd == -1){
+    //   console.log('不能预定')
+    //   this.$nextTick(()=> {
+    //     console.log(this.$refs.btndisable)
+    //   this.$refs.btndisable.disabled = true;
+    //   this.$refs.btndisable.color = "#a9a9a9";
+    //   console.log('--------------------------d')
+    //   });
+          
+    // }
+
+},
+mounted(){   
+        if(this.yd == -1){
+          console.log('到这了了')
+               this.$refs.btndisable.disabled = true;
+      this.$refs.btndisable.color = "#a9a9a9";
+        }
+},
   methods: {
     liaotian() {
       console.log(this.jiage);
@@ -97,33 +120,6 @@ export default {
       }
     },
   },
-  created(){
-  
-        //  console.log(yd)
-    // if(yd == -1){
-    //   console.log('不能预定')
-    //   this.$nextTick(()=> {
-    //     console.log(this.$refs.btndisable)
-    //   this.$refs.btndisable.disabled = true;
-    //   this.$refs.btndisable.color = "#a9a9a9";
-    //   console.log('--------------------------d')
-    //   });
-
-     this.$nextTick(()=> {
-        this.$nextTick(()=> {
-           let yd = this.$store.state.isReserve;
-        if(yd == -1){
-               this.$refs.btndisable.disabled = true;
-      this.$refs.btndisable.color = "#a9a9a9";
-        }
-        })
-      })
- 
-         
- 
-    // }
-
-},
   // async created() {
   //   // console.log('---------xxxxxxxxxx-----------');
   //   // console.log(this.$router.push)

@@ -268,6 +268,10 @@ export default {
 </script>
 
 <style>
+    .ES-box{
+        width: 100vw;
+        height: 100vh;
+    }
     .van-icon-cross{
         color: black !important;
     }

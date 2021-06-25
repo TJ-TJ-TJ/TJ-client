@@ -379,10 +379,10 @@ export default {
     return {
       // 轮播图
       images: [
-        "https://ss0.bdstatic.com/70cFvHSh_Q1YnxGkpoWK1HF6hhy/it/u=2866633669,1185368921&fm=26&gp=0.jpg",
-        "https://ss2.bdstatic.com/70cFvnSh_Q1YnxGkpoWK1HF6hhy/it/u=1701582115,3312973355&fm=26&gp=0.jpg",
-        "https://ss0.bdstatic.com/70cFvHSh_Q1YnxGkpoWK1HF6hhy/it/u=1956544682,1629609850&fm=26&gp=0.jpg",
-        "https://ss2.bdstatic.com/70cFvnSh_Q1YnxGkpoWK1HF6hhy/it/u=1386903577,550083901&fm=26&gp=0.jpg",
+        "https://gimg2.baidu.com/image_search/src=http%3A%2F%2Fn.sinaimg.cn%2Fsinacn10118%2F220%2Fw640h380%2F20190109%2F98b3-hrkkweh3334597.jpg&refer=http%3A%2F%2Fn.sinaimg.cn&app=2002&size=f9999,10000&q=a80&n=0&g=0n&fmt=jpeg?sec=1627216756&t=e2981e43a5675eefc1da31a8accc6da6",
+        "https://gimg2.baidu.com/image_search/src=http%3A%2F%2Fci.xiaohongshu.com%2F36bed585-3ead-4b42-81cb-d467445070f9%40r_750w_750h_ss1.jpg&refer=http%3A%2F%2Fci.xiaohongshu.com&app=2002&size=f9999,10000&q=a80&n=0&g=0n&fmt=jpeg?sec=1627216800&t=b0d4989351129a664361a357298c3eae",
+        "https://gimg2.baidu.com/image_search/src=http%3A%2F%2Fuserimg.qunar.com%2Fimgs%2F201302%2F21%2F18ugU11pmia-VQum1720.jpg&refer=http%3A%2F%2Fuserimg.qunar.com&app=2002&size=f9999,10000&q=a80&n=0&g=0n&fmt=jpeg?sec=1627216827&t=27b1d5862dac43dcba3662cea0580622",
+        "https://gimg2.baidu.com/image_search/src=http%3A%2F%2Fn.sinaimg.cn%2Fsinacn14%2F726%2Fw1400h926%2F20180820%2F1e35-hhxaafz1666444.jpg&refer=http%3A%2F%2Fn.sinaimg.cn&app=2002&size=f9999,10000&q=a80&n=0&g=0n&fmt=jpeg?sec=1627216859&t=d0f8ba65b1afabd3fd9b8111dd764a59",
       ],
       // 时间弹出层
       show: false,
