@@ -63,8 +63,8 @@ export default {
     },
   },
    created(){
-    this.yd=this.$store.state.isReserve;
-         console.log(this.yd)
+    // this.yd=this.$store.state.isReserve;
+    //      console.log(this.yd)
     // if(yd == -1){
     //   console.log('不能预定')
     //   this.$nextTick(()=> {
@@ -75,14 +75,25 @@ export default {
     //   });
           
     // }
+    this.$nextTick(() => {
+          // console.log(this.$refs.disable)
+          if (this.$store.state.isReserve == -1) {
+            // this.$refs.btndisable.disable = true;
+            // this.$refs.btndisable.color = "#a9a9a9";
+            // console.log(this.$refs.disable.disabled)
+            this.$refs.btndisable.disabled = true
+            // console.log(this.$refs.disable.style)
+            // const style = getComputedStyle(this.$refs.disable)
+            // // this.$refs.disable.style.backgroundColor = "#fff"
+            // console.log(style.background)
+            // this.$refs.disable.classList.add('dbtn')
+            this.$refs.btndisable.style.background = 'linear-gradient(270deg,#d4d4d4,#a9a9a9)'
+          }
+        });
 
 },
 mounted(){   
-        if(this.yd == -1){
-          console.log('到这了了')
-               this.$refs.btndisable.disabled = true;
-      this.$refs.btndisable.color = "#a9a9a9";
-        }
+     
 },
   methods: {
     liaotian() {
@@ -102,10 +113,12 @@ mounted(){
         forbidClick: true,
         selector: "#custom-selector",
       });
+      let startdate = Math.min.apply(null,this.$store.state.dataDate)
+      let enddate = Math.max.apply(null,this.$store.state.dataDate)
       let { data: res } = await this.$axios.get("/details/is", {
         params: {
-          start: this.$store.state.dataDate[0],
-          end: this.$store.state.dataDate[1],
+          start: startdate,
+          end: enddate,
           rid: this.jiage.uid,
         },
       });
