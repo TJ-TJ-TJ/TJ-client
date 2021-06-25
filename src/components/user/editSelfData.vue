@@ -269,8 +269,7 @@ export default {
 
 <style>
     .ES-box{
-        width: 100vw;
-        height: 100vh;
+
     }
     .van-icon-cross{
         color: black !important;
@@ -300,7 +299,7 @@ export default {
     }
      .ES-box-item-comment{
          box-sizing: border-box;
-         height: 10vh;
+         height: 70px;
          padding: 15px;
          display: flex;
          align-items: center;
@@ -317,7 +316,7 @@ export default {
     }
     /* 内容编辑区域 */
     .ES-box-item-content{
-        height: 7vh;
+        height: 50px;
         display: flex;
         justify-content: space-between;
         align-items:center;
