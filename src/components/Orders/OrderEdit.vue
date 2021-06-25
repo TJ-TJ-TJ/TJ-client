@@ -97,8 +97,8 @@
               checked-color="#ff9645"
               v-for="(item, i) in user_info"
               :key="i"
-              v-model="result[i]"
-              @click="changeedit(i)"
+              v-model="item.person_show"
+         
               >{{ item.uname }}</van-checkbox
             >
           </div>
@@ -175,13 +175,13 @@ export default {
     daystar() {
       let weekarr = ["周一", "周二", "周三", "周四", "周五", "周六", "周日"];
       return weekarr[
-        new Date(Math.min.apply(null, this.$store.state.dataDate)).getDay()
+        new Date(Math.min.apply(null,this.$store.state.dataDate[0]>this.$store.state.dataDate[1]?this.$store.state.dataDate[1]:this.$store.state.dataDate[0])).getDay()
       ];
     },
     dayend() {
       let weekarr = ["周一", "周二", "周三", "周四", "周五", "周六", "周日"];
       return weekarr[
-        new Date(Math.max.apply(null, this.$store.state.dataDate)).getDay()
+        new Date(Math.max.apply(null, this.$store.state.dataDate[0]>this.$store.state.dataDate[1]?this.$store.state.dataDate[0]:this.$store.state.dataDate[1])).getDay()
       ];
     },
   },
@@ -199,18 +199,15 @@ export default {
           return;
         });
     },
-    changeedit(i) {
-      this.user_info[i].person_show = !this.user_info[i].person_show;
-      // console.log(this.user_info[i].person_show)
-    },
     gocheck() {
       this.$router.push("/check_person");
     },
     async go_pay() {
       let flag = false;
-      this.result.forEach((item) => {
+      console.log(this.user_info)
+      this.user_info.forEach((item) => {
         console.log(item, item == true);
-        if (item == "true") {
+        if (item.person_show == true) {
           //如果有入住人被选中 则放行
           flag = true;
         }
@@ -233,8 +230,8 @@ export default {
         title: oname,
         cover: this.order_info.fm,
         r_params: this.order_info.fbt,
-        start_time: this.$store.state.dataDate[0],
-        end_time: this.$store.state.dataDate[1],
+        start_time: this.$store.state.dataDate[0]>this.$store.state.dataDate[1]?this.$store.state.dataDate[1]:this.$store.state.dataDate[0],
+        end_time: this.$store.state.dataDate[0]>this.$store.state.dataDate[1]?this.$store.state.dataDate[0]:this.$store.state.dataDate[1],
         price: this.order_info.new_price * this.$store.state.night,
         name: window.localStorage.getItem("uname"),
         phone: window.localStorage.getItem("phone"),
@@ -265,9 +262,10 @@ export default {
     this.$toast.clear()
     user_info.data.result.forEach((item) => {
       //入住人
-      this.result.push("true");
+      item.person_show='true'
     });
     this.user_info = user_info.data.result; //用户人信息
+    console.log(this.user_info,this.result)
   },
   async mounted() {},
 };
