@@ -12,13 +12,13 @@
     <div v-else class="collectBox">
       <div class="cotainer" v-for="item in result" :key="item.rid">
         <div class="cotainer-item" @click="$router.push('/details?id='+item.rid)">
-          <van-image
-              width="90%"
-              radius="10px"
-              lazy-load
+          <div class="card">
+            <img
+              width="100%"
               :src="item.imgList.length==0?'http://www.sjsheji.com/wp-content/uploads/2016/11/1-150Q9232344.gif':item.imgList[0]"
-          >
-            <template #default>
+            />
+
+            <template>
               <div class="imageMsg">
                 <div class="msg-title">
                   <span class="city">
@@ -35,7 +35,9 @@
                 </div>
               </div>
             </template>
-          </van-image>
+          </div>
+            
+            
         </div>
       </div>
       
@@ -78,7 +80,17 @@ export default {
   .cotainer-item{
     text-align: center;
     position: relative;
-    .van-image{
+    .card{
+      width: 90%;
+      height: 320px;
+      background-color: #fff;
+      -webkit-box-shadow: 0 2px 12px 0 rgb(0 0 0 / 10%);
+      box-shadow: 0 2px 12px 0 rgb(0 0 0 / 10%);
+      margin: auto;
+      border-radius: 10px;
+      img {
+        border-radius: 10px;
+      }
       .imageMsg{
         width: 100%;
         .msg-title{
