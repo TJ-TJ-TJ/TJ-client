@@ -175,13 +175,13 @@ export default {
     daystar() {
       let weekarr = ["周一", "周二", "周三", "周四", "周五", "周六", "周日"];
       return weekarr[
-        new Date(Math.min.apply(null,this.$store.state.dataDate[0]>this.$store.state.dataDate[1]?this.$store.state.dataDate[1]:this.$store.state.dataDate[0])).getDay()
+        new Date(Math.min.apply(null,this.$store.state.dataDate)).getDay()
       ];
     },
     dayend() {
       let weekarr = ["周一", "周二", "周三", "周四", "周五", "周六", "周日"];
       return weekarr[
-        new Date(Math.max.apply(null, this.$store.state.dataDate[0]>this.$store.state.dataDate[1]?this.$store.state.dataDate[0]:this.$store.state.dataDate[1])).getDay()
+        new Date(Math.max.apply(null, this.$store.state.dataDate)).getDay()
       ];
     },
   },
