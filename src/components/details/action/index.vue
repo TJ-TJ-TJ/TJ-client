@@ -96,8 +96,16 @@ export default {
       }
     },
   },
+  mounted(){
+    let yd = this.$store.state.isReserve;
+    if(yd !== 1){
+            this.$refs.btndisable.disabled = true;
+            this.$refs.btndisable.color = "#a9a9a9";
 
-  created() {
+    }
+
+},
+  async created() {
     // console.log('---------xxxxxxxxxx-----------');
     // console.log(this.$router.push)
     // console.log(this.$store.state.nigh)
@@ -107,20 +115,21 @@ export default {
 
     // console.log('------------------------------------')
     // this.$nextTick(()=> {
-    const startdate = Math.min.apply(null, this.$store.state.dataDate);
-    const enddate = Math.max.apply(null, this.$store.state.dataDate);
-    this.$axios
-      .get(
-        `/details/is?start=${startdate}&end=${enddate}&rid=${this.$route.query.id}`
-      )
-      .then((result) => {
-        this.$nextTick(() => {
-          if (result.data.ok !== 1) {
-            this.$refs.btndisable.disabled = true;
-            this.$refs.btndisable.color = "#a9a9a9";
-          }
-        });
-      });
+    // const startdate = Math.min.apply(null, this.$store.state.dataDate);
+    // const enddate = Math.max.apply(null, this.$store.state.dataDate);
+    // let {data: res} = await this.$axios
+    //   .get(
+    //     `/details/is?start=${startdate}&end=${enddate}&rid=${this.$route.query.id}`
+    //   )
+    //   this.$store.commit('getReserve',res.ok)
+        // console.log(this.$store.state)
+        // this.$nextTick(() => {
+        //   if (result.data.ok !== 1) {
+        //     this.$refs.btndisable.disabled = true;
+        //     this.$refs.btndisable.color = "#a9a9a9";
+        //   }
+        // });
+  
 
     // })
 

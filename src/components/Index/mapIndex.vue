@@ -26,7 +26,7 @@ export default {
     city: '010'
   })
 
-  geocoder.getLocation(self.$route.query.city, function(status, result) {
+  geocoder.getLocation(self.$route.params.city, function(status, result) {
     if (status === 'complete' && result.info === 'OK') {
       // result中对应详细地理坐标信息
       console.log(result)
@@ -36,7 +36,7 @@ export default {
 
     var map = new AMap.Map("container", {
       zoom: 18, //设置地图的缩放级别
-      center: [this.$route.query.ln, this.$route.query.lr],
+      center: [this.$route.params.ln, this.$route.params.lr],
     });
 
     // 同时引入工具条插件，比例尺插件和鹰眼插件
@@ -63,7 +63,7 @@ AMap.plugin([
 
     // 创建一个 Marker 实例：
     var marker = new AMap.Marker({
-      position: new AMap.LngLat(this.$route.query.ln, this.$route.query.lr), // 经纬度对象，也可以是经纬度构成的一维数组[116.39, 39.9]
+      position: new AMap.LngLat(this.$route.params.ln, this.$route.params.lr), // 经纬度对象，也可以是经纬度构成的一维数组[116.39, 39.9]
       // icon: '//vdata.amap.com/icons/b18/1/2.png',
     });
 
@@ -82,18 +82,18 @@ AMap.plugin([
           infoWindow.open(map);
           var infoWindow = new AMap.InfoWindow({
             anchor: "bottom-center",
-            content: `房屋位置:<br/>${this.$route.query.city}`,
+            content: `房屋位置:<br/>${this.$route.params.city}`,
           });
 
-          infoWindow.open(map, [this.$route.query.ln, this.$route.query.lr]);
+          infoWindow.open(map, [this.$route.params.ln, this.$route.params.lr]);
   },
   methods: {
     goBack() {
-    this.$router.push(`/details?id=${this.$route.query.rid}`)
+    this.$router.push(`/details?id=${this.$route.params.rid}`)
     }
   },
   created() {
-    console.log(this.$route.query)
+    console.log(this.$route)
   }
 };
 </script>

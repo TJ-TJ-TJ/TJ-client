@@ -46,7 +46,7 @@
         
       </div> -->
 
-      <div class="ditu" @click="other">
+      <div class="ditu" >
       <div class="ditu-cont">
         <div class="ditu-left">
           <div class="dizhi">{{biaoti.location}}</div>
@@ -55,8 +55,8 @@
             {{biaoti.nearby}}
           </div>
         </div>
-        <div class="ditu-right">
-          <span class="text">地图·周边</span>
+        <div class="ditu-right"  @click="gomp">
+          <span class="text" >地图·周边</span>
           <span><img src="/icon/tujia_arrow_right.png" alt=""></span>
         </div>
       </div>
@@ -141,6 +141,19 @@ export default {
     // console.log(this.lable)
   },
   methods: {
+    gomp() {
+       this.$router.replace({
+         name: 'mapIndex',
+         params: {
+            rid: this.$route.query.id,
+            ln: this.$store.state.address[0],
+            lr: this.$store.state.address[1],
+            city: this.$store.state.coordinate
+         }
+       
+       })
+
+    },
       other() {
       this.$toast({
         message: "功能待开发",

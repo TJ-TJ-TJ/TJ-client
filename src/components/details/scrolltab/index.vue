@@ -31,7 +31,7 @@
       </van-tab>
       <van-tab :title="'周边'" name="g">
         <!-- <map-around></map-around> -->
-        <map-img :location="location"></map-img>
+        <map-img></map-img>
         <map-tabs :circum="circum"></map-tabs>
       </van-tab>
     </van-tabs>
@@ -79,7 +79,7 @@ export default {
       discuss:'',
       notice: undefined,
       circum: undefined,
-      location:"",
+      // location:"",
       // collHistory: undefined
 
     };
@@ -171,6 +171,8 @@ export default {
         
 
       }
+       this.$store.commit('getCoordinate',location)
+       console.log(this.$store.state)
       // console.log(label)
       this.label = label;
       this.params = params;
@@ -206,7 +208,7 @@ export default {
       this.discuss = discuss;
       this.notice = notice;
       this.circum = circum;
-      this.location = location;
+      // this.location = location;
 
 
       // console.log(this.params)

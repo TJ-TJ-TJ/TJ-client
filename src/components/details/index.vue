@@ -67,7 +67,6 @@ export default {
 
   async created() {
 
-    console.log('----------------------- detail');
     let { data: data } = await this.$axios.get(
       `/details/?rid=${this.$route.query.id}`
     );
@@ -113,6 +112,18 @@ export default {
     });
 
     let { data: res } = await this.$axios.post("/profile/history",collectionHistory);
+
+    const startdate = Math.min.apply(null, this.$store.state.dataDate);
+    const enddate = Math.max.apply(null, this.$store.state.dataDate);
+    let {data: result} = await this.$axios
+      .get(
+        `/details/is?start=${startdate}&end=${enddate}&rid=${this.$route.query.id}`
+      )
+      this.$store.commit('getReserve',result.ok)
+      console.log(this.$store.state)
+
+
+
     // console.log(res)
 
     //  let imglist=[];
