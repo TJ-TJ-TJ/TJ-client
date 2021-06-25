@@ -16,7 +16,7 @@
               width="90%"
               radius="10px"
               lazy-load
-              :src="item.img[0]"
+              :src="item.imgList.length==0?'http://www.sjsheji.com/wp-content/uploads/2016/11/1-150Q9232344.gif':item.imgList[0]"
           >
             <template #default>
               <div class="imageMsg">
@@ -35,7 +35,6 @@
           </van-image>
         </div>
       </div>
-      
     </div>
   </div>
 </template>
@@ -51,8 +50,10 @@ export default {
   },
   methods: {
     async collectList() {
+      this.$toast.loading('加载中···')
       const {data: ret} = await this.$axios.get('/profile/history', {token:window.localStorage.getItem('token')})
       if(ret.result.length === 0) {
+        this.$toast.clear()
         return this.$toast('您还没有任何浏览历史')
       }
       this.result = ret.result
@@ -76,14 +77,13 @@ export default {
     .van-image{
       .imageMsg{
         width: 100%;
-        //height: 5vh;
-        //background-color: red;
         .msg-title{
           margin-top: 10px;
           font-size: 10px;
           overflow: hidden;
           white-space: nowrap;
           text-overflow: ellipsis;
+          text-align: left;
           .city{
             background: #3f4954;
             border-radius: 2px;
@@ -95,34 +95,12 @@ export default {
             margin-right: 4px;
             padding: 1px 2px;
             box-sizing: content-box;
-          }
-        }
-        .msg-name{
-          display: flex;
-          span{
-            line-height: 22px;
-            font-size: 18px;
-            margin-top: 8px;
-            overflow: hidden;
-            font-family: PingFangSC-Medium,Helvetica Neue,Arial,sans-serif;
-            font-weight: 500;
-          }
-        }
-        .msg-offers{
-          display: flex;
-          margin-top: 5px;
-          span{
-            color: rgb(255, 102, 102);
-            background-color: rgba(255, 102, 102, 0.1);
-            justify-content: center;
-            margin-right: 5px;
-            padding: 0 4px;
-            font-size: 10px;
-            border-radius: 2px;
+            margin-left: 5px;
           }
         }
         .msg-price{
           display: flex;
+          margin: 10px 0 0 10px;
           span{
             margin-right: 10px;
           }
@@ -153,12 +131,6 @@ export default {
         }
       }
     }
-    // 图片内内容
-    //.position{
-    //  position: absolute;
-    //  z-index: 1;
-    //  top: 0;
-    //}
   }
 }
 }
