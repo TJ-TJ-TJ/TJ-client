@@ -133,7 +133,7 @@ export default {
       width: 90%;
       margin-top: 2vh;
       margin-left: 5%;
-      // height: 10vh;
+       height: 10vh;
     //   background-color: red;
       flex-wrap: wrap;
       .van-tag {

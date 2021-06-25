@@ -57,7 +57,7 @@
     </div>
     <div class="head">
       <div class="container">
-        <div class="head-item">
+        <div class="head-item" @click="fail">
           <van-image
             width="1rem"
             height="1rem"
@@ -83,7 +83,7 @@
           <br />
           <!-- <span>历史发票</span> -->
         </div>
-        <div class="head-item">
+        <div class="head-item" @click="fail">
           <van-image
             width="1rem"
             height="1rem"
@@ -96,7 +96,7 @@
           <br />
           <span class="fontMsg">入住人/地址</span>
         </div>
-        <div class="head-item">
+        <div class="head-item" @click="fail">
           <van-image
             width="1rem"
             height="1rem"
@@ -109,7 +109,7 @@
           <br />
           <!-- <span>历史发票</span> -->
         </div>
-        <div class="head-item">
+        <div class="head-item" @click="fail">
           <van-image
             width="1rem"
             height="1rem"
@@ -152,7 +152,9 @@ export default {
       }
       this.$router.push({path:'setting'})
     },
-
+    fail(){
+      this.$toast.fail('待开发')
+    },
   },
 
   mounted(){
