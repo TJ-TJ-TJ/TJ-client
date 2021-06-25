@@ -5,7 +5,7 @@
       <div class="map-local">
         <!-- https://restapi.amap.com/v3/staticmap?markers=-1,${map.markersUrl},0:${map.location}&size=307*137&key=${map.key} -->
         <img
-          :src="`https://api.map.baidu.com/staticimage/v2?zoom=17&dpiType=ph&ak=${map.bkey}&height=246&width=686&center=${map.location}&markers=${map.location}&coordtype=bd09ll&markerStyles=-1,https://pic.tujia.com/upload/festatic/crn/position2.png`"
+          :src="`https://api.map.baidu.com/staticimage/v2?zoom=17&dpiType=ph&ak=${map.bkey}&height=246&width=686&center=${map.location}&markers=${map.location}&coordtype=bd09ll&markerStyles=-1,https://pic.tujia.com/upload/festatic/mp/ndetail_black.png`"
           alt=""
         />
         <div class="map-top-tit">

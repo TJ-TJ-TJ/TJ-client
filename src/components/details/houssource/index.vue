@@ -358,7 +358,8 @@ export default {
     },
      async yuyue() {
 
-
+        let startdate = Math.min.apply(null,this.$store.state.dataDate)
+      let enddate = Math.max.apply(null,this.$store.state.dataDate)
       const toast = this.$toast.loading({
         duration: 0, // 持续展示 toast
         forbidClick: true,
@@ -366,8 +367,8 @@ export default {
       });
       let { data: res } = await this.$axios.get("/details/is", {
         params: {
-          start: this.$store.state.dataDate[0],
-          end: this.$store.state.dataDate[1],
+          start: startdate,
+          end: enddate,
           rid: this.$route.query.id,
         },
       });
