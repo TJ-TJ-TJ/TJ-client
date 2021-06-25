@@ -32,6 +32,7 @@ export default new Vuex.Store({
     address: '', // 当前地址
     coordinate: [], // 当前坐标
     isReserve: 1, // 是否预定
+    isCollection: {},
     orderFinishBuy:{
       oname:'',
       oid:"",
@@ -95,6 +96,10 @@ export default new Vuex.Store({
     },
     getReserve(state,isReserve) {
       state.isReserve = isReserve
+    },
+    getCollection(state,isCollection) {
+      state.isCollection = isCollection
+
     }
   },
   actions: {},

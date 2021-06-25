@@ -2,7 +2,7 @@
   <div class="details">
     <!-- <button @click="qingq">请求</button> -->
     <nav-bar></nav-bar>
-    <sw-ipe :swiper="swiper" :collhistory="collhistory" :iscollect="iscollect"></sw-ipe>
+    <sw-ipe ref="cs" :swiper="swiper" :collhistory="collhistory" ></sw-ipe>
     <scroll-tab :allDate="allDate"></scroll-tab>
 
     <!-- <intro-duce></intro-duce>
@@ -35,7 +35,8 @@ export default {
       allDate: undefined,
       prices: undefined,
       collhistory: undefined,
-      iscollect:'',
+      vuex:''
+      // iscollect: undefined,
     };
   },
   beforeCreate() {
@@ -90,11 +91,17 @@ export default {
       owner: owner,
     };
     let imgurl = dataes.swiper;
-
- 
-    
-    this.iscollect = isCollect
-    console.log(this.iscollect)
+    const sc = {
+      issc: isCollect.toString()
+    };
+    this.vux=isCollect
+    this.css(isCollect)
+ //你穿的
+    // await this.$store.commit('getCollection',sc)
+    // console.log('输出>>')
+    // console.log(isCollect)
+    // console.log('传递前vuex')
+    // console.log(this.$store.state.isCollection)
 
 
 
@@ -152,6 +159,12 @@ export default {
     //   new_price
 
     // })
+  },
+  methods:{
+    css(val){
+      console.log(val)
+    this.$refs.cs.cs=val
+    }
   },
   components: {
     "nav-bar": navbar,

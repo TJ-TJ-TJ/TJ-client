@@ -68,7 +68,7 @@ axios.interceptors.request.use(function(config){
     config.headers.token=window.localStorage.getItem('token')
     return config
 },function(err){
-    console.log(err)
+ 
 })
 Vue.prototype.$loading = (label='验证中')=>{
   Toast.loading({
