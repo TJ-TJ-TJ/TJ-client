@@ -122,6 +122,19 @@
           <br />
           <!-- <span>历史发票</span> -->
         </div>
+
+        <input type="file" accept="image/*" capture="user" ref="addInput" @change="submitAddFace" style="display:none;">
+        <div class="head-item" @click="addFace">
+          <van-image
+            width="1rem"
+            height="1rem"
+            src="icon/idea.png"
+          />
+          <br />
+          <span class="fontTitle">
+            添加人脸
+          </span>
+        </div>
       </div>
     </div>
      <table-bar></table-bar> 
@@ -141,20 +154,59 @@ export default {
       data:''
     }
   },
-  methods:{
+  methods: {
     //去登录
     goLogin(){
       this.$router.push({path:'login'});
     },
+
     goEdit(){
       if(!this.userInfo.token){
         return this.$router.push({path:'login'})
       }
       this.$router.push({path:'setting'})
     },
+
     fail(){
       this.$toast.fail('待开发')
     },
+
+    // 添加人脸
+    addFace(){
+      // 没登录
+      if (!window.localStorage.getItem('token')) {
+        this.$toast({message:'您未登录,请先登录', duration:700})
+        return
+      }
+
+      //OK
+      this.$refs.addInput.click()
+    },
+
+    async submitAddFace(e) {
+      const formData = new FormData()
+      formData.set('face', e.target.files[0])
+      this.$toast.loading({
+        message: '添加中',
+        duration: 0
+      })
+      const { data: res } = await this.$axios.post('/user/addFace', formData)
+
+      // 登录成功
+      if (res.ok === 1) {
+        this.$toast({
+          duration: 600,
+          message: '添加成功'
+        })
+        return
+      }
+      
+      // 添加失败
+      this.$toast({
+        duration: 1000,
+        message: res.msg
+      })
+    }
   },
 
   mounted(){
