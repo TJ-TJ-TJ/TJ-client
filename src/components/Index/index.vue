@@ -737,9 +737,8 @@ export default {
 <style lang="scss">
 @import "public/scss/index.scss";
 .ske{
-  padding: 0px 15px;
   align-items: center;
-  display: inline-block !important;
+  display: flex;
   text-align: center;
   z-index:1;
 }

@@ -12,7 +12,7 @@ import TableBar from './components/tableBar.vue'  //全局的底部tablebar组�
 
 // import { Lazyload } from 'vant';
 // import { List } from 'vant';
-// import { Toast } from 'vant';
+import { Toast } from 'vant';
 // vue-touch
 import VueTouch from "vue-touch";
 Vue.use(VueTouch, { name: "v-touch" });
@@ -27,7 +27,7 @@ axios.defaults.baseURL = 'https://tj.testw.top/v1'
 Vue.prototype.$axios=axios
 
 Vue.use(new VueSocketIO({
-  debug: true,
+  debug: false,
   connection: ClientSocketIO.connect('https://kf.testw.top',{
     autoConnect: false,
     transports: ['websocket'],
@@ -68,7 +68,7 @@ axios.interceptors.request.use(function(config){
     config.headers.token=window.localStorage.getItem('token')
     return config
 },function(err){
-    console.log(err)
+    
 })
 // 响应拦截器
 axios.interceptors.response.use(function(res){

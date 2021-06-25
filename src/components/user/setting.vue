@@ -123,6 +123,7 @@ export default {
             let {data:res} = await this.$axios.get('/profile/safeInfo')
             this.userName=res.result.uname
             this.userEmail=res.result.email
+            this.userInfo.phone=res.result.uphone
         },
         //点击 进入个人资料页面
         goSelfData(){

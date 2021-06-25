@@ -228,6 +228,7 @@ export default {
     .ver_bot {
       background-color: #fff;
       display: flex;
+      height: 45px;
       justify-content: space-between;
       margin: 0 0;
       padding: 3vw 4vw;

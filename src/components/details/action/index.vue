@@ -88,8 +88,9 @@ export default {
       });
       if (res.ok == 1) {
         this.$store.commit("setOrderCommitInfo", this.jiage);
-        this.$router.replace({ path: "/order_edit" });
         this.$toast.clear();
+        this.$router.replace({ name:"oder_edit" });
+        
       } else {
         this.$toast.fail(res.msg);
         this.$toast.clear();

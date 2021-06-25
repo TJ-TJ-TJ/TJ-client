@@ -30,9 +30,9 @@ export default {
 </script>
 
 <style>
-    #grad1 {
-    height: 35vh;
-    width: 40vw;
+#grad1 {
+    height: 30vh;
+    width: 42%;
     display: inline-block;
     animation: loading 6s linear infinite;
     background-image: linear-gradient(110deg, #f3f2f2, #e8e7e7 52%, #f3f2f2 55%, #e8e7e7 58%, #f3f2f2);
@@ -40,7 +40,7 @@ export default {
     border-radius: 6px;
     padding: 15px;
     margin-bottom: 20px;
-    margin: 8px 8px;
+    margin: 10px 10px;
     box-sizing: border-box;
 }
 #grad1 div{
@@ -61,7 +61,7 @@ export default {
     height: 100%;
     background-color: rgb(246, 245, 245);
     border-radius: 5px !important;
-    margin-top:10px;
+    margin-top:5px;
 }
 .Ske-location div:nth-child(2){
     width: 100%;

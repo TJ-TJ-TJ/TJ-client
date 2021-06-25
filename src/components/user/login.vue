@@ -371,7 +371,7 @@ async reloadSendPhoneSignUp(){
         })
        if(res.ok!=1)return this.$toast.fail(res.msg)
        this.loginOrSignInSuccess(res.result)
-       this.$toast.success(res.msg)
+       this.$toast.success('登录成功')
        setTimeout(()=>{
          this.$router.replace({path:'user'})
        },1000)

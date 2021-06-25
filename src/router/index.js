@@ -99,7 +99,6 @@ const router = new VueRouter({
 });
 
 router.beforeEach((to, from, next) => {
-    console.log(to , from);
     if(to.path=='/order_edit' || to.path=='/order_pay' || to.path=='/msg'){
      if(!window.localStorage.getItem('token')){
        return router.replace({path:'login'})
