@@ -3,7 +3,7 @@
     <!-- <button @click="qingq">请求</button> -->
     <nav-bar></nav-bar>
     <detail-ske :skeShow="skeShow"></detail-ske>
-    <div v-show="!skeShow">
+
           <sw-ipe ref="cs" :swiper="swiper" :collhistory="collhistory" ></sw-ipe>
           <scroll-tab :allDate="allDate"></scroll-tab>
 
@@ -15,7 +15,6 @@
           <not-ice></not-ice> -->
           <foo-ter></foo-ter>
           <act-ion :prices="prices"></act-ion>
-    </div>
   </div>
 </template>
 
@@ -78,7 +77,7 @@ export default {
     let { data: data } = await this.$axios.get(
       `/details/?rid=${this.$route.query.id}`
     );
-    console.log(data.result.swiper);
+    this.skeShow=false
     const dataes = data.result;
     this.allDate = dataes;
     console.log(this.allDate);
@@ -139,7 +138,7 @@ export default {
       )
       this.$store.commit('getReserve',result.ok)
       // console.log(this.$store.state.isReserve)
-      this.skeShow=false
+
 
 
     // console.log(res)

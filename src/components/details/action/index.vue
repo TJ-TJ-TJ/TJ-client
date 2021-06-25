@@ -75,6 +75,7 @@ export default {
     //   });
           
     // }
+
     this.$nextTick(() => {
           // console.log(this.$refs.disable)
           if (this.$store.state.isReserve == -1) {
@@ -87,12 +88,13 @@ export default {
             // // this.$refs.disable.style.backgroundColor = "#fff"
             // console.log(style.background)
             // this.$refs.disable.classList.add('dbtn')
-            this.$refs.btndisable.style.background = 'linear-gradient(270deg,#d4d4d4,#a9a9a9)'
+            this.$refs.btndisable.$el.style.background = 'linear-gradient(270deg,#d4d4d4,#a9a9a9)'
           }
         });
 
 },
-mounted(){   
+mounted(){  
+      console.log(this.$refs.btndisable.$el.style) 
      
 },
   methods: {
@@ -167,6 +169,7 @@ mounted(){
 
 <style lang="scss">
 .action {
+  z-index: 1000;
   .goods {
     // .kefu {
 

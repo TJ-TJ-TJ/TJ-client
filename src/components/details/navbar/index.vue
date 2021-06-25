@@ -26,7 +26,7 @@ export default {
 
 <style lang="scss">
 .navbar {
-  z-index: 200000;
+  z-index: 2000000;
     height: 7vh;
   .back {
    img {

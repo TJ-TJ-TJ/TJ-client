@@ -49,9 +49,12 @@ export default {
 }
 .detail-ske-box{
     width: 100vw;
-    height: 92vh;
+    height: 93vh;
     padding: 10px;
+    position: sticky;
+    z-index: 99999;
     box-sizing: border-box;
+    background: white;
 }
 
 .Ske-carousel{
@@ -117,11 +120,11 @@ export default {
 @keyframes loading {
     0% {
         background-position: 400% 100%;
-        z-index:1000;
+        z-index:999999;
     }
     to {
         background-position: 0% 50%;
-        z-index:1000;
+        z-index:999999;
     }
 }
 </style>
