@@ -15,7 +15,7 @@
        
     {{biaoti.name}}
     <!-- X -->
-        <span v-for="(val, index) in goodtime" :key="index">
+        <span v-for="(val, index) in biaoti.star" :key="index">
           <img src="/icon/diamondLevel.png" alt=""
         /></span>
       </div>
