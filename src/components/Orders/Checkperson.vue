@@ -75,7 +75,7 @@ export default {
     md() {
       return function (value) {
         value = String(value);
-        return value.replace(/(?<=\d{3})\d{12}(?=\d{2})/, "************");
+        return value.substr(0,parseInt(value.split('').length/5))+'*************'+value.substr(parseInt(value.split('').length/2+6),value.split('').length)
       };
     },
   },

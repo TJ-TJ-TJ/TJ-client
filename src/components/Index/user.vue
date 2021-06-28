@@ -323,7 +323,7 @@ export default {
     .unameMsg{
       display: inline-block;
       margin-top: 5px;
-      font-size: 5px;
+      font-size: 12px;
     }
   }
 }

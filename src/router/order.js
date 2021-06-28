@@ -21,7 +21,7 @@ var arr =[{
   {
     path: '/check_person', //选择入住人页
     name: 'check_person',
-    component: () => import(/* webpackChunkName: "order_edit" */ '../components/Orders/Checkperson.vue')
+    component: () => import(/* webpackChunkName: "order_edit" */ '../components/Orders/Checkperson')
   },
   {
     path: '/add_person', //添加入住人页
