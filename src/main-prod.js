@@ -67,6 +67,9 @@ axios.interceptors.request.use(function(config){
 },function(err){
     
 })
+
+
+
 Vue.prototype.$loading = (label)=>{
   Toast.loading({
     duration: 0, // 持续展示 toast
